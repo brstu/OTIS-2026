@@ -8,7 +8,7 @@
 7. В программе должна быть визуализация полученных результатов (инструменты для визуализации выбрать самостоятельно: gnuplot, Python/Matplotlib, MATLAB, Excel или встроенные C++ графические библиотеки). 
 8. Создать UML Диаграмму созданной программы (диаграмму классов, отражающую структуру объектно-ориентированной реализации).
 9. Архитектурное требование: реализовать программу на основе принципов **ООП**. Создать базовый абстрактный класс (например, `Model`) с виртуальным методом для расчета следующего шага симуляции, а конкретные уравнения реализовать в виде классов-наследников.
-10. Для тестирования объектов использовать три типа входных воздействий $u_{\tau}$: ступенчатое ($u_{\tau} = \text{const}$), импульсное ($u_0 = 1, u_{\tau > 0} = 0$) и гармоническое ($u_{\tau} = \sin(\tau)$).
+10. Для тестирования объектов использовать три типа входных воздействий $u_{\tau}$: ступенчатое ($u_{\tau} = \text{const}$), импульсное ($u_0 = 1, u_{\tau > 0} = 0$) и гармоническое ( $u_{\tau} = \sin(\tau)$ ).
 
 ### Дополнительное задание (Advanced Level): (Необязательное)
 11. **Анализ устойчивости систем:** Для выбранных линейных дискретных моделей (из блока 1) аналитически определить критерий устойчивости (найти корни характеристического уравнения на Z-плоскости). В программе реализовать проверку: если заданные пользователем коэффициенты $a_i$ приводят к расходящемуся (неустойчивому) процессу, программа должна выводить предупреждение в консоль перед началом симуляции.
@@ -93,10 +93,28 @@ Where $a, a_i, b, b_i$ — constant coefficients; $k$ — delay step ($k \ge 1$)
     $$\Large y_{\tau+1} = ay_{\tau} - by_{\tau-1}^2 + cu_{\tau} + d\sin(u_{\tau-1})$$
 *   **Model 2.2 (Actuator Saturation Non-linearity):**
     $$\Large y_{\tau+1} = ay_{\tau} + b \cdot \text{sat}(u_{\tau})$$
-    $$\text{where } \text{sat}(u) = \begin{cases} U_{max}, & u > U_{max} \\ u, & U_{min} \le u \le U_{max} \\ U_{min}, & u < U_{min} \end{cases}$$
+
+$$
+\text{where } \text{sat}(u) = 
+\begin{cases} 
+U_{\max}, & u > U_{\max} \\ 
+u, & U_{\min} \le u \le U_{\max} \\ 
+U_{\min}, & u < U_{\min} 
+\end{cases}
+$$
+    
 *   **Model 2.3 (Dead-Zone Non-linearity):**
     $$\Large y_{\tau+1} = ay_{\tau} + b \cdot \text{deadzone}(u_{\tau})$$
-    $$\text{where } \text{deadzone}(u) = \begin{cases} u - \delta, & u > \delta \\ 0, & -\delta \le u \le \delta \\ u + \delta, & u < -\delta \end{cases}$$
+    
+$$
+\text{where } \text{deadzone}(u) =
+\begin{cases}
+u - \delta, & u > \delta \\
+0, & -\delta \le u \le \delta \\
+u + \delta, & u < -\delta
+\end{cases}
+$$
+
 *   **Model 2.4 (Logarithmic Multi-Variable Interaction):**
     $$\Large y_{\tau+1} = ay_{\tau} \cdot \cos(y_{\tau}) + b \ln(1 + |u_{\tau}|)$$
 *   **Model 2.5 (Signum Friction and Exponential Growth):**
@@ -105,41 +123,80 @@ Where $a, a_i, b, b_i$ — constant coefficients; $k$ — delay step ($k \ge 1$)
     $$\Large y_{\tau+1} = a_1y_{\tau}^3 - a_2y_{\tau-1} + bu_{\tau}^2$$
 *   **Model 2.7 (Relay with Hysteresis Element):**
     $$\Large y_{\tau+1} = ay_{\tau} + b \cdot \text{relay}(u_{\tau}, y_{\tau})$$
-    $$\text{where } \text{relay}(u, y) = \begin{cases} 1, & u > \epsilon \text{ or } (u \ge -\epsilon \text{ and } y_{\tau} > 0) \\ -1, & u < -\epsilon \text{ or } (u \le \epsilon \text{ and } y_{\tau} \le 0) \end{cases}$$
+    
+$$
+\text{where } \text{relay}(u, y) = 
+\begin{cases} 
+1, & u > \epsilon \text{ or } (u \ge -\epsilon \text{ and } y_{\tau} > 0) \\ 
+-1, & u < -\epsilon \text{ or } (u \le \epsilon \text{ and } y_{\tau} \le 0) 
+\end{cases}
+$$
+    
 *   **Model 2.8 (Chaotic Logistic Map Disturbance):**
     $$\Large y_{\tau+1} = ay_{\tau}(1 - y_{\tau}) + bu_{\tau} + c\sin(y_{\tau-1} \cdot u_{\tau})$$
 *   **Model 2.9 (Square Root Modulated Action):**
     $$\Large y_{\tau+1} = ay_{\tau} + b\sqrt{|u_{\tau}|} \cdot \text{sign}(u_{\tau})$$
 *   **Model 2.10 (Hyperbolic Tangent Smoothing):**
-    $$\Large y_{\tau+1} = a\tanh(y_{\tau}) + bu_{\tau}^3$$
+    $$\Large y_{\tau+1} = a \cdot \tanh(y_{\tau}) + b \cdot u_{\tau}^3$$
 
 Where $a, a_i, b, c, d, U_{max}, U_{min}, \delta, \epsilon$ — parameters and physical limits of the system.
 
 ---
 
 ### 3. Simple Differential Equations (Дифференциальные уравнения)
-*Continuous equations solved via Euler's method with time step $\Delta t$:*
+*Continuous equations solved via Euler's method with time step* $$\Delta t$$ *:*
 
 *   **Model 3.1 (Pure Linear Decay):**
-    $$\Large \frac{dy}{dt} = -ay \implies y_{\tau+1} = y_{\tau} - \Delta t \cdot a y_{\tau}$$
+    $$\Large \frac{dy}{dt} = -a \cdot y$$
+    <!--
+    $$ \implies y_{\tau+1} = y_{\tau} - \Delta t \cdot a y_{\tau}$$
+    -->
 *   **Model 3.2 (Pure Constant Input Drive):**
-    $$\Large \frac{dy}{dt} = bu \implies y_{\tau+1} = y_{\tau} + \Delta t \cdot b u_{\tau}$$
+    $$\Large \frac{dy}{dt} = b \cdot u$$
+    <!--
+    $$ \implies y_{\tau+1} = y_{\tau} + \Delta t \cdot b u_{\tau}$$
+    -->
 *   **Model 3.3 (Standard First-Order Process):**
-    $$\Large \frac{dy}{dt} = -ay + bu \implies y_{\tau+1} = y_{\tau} + \Delta t (-a y_{\tau} + b u_{\tau})$$
+    $$\Large \frac{dy}{dt} = -a \cdot y + b \cdot u$$
+    <!--
+    $$ \implies y_{\tau+1} = y_{\tau} + \Delta t (-a y_{\tau} + b u_{\tau})$$
+    -->
 *   **Model 3.4 (Quadratic Self-Decay):**
-    $$\Large \frac{dy}{dt} = -ay^2 \implies y_{\tau+1} = y_{\tau} - \Delta t \cdot a y_{\tau}^2$$
+    $$\Large \frac{dy}{dt} = -a \cdot y^2$$
+    <!--
+    $$ \implies y_{\tau+1} = y_{\tau} - \Delta t \cdot a y_{\tau}^2$$
+    -->
 *   **Model 3.5 (Harmonic Driving Force):**
-    $$\Large \frac{dy}{dt} = b\sin(u) \implies y_{\tau+1} = y_{\tau} + \Delta t \cdot b \sin(u_{\tau})$$
+    $$\Large \frac{dy}{dt} = b \cdot \sin(u)$$
+    <!--
+    $$ \implies y_{\tau+1} = y_{\tau} + \Delta t \cdot b \sin(u_{\tau})$$
+    -->
 *   **Model 3.6 (Cubic Growth and Control):**
-    $$\Large \frac{dy}{dt} = ay^3 + bu \implies y_{\tau+1} = y_{\tau} + \Delta t (a y_{\tau}^3 + b u_{\tau})$$
+    $$\Large \frac{dy}{dt} = ay^3 + bu$$
+    <!--
+    $$ \implies y_{\tau+1} = y_{\tau} + \Delta t (a y_{\tau}^3 + b u_{\tau})$$
+    -->
 *   **Model 3.7 (Exponential Scaling Process):**
-    $$\Large \frac{dy}{dt} = -e^{a}y + bu \implies y_{\tau+1} = y_{\tau} + \Delta t (-e^{a}y_{\tau} + b u_{\tau})$$
+    $$\Large \frac{dy}{dt} = -e^{a}y + bu$$
+    <!--
+    $$ \implies y_{\tau+1} = y_{\tau} + \Delta t (-e^{a}y_{\tau} + b u_{\tau})$$
+    -->
 *   **Model 3.8 (Combined Linear-Quadratic Decay):**
-    $$\Large \frac{dy}{dt} = -a_1y - a_2y^2 + bu \implies y_{\tau+1} = y_{\tau} + \Delta t (-a_1y_{\tau} - a_2y_{\tau}^2 + b u_{\tau})$$
+    $$\Large \frac{dy}{dt} = -a_1y - a_2y^2 + bu$$
+    <!--
+    $$ \implies y_{\tau+1} = y_{\tau} + \Delta t (-a_1y_{\tau} - a_2y_{\tau}^2 + b u_{\tau})$$
+    -->
 *   **Model 3.9 (Bounded Saturation Rate):**
-    $$\Large \frac{dy}{dt} = b\tanh(u) \implies y_{\tau+1} = y_{\tau} + \Delta t \cdot b \tanh(u_{\tau})$$
+    $$\Large \frac{dy}{dt} = b \cdot \tanh(u)$$
+    <!--
+    $$ \implies y_{\tau+1} = y_{\tau} + \Delta t \cdot b \tanh(u_{\tau})$$
+    -->
 *   **Model 3.10 (Basic External Constant Offset):**
-    $$\Large \frac{dy}{dt} = -ay + b + u \implies y_{\tau+1} = y_{\tau} + \Delta t (-a y_{\tau} + b + u_{\tau})$$
+    $$\Large \frac{dy}{dt} = -ay + b + u$$
+    <!--
+    $$\implies y_{\tau+1} = y_{\tau} + \Delta t (-a y_{\tau} + b + u_{\tau})$$
+    -->
+    
 
 Where $a, a_1, a_2, b$ — constants; $\Delta t$ — simulation time step.
 
