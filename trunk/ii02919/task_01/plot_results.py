@@ -10,19 +10,31 @@
 import sys
 import csv
 import matplotlib
+import os
 matplotlib.use('Agg')  # без графического окна
 import matplotlib.pyplot as plt
 
 
 def read_csv(path):
+    # Защита от path traversal: разрешаем только относительные пути,
+    # не выходящие за пределы текущей рабочей директории.
+    if os.path.isabs(path) or '..' in path.split(os.sep):
+        raise ValueError(f"Unsafe path detected: {path}")
+
+    # Дополнительно: убеждаемся, что итоговый путь внутри CWD.
+    safe_path = os.path.realpath(path)
+    cwd = os.path.realpath(os.getcwd())
+    if not safe_path.startswith(cwd + os.sep) and safe_path != cwd:
+        raise ValueError(f"Path escapes working directory: {path}")
+
     taus, us, ys = [], [], []
-    with open(path, 'r', encoding='utf-8') as f:
+    with open(safe_path, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             taus.append(int(row['tau']))
             us.append(float(row['u_tau']))
             ys.append(float(row['y_tau']))
-    return taus, us, ys
+    return taus, us, ys 
 
 
 def main():
