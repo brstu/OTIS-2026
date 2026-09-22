@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <memory>
+#include <stdexcept>
 #include <string>
 
 #include "Model.h"
@@ -28,8 +29,11 @@ static double readDouble(const std::string& prompt, double def) {
     if (line.empty()) return def;
     try {
         return std::stod(line);
-    } catch (const std::exception&) {
+    } catch (const std::invalid_argument&) {
         std::cout << "  Failed to parse, using default value.\n";
+        return def;
+    } catch (const std::out_of_range&) {
+        std::cout << "  Value out of range, using default value.\n";
         return def;
     }
 }
@@ -41,8 +45,11 @@ static int readInt(const std::string& prompt, int def) {
     if (line.empty()) return def;
     try {
         return std::stoi(line);
-    } catch (const std::exception&) {
+    } catch (const std::invalid_argument&) {
         std::cout << "  Failed to parse, using default value.\n";
+        return def;
+    } catch (const std::out_of_range&) {
+        std::cout << "  Value out of range, using default value.\n";
         return def;
     }
 }
@@ -55,8 +62,11 @@ static int readChoice(const std::string& prompt, int lo, int hi) {
         try {
             int v = std::stoi(line);
             if (v >= lo && v <= hi) return v;
-        } catch (const std::exception&) {
+        } catch (const std::invalid_argument&) {
             std::cout << "  Invalid input. Please enter a valid number.\n";
+            continue;
+        } catch (const std::out_of_range&) {
+            std::cout << "  Number out of range. Please try again.\n";
             continue;
         }
         std::cout << "  Please enter a number between " << lo << " and " << hi << ".\n";
