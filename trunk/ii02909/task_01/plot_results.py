@@ -5,13 +5,14 @@
 
 Использование:
     python plot_results.py <csv_file> <output_png> "<title>"
-    
+
 Пример:
     python plot_results.py result.csv screenshots/07_plot_model_1_4.png "Model 1.4 — Step, a=0.9"
 """
 
 import sys
 import csv
+from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')  # без графического окна, только сохранение в файл
 import matplotlib.pyplot as plt
@@ -19,8 +20,16 @@ import matplotlib.pyplot as plt
 
 def read_csv(path):
     """Читает result.csv с колонками tau, u_tau, y_tau."""
+    # Валидация пути: защита от path traversal
+    p = Path(path).resolve()
+    cwd = Path.cwd().resolve()
+    if not p.is_relative_to(cwd):
+        raise ValueError(f"Path outside working directory: {path}")
+    if not p.is_file():
+        raise FileNotFoundError(f"CSV file not found: {path}")
+
     taus, us, ys = [], [], []
-    with open(path, 'r', encoding='utf-8') as f:
+    with p.open('r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             taus.append(int(row['tau']))
