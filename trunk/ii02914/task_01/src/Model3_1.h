@@ -13,11 +13,11 @@ private:
 
     double a;
     double dt;
-    double y;
+    double y = INITIAL_Y;
 
 public:
     explicit Model3_1(double a_, double dt_ = DEFAULT_DT)
-        : a(a_), dt(dt_), y(INITIAL_Y) {}
+        : a(a_), dt(dt_) {}
 
     double next(double /*u*/) override {
         const double dy = -a * y;
@@ -39,8 +39,9 @@ public:
     }
 
     std::string stabilityWarning() const override {
-        const double z = 1.0 - a * dt;
-        if (std::abs(z) < STABILITY_BOUND) return "";
+        if (const double z = 1.0 - a * dt; std::abs(z) < STABILITY_BOUND) {
+            return "";
+        }
         return "[WARN] Model 3.1: |1 - a*dt| >= 1, Euler scheme is numerically unstable. Decrease dt.";
     }
 };

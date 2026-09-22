@@ -14,13 +14,13 @@ private:
     double b1;
     double b2;
     double b3;
-    double y;
-    double u_prev1; // u_{t-1}
-    double u_prev2; // u_{t-2}
+    double y = 0.0;
+    double u_prev1 = 0.0; // previous control input u_{t-1}
+    double u_prev2 = 0.0; // previous control input u_{t-2}
 
 public:
     Model1_7(double a_, double b1_, double b2_, double b3_)
-        : a(a_), b1(b1_), b2(b2_), b3(b3_), y(0.0), u_prev1(0.0), u_prev2(0.0) {}
+        : a(a_), b1(b1_), b2(b2_), b3(b3_) {}
 
     double next(double u) override {
         const double y_next = a * y + b1 * u + b2 * u_prev1 + b3 * u_prev2;

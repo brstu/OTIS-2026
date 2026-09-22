@@ -9,7 +9,7 @@ class Model2_9 : public Model {
 private:
     double a;
     double b;
-    double y;
+    double y = 0.0;
 
     static double sign(double x) {
         if (x > 0.0) return 1.0;
@@ -19,7 +19,7 @@ private:
 
 public:
     Model2_9(double a_, double b_)
-        : a(a_), b(b_), y(0.0) {}
+        : a(a_), b(b_) {}
 
     double next(double u) override {
         const double u_mod = std::sqrt(std::abs(u)) * sign(u);

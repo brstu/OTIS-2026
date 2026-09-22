@@ -28,7 +28,7 @@ static double readDouble(const std::string& prompt, double def) {
     if (line.empty()) return def;
     try {
         return std::stod(line);
-    } catch (...) {
+    } catch (const std::exception&) {
         std::cout << "  Failed to parse, using default value.\n";
         return def;
     }
@@ -41,7 +41,7 @@ static int readInt(const std::string& prompt, int def) {
     if (line.empty()) return def;
     try {
         return std::stoi(line);
-    } catch (...) {
+    } catch (const std::exception&) {
         std::cout << "  Failed to parse, using default value.\n";
         return def;
     }
@@ -55,7 +55,10 @@ static int readChoice(const std::string& prompt, int lo, int hi) {
         try {
             int v = std::stoi(line);
             if (v >= lo && v <= hi) return v;
-        } catch (...) {}
+        } catch (const std::exception&) {
+            std::cout << "  Invalid input. Please enter a valid number.\n";
+            continue;
+        }
         std::cout << "  Please enter a number between " << lo << " and " << hi << ".\n";
     }
 }
@@ -93,8 +96,7 @@ int main() {
     std::cout << "\nModel: " << model->name() << "\n";
 
     if (!model->isStable()) {
-        const std::string warn = model->stabilityWarning();
-        if (!warn.empty()) {
+        if (const std::string warn = model->stabilityWarning(); !warn.empty()) {
             std::cout << "\n!!! WARNING !!!\n" << warn << "\n";
         }
         std::cout << "Continue simulation? (y/n): ";
@@ -117,6 +119,9 @@ int main() {
         case 1: signal = std::make_unique<StepInput>(); break;
         case 2: signal = std::make_unique<ImpulseInput>(); break;
         case 3: signal = std::make_unique<HarmonicInput>(); break;
+        default:
+            std::cout << "Invalid signal choice.\n";
+            return 1;
     }
     std::cout << "Signal: " << signal->name() << "\n";
 
