@@ -13,8 +13,8 @@ private:
 
     double a;
     double b;
-    double y=0.0;        // текущее y_t
-    double u_prev=0.0;   // предыдущее u_{t-1}
+    double y = 0.0;        // текущее y_t
+    double u_prev = 0.0;   // предыдущее u_{t-1}
 
 public:
     Model1_4(double a_, double b_)
@@ -45,7 +45,9 @@ public:
 
     std::string stabilityWarning() const override {
         const double abs_a = std::abs(a);
-        if (abs_a < STABILITY_BOUND) return "";
+        if (abs_a < STABILITY_BOUND) {
+            return "";
+        }
 
         std::ostringstream oss;
         if (abs_a == STABILITY_BOUND) {

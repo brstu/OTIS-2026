@@ -42,7 +42,9 @@ public:
 
     std::string stabilityWarning() const override {
         // Проверяем условие устойчивости дискретизации Эйлера
-        if (const double z = 1.0 - a * dt;  std::abs(z) < STABILITY_BOUND) { return "" };
+        if (const double z = 1.0 - a * dt; std::abs(z) < STABILITY_BOUND) { 
+            return ""; 
+        }
         return "[WARN] Model 3.1: |1 - a*dt| >= 1, Euler scheme is numerically unstable. Decrease dt.";
     }
 };

@@ -28,11 +28,7 @@ static double readDouble(const std::string& prompt, double def) {
     try {
         return std::stod(line);
     }
-    catch (const std::out_of_range) {
-        std::cout << "  Failed to parse, using default value.\n";
-        return def;
-    }
-    catch (const std::exception) {
+    catch (const std::exception&) {
         std::cout << "  Failed to parse, using default value.\n";
         return def;
     }
@@ -46,11 +42,7 @@ static int readInt(const std::string& prompt, int def) {
     try {
         return std::stoi(line);
     }
-    catch (const std::out_of_range) {
-        std::cout << "  Failed to parse, using default value.\n";
-        return def;
-    }
-    catch (const std::exception) {
+    catch (const std::exception&) {
         std::cout << "  Failed to parse, using default value.\n";
         return def;
     }
@@ -62,18 +54,13 @@ static int readChoice(const std::string& prompt, int lo, int hi) {
         std::string line;
         std::getline(std::cin, line);
         try {
-            int v = std::stoi(line);
+            const int v = std::stoi(line);
             if (v >= lo && v <= hi) return v;
         }
-        catch (const std::out_of_range) {
-            std::cout << "  Failed to parse, using default value.\n";
-            return def;
+        catch (const std::exception&) {
+            // ожидаемо: пользователь ввЄл не число, попросим ввести заново
         }
-        catch (const std::exception) {
-            std::cout << "  Failed to parse, using default value.\n";
-            return def;
-        }
-        std::cout << "  Please enter a number between " << lo << " and " << hi << ".\n";
+        std::cout << "  ¬ведите число от " << lo << " до " << hi << ".\n";
     }
 }
 
@@ -106,7 +93,7 @@ int main() {
     case 2: model = std::make_unique<Model2_9>(a, b); break;
     case 3: model = std::make_unique<Model3_1>(a, dt); break;
     default:
-        std::cerr << "Unknown model: " << modelChoice << "\n";
+        std::cerr << "Unknown model choice: " << modelChoice << "\n";
         return 1;
     }
 
@@ -139,7 +126,7 @@ int main() {
     case 2: signal = std::make_unique<ImpulseInput>(); break;
     case 3: signal = std::make_unique<HarmonicInput>(); break;
     default:
-        std::cerr << "Unknown model: " << modelChoice << "\n";
+        std::cerr << "Unknown signal choice: " << sigChoice << "\n";
         return 1;
     }
     std::cout << "Signal: " << signal->name() << "\n";
