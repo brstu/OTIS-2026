@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <memory>
 #include <string>
+#include <string_view>
 #include <cctype>
 #include <algorithm>
 
@@ -22,13 +23,13 @@ namespace {
 }
 
 // ---------- Проверка, что строка состоит только из цифр ----------
-static bool isAllDigits(const std::string& s) {
+static bool isAllDigits(std::string_view s) {
     return !s.empty() && std::all_of(s.begin(), s.end(),
         [](unsigned char c) { return std::isdigit(c) != 0; });
 }
 
 // ---------- Ввод числа с проверкой ----------
-static double readDouble(const std::string& prompt, double def) {
+static double readDouble(std::string_view prompt, double def) {
     std::cout << prompt << " [default " << def << "]: ";
     std::string line;
     std::getline(std::cin, line);
@@ -48,7 +49,7 @@ static double readDouble(const std::string& prompt, double def) {
     }
 }
 
-static int readInt(const std::string& prompt, int def) {
+static int readInt(std::string_view prompt, int def) {
     std::cout << prompt << " [default " << def << "]: ";
     std::string line;
     std::getline(std::cin, line);
@@ -68,7 +69,7 @@ static int readInt(const std::string& prompt, int def) {
     }
 }
 
-static int readChoice(const std::string& prompt, int lo, int hi) {
+static int readChoice(std::string_view prompt, int lo, int hi) {
     while (true) {
         std::cout << prompt;
         std::string line;
