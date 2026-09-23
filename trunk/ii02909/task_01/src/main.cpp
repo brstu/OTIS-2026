@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <memory>
 #include <string>
+#include <cctype>
 
 #include "Model.h"
 #include "Model1_4.h"
@@ -19,12 +20,27 @@ namespace {
     constexpr int    CSV_PRECISION = 5;
 }
 
+// ---------- Проверка, что строка состоит только из цифр ----------
+static bool isAllDigits(const std::string& s) {
+    if (s.empty()) {
+        return false;
+    }
+    for (const char c : s) {
+        if (!std::isdigit(static_cast<unsigned char>(c))) {
+            return false;
+        }
+    }
+    return true;
+}
+
 // ---------- Ввод числа с проверкой ----------
 static double readDouble(const std::string& prompt, double def) {
     std::cout << prompt << " [default " << def << "]: ";
     std::string line;
     std::getline(std::cin, line);
-    if (line.empty()) return def;
+    if (line.empty()) {
+        return def;
+    }
     try {
         return std::stod(line);
     }
@@ -42,7 +58,9 @@ static int readInt(const std::string& prompt, int def) {
     std::cout << prompt << " [default " << def << "]: ";
     std::string line;
     std::getline(std::cin, line);
-    if (line.empty()) return def;
+    if (line.empty()) {
+        return def;
+    }
     try {
         return std::stoi(line);
     }
@@ -61,15 +79,17 @@ static int readChoice(const std::string& prompt, int lo, int hi) {
         std::cout << prompt;
         std::string line;
         std::getline(std::cin, line);
-        try {
-            const int v = std::stoi(line);
-            if (v >= lo && v <= hi) return v;
-        }
-        catch (const std::invalid_argument&) {
-            // expected: user entered a non-number, ask again
-        }
-        catch (const std::out_of_range&) {
-            // expected: number out of range, ask again
+
+        if (isAllDigits(line)) {
+            try {
+                const int v = std::stoi(line);
+                if (v >= lo && v <= hi) {
+                    return v;
+                }
+            }
+            catch (const std::out_of_range&) {
+                std::cout << "  Number out of range.\n";
+            }
         }
         std::cout << "  Enter a number between " << lo << " and " << hi << ".\n";
     }
@@ -100,12 +120,18 @@ int main() {
     // ---------- Создание модели ----------
     std::unique_ptr<Model> model;
     switch (modelChoice) {
-    case 1: model = std::make_unique<Model1_4>(a, b); break;
-    case 2: model = std::make_unique<Model2_9>(a, b); break;
-    case 3: model = std::make_unique<Model3_1>(a, dt); break;
-    default:
-        std::cerr << "Unknown model choice\n";
-        return 1;
+        case 1:
+            model = std::make_unique<Model1_4>(a, b);
+            break;
+        case 2:
+            model = std::make_unique<Model2_9>(a, b);
+            break;
+        case 3:
+            model = std::make_unique<Model3_1>(a, dt);
+            break;
+        default:
+            std::cerr << "Unknown model choice\n";
+            return 1;
     }
 
     std::cout << "\nModel: " << model->name() << "\n";
@@ -133,12 +159,18 @@ int main() {
 
     std::unique_ptr<InputSignal> signal;
     switch (sigChoice) {
-    case 1: signal = std::make_unique<StepInput>(); break;
-    case 2: signal = std::make_unique<ImpulseInput>(); break;
-    case 3: signal = std::make_unique<HarmonicInput>(); break;
-    default:
-        std::cerr << "Unknown signal choice\n";
-        return 1;
+        case 1:
+            signal = std::make_unique<StepInput>();
+            break;
+        case 2:
+            signal = std::make_unique<ImpulseInput>();
+            break;
+        case 3:
+            signal = std::make_unique<HarmonicInput>();
+            break;
+        default:
+            std::cerr << "Unknown signal choice\n";
+            return 1;
     }
     std::cout << "Signal: " << signal->name() << "\n";
 
