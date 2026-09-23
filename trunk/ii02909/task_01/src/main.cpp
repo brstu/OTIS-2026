@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <cctype>
+#include <algorithm>
 
 #include "Model.h"
 #include "Model1_4.h"
@@ -22,15 +23,8 @@ namespace {
 
 // ---------- Проверка, что строка состоит только из цифр ----------
 static bool isAllDigits(const std::string& s) {
-    if (s.empty()) {
-        return false;
-    }
-    for (const char c : s) {
-        if (!std::isdigit(static_cast<unsigned char>(c))) {
-            return false;
-        }
-    }
-    return true;
+    return !s.empty() && std::all_of(s.begin(), s.end(),
+        [](unsigned char c) { return std::isdigit(c) != 0; });
 }
 
 // ---------- Ввод числа с проверкой ----------
