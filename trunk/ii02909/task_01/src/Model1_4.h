@@ -13,12 +13,12 @@ private:
 
     double a;
     double b;
-    double y;        // текущее y_t
-    double u_prev;   // предыдущее u_{t-1}
+    double y=0.0;        // текущее y_t
+    double u_prev=0.0;   // предыдущее u_{t-1}
 
 public:
     Model1_4(double a_, double b_)
-        : a(a_), b(b_), y(0.0), u_prev(0.0) {
+        : a(a_), b(b_) {
     }
 
     double next(double u) override {
