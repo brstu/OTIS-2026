@@ -17,6 +17,7 @@ constexpr int    PRECISION  = 5;      // точность вывода
 
 // =====================================================================
 // readDouble — безопасный ввод числа с плавающей точкой.
+// Если пользователь ввёл некорректное значение — возвращаем def.
 // =====================================================================
 static double readDouble(const std::string& prompt, double def)
 {
@@ -24,6 +25,7 @@ static double readDouble(const std::string& prompt, double def)
     std::string line;
     std::getline(std::cin, line);
 
+    // Пустая строка — берём значение по умолчанию.
     if (line.empty()) {
         return def;
     }
@@ -32,12 +34,12 @@ static double readDouble(const std::string& prompt, double def)
         return std::stod(line);
     }
     catch (const std::invalid_argument&) {
-        // Некорректный формат числа — берём значение по умолчанию.
+        // Не удалось преобразовать строку в число.
         std::cout << "  Не удалось разобрать, беру значение по умолчанию.\n";
         return def;
     }
     catch (const std::out_of_range&) {
-        // Число выходит за пределы double — берём значение по умолчанию.
+        // Число вышло за пределы диапазона double.
         std::cout << "  Число вне диапазона, беру значение по умолчанию.\n";
         return def;
     }
@@ -60,19 +62,18 @@ static int readInt(const std::string& prompt, int def)
         return std::stoi(line);
     }
     catch (const std::invalid_argument&) {
-        // Некорректный формат числа — берём значение по умолчанию.
         std::cout << "  Не удалось разобрать, беру значение по умолчанию.\n";
         return def;
     }
     catch (const std::out_of_range&) {
-        // Число выходит за пределы int — берём значение по умолчанию.
         std::cout << "  Число вне диапазона, беру значение по умолчанию.\n";
         return def;
     }
 }
 
 // =====================================================================
-// readChoice — ввод числа в заданном диапазоне [lo; hi].
+// readChoice — ввод числа в диапазоне [lo; hi].
+// Повторяет запрос, пока пользователь не введёт корректное значение.
 // =====================================================================
 static int readChoice(const std::string& prompt, int lo, int hi)
 {
@@ -86,12 +87,16 @@ static int readChoice(const std::string& prompt, int lo, int hi)
             if (v >= lo && v <= hi) {
                 return v;
             }
+            // Число корректное, но вне диапазона — сообщаем.
+            std::cout << "  Число вне диапазона.\n";
         }
         catch (const std::invalid_argument&) {
-            // Не число — просто просим ввести заново.
+            // Не число — сообщаем пользователю.
+            std::cout << "  Это не число.\n";
         }
         catch (const std::out_of_range&) {
-            // Слишком большое число — просим ввести заново.
+            // Слишком большое число — сообщаем пользователю.
+            std::cout << "  Число слишком большое.\n";
         }
 
         std::cout << "  Введите число от " << lo << " до " << hi << ".\n";
