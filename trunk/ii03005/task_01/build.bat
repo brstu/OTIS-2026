@@ -1,0 +1,26 @@
+@echo off
+
+cmake -S . -B build -G "MinGW Makefiles"
+
+if %errorlevel% neq 0 (
+    echo CMake configure error!
+    pause
+    exit /b 1
+)
+
+cmake --build build
+
+if %errorlevel% neq 0 (
+    echo Build error!
+    pause
+    exit /b 1
+)
+
+echo.
+echo Build successful!
+echo Starting program...
+echo.
+
+build\Task01.exe
+
+pause
