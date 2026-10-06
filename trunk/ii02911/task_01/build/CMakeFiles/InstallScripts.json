@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"C:/\u041b\u0430\u0431\u043e\u0440\u0430\u0442\u043e\u0440\u043d\u044b\u0435/OTIS-2026/trunk/ii02911/task_01/build/cmake_install.cmake",
+		"C:/\u041b\u0430\u0431\u043e\u0440\u0430\u0442\u043e\u0440\u043d\u044b\u0435/OTIS-2026/trunk/ii02911/task_01/build/src/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
