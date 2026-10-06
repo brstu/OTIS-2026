@@ -32,13 +32,18 @@ private:
     // Model 1.5: State Delay
     static std::unique_ptr<DynamicModel> createStateDelay()
     {
-        double a1, a2, b;
+        double a1;
+        double a2;
+        double b;
         int k;
         std::cout << "  a1 = "; std::cin >> a1;
         std::cout << "  a2 = "; std::cin >> a2;
         std::cout << "  b  = "; std::cin >> b;
         std::cout << "  k (delay, >=1) = "; std::cin >> k;
-        if (k < 1) k = 1;
+        if (k < 1)
+        {
+            k = 1;
+        }
 
         return std::make_unique<StateDelayModel>(a1, a2, b, k);
     }
@@ -46,7 +51,10 @@ private:
     // Model 2.2: Saturation
     static std::unique_ptr<DynamicModel> createSaturation()
     {
-        double a, b, uMin, uMax;
+        double a;
+        double b;
+        double uMin;
+        double uMax;
         std::cout << "  a = "; std::cin >> a;
         std::cout << "  b = "; std::cin >> b;
         std::cout << "  Umin = "; std::cin >> uMin;
@@ -58,7 +66,10 @@ private:
     // Model 3.8: Quadratic Decay ODE
     static std::unique_ptr<DynamicModel> createQuadraticDecay()
     {
-        double a1, a2, b, dt;
+        double a1;
+        double a2;
+        double b;
+        double dt;
         std::cout << "  a1 = "; std::cin >> a1;
         std::cout << "  a2 = "; std::cin >> a2;
         std::cout << "  b  = "; std::cin >> b;

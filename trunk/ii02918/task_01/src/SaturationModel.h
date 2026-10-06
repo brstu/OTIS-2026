@@ -2,8 +2,8 @@
 #include "DynamicModel.h"
 #include <sstream>
 //  SaturationModel Ч реализаци€ Model 2.2
-//  y_{t+1} = a*y_t + b*sat(u_t)
-//  sat(u) Ч функци€ насыщени€: ограничивает вход снизу Umin и сверху Umax.
+//  ћодель линейной системы с насыщением на входе
+//  ‘ункци€ насыщени€ ограничивает вход снизу Umin и сверху Umax.
 class SaturationModel : public DynamicModel
 {
 private:
@@ -11,7 +11,7 @@ private:
     double b;
     double uMin;    // нижн€€ граница насыщени€
     double uMax;    // верхн€€ граница насыщени€
-    double y;       // текущее состо€ние
+    double y = 0.0;       // текущее состо€ние
 
     // ‘ункци€ насыщени€
     double saturate(double u) const
@@ -23,7 +23,7 @@ private:
 
 public:
     SaturationModel(double a_, double b_, double uMin_, double uMax_)
-        : a(a_), b(b_), uMin(uMin_), uMax(uMax_), y(0.0)
+        : a(a_), b(b_), uMin(uMin_), uMax(uMax_)
     {
     }
 

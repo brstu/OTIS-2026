@@ -48,7 +48,7 @@ static std::unique_ptr<SignalGenerator> selectSignal(int choice)
 }
 
 int main()
-{;
+{
     std::cout << " OTIS-2026 | Lab #1 | Variant 28\n";
     std::cout << " Student: ii02918\n";
 

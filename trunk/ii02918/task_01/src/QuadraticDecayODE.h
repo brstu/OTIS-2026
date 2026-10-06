@@ -3,7 +3,7 @@
 #include <cmath>
 #include <sstream>
 //  QuadraticDecayODE Ч реализаци€ Model 3.8
-//  dy/dt = -a1*y - a2*y^2 + b*u
+//  ћодель с линейно-квадратичным затуханием
 //  –ешаетс€ численно методом Ёйлера с шагом dt.
 class QuadraticDecayODE : public DynamicModel
 {
@@ -15,20 +15,20 @@ private:
     double a2;
     double b;
     double dt;      // шаг интегрировани€
-    double y;       // текущее состо€ние
+    double y = INITIAL_Y;       // текущее состо€ние
 
 public:
     QuadraticDecayODE(double a1_, double a2_, double b_, double dt_)
-        : a1(a1_), a2(a2_), b(b_), dt(dt_), y(INITIAL_Y)
+        : a1(a1_), a2(a2_), b(b_), dt(dt_)
     {
     }
 
     double advance(double u) override
     {
-        // dy/dt = -a1*y - a2*y^2 + b*u
+        // ѕроизводна€ по формуле линейно-квадратичного затухани€
         const double dydt = -a1 * y - a2 * y * y + b * u;
 
-        // ћетод Ёйлера: y_{t+1} = y_t + dt * (dy/dt)
+        // Ўаг интегрировани€ методом Ёйлера
         y = y + dt * dydt;
         return y;
     }
@@ -48,7 +48,7 @@ public:
     // ѕроверка устойчивости численной схемы Ёйлера
     bool verifyStability() const override
     {
-        // ћножитель: 1 + dt * (-a1 - 2*a2*INITIAL_Y)
+        // ќценка устойчивости численной схемы по начальному значению
         const double multiplier = 1.0 + dt * (-a1 - 2.0 * a2 * INITIAL_Y);
         return std::abs(multiplier) < STABILITY_LIMIT;
     }

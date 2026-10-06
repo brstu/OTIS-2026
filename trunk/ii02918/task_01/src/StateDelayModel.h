@@ -5,7 +5,7 @@
 #include <sstream>
 
 //  StateDelayModel Ч реализаци€ Model 1.5
-//  y_{t+1} = a1*y_t + a2*y_{t-k} + b*u_t
+//  ћодель с задержкой по состо€нию на k шагов
 
 class StateDelayModel : public DynamicModel
 {
@@ -24,18 +24,21 @@ public:
     StateDelayModel(double a1_, double a2_, double b_, int k_)
         : a1(a1_), a2(a2_), b(b_), k(k_)
     {
-        reset();
+        for (int i = 0; i <= k; ++i)
+        {
+            history.push_back(0.0);
+        }
     }
 
     double advance(double u) override
     {
-        // y_{t-k} Ч значение из истории k шагов назад
+        // «начение y из истории на k шагов назад
         const double yDelayed = history.front();
 
         // текущее y_t Ч последнее в истории
         const double yCurrent = history.back();
 
-        // формула: y_{t+1} = a1*y_t + a2*y_{t-k} + b*u_t
+        // ‘ормула: задержанное состо€ние домножаетс€ на a2
         const double yNext = a1 * yCurrent + a2 * yDelayed + b * u;
 
         // —двигаем историю: удал€ем старое, добавл€ем новое
