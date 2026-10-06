@@ -77,8 +77,7 @@ int main()
     //3. Проверка устойчивости
     if (!model->verifyStability())
     {
-        const std::string warn = model->getWarningMessage();
-        if (!warn.empty())
+        if (const std::string warn = model->getWarningMessage(); !warn.empty())
         {
             std::cout << "\n!!! WARNING !!!\n" << warn << "\n";
         }
