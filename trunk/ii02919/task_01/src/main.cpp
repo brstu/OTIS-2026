@@ -73,7 +73,7 @@ static int readInt(const std::string& prompt, int def)
 
 // =====================================================================
 // readChoice — ввод числа в диапазоне [lo; hi].
-// Повторяет запрос, пока пользователь не введёт корректное значение.
+// Использует init-statement (C++17): переменная v объявляется внутри if.
 // =====================================================================
 static int readChoice(const std::string& prompt, int lo, int hi)
 {
@@ -83,8 +83,8 @@ static int readChoice(const std::string& prompt, int lo, int hi)
         std::getline(std::cin, line);
 
         try {
-            const int v = std::stoi(line);
-            if (v >= lo && v <= hi) {
+            // Init-statement: объявляем v прямо в условии if.
+            if (const int v = std::stoi(line); v >= lo && v <= hi) {
                 return v;
             }
             // Число корректное, но вне диапазона — сообщаем.
