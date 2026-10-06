@@ -20,9 +20,9 @@ private:
     double c;    // коэффициент текущего входа
     double d;    // амплитуда гармонического воздействия
 
-    double y;         // текущее значение выхода
-    double y_prev;    // y(t-1)
-    double u_prev;    // u(t-1)
+    double y= 0.0;         // текущее значение выхода
+    double y_prev = 0.0;    // y(t-1)
+    double u_prev = 0.0;    // u(t-1)
 
 public:
     QuadraticFeedback(double a_, double b_, double c_, double d_);

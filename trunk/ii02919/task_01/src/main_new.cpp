@@ -1,51 +1,66 @@
-#include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
 
-#include "DynamicProcess.h"
-#include "InputSignal.h"
-#include "ProcessFactory.h"
+#include "Model_new.h"
+#include "InputSignals.h"
 
 namespace {
-    // Значения по умолчанию для интерактивного ввода
     constexpr double DEFAULT_DT = 0.01;
     constexpr int    DEFAULT_N  = 20;
     constexpr int    PRECISION  = 5;
 }
 
-// ---------- Ввод числа с плавающей точкой ----------
+// ---------------------------------------------------------------------------
+//  readDouble — ввод числа с плавающей точкой
+// ---------------------------------------------------------------------------
 static double readDouble(const std::string& prompt, double def)
 {
     std::cout << prompt << " [по умолчанию " << def << "]: ";
     std::string line;
     std::getline(std::cin, line);
-    if (line.empty()) return def;
+    if (line.empty()) {
+        return def;
+    }
     try {
         return std::stod(line);
-    } catch (...) {
-        std::cout << "  Не удалось разобрать, беру значение по умолчанию.\n";
+    } catch (const std::invalid_argument&) {
+        std::cout << "  Не число, использую значение по умолчанию.\n";
+        return def;
+    } catch (const std::out_of_range&) {
+        std::cout << "  Слишком большое число, использую значение по умолчанию.\n";
         return def;
     }
 }
 
-// ---------- Ввод целого числа ----------
+// ---------------------------------------------------------------------------
+//  readInt — ввод целого числа
+// ---------------------------------------------------------------------------
 static int readInt(const std::string& prompt, int def)
 {
     std::cout << prompt << " [по умолчанию " << def << "]: ";
     std::string line;
     std::getline(std::cin, line);
-    if (line.empty()) return def;
+    if (line.empty()) {
+        return def;
+    }
     try {
         return std::stoi(line);
-    } catch (...) {
-        std::cout << "  Не удалось разобрать, беру значение по умолчанию.\n";
+    } catch (const std::invalid_argument&) {
+        std::cout << "  Не число, использую значение по умолчанию.\n";
+        return def;
+    } catch (const std::out_of_range&) {
+        std::cout << "  Слишком большое число, использую значение по умолчанию.\n";
         return def;
     }
 }
 
-// ---------- Ввод выбора из диапазона ----------
+// ---------------------------------------------------------------------------
+//  readChoice — ввод выбора из диапазона [lo, hi]
+// ---------------------------------------------------------------------------
 static int readChoice(const std::string& prompt, int lo, int hi)
 {
     while (true) {
@@ -54,14 +69,21 @@ static int readChoice(const std::string& prompt, int lo, int hi)
         std::getline(std::cin, line);
         try {
             const int v = std::stoi(line);
-            if (v >= lo && v <= hi) return v;
-        } catch (...) {
-            // Игнорируем ошибку парсинга, чтобы цикл запросил ввод заново
+            if (v >= lo && v <= hi) {
+                return v;
+            }
+        } catch (const std::invalid_argument&) {
+            // fall through
+        } catch (const std::out_of_range&) {
+            // fall through
         }
         std::cout << "  Введите число от " << lo << " до " << hi << ".\n";
     }
 }
 
+// ---------------------------------------------------------------------------
+//  main
+// ---------------------------------------------------------------------------
 int main()
 {
     std::cout << "===========================================\n";
@@ -70,7 +92,6 @@ int main()
     std::cout << " Вариант 17\n";
     std::cout << "===========================================\n\n";
 
-    // ---------- Выбор модели ----------
     std::cout << "Выберите модель:\n";
     std::cout << "  1) Model 1.7 — Multi-Step Control History\n";
     std::cout << "  2) Model 2.1 — Quadratic Feedback\n";
@@ -78,8 +99,10 @@ int main()
     const int modelChoice = readChoice("Ваш выбор (1-3): ", 1, 3);
     std::cout << "\n";
 
-    // ---------- Ввод параметров ----------
-    double p1 = 0.0, p2 = 0.0, p3 = 0.0, p4 = 0.0;
+    double p1 = 0.0;
+    double p2 = 0.0;
+    double p3 = 0.0;
+    double p4 = 0.0;
 
     if (modelChoice == 1) {
         p1 = readDouble("a  (коэф. затухания)", 0.9);
@@ -91,12 +114,11 @@ int main()
         p2 = readDouble("b (квадратичная обратная связь)", 0.1);
         p3 = readDouble("c (коэф. текущего входа)", 1.0);
         p4 = readDouble("d (амплитуда гармоники)", 0.5);
-    } else { // modelChoice == 3
+    } else {
         p1 = readDouble("b  (амплитуда)", 1.0);
         p2 = readDouble("dt (шаг интегрирования)", DEFAULT_DT);
     }
 
-    // ---------- Создание модели ----------
     std::unique_ptr<DynamicProcess> model =
         ProcessFactory::create(modelChoice, p1, p2, p3, p4);
 
@@ -107,7 +129,6 @@ int main()
 
     std::cout << "\nМодель: " << model->title() << "\n";
 
-    // ---------- Проверка устойчивости ----------
     if (!model->isStableSystem()) {
         const std::string warn = model->alertText();
         if (!warn.empty()) {
@@ -116,13 +137,12 @@ int main()
         std::cout << "Продолжить симуляцию? (y/n): ";
         std::string ans;
         std::getline(std::cin, ans);
-        if (!(ans == "y" || ans == "Y")) {
+        if (ans != "y" && ans != "Y") {
             std::cout << "Отменено пользователем.\n";
             return 0;
         }
     }
 
-    // ---------- Выбор сигнала ----------
     std::cout << "\nВыберите входной сигнал:\n";
     std::cout << "  1) Ступенчатое\n";
     std::cout << "  2) Импульсное\n";
@@ -131,20 +151,27 @@ int main()
 
     std::unique_ptr<InputSignal> signal;
     switch (sigChoice) {
-        case 1: signal = std::make_unique<UnitStep>(1.0); break;
-        case 2: signal = std::make_unique<SingleImpulse>(); break;
-        case 3: signal = std::make_unique<Sinusoid>(); break;
+        case 1:
+            signal = std::make_unique<UnitStep>(1.0);
+            break;
+        case 2:
+            signal = std::make_unique<SingleImpulse>();
+            break;
+        case 3:
+            signal = std::make_unique<Sinusoid>();
+            break;
+        default:
+            signal = std::make_unique<UnitStep>(1.0);
+            break;
     }
     std::cout << "Сигнал: " << signal->label() << "\n";
 
-    // ---------- Кол-во шагов ----------
     const int n = readInt("\nВведите количество шагов n", DEFAULT_N);
     if (n <= 0) {
         std::cout << "n должно быть > 0\n";
         return 1;
     }
 
-    // ---------- Симуляция ----------
     std::cout << "\n===========================================\n";
     std::cout << std::setw(6)  << "tau"
               << std::setw(14) << "u_tau"

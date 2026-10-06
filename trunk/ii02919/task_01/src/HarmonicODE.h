@@ -19,7 +19,7 @@ class HarmonicODE : public DynamicProcess
 private:
     double b;      // амплитуда управляющего воздействия
     double dt;     // шаг интегрирования
-    double y;      // текущее значение выхода
+    double y= 0.0;      // текущее значение выхода
 
 public:
     explicit HarmonicODE(double b_, double dt_ = 0.01);

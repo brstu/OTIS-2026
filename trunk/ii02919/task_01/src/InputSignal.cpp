@@ -38,10 +38,6 @@ std::string SingleImpulse::label() const
 //  Sinusoid — гармоническое воздействие
 // ============================================================================
 double Sinusoid::value(int tau) const
-{
-    // u(tau) = sin(tau)
-    return std::sin(static_cast<double>(tau));
-}
 
 std::string Sinusoid::label() const
 {

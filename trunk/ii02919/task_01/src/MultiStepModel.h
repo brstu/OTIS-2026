@@ -20,9 +20,9 @@ private:
     double b2;     // коэффициент входа с задержкой 1
     double b3;     // коэффициент входа с задержкой 2
 
-    double y;         // текущее значение выхода
-    double u_prev1;   // u(t-1)
-    double u_prev2;   // u(t-2)
+    double y= 0.0;         // текущее значение выхода
+    double u_prev1 = 0.0;   // u(t-1)
+    double u_prev2 = 0.0;   // u(t-2)
 
 public:
     MultiStepModel(double a_, double b1_, double b2_, double b3_);
