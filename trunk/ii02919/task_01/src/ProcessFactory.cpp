@@ -1,33 +1,30 @@
 #include "ProcessFactory.h"
+#include "HarmonicODE.h"
 #include "MultiStepModel.h"
 #include "QuadraticFeedback.h"
-#include "HarmonicODE.h"
 
-// ---------------------------------------------------------------------------
-//  create — создать процесс нужного типа
-//
-//  type = 1 → MultiStepModel     (p1 = a,  p2 = b1, p3 = b2, p4 = b3)
-//  type = 2 → QuadraticFeedback  (p1 = a,  p2 = b,  p3 = c,  p4 = d)
-//  type = 3 → HarmonicODE        (p1 = b,  p2 = dt)
-// ---------------------------------------------------------------------------
-std::unique_ptr<DynamicProcess> ProcessFactory::create(int type,
-                                                        double p1,
-                                                        double p2,
-                                                        double p3,
-                                                        double p4)
+// =====================================================================
+// Метод create — создаёт нужную модель по номеру выбора.
+// =====================================================================
+std::unique_ptr<DynamicProcess> ProcessFactory::create(
+    int choice, double p1, double p2, double p3, double p4)
 {
-    switch (type)
-    {
-    case 1:
-        return std::make_unique<MultiStepModel>(p1, p2, p3, p4);
-
-    case 2:
-        return std::make_unique<QuadraticFeedback>(p1, p2, p3, p4);
-
-    case 3:
-        return std::make_unique<HarmonicODE>(p1, p2);
-
-    default:
+    // Проверяем корректность выбора.
+    if (choice < 1 || choice > 3) {
         return nullptr;
+    }
+
+    // В зависимости от номера создаём нужную модель.
+    if (choice == 1) {
+        // Model 1.7: MultiStepModel(a, b1, b2, b3)
+        return std::make_unique<MultiStepModel>(p1, p2, p3, p4);
+    }
+    else if (choice == 2) {
+        // Model 2.1: QuadraticFeedback(a, b, c, d)
+        return std::make_unique<QuadraticFeedback>(p1, p2, p3, p4);
+    }
+    else {
+        // Model 3.5: HarmonicODE(b, dt)
+        return std::make_unique<HarmonicODE>(p1, p2);
     }
 }

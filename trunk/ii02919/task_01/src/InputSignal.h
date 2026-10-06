@@ -2,54 +2,50 @@
 
 #include <string>
 
-// ============================================================================
-//  InputSignal — абстрактный базовый класс входного воздействия
-//  Определяет метод value(tau) — значение сигнала на шаге tau.
-// ============================================================================
+// =====================================================================
+// InputSignal — абстрактный базовый класс для входных сигналов u(tau).
+// =====================================================================
 class InputSignal
 {
 public:
     virtual ~InputSignal() = default;
 
-    // Значение сигнала на шаге tau (tau начинается с 1).
+    // Возвращает значение сигнала в момент tau.
     virtual double value(int tau) const = 0;
 
     // Название сигнала (для вывода в консоль).
     virtual std::string label() const = 0;
 };
 
-// ----------------------------------------------------------------------------
-//  UnitStep — ступенчатое воздействие: u(tau) = amplitude для всех tau
-// ----------------------------------------------------------------------------
+// =====================================================================
+// UnitStep — ступенчатое воздействие: u(tau) = const.
+// =====================================================================
 class UnitStep : public InputSignal
 {
 private:
-    double amplitude;
-
+    double amplitude; // постоянное значение сигнала
 public:
-    explicit UnitStep(double amp = 1.0);
-
-    double value(int tau) const override;
-    std::string label() const override;
+    explicit UnitStep(double amp) : amplitude(amp) {}
+    double value(int /*tau*/) const override { return amplitude; }
+    std::string label() const override { return "Step (u = const)"; }
 };
 
-// ----------------------------------------------------------------------------
-//  SingleImpulse — импульсное воздействие:
-//    u(1) = 1, u(tau > 1) = 0
-// ----------------------------------------------------------------------------
+// =====================================================================
+// SingleImpulse — одиночный импульс: u(1)=1, u(tau>1)=0.
+// =====================================================================
 class SingleImpulse : public InputSignal
 {
 public:
-    double value(int tau) const override;
-    std::string label() const override;
+    double value(int tau) const override { return (tau == 1) ? 1.0 : 0.0; }
+    std::string label() const override { return "Impulse (u_1 = 1, u_tau>1 = 0)"; }
 };
 
-// ----------------------------------------------------------------------------
-//  Sinusoid — гармоническое воздействие: u(tau) = sin(tau)
-// ----------------------------------------------------------------------------
+// =====================================================================
+// Sinusoid — гармоническое воздействие: u(tau) = sin(tau).
+// =====================================================================
 class Sinusoid : public InputSignal
 {
 public:
     double value(int tau) const override;
-    std::string label() const override;
+    std::string label() const override { return "Harmonic (u_tau = sin(tau))"; }
 };
