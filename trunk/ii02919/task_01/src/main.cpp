@@ -3,7 +3,7 @@
 #include <fstream>
 #include <string>
 #include <memory>
-#include <limits>
+#include <stdexcept>  // для std::invalid_argument, std::out_of_range
 
 #include "ProcessFactory.h"
 #include "InputSignal.h"
@@ -11,13 +11,12 @@
 // =====================================================================
 // НАСТРОЙКИ ПО УМОЛЧАНИЮ
 // =====================================================================
-constexpr int    DEFAULT_N        = 20;     // количество шагов по умолчанию
-constexpr double DEFAULT_DT       = 0.01;   // шаг интегрирования
-constexpr int    PRECISION        = 5;      // точность вывода
+constexpr int    DEFAULT_N  = 20;     // количество шагов по умолчанию
+constexpr double DEFAULT_DT = 0.01;   // шаг интегрирования
+constexpr int    PRECISION  = 5;      // точность вывода
 
 // =====================================================================
 // readDouble — безопасный ввод числа с плавающей точкой.
-// Возвращает значение по умолчанию, если строка пустая или некорректная.
 // =====================================================================
 static double readDouble(const std::string& prompt, double def)
 {
@@ -25,7 +24,6 @@ static double readDouble(const std::string& prompt, double def)
     std::string line;
     std::getline(std::cin, line);
 
-    // Пустая строка — возвращаем значение по умолчанию.
     if (line.empty()) {
         return def;
     }
@@ -33,9 +31,14 @@ static double readDouble(const std::string& prompt, double def)
     try {
         return std::stod(line);
     }
-    catch (...) {
-        // Игнорируем ошибку парсинга: пользователь ввёл ерунду.
+    catch (const std::invalid_argument&) {
+        // Некорректный формат числа — берём значение по умолчанию.
         std::cout << "  Не удалось разобрать, беру значение по умолчанию.\n";
+        return def;
+    }
+    catch (const std::out_of_range&) {
+        // Число выходит за пределы double — берём значение по умолчанию.
+        std::cout << "  Число вне диапазона, беру значение по умолчанию.\n";
         return def;
     }
 }
@@ -56,16 +59,20 @@ static int readInt(const std::string& prompt, int def)
     try {
         return std::stoi(line);
     }
-    catch (...) {
-        // Игнорируем ошибку и возвращаем значение по умолчанию.
+    catch (const std::invalid_argument&) {
+        // Некорректный формат числа — берём значение по умолчанию.
         std::cout << "  Не удалось разобрать, беру значение по умолчанию.\n";
+        return def;
+    }
+    catch (const std::out_of_range&) {
+        // Число выходит за пределы int — берём значение по умолчанию.
+        std::cout << "  Число вне диапазона, беру значение по умолчанию.\n";
         return def;
     }
 }
 
 // =====================================================================
 // readChoice — ввод числа в заданном диапазоне [lo; hi].
-// Повторяет запрос до тех пор, пока пользователь не введёт корректно.
 // =====================================================================
 static int readChoice(const std::string& prompt, int lo, int hi)
 {
@@ -80,8 +87,11 @@ static int readChoice(const std::string& prompt, int lo, int hi)
                 return v;
             }
         }
-        catch (...) {
-            // Игнорируем ошибку парсинга и просим ввести заново.
+        catch (const std::invalid_argument&) {
+            // Не число — просто просим ввести заново.
+        }
+        catch (const std::out_of_range&) {
+            // Слишком большое число — просим ввести заново.
         }
 
         std::cout << "  Введите число от " << lo << " до " << hi << ".\n";
@@ -93,7 +103,6 @@ static int readChoice(const std::string& prompt, int lo, int hi)
 // =====================================================================
 int main()
 {
-    // Шапка программы.
     std::cout << "=================================================\n";
     std::cout << "  Лабораторная работа №1 (ОТИС) — ii02919\n";
     std::cout << "  Моделирование управляемого объекта\n";
@@ -109,7 +118,10 @@ int main()
     const int modelChoice = readChoice("Ваш выбор (1-3): ", 1, 3);
 
     // ------------------ Ввод коэффициентов ------------------
-    double p1 = 0.0, p2 = 0.0, p3 = 0.0, p4 = 0.0;
+    double p1 = 0.0;
+    double p2 = 0.0;
+    double p3 = 0.0;
+    double p4 = 0.0;
 
     if (modelChoice == 1) {
         p1 = readDouble("a  (коэф. затухания)", 0.9);
@@ -128,7 +140,7 @@ int main()
         p2 = readDouble("dt (шаг интегрирования)", DEFAULT_DT);
     }
 
-    // ------------------ Создание модели через фабрику ------------------
+    // ------------------ Создание модели ------------------
     std::unique_ptr<DynamicProcess> model =
         ProcessFactory::create(modelChoice, p1, p2, p3, p4);
 
@@ -141,8 +153,7 @@ int main()
 
     // ------------------ Проверка устойчивости ------------------
     if (!model->isStableSystem()) {
-        const std::string warn = model->alertText();
-        if (!warn.empty()) {
+        if (const std::string warn = model->alertText(); !warn.empty()) {
             std::cout << "\n!!! ВНИМАНИЕ !!!\n" << warn << "\n";
         }
 
