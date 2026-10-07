@@ -14,7 +14,8 @@ enum InputType
 
 class Model{
 protected:
-    int n, t;
+    int n;
+    int t;
     InputType inputType;
     std::vector<double> y;
     std::vector<double> u;
@@ -76,7 +77,9 @@ public:
 
 class Liner: public Model{
 private:
-    double a1, a2, b;
+    double a1;
+    double a2;
+    double b;
     int k;
 public:
     Liner(double a1, double a2, double b, int k, int n, InputType inputType, double u = 0):
@@ -90,7 +93,8 @@ public:
 
     void NextStep() override {
         double y_t = y[t];
-        double y_tk, y_new;
+        double y_tk;
+        double y_new;
         if (t < k)
             y_tk = 0;
         else
@@ -105,7 +109,9 @@ public:
 
 class NonLiner: public Model{
 private:
-    double a, b, e;
+    double a;
+    double b;
+    double e;
 public:
     NonLiner(double a, double b, double e, int n, InputType inputType, double u = 0):
     a(a), b(b), e(e) {
@@ -135,7 +141,8 @@ public:
 
 class Differential: public Model{
 private:
-    double b, dt;
+    double b; 
+    double dt;
 protected:
     double GetTime(int i)override{return i*dt;}
 public:

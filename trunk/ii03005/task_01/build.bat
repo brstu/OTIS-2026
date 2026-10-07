@@ -1,6 +1,6 @@
 @echo off
 
-cmake -S . -B build -G "MinGW Makefiles"
+cmake -S src -B build -G "MinGW Makefiles"
 
 if %errorlevel% neq 0 (
     echo CMake configure error!

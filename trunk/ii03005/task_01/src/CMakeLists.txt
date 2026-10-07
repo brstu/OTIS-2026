@@ -16,13 +16,13 @@ message(STATUS "Python: ${Python3_EXECUTABLE}")
 
 # Преобразуем Windows-пути в формат с /
 file(TO_CMAKE_PATH "${Python3_EXECUTABLE}" PYTHON_PATH)
-file(TO_CMAKE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/src/plot.py" PLOT_PATH)
+file(TO_CMAKE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/plot.py" PLOT_PATH)
 
 message(STATUS "Python path: ${PYTHON_PATH}")
 message(STATUS "Plot path: ${PLOT_PATH}")
 
 add_executable(Task01
-    src/main.cpp
+    main.cpp
 )
 
 target_compile_features(Task01 PRIVATE cxx_std_17)
