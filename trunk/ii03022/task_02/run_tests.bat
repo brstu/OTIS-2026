@@ -12,15 +12,22 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-REM --- если есть gcc (MinGW), собираем им: покрытие gcov возможно только с GCC ---
+REM --- MinGW берем ТОЛЬКО если есть и g++, и mingw32-make ---
+REM (g++ без make = ошибка "CMAKE_MAKE_PROGRAM is not set")
 set "GENERATOR="
 set "COV_FLAGS="
 where g++ >nul 2>nul
-if %errorlevel% equ 0 (
-    set GENERATOR=-G "MinGW Makefiles"
-    set COV_FLAGS=-DCMAKE_CXX_FLAGS="-g -O0 --coverage"
-)
-REM ВНИМАНИЕ: после смены генератора удали вручную папку build и запусти заново!
+if %errorlevel% neq 0 goto use_default_gen
+where mingw32-make >nul 2>nul
+if %errorlevel% neq 0 goto use_default_gen
+set GENERATOR=-G "MinGW Makefiles"
+set COV_FLAGS=-DCMAKE_CXX_FLAGS="-g -O0 --coverage"
+echo Toolchain: MinGW GCC - tests will be built with gcov coverage flags
+goto toolchain_ok
+:use_default_gen
+echo Toolchain: default generator (e.g. Visual Studio).
+echo g++ or mingw32-make not found in PATH - gcov coverage will be SKIPPED.
+:toolchain_ok
 
 echo =======================================
 echo  [1/3] Configure + build (Google Test)
@@ -36,21 +43,27 @@ echo =======================================
 echo  [2/3] Run tests with ctest
 echo =======================================
 cd build
-ctest --output-on-failure > ..\test_report.txt 2>&1
+ctest --output-on-failure > ..\\test_report.txt 2>&1
 set RESULT=%errorlevel%
-type ..\test_report.txt
+type ..\\test_report.txt
 cd ..
 
 echo.
 echo =======================================
 echo  [3/3] Coverage report (gcovr, optional)
 echo =======================================
+if not defined COV_FLAGS goto cov_no_gcc
 where gcovr >nul 2>nul
 if %errorlevel% equ 0 (
-    gcovr -r src build --print-summary
+    gcovr -r src build --print-summary --exclude ".*main\.cpp"
 ) else (
-    echo  gcovr not found - coverage skipped. Install: pip install gcovr
+    echo  gcovr not found in PATH - coverage skipped.
+    echo  Install: pip install gcovr , затем добавь папку Python\Scripts в PATH
 )
+goto cov_done
+:cov_no_gcc
+echo  Skipped: сборка не GCC, gcov-файлов нет.
+:cov_done
 
 if %RESULT% neq 0 goto error
 echo.

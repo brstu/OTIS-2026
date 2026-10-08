@@ -1,14 +1,18 @@
 
-trunk/ii03022/task_01/build/
+trunk/ii03022/.vscode/
 
-trunk/ii03022/task_01/graph.png
+trunk/ii03022/task_01/build/
 
 trunk/ii03022/task_01/result.csv
 
-trunk/ii03022/.vscode/
+trunk/ii03022/task_01/graph.png
+
+trunk/ii03022/task_02/build/
+
+trunk/ii03022/task_02/test_report.txt
 
 trunk/ii03022/task_02/.vscode/
 
-.vscode/
+build/
 
-trunk/ii03022/task_02/build/
+.vscode/
