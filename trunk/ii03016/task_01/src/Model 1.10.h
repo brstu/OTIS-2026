@@ -2,7 +2,6 @@
 
 #include "Model.h"
 
-// y[t+1] = a1*y[t] + b1*u[t] + b2*u[t-2]
 class LineModel_1_10 : public Model
 {
 private:
