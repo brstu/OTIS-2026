@@ -31,7 +31,7 @@ const char* LineModel_1_10::name() {
 
 // Нелинейная модель (вариант 2.5) 
 NonlinearModel_2_5::NonlinearModel_2_5(double a_, double b_)
-    : a(a_), b(b_), y(0.0) {}
+    : a(a_), b(b_) {}
 
 void NonlinearModel_2_5::reset() {
     y = 0.0;
