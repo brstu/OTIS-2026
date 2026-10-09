@@ -3,9 +3,9 @@
 
 class Model1_7 : public model_standard {
 private:
-	double y;
-	double u_prev1;
-	double u_prev2;
+	double y = 0.0;
+	double u_prev1 = 0.0;
+	double u_prev2 = 0.0;
 	double a;
 	double b1;
 	double b2;
@@ -18,7 +18,7 @@ public:
 
 class Model2_9 : public model_standard {
 private:
-	double y;
+	double y = 0.0;
 	double a;
 	double b;
 public:
@@ -29,8 +29,8 @@ public:
 
 class Model3_1 : public model_standard {
 private:
+	double y = 1.0;
 	double a;
-	double y;
 	double dt;
 public:
 	Model3_1(double a, double dt);

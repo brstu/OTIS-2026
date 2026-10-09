@@ -3,7 +3,7 @@
 #include <cmath>
 
 Model1_7::Model1_7(double a_val, double b1_val, double b2_val, double b3_val)
-    : a(a_val), b1(b1_val), b2(b2_val), b3(b3_val), y(0.0), u_prev1(0.0), u_prev2(0.0) {
+    : a(a_val), b1(b1_val), b2(b2_val), b3(b3_val) {
     if (std::abs(a) >= 1.0) {
         std::cout << "[WARNING] Model 1.7: System is UNSTABLE (|a| >= 1)\n";
     }
@@ -23,7 +23,7 @@ double Model1_7::nextStep(double u) {
 }
 
 Model2_9::Model2_9(double a_val, double b_val)
-    : a(a_val), b(b_val), y(0.0) {}
+    : a(a_val), b(b_val) {}
 
 void Model2_9::reset() {
     y = 0.0;
@@ -43,13 +43,13 @@ double Model2_9::nextStep(double u) {
 }
 
 Model3_1::Model3_1(double a_val, double dt_val)
-    : a(a_val), dt(dt_val), y(1.0) {}
+    : a(a_val), dt(dt_val) {}
 
 void Model3_1::reset() {
     y = 1.0;
 }
 
-double Model3_1::nextStep(double u) {
+double Model3_1::nextStep(double /*u*/) {
     y = y - dt * a * y;
     return y;
 }
