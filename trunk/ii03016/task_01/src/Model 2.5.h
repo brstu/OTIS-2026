@@ -2,7 +2,6 @@
 
 #include "Model.h"
 
-// y[tau+1] = a*y[tau] + b*sign(u[tau])*(1 - e^(-|u[tau]|))
 class NonlinearModel_2_5 : public Model {
 private:
     double a;
