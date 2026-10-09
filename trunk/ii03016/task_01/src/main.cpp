@@ -54,7 +54,7 @@ const char* NonlinearModel_2_5::name() {
 
 // Дифференциальное уравнение(выриант 3.10)
 Diff_3_10::Diff_3_10(double a_, double b_, double dt_)
-    : a(a_), b(b_), dt(dt_), y(0.0) {}
+    : a(a_), b(b_), dt(dt_) {}
 
 void Diff_3_10::reset() {
     y = 0.0;
