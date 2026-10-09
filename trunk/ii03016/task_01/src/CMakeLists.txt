@@ -3,5 +3,5 @@ project(Task01_Models)
 
 set(CMAKE_CXX_STANDARD 17)
 
-file(GLOB SOURCES "src/*.cpp")
+file(GLOB SOURCES "*.cpp")
 add_executable(task_01 ${SOURCES})
