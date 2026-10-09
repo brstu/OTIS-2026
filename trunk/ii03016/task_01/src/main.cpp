@@ -9,7 +9,7 @@
 
 // Линейная модель (вариант 1.10) 
 LineModel_1_10::LineModel_1_10(double a1_, double b1_, double b2_)
-    : a1(a1_), b1(b1_), b2(b2_), y(0.0), u_prev1(0.0), u_prev2(0.0) {}
+    : a1(a1_), b1(b1_), b2(b2_) {}
 
 void LineModel_1_10::reset() {
     y = 0.0;
