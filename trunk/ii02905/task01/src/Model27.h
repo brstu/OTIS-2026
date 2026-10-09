@@ -6,7 +6,7 @@ private:
     double a;
     double b;
     double epsilon;
-    int relayState;
+    int relayState = 1;
 
 public:
     Model27(double y0, double a, double b, double epsilon);
