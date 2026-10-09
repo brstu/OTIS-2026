@@ -3,6 +3,7 @@
 #include <string>
 #include <cmath>
 #include <iomanip>
+#include <array>
 #include "Models.h"
 
 double getInput(int type, int tau) {
@@ -43,7 +44,10 @@ int main() {
     std::cout << "Enter number of simulation steps (n): ";
     std::cin >> n;
 
-    double a1, b1_1, b1_2, b1_3;
+    double a1;
+    double b1_1;
+    double b1_2;
+    double b1_3;
     bool isStable = false;
 
     do {
@@ -61,21 +65,23 @@ int main() {
 
     Model1_7 m1(a1, b1_1, b1_2, b1_3);
 
-    double a2, b2;
+    double a2;
+    double b2;
     std::cout << "\n--- Model 2.9 (Non-linear) ---\n";
     std::cout << "Enter a, b: ";
     std::cin >> a2 >> b2;
     Model2_9 m2(a2, b2);
 
-    double a3, dt;
+    double a3;
+    double dt;
     std::cout << "\n--- Model 3.1 (Differential) ---\n";
     std::cout << "Enter a, dt: ";
     std::cin >> a3 >> dt;
     Model3_1 m3(a3, dt);
 
-    model_standard* models[3] = { &m1, &m2, &m3 };
-    const char* names[3] = { "Model1_7", "Model2_9", "Model3_1" };
-    const char* inputs[3] = { "step", "impulse", "harmonic" };
+    std::array<model_standard*, 3> models = { &m1, &m2, &m3 };
+    std::array<const char*, 3> names = { "Model1_7", "Model2_9", "Model3_1" };
+    std::array<const char*, 3> inputs = { "step", "impulse", "harmonic" };
 
     std::cout << "\nStarting simulation...\n";
 
