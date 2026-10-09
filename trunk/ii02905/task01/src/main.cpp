@@ -77,36 +77,36 @@ string inputName(InputType type) {
 
 int main() {
     setlocale(LC_ALL, "RU");
-    cout << "Ëàáîðàòîðíàÿ ðàáîòà ¹1 - Âàðèíàò 5\n";
+    cout << "Ã‹Ã Ã¡Ã®Ã°Ã Ã²Ã®Ã°Ã­Ã Ã¿ Ã°Ã Ã¡Ã®Ã²Ã  Â¹1 - Ã‚Ã Ã°Ã¨Ã­Ã Ã² 5\n";
     cout << "Models: 1.5, 2.7, 3.9\n\n";
 
     int n;
 
-    cout << "Ââåäèòå êîë-âî âåðøèí n: ";
+    cout << "Ã‚Ã¢Ã¥Ã¤Ã¨Ã²Ã¥ ÃªÃ®Ã«-Ã¢Ã® Ã¢Ã¥Ã°Ã¸Ã¨Ã­ n: ";
     cin >> n;
 
     if (n <= 0) {
-        cout << "Îøèáêà! Êîë-âî âåðøèí ìåíüøå 0\n";
+        cout << "ÃŽÃ¸Ã¨Ã¡ÃªÃ ! ÃŠÃ®Ã«-Ã¢Ã® Ã¢Ã¥Ã°Ã¸Ã¨Ã­ Ã¬Ã¥Ã­Ã¼Ã¸Ã¥ 0\n";
         return 1;
     }
 
-    // Ìîäåëü 1.5 
+    // ÃŒÃ®Ã¤Ã¥Ã«Ã¼ 1.5 
     const double a1 = 0.6;
     const double a2 = 0.2;
     const double b15 = 0.5;
     const int k = 2;
 
-    // Ìîäåëü 2.7 
+    // ÃŒÃ®Ã¤Ã¥Ã«Ã¼ 2.7 
     const double a27 = 0.8;
     const double b27 = 0.7;
     const double epsilon = 0.2;
 
-    // Ìîäåëü 3.9 
+    // ÃŒÃ®Ã¤Ã¥Ã«Ã¼ 3.9 
     const double b39 = 1.0;
     const double dt = 0.1;
 
     for (int input = 1; input <= 3; ++input) {
-        InputType type = static_cast<InputType>(input);
+        auto type = static_cast<InputType>(input);
         string name = inputName(type);
 
         Model15 model15(0.0, a1, a2, b15, k, n);
