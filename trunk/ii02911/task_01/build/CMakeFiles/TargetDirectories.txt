@@ -1,0 +1,5 @@
+D:/OTIS-2026/trunk/ii02911/task_01/build/CMakeFiles/edit_cache.dir
+D:/OTIS-2026/trunk/ii02911/task_01/build/CMakeFiles/rebuild_cache.dir
+D:/OTIS-2026/trunk/ii02911/task_01/build/src/CMakeFiles/otis_task_01.dir
+D:/OTIS-2026/trunk/ii02911/task_01/build/src/CMakeFiles/edit_cache.dir
+D:/OTIS-2026/trunk/ii02911/task_01/build/src/CMakeFiles/rebuild_cache.dir
