@@ -1,0 +1,8 @@
+.vscode/ 
+build/ 
+*.exe 
+*.obj 
+*.o 
+build_log.txt 
+results.csv 
+simulation_plots_*.png 
