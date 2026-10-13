@@ -1,0 +1,3 @@
+C:/Users/dashk/BSTU/OTIS-2026/trunk/ii002917/src/build/CMakeFiles/lab01.dir
+C:/Users/dashk/BSTU/OTIS-2026/trunk/ii002917/src/build/CMakeFiles/edit_cache.dir
+C:/Users/dashk/BSTU/OTIS-2026/trunk/ii002917/src/build/CMakeFiles/rebuild_cache.dir

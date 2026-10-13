@@ -1,0 +1,6 @@
+[ 50%] Linking CXX executable lab01.exe
+C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/bin/ld.exe: C:/mingw64/bin/../lib/gcc/x86_64-w64-mingw32/16.2.0/../../../../x86_64-w64-mingw32/lib/../lib/libmingw32.a(lib64_libmingw32_a-crtexewin.o):crtexewin.c:(.text+0x11d): undefined reference to `WinMain'
+collect2.exe: error: ld returned 1 exit status
+mingw32-make[2]: *** [CMakeFiles\lab01.dir\build.make:102: lab01.exe] Error 1
+mingw32-make[1]: *** [CMakeFiles\Makefile2:86: CMakeFiles/lab01.dir/all] Error 2
+mingw32-make: *** [Makefile:90: all] Error 2
