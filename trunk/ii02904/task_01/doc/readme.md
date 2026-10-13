@@ -9,8 +9,8 @@
 <br><br><br><br><br>
 <p align="right">Выполнил:</p>
 <p align="right">Студент 2 курса</p>
-<p align="right">Группы ИИ-29</p>
-<p align="right">Годованный Ю. М.</p>
+<p align="right">Группы ИИ-ХХ</p>
+<p align="right">Фамилия И. О.</p>
 <p align="right">Проверил:</p>
 <p align="right">Дворанинович Д. А.</p>
 <br><br><br><br><br>
@@ -111,7 +111,7 @@ echo Output folder: %OUT_DIR%
 echo.
 
 echo ===== 1. CMake configure =====
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake -S src -B build
 if errorlevel 1 goto error
 
 echo.
@@ -121,7 +121,7 @@ if errorlevel 1 goto error
 
 echo.
 echo ===== 3. Run program =====
-build\bin\lab1.exe "%OUT_DIR%"
+build\bin\ii02904_task_1.exe "%OUT_DIR%"
 if errorlevel 1 goto error
 
 echo.
