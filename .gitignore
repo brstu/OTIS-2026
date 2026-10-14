@@ -1,3 +1,11 @@
+.vscode/ 
+build/ 
+*.exe 
+*.obj 
+*.o 
+build_log.txt 
+results.csv 
+simulation_plots_*.png 
 # --- C++ build artifacts ---
 build/
 out/
@@ -41,5 +49,5 @@ Thumbs.db
 # --- Local simulation results (optional) ---
 # Uncomment if you don't want to commit your simulation data
 # result.csv
-# Local simulation output (используем doc/example_output.csv для примера)
+# Local simulation output (ГЁГ±ГЇГ®Г«ГјГ§ГіГҐГ¬ doc/example_output.csv Г¤Г«Гї ГЇГ°ГЁГ¬ГҐГ°Г )
 trunk/ii02909/task_01/result.csv
