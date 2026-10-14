@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <stdlib.h>
 #include <iomanip>
 #include <vector>
 #include <string>
@@ -146,6 +147,12 @@ int main() {
     }
     std::cout << "  Расчеты завершены!" << std::endl;
     std::cout << "  Данные успешно экспортированы в results.csv" << std::endl;
+ std::cout << "\nРасчеты завершены! Результаты сохранены в results.csv" << std::endl;
+    std::cout << "Запуск построения графиков..." << std::endl;
+    
+
+    system("pause");
 
     return 0;
 }
+
