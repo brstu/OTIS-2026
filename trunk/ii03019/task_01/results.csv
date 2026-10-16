@@ -1,0 +1,8 @@
+step,signal,u,y,model_name
+0,Harmonic,0,0,Model 2.5
+1,Harmonic,0.389418,0.19353,Model 2.5
+2,Harmonic,0.717356,0.442646,Model 2.5
+3,Harmonic,0.932039,0.673602,Model 2.5
+4,Harmonic,0.999574,0.8507,Model 2.5
+5,Harmonic,0.909297,0.953806,Model 2.5
+6,Harmonic,0.675463,0.962312,Model 2.5
