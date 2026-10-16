@@ -24,5 +24,5 @@ bool Model1_4::isStable() const
 
 double Model1_4::calculateNext(double u) const
 {
-    return a_ * y_ + b_ * (u - uPrev_);
+    return a_ * currentY() + b_ * (u - previousU());
 }

@@ -17,5 +17,6 @@ std::string Model2_6::formula() const
 
 double Model2_6::calculateNext(double u) const
 {
-    return a1_ * y_ * y_ * y_ - a2_ * yPrev_ + b_ * u * u;
+    const double y = currentY();
+    return a1_ * y * y * y - a2_ * previousY() + b_ * u * u;
 }

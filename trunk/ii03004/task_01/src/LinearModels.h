@@ -2,8 +2,9 @@
 
 #include "Model.h"
 
-// Model 1.4 (Discrete Integrator with Loss):
-// y(tau+1) = a*y(tau) + b*(u(tau) - u(tau-1))
+// Model 1.4 (Discrete Integrator with Loss).
+// Формула (см. formula()): следующее значение y равно a, умноженному на
+// текущее y, плюс b, умноженному на приращение входа u(tau) - u(tau-1).
 class Model1_4 final : public Model
 {
 public:

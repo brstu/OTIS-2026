@@ -55,8 +55,7 @@ double readDouble(const std::string& prompt, double def)
             return def;
 
         std::istringstream in(line);
-        double value;
-        if (in >> value && std::isfinite(value))
+        if (double value = 0.0; in >> value && std::isfinite(value))
             return value;
 
         std::cout << "Ошибка ввода, введите число.\n";
@@ -75,8 +74,7 @@ int readInt(const std::string& prompt, int def, int minValue, int maxValue)
             return def;
 
         std::istringstream in(line);
-        int value;
-        if (in >> value && value >= minValue && value <= maxValue)
+        if (int value = 0; in >> value && value >= minValue && value <= maxValue)
             return value;
 
         std::cout << "Ошибка ввода, введите целое число от " << minValue
@@ -90,7 +88,8 @@ std::unique_ptr<Model> createModel(int choice, bool askParams)
     {
     case 1:
     {
-        double a = Defaults::a14, b = Defaults::b14;
+        double a = Defaults::a14;
+        double b = Defaults::b14;
         if (askParams)
         {
             a = readDouble("a", a);
@@ -100,7 +99,9 @@ std::unique_ptr<Model> createModel(int choice, bool askParams)
     }
     case 2:
     {
-        double a1 = Defaults::a1_26, a2 = Defaults::a2_26, b = Defaults::b26;
+        double a1 = Defaults::a1_26;
+        double a2 = Defaults::a2_26;
+        double b = Defaults::b26;
         if (askParams)
         {
             a1 = readDouble("a1", a1);
@@ -111,8 +112,10 @@ std::unique_ptr<Model> createModel(int choice, bool askParams)
     }
     default:
     {
-        double a1 = Defaults::a1_38, a2 = Defaults::a2_38;
-        double b = Defaults::b38, dt = Defaults::dt38;
+        double a1 = Defaults::a1_38;
+        double a2 = Defaults::a2_38;
+        double b = Defaults::b38;
+        double dt = Defaults::dt38;
         if (askParams)
         {
             a1 = readDouble("a1", a1);
@@ -135,7 +138,17 @@ std::unique_ptr<InputSignal> createSignal(int choice, double amplitude)
     }
 }
 
-const char* kModelIds[] = {"", "model_1_4", "model_2_6", "model_3_8"};
+// Имя модели для файлов результатов. Номер проверяется через switch,
+// поэтому выход за границы невозможен.
+std::string modelId(int modelChoice)
+{
+    switch (modelChoice)
+    {
+    case 1: return "model_1_4";
+    case 2: return "model_2_6";
+    default: return "model_3_8";
+    }
+}
 
 void simulateAndSave(int modelChoice, Model& model, const InputSignal& signal,
                      int n, double y0)
@@ -144,7 +157,7 @@ void simulateAndSave(int modelChoice, Model& model, const InputSignal& signal,
     std::cout << model.name() << "\n" << model.formula() << '\n';
     std::cout << "Входное воздействие: " << signal.name() << '\n';
 
-    if (auto* linear = dynamic_cast<Model1_4*>(&model))
+    if (const auto* linear = dynamic_cast<const Model1_4*>(&model))
     {
         if (!linear->isStable())
             std::cout << "ВНИМАНИЕ: |a| >= 1, корень характеристического "
@@ -156,8 +169,7 @@ void simulateAndSave(int modelChoice, Model& model, const InputSignal& signal,
     const auto rows = Simulator::run(model, signal, n, y0);
     Simulator::printTable(rows);
 
-    const std::string file =
-        std::string(kModelIds[modelChoice]) + "_" + signal.id() + ".csv";
+    const std::string file = modelId(modelChoice) + "_" + signal.id() + ".csv";
     if (Simulator::saveCsv(rows, file))
         std::cout << "Сохранено в " << file << '\n';
 }
@@ -198,13 +210,12 @@ int main()
     std::cout << "============================================\n";
     std::cout << "(Enter - принять значение по умолчанию в скобках)\n\n";
 
-    const int mode = readInt(
-        "Режим:\n"
-        "  1 - все модели x все воздействия (параметры по умолчанию)\n"
-        "  2 - одна модель, свои параметры\n"
-        "Ваш выбор", 1, 1, 2);
-
-    if (mode == 1)
+    if (const int mode = readInt(
+            "Режим:\n"
+            "  1 - все модели x все воздействия (параметры по умолчанию)\n"
+            "  2 - одна модель, свои параметры\n"
+            "Ваш выбор", 1, 1, 2);
+        mode == 1)
     {
         const int n = readInt("Количество шагов n", Defaults::n, 1, 100000);
 

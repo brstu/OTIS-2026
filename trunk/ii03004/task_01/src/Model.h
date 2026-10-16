@@ -28,9 +28,13 @@ public:
 
 protected:
     // Расчёт следующего значения y(tau+1) по формуле конкретной модели.
-    // Доступны: y_ = y(tau), yPrev_ = y(tau-1), uPrev_ = u(tau-1).
     virtual double calculateNext(double u) const = 0;
 
+    // Доступ наследников к истории: y(tau-1) и u(tau-1).
+    double previousY() const { return yPrev_; }
+    double previousU() const { return uPrev_; }
+
+private:
     double y_ = 0.0;
     double yPrev_ = 0.0;
     double uPrev_ = 0.0;

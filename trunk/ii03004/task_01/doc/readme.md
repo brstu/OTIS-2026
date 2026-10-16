@@ -72,7 +72,7 @@ $y_0$ задаётся пользователем. Значения до нач�
 
 ## Структура программы (ООП)
 
-Создан абстрактный базовый класс `Model`. Он хранит состояние модели ($y_\tau$, $y_{\tau-1}$, $u_{\tau-1}$) и содержит чисто виртуальный метод `calculateNext(u)`, который вычисляет следующий шаг симуляции. Невиртуальный метод `step(u)` вызывает `calculateNext()` и сдвигает историю значений, поэтому в классах-наследниках описана только формула своей модели.
+Создан абстрактный базовый класс `Model`. Он хранит состояние модели ($y_\tau$, $y_{\tau-1}$, $u_{\tau-1}$) в закрытых (`private`) полях, наследники читают его через методы `currentY()`, `previousY()`, `previousU()`. Класс содержит чисто виртуальный метод `calculateNext(u)`, который вычисляет следующий шаг симуляции. Невиртуальный метод `step(u)` вызывает `calculateNext()` и сдвигает историю значений, поэтому в классах-наследниках описана только формула своей модели.
 
 Входные воздействия тоже реализованы иерархией классов: абстрактный `InputSignal` и наследники `StepSignal`, `ImpulseSignal`, `HarmonicSignal`.
 
@@ -95,15 +95,17 @@ $y_0$ задаётся пользователем. Значения до нач�
 classDiagram
     class Model {
         <<abstract>>
-        #double y_
-        #double yPrev_
-        #double uPrev_
+        -double y_
+        -double yPrev_
+        -double uPrev_
         +reset(double y0) void
         +step(double u) double
         +currentY() double
         +name() string*
         +formula() string*
         #calculateNext(double u) double*
+        #previousY() double
+        #previousU() double
     }
 
     class Model1_4 {

@@ -17,6 +17,7 @@ std::string Model3_8::formula() const
 
 double Model3_8::calculateNext(double u) const
 {
-    const double dydt = -a1_ * y_ - a2_ * y_ * y_ + b_ * u;
-    return y_ + dt_ * dydt;
+    const double y = currentY();
+    const double dydt = -a1_ * y - a2_ * y * y + b_ * u;
+    return y + dt_ * dydt;
 }

@@ -2,8 +2,9 @@
 
 #include "Model.h"
 
-// Model 2.6 (Asymmetric Polynomial Backlash Simulation):
-// y(tau+1) = a1*y(tau)^3 - a2*y(tau-1) + b*u(tau)^2
+// Model 2.6 (Asymmetric Polynomial Backlash Simulation).
+// Формула (см. formula()): следующее значение y равно a1 * y(tau) в кубе,
+// минус a2 * y(tau-1), плюс b * u(tau) в квадрате.
 class Model2_6 final : public Model
 {
 public:
