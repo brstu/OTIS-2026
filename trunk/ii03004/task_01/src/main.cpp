@@ -150,8 +150,9 @@ std::string modelId(int modelChoice)
     }
 }
 
-void simulateAndSave(int modelChoice, Model& model, const InputSignal& signal,
-                     int n, double y0)
+// Возвращает имя CSV-файла с результатом.
+std::string simulateAndSave(int modelChoice, Model& model,
+                            const InputSignal& signal, int n, double y0)
 {
     std::cout << "\n============================================\n";
     std::cout << model.name() << "\n" << model.formula() << '\n';
@@ -172,9 +173,12 @@ void simulateAndSave(int modelChoice, Model& model, const InputSignal& signal,
     const std::string file = modelId(modelChoice) + "_" + signal.id() + ".csv";
     if (Simulator::saveCsv(rows, file))
         std::cout << "Сохранено в " << file << '\n';
+    return file;
 }
 
-void runPlot()
+// Без аргумента plot.py строит графики всех моделей,
+// с именем файла - один график только для этого файла.
+void runPlot(const std::string& csvFile = "")
 {
     if (!std::ifstream("plot.py"))
     {
@@ -184,11 +188,15 @@ void runPlot()
     }
 
     std::cout << "\nПостроение графиков (plot.py)...\n" << std::flush;
+    // Аргумент для plot.py: пусто или " model_1_4_step.csv"
+    const std::string args = csvFile.empty() ? std::string() : " " + csvFile;
 #ifdef _WIN32
-    const int code = std::system("python plot.py || py plot.py");
+    const std::string command =
+        "python plot.py" + args + " || py plot.py" + args;
 #else
-    const int code = std::system("python3 plot.py");
+    const std::string command = "python3 plot.py" + args;
 #endif
+    const int code = std::system(command.c_str());
     if (code != 0)
         std::cout << "Не удалось запустить Python. Установите Python и "
                      "matplotlib (pip install matplotlib) и запустите "
@@ -228,6 +236,7 @@ int main()
                 simulateAndSave(m, *model, *signal, n, Defaults::y0);
             }
         }
+        runPlot();
     }
     else
     {
@@ -253,9 +262,9 @@ int main()
         const int n = readInt("Количество шагов n", Defaults::n, 1, 100000);
         const double y0 = readDouble("Начальное значение y0", Defaults::y0);
 
-        simulateAndSave(m, *model, *signal, n, y0);
+        const std::string file = simulateAndSave(m, *model, *signal, n, y0);
+        runPlot(file);
     }
 
-    runPlot();
     return 0;
 }

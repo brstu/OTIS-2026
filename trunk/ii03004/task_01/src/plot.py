@@ -5,6 +5,7 @@
 """
 import csv
 import os
+import sys
 
 import matplotlib.pyplot as plt
 
@@ -30,7 +31,38 @@ def read_csv(path):
     return tau, u, y
 
 
+def plot_single(path):
+    """Один график для одного CSV-файла (режим 2: одна модель, один сигнал)."""
+    name = os.path.basename(path)[:-len(".csv")]
+    model_id = name[:len("model_x_x")]
+    signal_id = name[len("model_x_x_"):]
+    tau, u, y = read_csv(path)
+
+    fig, ax = plt.subplots(figsize=(9, 4))
+    ax.plot(tau, y, marker="o", markersize=3, label="y(τ)")
+    ax.step(tau, u, where="post", linestyle="--", alpha=0.6, label="u(τ)")
+    ax.set_title(MODELS.get(model_id, model_id) + " — "
+                 + SIGNALS.get(signal_id, signal_id).lower() + " воздействие")
+    ax.set_xlabel("τ")
+    ax.grid(True, alpha=0.3)
+    ax.legend()
+    fig.tight_layout()
+
+    out = name + ".png"
+    fig.savefig(out, dpi=120)
+    print("График сохранён:", out)
+    plt.show()
+
+
 def main():
+    # Если передали имя CSV-файла - строим только его график.
+    if len(sys.argv) > 1:
+        if os.path.exists(sys.argv[1]):
+            plot_single(sys.argv[1])
+        else:
+            print("Файл не найден:", sys.argv[1])
+        return
+
     created = []
     for model_id, model_title in MODELS.items():
         files = {s: f"{model_id}_{s}.csv" for s in SIGNALS}
