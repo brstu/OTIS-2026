@@ -1,0 +1,28 @@
+#pragma once
+#include "Model.h"
+
+class ActuatorSaturationNonLinearityModel : public Model{
+    private:
+        double a, b;               
+        double uMin, uMax;         
+        double y = 0;              
+        double sat(double u){
+            if (u > uMax) return uMax;
+            else if (u < uMin) return uMin;
+            else return u;
+        }
+    public:
+        ActuatorSaturationNonLinearityModel(double a, double b, double uMin, double uMax)
+        : a(a), b(b), uMin(uMin), uMax(uMax)
+        {
+        }
+
+        double nextStep(double u) override{
+            y = a * y + b * sat(u);
+            return y;
+        }
+
+        void reset() override{
+            y = 0;
+        }
+};
