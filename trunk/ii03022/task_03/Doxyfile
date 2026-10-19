@@ -1,0 +1,15 @@
+
+PROJECT_NAME      = "OTIS-2026 task_03 - PID controller"
+PROJECT_BRIEF     = "PID regulation of plant models 1.8 / 2.2 / 3.6 (ii03022)"
+
+OUTPUT_DIRECTORY  = doc
+HTML_OUTPUT       = html
+
+INPUT             = src
+FILE_PATTERNS     = *.h *.cpp
+RECURSIVE         = YES
+
+GENERATE_HTML     = YES
+GENERATE_LATEX    = NO
+EXTRACT_ALL       = YES
+QUIET             = YES
