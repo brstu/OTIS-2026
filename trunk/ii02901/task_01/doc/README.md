@@ -65,10 +65,10 @@ $$
 Программа:
 - запрашивает количество шагов симуляции `n`;
 - запрашивает коэффициенты для каждой модели;
-- прогоняет 3 модели;
+- прогоняет все модели;
 - выводит результаты в виде таблиц;
 - сохраняет результаты в `.csv`;
-- строит график через Python/Matplotlib.
+- строит график через Matplotlib.
 
 ## Пример работы программы:
 
@@ -78,75 +78,92 @@ $$
 
 ```bat
 @echo off
-title Build task_1
+chcp 65001 >nul
+echo ==========================================
+echo   Автоматическая сборка и запуск проекта
+echo ==========================================
 
-echo Configure project (1/4)
-cmake -S src -B build
-if %errorlevel% neq 0 goto error
-
-echo.
-echo Building project (2/4)
-cmake --build build --config Release
-if %errorlevel% neq 0 goto error
+if not exist build mkdir build
+cd build
 
 echo.
-echo Running simulation (3/4)
-if exist build\Release\ii03018_task.1.exe (
-build\Release\ii03018_task.1.exe
-) else (
-build\ii03018_task.1.exe
-)
-
-echo.
-echo Graph
-python plot.py
+echo Конфигурация CMake...
+echo ------------------------------------------
+cmake ../src
 if %errorlevel% neq 0 (
-    echo [!] Python error. Check if python and matplotlib are installed.
+    echo Ошибка конфигурации CMake!
+    pause
+    exit /b 1
 )
 
 echo.
-pause
-exit /b 0
+echo Компиляция проекта ...
+echo ------------------------------------------
+cmake --build . --config Release
+if %errorlevel% neq 0 (
+    echo Ошибка компиляции!
+    pause
+    exit /b 1
+)
 
-:error
 echo.
-echo BUILD ERROR
+echo Запуск симуляции...
+echo ------------------------------------------
+
+if exist Release\ii02901_task01.exe (
+    Release\ii02901_task01.exe
+) else if exist Debug\ii02901_task01.exe (
+    Debug\ii02901_task01.exe
+) else if exist ii02901_task01.exe (
+    ii02901_task01.exe
+) else (
+    echo Исполняемый файл не найден!
+)
+
+echo.
+echo ==========================================
+echo   Построение графиков (Python)...
+echo ==========================================
+py ../src/plot.py
+if %errorlevel% neq 0 (
+    echo [!] Ошибка! Проверьте установленны ли python, matplotlib, pandas.
+)
+
+echo   Процесс успешно завершен!
 pause
-exit /b 1
 ```
 ### Демонстрация реализации:
-![](tUsk.png)
+![](sim.png)
 ### Демонстрация одного из графиков:
 ![](graph.png)
 ## UML-диаграмма
 ```mermaid
 classDiagram
-    class model_standard {
+    class model {
         <<abstract>>
-        +nextStep(double u) double
-        +reset() void
+        +step(double y_tau, double u_tau) double
     }
 
-    class Model1_7 {
-        -y, u_prev1, u_prev2 : double
-        -a, b1, b2, b3 : double
-        +nextStep(double u) double
-        +reset() void
+    class model1_1 {
+        -a, b : double
+        +model1_1(double a, double b)
+        +step(double y_tau, double u_tau) double
     }
 
-    class Model2_9 {
-        -y, a, b : double
-        +nextStep(double u) double
-        +reset() void
+    class model2_3 {
+        -a, b, delta : double
+        -deadzone(double u) double
+        +model2_3(double a, double b, double delta)
+        +step(double y_tau, double u_tau) double
     }
 
-    class Model3_1 {
-        -y, a, dt : double
-        +nextStep(double u) double
-        +reset() void
+    class model3_5 {
+        -b, dt : double
+        +model3_5(double b, double dt)
+        +step(double y_tau, double u_tau) double
     }
 
-    model_standard <|-- Model1_7
-    model_standard <|-- Model2_9
-    model_standard <|-- Model3_1
+    model <|-- model1_1
+    model <|-- model2_3
+    model <|-- model3_5
 ```
