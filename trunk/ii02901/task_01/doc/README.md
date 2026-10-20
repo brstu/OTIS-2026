@@ -31,6 +31,7 @@
 ### Model 2.3
 
 `y(t+1) = a*y(t) + b*deadzone(u(t))`
+
 $$
 \text{where } \text{deadzone}(u) =
 \begin{cases}
