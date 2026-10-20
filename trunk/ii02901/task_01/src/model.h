@@ -5,7 +5,6 @@ public:
 
 	virtual ~model() = default;
 	virtual double step(double y_tau, double u_tau) = 0;
-	/*virtual std::string getname() = 0;*/
 
 };
 
@@ -19,7 +18,6 @@ public:
 
 	model1_1(double a, double b);
 	double step(double y_tau, double u_tau) override;
-	/*std::string getname() override;*/
 
 };
 
@@ -36,7 +34,6 @@ public:
 
 	model2_3(double a, double b, double delta);
 	double step(double y_tau, double u_tau) override;
-	/*std::string getname() override;*/
 
 };
 
@@ -50,6 +47,5 @@ public:
 
 	model3_5(double b, double dt);
 	double step(double y_tau, double u_tau) override;
-	/*std::string getname() override;*/
 
 };

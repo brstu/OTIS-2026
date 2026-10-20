@@ -11,12 +11,10 @@ double model2_3::deadzone(double u) const {
 	if (u > delta) {
 		return u - delta;
 	}
-	else if (u < -delta) {
+	if (u < -delta) {
 		return u + delta;
 	}
-	else {
-		return 0.0;
-	}
+	return 0.0;
 }
 
 model2_3::model2_3(double a, double b, double delta) : a(a), b(b), delta(delta) {}
