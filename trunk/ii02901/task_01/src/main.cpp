@@ -24,7 +24,8 @@ int main() {
         return 1;
     }
 
-	double a1, b1;
+	double a1;
+	double b1;
 
 	std::cout << "\n- Model 1.1 (First-Order Inertial System) - \n";
 	std::cout << "Enter a1, b1: " << std::endl;
@@ -36,7 +37,9 @@ int main() {
 
 	model1_1 model1(a1, b1);
 
-	double a2, b2, delta;
+	double a2;
+	double b2;
+	double delta;
 
 	std::cout << "\n- Model 2.3 (Dead-Zone Non-linearity) - \n";
 	std::cout << "Enter a2, b2, delta: " << std::endl;
@@ -48,7 +51,8 @@ int main() {
 
 	model2_3 model2(a2, b2, delta);
 
-	double b3, dt;
+	double b3;
+	double dt;
 
 	std::cout << "\n- Model 3.5 (Harmonic Driving Force) - \n";
 	std::cout << "Enter b3, dt: " << std::endl;
@@ -82,7 +86,9 @@ int main() {
 
 	for (size_t i = 0; i < inputName.size(); ++i) {
 
-		double y1 = 0.0, y2 = 0.0, y3 = 0.0;
+		double y1 = 0.0;
+		double y2 = 0.0;
+		double y3 = 0.0;
 
 		for (unsigned int tau = 0; tau < n; ++tau) {
 			
