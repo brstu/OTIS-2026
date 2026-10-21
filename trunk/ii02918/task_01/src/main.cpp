@@ -3,6 +3,7 @@
 #include <iomanip>
 #include <memory>
 #include <string>
+#include <cstdlib> // Для std::system
 
 #include "DynamicModel.h"
 #include "SignalGenerator.h"
@@ -14,7 +15,7 @@ namespace {
     constexpr int    CSV_PRECISION = 5;
 }
 
-//Простой ввод с проверкой
+// Простой ввод с проверкой
 static int readInt(const std::string& prompt, int minValue)
 {
     int value;
@@ -31,7 +32,7 @@ static int readInt(const std::string& prompt, int minValue)
     }
 }
 
-//Выбор типа сигнала
+// Выбор типа сигнала
 static std::unique_ptr<SignalGenerator> selectSignal(int choice)
 {
     switch (choice)
@@ -52,7 +53,7 @@ int main()
     std::cout << " OTIS-2026 | Lab #1 | Variant 28\n";
     std::cout << " Student: ii02918\n";
 
-    //1. Выбор модели
+    // 1. Выбор модели
     std::cout << "Select a model:\n";
     std::cout << "  1) Model 1.5 (State Delay)\n";
     std::cout << "  2) Model 2.2 (Saturation)\n";
@@ -64,7 +65,7 @@ int main()
         return 1;
     }
 
-    //2. Создание модели
+    // 2. Создание модели
     std::cout << "\nEnter model parameters:\n";
     std::unique_ptr<DynamicModel> model = ModelCreator::create(modelChoice);
     if (!model)
@@ -74,7 +75,7 @@ int main()
     }
     std::cout << "\nModel: " << model->describe() << "\n";
 
-    //3. Проверка устойчивости
+    // 3. Проверка устойчивости
     if (!model->verifyStability())
     {
         if (const std::string warn = model->getWarningMessage(); !warn.empty())
@@ -91,7 +92,7 @@ int main()
         }
     }
 
-    //4. Выбор сигнала
+    // 4. Выбор сигнала
     std::cout << "\nSelect input signal:\n";
     std::cout << "  1) Step (constant)\n";
     std::cout << "  2) Burst (impulse at tau=1)\n";
@@ -106,10 +107,10 @@ int main()
     }
     std::cout << "Signal: " << signal->getName() << "\n";
 
-    //5. Количество шагов
+    // 5. Количество шагов
     const int steps = readInt("\nNumber of simulation steps n: ", 1);
 
-    //6. Симуляция
+    // 6. Симуляция
     std::cout << "\n============================================\n";
     std::cout << std::setw(6) << "tau"
         << std::setw(14) << "u_tau"
@@ -136,6 +137,18 @@ int main()
 
     std::cout << "--------------------------------------------\n";
     std::cout << "Results saved to result.csv\n";
+    const std::string plotCmd = "python plot_results.py result.csv result_plot.png \"Simulation Result\"";
+    const int result = std::system(plotCmd.c_str()); 
+    if (result == 0)
+    {
+        const std::string openCmd = "start result_plot.png";
+        std::system(openCmd.c_str());
+    }
+    else
+    {
+        std::cout << "[WARNING] Python not found or plot_results.py failed. Skipping plot.\n";
+    }
+
     std::cout << "Done.\n";
 
     return 0;
