@@ -6,10 +6,10 @@ public:
     explicit Model3_2(double b, double dt = 0.1) : coefficientB(b), timeStep(dt) { flushState(); }
     
     double calculateNext(double u, int t) override {
-        double y = stateHistory.empty() ? 0.0 : stateHistory.back();
+        double y = getStateHistory().empty() ? 0.0 : getStateHistory().back();
         double yNext = y + timeStep * coefficientB * u;
-        stateHistory.push_back(yNext);
-        controlHistory.push_back(u);
+        getStateHistory().push_back(yNext);
+        getControlHistory().push_back(u);
         return yNext;
     }
     
@@ -22,7 +22,12 @@ public:
     }
 
 private:
-    void flushState() { stateHistory = {0.0}; controlHistory = {0.0}; iterationIndex = 0; }
+    void flushState() { 
+        getStateHistory() = {0.0}; 
+        getControlHistory() = {0.0}; 
+        getIterationIndex() = 0; 
+    }
+    
     double coefficientB;
     double timeStep;
 };

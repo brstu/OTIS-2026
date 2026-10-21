@@ -17,7 +17,18 @@ public:
     }
 
 protected:
-    std::vector<double> stateHistory;
-    std::vector<double> controlHistory;
-    int iterationIndex = 0;
+    // Защищенные методы доступа для дочерних классов
+    std::vector<double>& getStateHistory() { return stateHistory_; }
+    const std::vector<double>& getStateHistory() const { return stateHistory_; }
+
+    std::vector<double>& getControlHistory() { return controlHistory_; }
+    const std::vector<double>& getControlHistory() const { return controlHistory_; }
+
+    int& getIterationIndex() { return iterationIndex_; }
+    const int& getIterationIndex() const { return iterationIndex_; }
+
+private:
+    std::vector<double> stateHistory_;
+    std::vector<double> controlHistory_;
+    int iterationIndex_ = 0;
 };
