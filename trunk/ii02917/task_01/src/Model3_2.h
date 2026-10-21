@@ -3,7 +3,6 @@
 
 class Model3_2 : public ISystemModel {
 public:
-explicit Model3_2(...);
     Model3_2(double b, double dt = 0.1) : coefficientB(b), timeStep(dt) { flushState(); }
     double calculateNext(double u, int t) override {
         double y = stateHistory.empty() ? 0.0 : stateHistory.back();
@@ -20,6 +19,5 @@ explicit Model3_2(...);
     }
 private:
     void flushState() { stateHistory={0.0}; controlHistory={0.0}; iterationIndex=0; }
-    double coefficientB;
-    double timeStep;
+    double coefficientB, timeStep;
 };

@@ -6,7 +6,6 @@ enum class SourceType { CONSTANT, DELTA, SINUSOIDAL };
 
 class SignalGenerator {
 public:
-explicit InputSignal(...);
     SignalGenerator(SourceType mode, double amp = 1.0, double freq = 1.0)
         : currentMode(mode), peakValue(amp), cyclesFreq(freq) {}
     double computeValue(int t) const {

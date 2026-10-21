@@ -77,6 +77,7 @@ int main() {
     if (!line.empty()) {
         try { stepsCount = std::stoi(line); } catch (...) { stepsCount = 50; }
     }
+    std::cout << "Установлено шагов: " << stepsCount << std::endl;
 
     std::cout << "\nКонфигурация входного воздействия:" << std::endl;
     std::cout << "  1 - Постоянный уровень (Ступенька)" << std::endl;
@@ -144,7 +145,7 @@ int main() {
         showOutputTable(activeModel.fetchName(), simulationData);
         exportLogToCSV("results.csv", activeModel.fetchName(), simulationData);
     }
-  std::cout << "  Расчеты завершены!" << std::endl;
+    std::cout << "  Расчеты завершены!" << std::endl;
     std::cout << "  Данные успешно экспортированы в results.csv" << std::endl;
  std::cout << "\nРасчеты завершены! Результаты сохранены в results.csv" << std::endl;
     std::cout << "Запуск построения графиков..." << std::endl;
@@ -154,4 +155,3 @@ int main() {
 
     return 0;
 }
-

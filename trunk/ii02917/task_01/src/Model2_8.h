@@ -26,7 +26,5 @@ public:
     }
 private:
     void flushState() { stateHistory={0.1,0.1}; controlHistory={0.0}; iterationIndex=0; }
-    double alpha;
-    double beta;
-    double gamma;
+    double alpha, beta, gamma;
 };
