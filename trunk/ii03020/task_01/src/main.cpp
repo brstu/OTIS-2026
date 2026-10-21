@@ -100,6 +100,16 @@ void clearPreviousResults(const fs::path& resultsDirectory) {
     fs::create_directories(resultsDirectory);
 }
 
+int parseStepCount(const char* argument) {
+    try {
+        return std::stoi(argument);
+    } catch (const std::invalid_argument&) {
+        throw std::invalid_argument("The command-line step count must be an integer.");
+    } catch (const std::out_of_range&) {
+        throw std::invalid_argument("The command-line step count is outside the supported range.");
+    }
+}
+
 int launchPlotScript(const fs::path& executableDirectory, const fs::path& resultsDirectory) {
     const fs::path script = executableDirectory / "plot.py";
     if (!fs::exists(script)) {
@@ -139,11 +149,7 @@ int main(int argc, char* argv[]) {
 
         int steps = 30;
         if (argc > 1) {
-            try {
-                steps = std::stoi(argv[1]);
-            } catch (...) {
-                throw std::invalid_argument("The command-line step count must be an integer.");
-            }
+            steps = parseStepCount(argv[1]);
             if (steps < 1 || steps > 1000000)
                 throw std::invalid_argument("The step count must be in range 1..1000000.");
             std::cout << "\nNumber of simulation steps n (from command line): " << steps << '\n';
@@ -174,8 +180,8 @@ int main(int argc, char* argv[]) {
 
         std::cout << "\nSimulation completed.\n"
                   << "Only results from this run are kept in: " << resultsDirectory.string() << '\n';
-        const int plotStatus = launchPlotScript(executableDirectory, resultsDirectory);
-        if (plotStatus != 0) {
+        if (const int plotStatus = launchPlotScript(executableDirectory, resultsDirectory);
+            plotStatus != 0) {
             std::cerr << "\nAutomatic plotting failed. Check that Python and matplotlib are installed.\n"
                       << "Install matplotlib with: python -m pip install matplotlib\n";
             return 2;

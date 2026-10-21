@@ -12,12 +12,14 @@ public:
     void reset() override;
     [[nodiscard]] const char* name() const override;
 private:
-    double a_, b_, y_ = 0.0;
+    double a_;
+    double b_;
+    double y_ = 0.0;
     int delay_;
     std::vector<double> inputs_;
 };
 
-// Model 2.4: y[t+1] = a*y[t]*cos(y[t]) + b*ln(1 + |u[t]|)
+// Nonlinear model with cosine feedback and logarithmic input influence.
 class LogarithmicInteractionModel final : public Model {
 public:
     LogarithmicInteractionModel(double a, double b);
@@ -25,7 +27,9 @@ public:
     void reset() override;
     [[nodiscard]] const char* name() const override;
 private:
-    double a_, b_, y_ = 0.0;
+    double a_;
+    double b_;
+    double y_ = 0.0;
 };
 
 // Model 3.6: dy/dt = a*y^3 + b*u, solved with explicit Euler.
@@ -36,7 +40,10 @@ public:
     void reset() override;
     [[nodiscard]] const char* name() const override;
 private:
-    double a_, b_, dt_, y_ = 0.0;
+    double a_;
+    double b_;
+    double dt_;
+    double y_ = 0.0;
 };
 
 } // namespace otis

@@ -1,5 +1,7 @@
 #include "simulator.hpp"
+#include <array>
 #include <cmath>
+#include <ios>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -12,7 +14,7 @@ namespace fs = std::filesystem;
 void simulate(Model& model, int steps, SignalType signal, const fs::path& outputDirectory) {
     const fs::path csvPath = outputDirectory / (std::string(signalName(signal)) + ".csv");
     std::ofstream csv(csvPath);
-    if (!csv) throw std::runtime_error("Could not create file: " + csvPath.string());
+    if (!csv) throw std::ios_base::failure("Could not create file: " + csvPath.string());
     csv << "tau,u,y\n" << std::fixed << std::setprecision(8);
 
     std::cout << "\n" << model.name() << " | signal: " << signalName(signal) << '\n';
@@ -30,13 +32,13 @@ void simulate(Model& model, int steps, SignalType signal, const fs::path& output
         std::cout << std::left << std::setw(8) << tau << std::setw(16)
                   << std::setprecision(6) << input << std::setprecision(8) << output << '\n';
     }
-    if (!csv) throw std::runtime_error("Error writing file: " + csvPath.string());
+    if (!csv) throw std::ios_base::failure("Error writing file: " + csvPath.string());
     std::cout << "CSV saved: " << csvPath.string() << '\n';
 }
 
 void generatePlotScript(const fs::path& outDir) {
     struct Plot { const char* folder; const char* title; const char* png; };
-    const Plot plots[] = {
+    const std::array<Plot, 9> plots{{
         {"linear", "Linear model 1.2 - step input", "linear_step.png"},
         {"linear", "Linear model 1.2 - impulse input", "linear_impulse.png"},
         {"linear", "Linear model 1.2 - harmonic input", "linear_harmonic.png"},
@@ -46,17 +48,23 @@ void generatePlotScript(const fs::path& outDir) {
         {"differential", "Differential model 3.6 - step input", "differential_step.png"},
         {"differential", "Differential model 3.6 - impulse input", "differential_impulse.png"},
         {"differential", "Differential model 3.6 - harmonic input", "differential_harmonic.png"}
-    };
+    }};
     std::ofstream gp(outDir / "plot_all.gp");
-    if (!gp) throw std::runtime_error("Could not create plot_all.gp");
+    if (!gp) throw std::ios_base::failure("Could not create plot_all.gp");
     gp << "set terminal pngcairo size 1000,650\nset grid\nset xlabel 'tau'\nset ylabel 'y'\n";
     bool hasPlots = false;
     for (const auto& plot : plots) {
         const std::string pngName(plot.png);
-        const char* signal = pngName.find("step") != std::string::npos ? "step" :
-                             (pngName.find("impulse") != std::string::npos ? "impulse" : "harmonic");
-        const fs::path csvPath = outDir / plot.folder / (std::string(signal) + ".csv");
-        if (!fs::exists(csvPath)) continue;
+        const char* signal = "harmonic";
+        if (pngName.find("step") != std::string::npos) {
+            signal = "step";
+        } else if (pngName.find("impulse") != std::string::npos) {
+            signal = "impulse";
+        }
+        if (const fs::path csvPath = outDir / plot.folder / (std::string(signal) + ".csv");
+            !fs::exists(csvPath)) {
+            continue;
+        }
         hasPlots = true;
         gp << "set output '" << plot.png << "'\nset title '" << plot.title << "'\n"
            << "plot '" << plot.folder << "/" << signal
