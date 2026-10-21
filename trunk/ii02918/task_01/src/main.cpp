@@ -138,8 +138,7 @@ int main()
     std::cout << "--------------------------------------------\n";
     std::cout << "Results saved to result.csv\n";
     const std::string plotCmd = "python plot_results.py result.csv result_plot.png \"Simulation Result\"";
-    const int result = std::system(plotCmd.c_str()); 
-    if (result == 0)
+    if (const int result = std::system(plotCmd.c_str()); result == 0) 
     {
         const std::string openCmd = "start result_plot.png";
         std::system(openCmd.c_str());

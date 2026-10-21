@@ -3,10 +3,11 @@ import csv
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
+import os
 
 def read_csv(path):
     taus, us, ys = [], [], []
-    with open(path, 'r', encoding='utf-8') as f:
+    with open(os.path.basename(path), 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             taus.append(int(row['tau']))
