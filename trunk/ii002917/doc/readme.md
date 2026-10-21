@@ -55,6 +55,27 @@
 
 Где `a`, `b`, `c` — параметры системы.
 
+<<<<<<< HEAD
+=======
+# Результат
+Программа:
+
+- позволяет задать количество шагов `n`;
+- позволяет выбрать входное воздействие;
+- выводит анализ устойчивости для каждой модели;
+- выводит предупреждение при неустойчивых коэффициентах;
+- выводит результаты в табличном виде;
+- сохраняет результаты в `results.csv`;
+- позволяет построить график через Python/Matplotlib.
+
+
+### Model 2.8 (Хаотическое возмущение логистического отображения)
+
+`y(t+1) = a * y(t) * (1 - y(t)) + b * u(t) + c * sin(y(t-1) * u(t))`
+
+Где `a`, `b`, `c` — параметры системы.
+
+>>>>>>> 5d05ca070b955d21b15fff9d46ed7023ecf3011e
 **Анализ устойчивости:**
 
 Для нелинейной модели аналитический критерий неприменим. Используется численная проверка: если `|y|` растёт безгранично за последние 10 шагов моделирования → система неустойчива.
@@ -93,6 +114,13 @@
 
 Также реализован класс `SignalGenerator` для генерации входных воздействий трёх типов (`SourceType::CONSTANT`, `SourceType::DELTA`, `SourceType::SINUSOIDAL`).
 
+<<<<<<< HEAD
+=======
+## UML Схема структуры классов приложения
+
+![](uml.png)
+
+>>>>>>> 5d05ca070b955d21b15fff9d46ed7023ecf3011e
 ## Результат
 
 Программа:
@@ -104,6 +132,67 @@
 - выводит результаты в табличном виде;
 - сохраняет результаты в `results.csv`;
 - позволяет построить график через Python/Matplotlib.
+<<<<<<< HEAD
+=======
+
+
+## Сборка
+
+На Windows через `build.bat`:
+
+```bat
+@echo off
+setlocal
+
+if not exist "%~dp0CMakeLists.txt" (
+    echo ERROR CMakeLists not found in this folder
+    pause
+    exit /b 1
+)
+
+cd /d "%~dp0"
+
+echo STARTING BUILD PROCESS
+
+echo STAGE 1 Configuration
+cmake -S . -B build
+if errorlevel 1 goto error
+
+echo STAGE 2 Compilation
+cmake --build build --config Release
+if errorlevel 1 goto error
+
+echo SUCCESS Build completed successfully
+echo Executable files are in build Release folder
+pause
+goto end
+
+:error
+echo ERROR Build failed
+pause
+exit /b 1
+
+:end
+endlocal
+```
+
+### Демонстрация исполняемого файла otis_task_01.exe:
+
+![](work.png)
+![](work1_4.png)
+![](work2_8.png)
+![](work3_2.png)
+
+При запуске исполняемого файла мы получаем результат файл.csv, после чего автоматически запускается plot.py для визуализации ответа:
+
+## Демострация ступенчатого воздействия
+![Результат выполнения файла plot.py](plot.png)
+## Демострация импульсного воздействия
+![](plot2.png)
+## Демострация гармонического воздействия
+![](plot3.png)
+
+>>>>>>> 5d05ca070b955d21b15fff9d46ed7023ecf3011e
 
 
 ### Model 2.8 (Хаотическое возмущение логистического отображения)
