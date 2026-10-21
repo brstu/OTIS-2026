@@ -70,19 +70,12 @@ int main() {
     std::cout << "  Исследование систем: 1.4, 2.8, 3.2" << std::endl;
     std::cout << "********************************************" << std::endl;
 
-int stepsCount = 50;
+    int stepsCount = 50;
     std::cout << "\nЗадайте число шагов интегрирования (по умолчанию 50): ";
     std::string line;
     std::getline(std::cin, line);
-    
     if (!line.empty()) {
-        try {
-            stepsCount = std::stoi(line); 
-            if (stepsCount <= 0) stepsCount = 50;
-        } catch (...) { 
-            stepsCount = 50; 
-        }
-    }
+        try { stepsCount = std::stoi(line); } catch (...) { stepsCount = 50; }
     }
     std::cout << "Установлено шагов: " << stepsCount << std::endl;
 
