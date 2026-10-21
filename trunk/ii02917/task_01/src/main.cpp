@@ -7,7 +7,7 @@
 #include <memory>
 #include <algorithm>
 
-#include "model.h"
+#include "Model.h"
 #include "Model1_4.h"
 #include "Model2_8.h"
 #include "Model3_2.h"

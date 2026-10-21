@@ -1,5 +1,5 @@
 #pragma once
-#include "model.h"
+#include "Model.h"
 
 class Model1_4 : public ISystemModel {
 public:
