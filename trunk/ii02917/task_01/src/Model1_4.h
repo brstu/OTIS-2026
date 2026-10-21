@@ -21,5 +21,6 @@ public:
     }
 private:
     void flushState() { stateHistory={0.0}; controlHistory={0.0}; iterationIndex=0; }
-    double gainA, gainB;
+    double gainA;
+    double gainB;
 };

@@ -5,19 +5,17 @@
 #include <iostream>
 #include <vector>
 
-class ISystemModel {
-public:
-    virtual ~ISystemModel() = default;
-    virtual double calculateNext(double inputValue, int stepIndex) = 0;
-    virtual std::string fetchName() const = 0;
-    virtual void clearState() = 0;
-    virtual bool checkStability() const { return true; }
-    virtual void displayStabilityReport() const {
-        std::cout << "  Stability analysis not applicable for this model." << std::endl;
-    }
+class Model {
+private:
+    double y;
 
-protected:
-    std::vector<double> stateHistory;
-    std::vector<double> controlHistory;
-    int iterationIndex = 0;
+public:
+    explicit Model(double initial_y = 0.0) : y(initial_y) {}
+    virtual ~Model() = default;
+
+    virtual double step(double u) = 0;
+
+    double getY() const { return y; }
+    void setY(double new_y) { y = new_y; }
+    virtual void reset(double initial_y = 0.0) { y = initial_y; }
 };

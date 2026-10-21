@@ -77,7 +77,6 @@ int main() {
     if (!line.empty()) {
         try { stepsCount = std::stoi(line); } catch (...) { stepsCount = 50; }
     }
-    std::cout << "Установлено шагов: " << stepsCount << std::endl;
 
     std::cout << "\nКонфигурация входного воздействия:" << std::endl;
     std::cout << "  1 - Постоянный уровень (Ступенька)" << std::endl;
