@@ -25,10 +25,14 @@ struct Options {
     std::size_t steps = 40;
     double dt = 0.1;
     fs::path outDir = "results";
-    double linearA = 0.7, linearB = 0.5;
+    double linearA = 0.7;
+    double linearB = 0.5;
     std::size_t delay = 2;
-    double nonlinearA1 = 0.25, nonlinearA2 = 0.15, nonlinearB = 0.6;
-    double odeA = 0.7, odeB = 0.3;
+    double nonlinearA1 = 0.25;
+    double nonlinearA2 = 0.15;
+    double nonlinearB = 0.6;
+    double odeA = 0.7;
+    double odeB = 0.3;
 };
 
 void printHelp() {
@@ -72,14 +76,16 @@ std::size_t parsePositiveInt(const std::string& value, const std::string& flag) 
 
 Options parseArgs(int argc, char* argv[]) {
     Options o;
-    for (int i = 1; i < argc; ++i) {
+    int i = 1;
+    while (i < argc) {
         const std::string flag = argv[i];
         if (flag == "--help" || flag == "-h") {
             printHelp();
             std::exit(0);
         }
         if (i + 1 >= argc) throw std::invalid_argument("Missing value for " + flag);
-        const std::string value = argv[++i];
+        const std::string value = argv[i + 1];
+        i += 2;
         if (flag == "--steps") o.steps = parsePositiveInt(value, flag);
         else if (flag == "--delay") o.delay = parsePositiveInt(value, flag);
         else if (flag == "--dt") o.dt = parseDouble(value, flag);
@@ -169,7 +175,8 @@ int main(int argc, char* argv[]) {
         std::cout << "Available signals for each model: constant, impulse, sin(tau).\n";
 
         // Show the menu again after each calculation; 0 closes the application.
-        while (true) {
+        bool menuActive = true;
+        while (menuActive) {
             std::cout << "\nChoose which MODEL to calculate and display:\n"
                       << "  1 - Model 1.2 (linear input delay)\n"
                       << "  2 - Model 2.6 (nonlinear polynomial)\n"
@@ -180,7 +187,8 @@ int main(int argc, char* argv[]) {
             std::string choice;
             if (!std::getline(std::cin, choice)) {
                 std::cout << "\nInput closed. Exiting.\n";
-                break;
+                menuActive = false;
+                continue;
             }
             // Ignore whitespace around a typed menu number.
             const auto first = choice.find_first_not_of(" \t\r\n");
@@ -192,13 +200,14 @@ int main(int argc, char* argv[]) {
             choice = choice.substr(first, last - first + 1);
             if (choice == "0") {
                 std::cout << "Goodbye!\n";
-                break;
+                menuActive = false;
+                continue;
             }
             if (choice != "1" && choice != "2" && choice != "3") {
                 std::cout << "Invalid choice: enter 0, 1, 2, or 3.\n";
                 continue;
             }
-            const std::size_t index = static_cast<std::size_t>(choice[0] - '1');
+            const auto index = static_cast<std::size_t>(choice[0] - '1');
             runSelectedModel(*models.at(index), opts);
         }
         return 0;
