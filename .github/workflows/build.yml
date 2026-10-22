@@ -20,14 +20,8 @@ jobs:
         uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v5
       - name: Run Build Wrapper
         run: |
-          echo "Checking project directory"
-          pwd
-          ls -la trunk/ii02905/task01
-          echo "Checking CMakeLists.txt"
-          cat trunk/ii02905/task01/CMakeLists.txt
-          echo "Configuring only my project"
-          cmake -S "${GITHUB_WORKSPACE}/trunk/ii02905/task01" -B "${GITHUB_WORKSPACE}/build"
-          build-wrapper-linux-x86-64 --out-dir "${GITHUB_WORKSPACE}/${{ env.BUILD_WRAPPER_OUT_DIR }}" cmake --build "${GITHUB_WORKSPACE}/build"
+          cmake -S trunk/ii02905/task01 -B build
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
