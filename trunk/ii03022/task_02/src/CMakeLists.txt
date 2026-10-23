@@ -1,5 +1,1 @@
-cmake_minimum_required(VERSION 3.10)
-project(task2 CXX)                     
-set(CMAKE_CXX_STANDARD 14)             
-set(CMAKE_CXX_STANDARD_REQUIRED ON)    
-add_executable(task2_ii003022 main.cpp)         
+add_executable(task2_ii03022 ../../task_01/src/main.cpp)
