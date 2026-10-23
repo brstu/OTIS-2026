@@ -155,7 +155,6 @@ void selectMode(int& mode, int& n, double& eps){
 
 void simulate(Model& plant, PIDController& pid, double w, int mode, int n, double eps, std::ofstream& file){
     double y = 0;
-    int steps = n;
     bool reached = false;
     for (int t = 0; t < n; t++){
         double e = w - y;
@@ -169,16 +168,15 @@ void simulate(Model& plant, PIDController& pid, double w, int mode, int n, doubl
         file << t << ";" << w << ";" << e << ";" << u << ";" << y << std::endl;
         if (mode == 2 && std::fabs(e) < eps){
             reached = true;
-            steps = t + 1;
             break;
         }
     }
     std::cout << std::endl;
     if (mode == 2){
         if (reached)
-            std::cout << "Steady state reached: |e| < " << eps << " in " << steps << " steps." << std::endl;
+            std::cout << "Steady state reached: |e| < eps." << std::endl;
         else
-            std::cout << "WARNING: |e| >= eps after " << n << " steps." << std::endl;
+            std::cout << "WARNING: |e| >= eps within the step limit." << std::endl;
     }
 }
 
