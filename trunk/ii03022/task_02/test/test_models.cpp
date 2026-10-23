@@ -4,13 +4,10 @@
 #include <sstream>   
 #include <string>    
 
-#include "Model 1.8.h"
-#include "Model 2.2.h"
+#include "../../task_01/src/Model 1.8.h"
+#include "../../task_01/src/Model 2.2.h"
 #include "Model 3.6.h"
 
-// ----- [fix] читаемые имена копий теста вместо hex-дампа памяти -----
-// (тот же помощник, что и в test_stability.cpp - файлы тестов самодостаточны)
-// gtest требует "идентификатор": "0.5" -> "0_5",  "-1.2" -> "m1_2"
 static std::string NamePart(double v){
     std::ostringstream s;
     s << v;

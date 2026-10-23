@@ -1,16 +1,26 @@
 #include <gtest/gtest.h>
+#include <array>
 #include <sstream>
 #include <string>
 #include <cmath>
 
 #include "StabilityAnalyzer.h"
 
-
 struct CaseStab{
-    double a1;
-    double a2;
+    double a1, a2;
     bool expectedStable;
 };
+
+static std::string NamePart(double v){
+    std::ostringstream s;
+    s << v;
+    std::string r = s.str();
+    for (char& c : r){
+        if (c == '-') c = 'm';
+        else if (c == '.') c = '_';
+    }
+    return r;
+}
 
 class StabilityTest : public ::testing::TestWithParam<CaseStab> {};
 
@@ -20,19 +30,25 @@ TEST_P(StabilityTest, ReturnsExpectedVerdict){
         << "a1=" << c.a1 << " a2=" << c.a2;
 }
 
-static const std::array<CaseStab, 8> kCasesStab {{
-    {0.5,  0.3,  true},    // корни 0.8521 и -0.3521 -> в круге
-    {0.9,  0.05, true},    // действительные, оба < 1
+static const std::array<CaseStab, 8> kCasesStab{{
+    {0.5,  0.3,  true},    // корни 0.8521 / -0.3521 -> в круге
+    {0.9,  0.05, true},
     {0.5, -0.5,  true},    // комплексные, |z| = sqrt(0.5) = 0.7071
     {1.2,  0.3,  false},   // z1 = 1.4124 вне круга
-    {0.5, -1.2,  false},   // комплексные, |z| = sqrt(1.2) > 1
+    {0.5, -1.2,  false},
     {1.0,  0.0,  false},   // граница: z = 1 ровно на окружности
     {0.5,  0.5,  false},   // граница: z1 = 1.0
     {0.0, -1.0,  false},   // граница: |z| = 1 (комплексная пара)
 }};
-INSTANTIATE_TEST_SUITE_P(Verdicts, StabilityTest, ::testing::ValuesIn(kCasesStab));
-
-// ---------- численные значения корней ----------
+// [fix] 4-й аргумент - генератор имён: в отчёте ctest будут читаемые имена
+// вида "c0_a0_5_b0_3_ok" вместо "24-byte object <...>"
+INSTANTIATE_TEST_SUITE_P(Verdicts, StabilityTest, ::testing::ValuesIn(kCasesStab),
+    [](const ::testing::TestParamInfo<CaseStab>& info){
+        const CaseStab& p = info.param;
+        return "c" + std::to_string(info.index) +
+               "_a" + NamePart(p.a1) + "_b" + NamePart(p.a2) +
+               (p.expectedStable ? "_ok" : "_bad");
+    });
 
 TEST(StabilityRoots, RealRootsValues){
     StabilityResult r = analyzeStability(0.5, 0.3);
@@ -44,13 +60,12 @@ TEST(StabilityRoots, RealRootsValues){
 
 TEST(StabilityRoots, ComplexPairModulus){
     StabilityResult r = analyzeStability(0.5, -0.5);
-    EXPECT_TRUE(r.isComplex); 
-    EXPECT_NEAR(r.mod1, std::sqrt(0.5), 1e-9);// |z| = sqrt(re^2 + im^2) = sqrt(-a2) = sqrt(0.5)
+    EXPECT_TRUE(r.isComplex);
+    // |z| = sqrt(re^2 + im^2) = sqrt(-a2) = sqrt(0.5)
+    EXPECT_NEAR(r.mod1, std::sqrt(0.5), 1e-9);
     EXPECT_NEAR(r.z1re, 0.25, 1e-12);
     EXPECT_NEAR(r.z1im, 0.6614378, 1e-6);
 }
-
-// ---------- предупреждение выводится в поток ----------
 
 TEST(StabilityReport, WarnsWhenUnstable){
     std::ostringstream out;
@@ -68,7 +83,6 @@ TEST(StabilityReport, ConfirmsWhenStable){
     EXPECT_EQ(s.find("WARNING"), std::string::npos);   // предупреждения быть не должно
 }
 
-// отчёт корректно печатает и ветку комплексных корней (re + j im)
 TEST(StabilityReport, PrintsComplexRootsBranch){
     std::ostringstream out;
     printStabilityReport(0.5, -0.5, out);   // D < 0 -> комплексная пара
