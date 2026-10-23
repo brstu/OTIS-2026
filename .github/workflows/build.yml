@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize, reopened]
 jobs:
   build:
-    name: Build and analyzе
+    name: Build and analyze
     runs-on: ubuntu-latest
     env:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
@@ -20,34 +20,9 @@ jobs:
         uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v5
       - name: Run Build Wrapper
         run: |
-          echo "=== UPDATED WORKFLOW: BUILDING ONLY ii02905 ==="
-
-          mkdir -p build/ci-project
-
-          cat > build/ci-project/CMakeLists.txt <<'EOF'
-          cmake_minimum_required(VERSION 3.15)
-          project(Task01Variant5 LANGUAGES CXX)
-
-          set(CMAKE_CXX_STANDARD 17)
-          set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-          set(SRC_DIR "${GITHUB_WORKSPACE}/trunk/ii02905/task01/src")
-
-          add_executable(task01
-            "${SRC_DIR}/main.cpp"
-            "${SRC_DIR}/Model15.cpp"
-            "${SRC_DIR}/Model27.cpp"
-            "${SRC_DIR}/Model39.cpp"
-          )
-
-          target_include_directories(task01 PRIVATE "${SRC_DIR}")
-          EOF
-
-          cmake -S build/ci-project -B build/ci-build
-
-          build-wrapper-linux-x86-64 \
-            --out-dir "${BUILD_WRAPPER_OUT_DIR}" \
-            cmake --build build/ci-build
+          mkdir build
+          cmake . -B build
+          build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
