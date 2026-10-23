@@ -20,29 +20,34 @@ jobs:
         uses: SonarSource/sonarqube-scan-action/install-build-wrapper@v5
       - name: Run Build Wrapper
         run: |
-          echo "=== CHECKING UPDATED WORKFLOW ==="
+          echo "=== UPDATED WORKFLOW: BUILDING ONLY ii02905 ==="
+
           mkdir -p build/ci-project
 
           cat > build/ci-project/CMakeLists.txt <<'EOF'
           cmake_minimum_required(VERSION 3.15)
           project(Task01Variant5 LANGUAGES CXX)
+
           set(CMAKE_CXX_STANDARD 17)
           set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+          set(SRC_DIR "${GITHUB_WORKSPACE}/trunk/ii02905/task01/src")
+
           add_executable(task01
-            "${GITHUB_WORKSPACE}/trunk/ii02905/task01/src/main.cpp"
-            "${GITHUB_WORKSPACE}/trunk/ii02905/task01/src/Model15.cpp"
-            "${GITHUB_WORKSPACE}/trunk/ii02905/task01/src/Model27.cpp"
-            "${GITHUB_WORKSPACE}/trunk/ii02905/task01/src/Model39.cpp"
+            "${SRC_DIR}/main.cpp"
+            "${SRC_DIR}/Model15.cpp"
+            "${SRC_DIR}/Model27.cpp"
+            "${SRC_DIR}/Model39.cpp"
           )
 
-          target_include_directories(task01 PRIVATE
-            "${GITHUB_WORKSPACE}/trunk/ii02905/task01/src"
-          )
+          target_include_directories(task01 PRIVATE "${SRC_DIR}")
           EOF
 
           cmake -S build/ci-project -B build/ci-build
-          build-wrapper-linux-x86-64 --out-dir "${BUILD_WRAPPER_OUT_DIR}" cmake --build build/ci-build
+
+          build-wrapper-linux-x86-64 \
+            --out-dir "${BUILD_WRAPPER_OUT_DIR}" \
+            cmake --build build/ci-build
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
