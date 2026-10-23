@@ -1,4 +1,3 @@
-name: SonarQube
 on:
   push:
     branches:
