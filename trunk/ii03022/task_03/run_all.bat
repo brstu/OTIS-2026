@@ -49,8 +49,11 @@ if %errorlevel% neq 0 (
     echo  Install: winget install -e --id DimitriVanHeesch.Doxygen
     goto docs_done
 )
-doxygen Doxyfile
-if errorlevel 1 goto error
+pushd ..
+doxygen task_03\Doxyfile
+set DOXL=%errorlevel%
+popd
+if %DOXL% neq 0 goto error
 echo  Docs ready: doc\html\index.html
 :docs_done
 

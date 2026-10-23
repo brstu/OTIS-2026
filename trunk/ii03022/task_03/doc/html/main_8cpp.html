@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.18.0"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>OTIS-2026 task_03 - PID controller: src/main.cpp File Reference</title>
+<title>OTIS-2026 task_03 - PID controller: task_03/src/main.cpp File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="codefolding.js"></script>
 <script type="text/javascript" src="clipboard.js"></script>
@@ -118,17 +118,21 @@ document.addEventListener('DOMContentLoaded',() => { initNavTree('main_8cpp.html
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;cstdio&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
-<code>#include &quot;<a class="el" href="_model_8h_source.html">Model.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_model_011_88_8h_source.html">Model 1.8.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_model_012_82_8h_source.html">Model 2.2.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_model_013_86_8h_source.html">Model 3.6.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="_stability_analyzer_8h_source.html">StabilityAnalyzer.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_model_8h_source.html">../../task_01/src/Model.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_model_011_88_8h_source.html">../../task_01/src/Model 1.8.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_model_012_82_8h_source.html">../../task_01/src/Model 2.2.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_model_013_86_8h_source.html">../../task_02/src/Model 3.6.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="_stability_analyzer_8h_source.html">../../task_02/src/StabilityAnalyzer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="_p_i_d_controller_8h_source.html">PIDController.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 id="header-func-members" class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a4e0d32f0a711bb6dd52667506eedf5df" id="r_a4e0d32f0a711bb6dd52667506eedf5df"><td class="memItemLeft">double&#160;</td><td class="memItemRight"><a class="el" href="#a4e0d32f0a711bb6dd52667506eedf5df">checkInputDouble</a> (const std::string &amp;text)</td></tr>
 <tr class="memitem:a8079c02b17723d1428cb1a07e155f550" id="r_a8079c02b17723d1428cb1a07e155f550"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#a8079c02b17723d1428cb1a07e155f550">checkInputInt</a> (const std::string &amp;text, int minVal, int maxVal)</td></tr>
+<tr class="memitem:abfa71880fe3b00883b1b0ff358b9c250" id="r_abfa71880fe3b00883b1b0ff358b9c250"><td class="memItemLeft">std::unique_ptr&lt; <a class="el" href="class_model.html">Model</a> &gt;&#160;</td><td class="memItemRight"><a class="el" href="#abfa71880fe3b00883b1b0ff358b9c250">createPlant</a> (int user_choice)</td></tr>
+<tr class="memitem:ad5bd9e0f95ed3a9b1c1e02eca11914fc" id="r_ad5bd9e0f95ed3a9b1c1e02eca11914fc"><td class="memItemLeft"><a class="el" href="class_p_i_d_controller.html">PIDController</a>&#160;</td><td class="memItemRight"><a class="el" href="#ad5bd9e0f95ed3a9b1c1e02eca11914fc">createPid</a> ()</td></tr>
+<tr class="memitem:abd9c5882f22b514430241ad0e25c6082" id="r_abd9c5882f22b514430241ad0e25c6082"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#abd9c5882f22b514430241ad0e25c6082">selectMode</a> (int &amp;mode, int &amp;n, double &amp;eps)</td></tr>
+<tr class="memitem:a0326f90467638f9a9e02602880e1211f" id="r_a0326f90467638f9a9e02602880e1211f"><td class="memItemLeft">void&#160;</td><td class="memItemRight"><a class="el" href="#a0326f90467638f9a9e02602880e1211f">simulate</a> (<a class="el" href="class_model.html">Model</a> &amp;plant, <a class="el" href="class_p_i_d_controller.html">PIDController</a> &amp;pid, double w, int mode, int n, double eps, std::ofstream &amp;file)</td></tr>
 <tr class="memitem:ae66f6b31b5ad750f1fe042a706a4e3d4" id="r_ae66f6b31b5ad750f1fe042a706a4e3d4"><td class="memItemLeft">int&#160;</td><td class="memItemRight"><a class="el" href="#ae66f6b31b5ad750f1fe042a706a4e3d4">main</a> ()</td></tr>
 </table>
 <a name="doc-func-members" id="doc-func-members"></a><h2 id="header-doc-func-members" class="groupheader">Function Documentation</h2>
@@ -175,6 +179,40 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="ad5bd9e0f95ed3a9b1c1e02eca11914fc" name="ad5bd9e0f95ed3a9b1c1e02eca11914fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad5bd9e0f95ed3a9b1c1e02eca11914fc">&#9670;&#160;</a></span>createPid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="class_p_i_d_controller.html">PIDController</a> createPid </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abfa71880fe3b00883b1b0ff358b9c250" name="abfa71880fe3b00883b1b0ff358b9c250"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abfa71880fe3b00883b1b0ff358b9c250">&#9670;&#160;</a></span>createPlant()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt; <a class="el" href="class_model.html">Model</a> &gt; createPlant </td>
+          <td>(</td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>user_choice</em></span></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae66f6b31b5ad750f1fe042a706a4e3d4" name="ae66f6b31b5ad750f1fe042a706a4e3d4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae66f6b31b5ad750f1fe042a706a4e3d4">&#9670;&#160;</a></span>main()</h2>
 
@@ -186,6 +224,78 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="abd9c5882f22b514430241ad0e25c6082" name="abd9c5882f22b514430241ad0e25c6082"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd9c5882f22b514430241ad0e25c6082">&#9670;&#160;</a></span>selectMode()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void selectMode </td>
+          <td>(</td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int &amp;</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double &amp;</td>          <td class="paramname"><span class="paramname"><em>eps</em></span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a0326f90467638f9a9e02602880e1211f" name="a0326f90467638f9a9e02602880e1211f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0326f90467638f9a9e02602880e1211f">&#9670;&#160;</a></span>simulate()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void simulate </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="class_model.html">Model</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>plant</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="class_p_i_d_controller.html">PIDController</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>pid</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>w</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>mode</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int</td>          <td class="paramname"><span class="paramname"><em>n</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double</td>          <td class="paramname"><span class="paramname"><em>eps</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::ofstream &amp;</td>          <td class="paramname"><span class="paramname"><em>file</em></span>&#160;)</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -205,7 +315,7 @@ Functions</h2></td></tr>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a href="main_8cpp.html">main.cpp</a></li>
+    <li class="navelem"><a href="dir_ecda9a5226675c1eac62389b474445f1.html">task_03</a></li><li class="navelem"><a href="dir_3b8f5334fb64880bb41881ce5b78ecce.html">src</a></li><li class="navelem"><a href="main_8cpp.html">main.cpp</a></li>
     <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.18.0 </li>
   </ul>
 </div>

@@ -1,4 +1,3 @@
-5
 PROJECT_NAME      = "OTIS-2026 task_03 - PID controller"
 PROJECT_BRIEF     = "PID regulation of plant models 1.8 / 2.2 / 3.6 (ii03022)"
 
