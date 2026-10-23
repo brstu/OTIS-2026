@@ -17,4 +17,4 @@ target_include_directories(task2_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/../sr
 target_link_libraries(task2_tests PRIVATE GTest::gtest_main)
 
 include(GoogleTest)
-gtest_discover_tests(task2_tests)   
+gtest_discover_tests(task2_tests)   # ctest увидит каждый тест отдельно

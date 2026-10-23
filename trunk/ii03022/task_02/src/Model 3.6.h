@@ -1,5 +1,5 @@
 #pragma once
-#include "Model.h"
+#include "../../task_01/src/Model.h"
 
 class CubicGrowthAndControlModel : public Model{
     private:
