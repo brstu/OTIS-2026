@@ -2,9 +2,12 @@
 
 class PIDController{
     private:
-        double Kp, Ki, Kd;       // коэффициенты регулятора
+        double Kp;
+        double Ki;
+        double Kd;       // коэффициенты регулятора
         double dt;               // шаг квантования
-        double uMin, uMax;       // физические пределы актуатора
+        double uMin;
+        double uMax;       // физические пределы актуатора
         double u_prev  = 0;      // u(t-1)
         double e_prev1 = 0;      // e(t-1)
         double e_prev2 = 0;      // e(t-2)
@@ -29,6 +32,8 @@ class PIDController{
         }
 
         void reset(){
-            u_prev = e_prev1 = e_prev2 = 0;
+            u_prev = 0;
+            e_prev1 = 0;
+            e_prev2 = 0;
         }
 };

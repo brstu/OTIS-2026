@@ -5,15 +5,19 @@
 #include <cstdio>
 #include <memory>
 
-#include "Model.h"
-#include "Model 1.8.h"
-#include "Model 2.2.h"
-#include "Model 3.6.h"
-#include "StabilityAnalyzer.h"
+#include "../../task_01/src/Model.h"
+#include "../../task_01/src/Model 1.8.h"
+#include "../../task_01/src/Model 2.2.h"
+#include "../../task_02/src/Model 3.6.h"
+#include "../../task_02/src/StabilityAnalyzer.h"
 #include "PIDController.h"
 
 double checkInputDouble(const std::string& text);
 int checkInputInt(const std::string& text, int minVal, int maxVal);
+std::unique_ptr<Model> createPlant(int user_choice);
+PIDController createPid();
+void selectMode(int& mode, int& n, double& eps);
+void simulate(Model& plant, PIDController& pid, double w, int mode, int n, double eps, std::ofstream& file);
 
 int main(){
     std::remove("pid_result.csv");
@@ -23,7 +27,42 @@ int main(){
     std::cout << " 3 - Model 3.6 (Cubic Growth and Control)" << std::endl;
     int user_choice = checkInputInt("Your choice: ", 1, 3);
 
-    std::unique_ptr<Model> plant;
+    std::unique_ptr<Model> plant = createPlant(user_choice);
+    if (!plant) return 1;
+
+    PIDController pid = createPid();
+
+    double w = checkInputDouble("Target value w (setpoint) = ");
+
+    int mode;
+    int n;
+    double eps = 0;
+    selectMode(mode, n, eps);
+
+    std::cout << std::setw(5)  << "t"
+              << std::setw(12) << "w"
+              << std::setw(12) << "e(t)"
+              << std::setw(12) << "u(t)"
+              << std::setw(12) << "y(t)" << std::endl;
+    std::cout << std::string(53, '-') << std::endl;
+
+    std::ofstream file("pid_result.csv");
+    if (!file){
+        std::cout << "Error: cannot create pid_result.csv" << std::endl;
+        return 1;
+    }
+    file << "t;w;e;u;y" << std::endl;
+    file << std::fixed << std::setprecision(4);
+
+    simulate(*plant, pid, w, mode, n, eps, file);
+    file.close();
+
+    std::cout << std::endl << "Data saved to pid_result.csv" << std::endl;
+    std::cout << "Run 'python plot.py' to draw graphs." << std::endl;
+    return 0;
+}
+
+std::unique_ptr<Model> createPlant(int user_choice){
     switch(user_choice){
         case 1:{
             std::cout << "Model 1.8: y(t+1) = a1*y(t) + a2*y(t-1) + b1*u(t) + b2*u(t-1)" << std::endl;
@@ -31,20 +70,19 @@ int main(){
             double a2 = checkInputDouble("a2 = ");
             double b1 = checkInputDouble("b1 = ");
             double b2 = checkInputDouble("b2 = ");
-            plant = std::make_unique<GeneralizedAutoregressiveLinearModel>(a1, a2, b1, b2);
             std::cout << std::endl;
             printStabilityReport(a1, a2, std::cout);   // модуль сам печатает корни и вердикт
             std::cout << std::endl;
-            if (!isStable(a1, a2)){                    // main решает только: продолжать или нет
+            if (!isStable(a1, a2)){                    // здесь решаем: продолжать или нет
                 std::cout << "Simulate unstable plant? (Y/N): ";
                 std::string answer;
                 std::cin >> answer;
                 if (!(answer == "y" || answer == "Y")){
                     std::cout << "Simulation cancelled." << std::endl;
-                    return 1;
+                    return nullptr;
                 }
             }
-            break;
+            return std::make_unique<GeneralizedAutoregressiveLinearModel>(a1, a2, b1, b2);
         }
         case 2:{
             std::cout << "Model 2.2: y(t+1) = a*y(t) + b*sat(u(t))" << std::endl;
@@ -58,8 +96,7 @@ int main(){
                 if (uMin < uMax) break;
                 std::cout << "uMin must be less than uMax! Enter another numbers." << std::endl;
             }
-            plant = std::make_unique<ActuatorSaturationNonLinearityModel>(a, b, uMin, uMax);
-            break;
+            return std::make_unique<ActuatorSaturationNonLinearityModel>(a, b, uMin, uMax);
         }
         case 3:{
             std::cout << "Model 3.6: dy/dt = a*y^3 + b*u (y = y + h*(a*y^3 + b*u))" << std::endl;
@@ -71,12 +108,13 @@ int main(){
                 if (h > 0) break;
                 std::cout << "h must be positive!" << std::endl;
             }
-            plant = std::make_unique<CubicGrowthAndControlModel>(a, b, h);
-            break;
+            return std::make_unique<CubicGrowthAndControlModel>(a, b, h);
         }
-        default: return 0;
+        default: return nullptr;   // недостижимо: checkInputInt держит диапазон
     }
+}
 
+PIDController createPid(){
     std::cout << std::endl << "PID controller settings:" << std::endl;
     double Kp = checkInputDouble("Kp = ");
     double Ki = checkInputDouble("Ki = ");
@@ -95,16 +133,14 @@ int main(){
         if (uMin < uMax) break;
         std::cout << "uMin must be less than uMax!" << std::endl;
     }
+    return PIDController(Kp, Ki, Kd, dt, uMin, uMax);
+}
 
-    double w = checkInputDouble("Target value w (setpoint) = ");
-
+void selectMode(int& mode, int& n, double& eps){
     std::cout << "Choose simulation mode:" << std::endl;
     std::cout << " 1 - fixed number of steps (n)" << std::endl;
     std::cout << " 2 - until |e| < eps (steady state)" << std::endl;
-    int mode = checkInputInt("Your choice: ", 1, 2);
-
-    int n;
-    double eps = 0;
+    mode = checkInputInt("Your choice: ", 1, 2);
     if (mode == 1){
         n = checkInputInt("Input number of steps (n): ", 1, 100000);
     } else {
@@ -115,31 +151,16 @@ int main(){
         }
         n = 100000;
     }
+}
 
-    PIDController pid(Kp, Ki, Kd, dt, uMin, uMax);
-
-    std::cout << std::setw(5)  << "t"
-              << std::setw(12) << "w"
-              << std::setw(12) << "e(t)"
-              << std::setw(12) << "u(t)"
-              << std::setw(12) << "y(t)" << std::endl;
-    std::cout << std::string(53, '-') << std::endl;
-
-    std::ofstream file("pid_result.csv");
-    if (!file){
-        std::cout << "Error: cannot create pid_result.csv" << std::endl;
-        return 1;
-    }
-    file << "t;w;e;u;y" << std::endl;
-    file << std::fixed << std::setprecision(4);
-
+void simulate(Model& plant, PIDController& pid, double w, int mode, int n, double eps, std::ofstream& file){
     double y = 0;
     int steps = n;
     bool reached = false;
     for (int t = 0; t < n; t++){
         double e = w - y;
         double u = pid.step(w, y);
-        y = plant->nextStep(u);
+        y = plant.nextStep(u);
         std::cout << std::setw(5)  << t
                   << std::setw(12) << std::fixed << std::setprecision(4) << w
                   << std::setw(12) << e
@@ -152,8 +173,6 @@ int main(){
             break;
         }
     }
-    file.close();
-
     std::cout << std::endl;
     if (mode == 2){
         if (reached)
@@ -161,9 +180,6 @@ int main(){
         else
             std::cout << "WARNING: |e| >= eps after " << n << " steps." << std::endl;
     }
-    std::cout << "Data saved to pid_result.csv" << std::endl;
-    std::cout << "Run 'python plot.py' to draw graphs." << std::endl;
-    return 0;
 }
 
 double checkInputDouble(const std::string& text){

@@ -3,9 +3,8 @@
 #include <cmath>
 
 #include "PIDController.h"
-#include "Model 1.8.h"
+#include "../../task_01/src/Model 1.8.h"
 
-// dU = Kp*(e-e1) + Ki*e*dt + (Kd/dt)*(e-2e1+e2),  dt = 1
 TEST(PIDMath, FirstStepIsDirectTerm){
     PIDController pid(2.0, 0.5, 0.2, 1.0, -10.0, 10.0);
     // e=1, история нулевая: dU = 2*1 + 0.5*1 + 0.2*1 = 2.7
@@ -14,8 +13,7 @@ TEST(PIDMath, FirstStepIsDirectTerm){
 
 TEST(PIDMath, SecondStepUsesErrorHistory){
     PIDController pid(2.0, 0.5, 0.2, 1.0, -10.0, 10.0);
-    pid.step(1.0, 0.0);   // u = 2.7
-    // e=0.5, e1=1, e2=0: dU = 2*(0.5-1) + 0.5*0.5 + 0.2*(0.5-2*1) = -1.05
+    pid.step(1.0, 0.0);   
     EXPECT_NEAR(pid.step(1.0, 0.5), 2.7 - 1.05, 1e-12);
 }
 
