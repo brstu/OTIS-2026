@@ -1,5 +1,5 @@
-#pragma once
-
+п»ї#pragma once
+// РљРѕРїРёСЏ РјРѕРґРµР»Рё РёР· Р›Р  в„–1 РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
 #include "Model.h"
 #include <cmath>
 
@@ -35,7 +35,7 @@ public:
         return "Model 2.9 (Square Root Modulated Action)";
     }
 
-    // Нелинейная модель — линейный анализ устойчивости не применим
+    // РќРµР»РёРЅРµР№РЅР°СЏ РјРѕРґРµР»СЊ вЂ” Р»РёРЅРµР№РЅС‹Р№ Р°РЅР°Р»РёР· СѓСЃС‚РѕР№С‡РёРІРѕСЃС‚Рё РЅРµ РїСЂРёРјРµРЅРёРј
     bool isStable() const override { return true; }
     std::string stabilityWarning() const override { return ""; }
 };

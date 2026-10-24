@@ -1,5 +1,5 @@
-#pragma once
-
+п»ї#pragma once
+// РљРѕРїРёСЏ РјРѕРґРµР»Рё РёР· Р›Р  в„–1 РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
 #include "Model.h"
 #include <cmath>
 #include <sstream>
@@ -8,13 +8,13 @@
 // y_{t+1} = a * y_t + b * (u_t - u_{t-1})
 class Model1_4 : public Model {
 private:
-    // Границы устойчивости: |a| < STABILITY_BOUND
+    // Р“СЂР°РЅРёС†С‹ СѓСЃС‚РѕР№С‡РёРІРѕСЃС‚Рё: |a| < STABILITY_BOUND
     static constexpr double STABILITY_BOUND = 1.0;
 
     double a;
     double b;
-    double y = 0.0;        // текущее y_t
-    double u_prev = 0.0;   // предыдущее u_{t-1}
+    double y = 0.0;        // С‚РµРєСѓС‰РµРµ y_t
+    double u_prev = 0.0;   // РїСЂРµРґС‹РґСѓС‰РµРµ u_{t-1}
 
 public:
     Model1_4(double a_, double b_)
@@ -37,8 +37,8 @@ public:
         return "Model 1.4 (Discrete Integrator with Loss)";
     }
 
-    // Устойчивость: характеристическое уравнение z - a = 0, корень z = a
-    // Условие: |a| < 1
+    // РЈСЃС‚РѕР№С‡РёРІРѕСЃС‚СЊ: С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёС‡РµСЃРєРѕРµ СѓСЂР°РІРЅРµРЅРёРµ z - a = 0, РєРѕСЂРµРЅСЊ z = a
+    // РЈСЃР»РѕРІРёРµ: |a| < 1
     bool isStable() const override {
         return std::abs(a) < STABILITY_BOUND;
     }
@@ -51,12 +51,12 @@ public:
 
         std::ostringstream oss;
         if (abs_a == STABILITY_BOUND) {
-            // На границе устойчивости: незатухающие колебания
+            // РќР° РіСЂР°РЅРёС†Рµ СѓСЃС‚РѕР№С‡РёРІРѕСЃС‚Рё: РЅРµР·Р°С‚СѓС…Р°СЋС‰РёРµ РєРѕР»РµР±Р°РЅРёСЏ
             oss << "[WARN] Model 1.4: |a| = 1 (" << a
                 << "), system is on the stability boundary (undamped oscillations).";
         }
         else {
-            // |a| > 1 — система расходится
+            // |a| > 1 вЂ” СЃРёСЃС‚РµРјР° СЂР°СЃС…РѕРґРёС‚СЃСЏ
             oss << "[WARN] Model 1.4: |a| = " << abs_a
                 << " >= 1, system is UNSTABLE, y will diverge!";
         }

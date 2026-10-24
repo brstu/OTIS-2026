@@ -1,3 +1,4 @@
+п»ї// РљРѕРїРёСЏ РјРѕРґРµР»Рё РёР· Р›Р  в„–1 РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -15,7 +16,7 @@
 #include "InputSignals.h"
 
 namespace {
-    // Значения по умолчанию для интерактивного ввода
+    // Р—РЅР°С‡РµРЅРёСЏ РїРѕ СѓРјРѕР»С‡Р°РЅРёСЋ РґР»СЏ РёРЅС‚РµСЂР°РєС‚РёРІРЅРѕРіРѕ РІРІРѕРґР°
     constexpr double DEFAULT_A = 0.9;
     constexpr double DEFAULT_B = 1.0;
     constexpr double DEFAULT_DT = 0.01;
@@ -23,13 +24,13 @@ namespace {
     constexpr int    CSV_PRECISION = 5;
 }
 
-// ---------- Проверка, что строка состоит только из цифр ----------
+// ---------- РџСЂРѕРІРµСЂРєР°, С‡С‚Рѕ СЃС‚СЂРѕРєР° СЃРѕСЃС‚РѕРёС‚ С‚РѕР»СЊРєРѕ РёР· С†РёС„СЂ ----------
 static bool isAllDigits(std::string_view s) {
     return !s.empty() && std::all_of(s.begin(), s.end(),
         [](unsigned char c) { return std::isdigit(c) != 0; });
 }
 
-// ---------- Ввод числа с проверкой ----------
+// ---------- Р’РІРѕРґ С‡РёСЃР»Р° СЃ РїСЂРѕРІРµСЂРєРѕР№ ----------
 static double readDouble(std::string_view prompt, double def) {
     std::cout << prompt << " [default " << def << "]: ";
     std::string line;
@@ -97,7 +98,7 @@ int main() {
     std::cout << " Modeling of a controlled object\n";
     std::cout << "===========================================\n\n";
 
-    // ---------- Выбор модели ----------
+    // ---------- Р’С‹Р±РѕСЂ РјРѕРґРµР»Рё ----------
     std::cout << "Choose a model:\n";
     std::cout << "  1) Model 1.4 - Linear (Discrete Integrator with Loss)\n";
     std::cout << "  2) Model 2.9 - Non-linear (Square Root Modulated Action)\n";
@@ -105,7 +106,7 @@ int main() {
     const int modelChoice = readChoice("Your choice (1-3): ", 1, 3);
     std::cout << "\n";
 
-    // ---------- Коэффициенты ----------
+    // ---------- РљРѕСЌС„С„РёС†РёРµРЅС‚С‹ ----------
     const double a = readDouble("Enter coefficient a", DEFAULT_A);
     const double b = readDouble("Enter coefficient b", DEFAULT_B);
     double dt = DEFAULT_DT;
@@ -113,7 +114,7 @@ int main() {
         dt = readDouble("Enter time step dt", DEFAULT_DT);
     }
 
-    // ---------- Создание модели ----------
+    // ---------- РЎРѕР·РґР°РЅРёРµ РјРѕРґРµР»Рё ----------
     std::unique_ptr<Model> model;
     switch (modelChoice) {
         case 1:
@@ -132,7 +133,7 @@ int main() {
 
     std::cout << "\nModel: " << model->name() << "\n";
 
-    // ---------- Проверка устойчивости ----------
+    // ---------- РџСЂРѕРІРµСЂРєР° СѓСЃС‚РѕР№С‡РёРІРѕСЃС‚Рё ----------
     if (!model->isStable()) {
         if (const std::string warn = model->stabilityWarning(); !warn.empty()) {
             std::cout << "\n!!! WARNING !!!\n" << warn << "\n";
@@ -146,7 +147,7 @@ int main() {
         }
     }
 
-    // ---------- Выбор входного сигнала ----------
+    // ---------- Р’С‹Р±РѕСЂ РІС…РѕРґРЅРѕРіРѕ СЃРёРіРЅР°Р»Р° ----------
     std::cout << "\nChoose input signal:\n";
     std::cout << "  1) Step\n";
     std::cout << "  2) Impulse\n";
@@ -170,14 +171,14 @@ int main() {
     }
     std::cout << "Signal: " << signal->name() << "\n";
 
-    // ---------- Кол-во шагов ----------
+    // ---------- РљРѕР»-РІРѕ С€Р°РіРѕРІ ----------
     const int n = readInt("\nEnter number of simulation steps n", DEFAULT_N);
     if (n <= 0) {
         std::cout << "n must be > 0\n";
         return 1;
     }
 
-    // ---------- Симуляция ----------
+    // ---------- РЎРёРјСѓР»СЏС†РёСЏ ----------
     std::cout << "\n===========================================\n";
     std::cout << std::left
         << std::setw(6) << "tau"
@@ -222,7 +223,7 @@ int main() {
 
     std::cout << "Done.\n";
     std::cout << "\nPress Enter to exit...";
-    std::cin.ignore(10000, '\n');  // очистить оставшийся буфер
-    std::cin.get();                 // ждать нажатия Enter
+    std::cin.ignore(10000, '\n');  // РѕС‡РёСЃС‚РёС‚СЊ РѕСЃС‚Р°РІС€РёР№СЃСЏ Р±СѓС„РµСЂ
+    std::cin.get();                 // Р¶РґР°С‚СЊ РЅР°Р¶Р°С‚РёСЏ Enter
     return 0;
 }

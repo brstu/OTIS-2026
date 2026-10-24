@@ -1,18 +1,18 @@
-#pragma once
-
+п»ї#pragma once
+// РљРѕРїРёСЏ РјРѕРґРµР»Рё РёР· Р›Р  в„–1 РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
 #include <cmath>
 #include <string>
 
-// Базовый класс генератора входного сигнала u_tau
+// Р‘Р°Р·РѕРІС‹Р№ РєР»Р°СЃСЃ РіРµРЅРµСЂР°С‚РѕСЂР° РІС…РѕРґРЅРѕРіРѕ СЃРёРіРЅР°Р»Р° u_tau
 class InputSignal {
 public:
     virtual ~InputSignal() = default;
-    // tau начинается с 1 (первый шаг)
+    // tau РЅР°С‡РёРЅР°РµС‚СЃСЏ СЃ 1 (РїРµСЂРІС‹Р№ С€Р°Рі)
     virtual double value(int tau) const = 0;
     virtual std::string name() const = 0;
 };
 
-// Ступенчатое: u_tau = const
+// РЎС‚СѓРїРµРЅС‡Р°С‚РѕРµ: u_tau = const
 class StepInput : public InputSignal {
 private:
     static constexpr double DEFAULT_AMPLITUDE = 1.0;
@@ -30,7 +30,7 @@ public:
     }
 };
 
-// Импульсное: u_1 = 1, u_{tau>1} = 0
+// РРјРїСѓР»СЊСЃРЅРѕРµ: u_1 = 1, u_{tau>1} = 0
 class ImpulseInput : public InputSignal {
 public:
     double value(int tau) const override {
@@ -41,7 +41,7 @@ public:
     }
 };
 
-// Гармоническое: u_tau = sin(tau)
+// Р“Р°СЂРјРѕРЅРёС‡РµСЃРєРѕРµ: u_tau = sin(tau)
 class HarmonicInput : public InputSignal {
 public:
     double value(int tau) const override {

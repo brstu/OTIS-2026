@@ -1,11 +1,11 @@
-#pragma once
-
+п»ї#pragma once
+// РљРѕРїРёСЏ РјРѕРґРµР»Рё РёР· Р›Р  в„–1 РґР»СЏ С‚РµСЃС‚РёСЂРѕРІР°РЅРёСЏ
 #include "Model.h"
 #include <cmath>
 
 // Model 3.1: Pure Linear Decay
 // dy/dt = -a * y
-// Дискретизация методом Эйлера: y_{t+1} = y_t + dt * (-a * y_t)
+// Р”РёСЃРєСЂРµС‚РёР·Р°С†РёСЏ РјРµС‚РѕРґРѕРј Р­Р№Р»РµСЂР°: y_{t+1} = y_t + dt * (-a * y_t)
 class Model3_1 : public Model {
 private:
     static constexpr double DEFAULT_DT = 0.01;
@@ -21,7 +21,7 @@ public:
         : a(a_), dt(dt_) {}
 
     double next(double /*u*/) override {
-        // Вход u не используется: dy/dt = -a*y
+        // Р’С…РѕРґ u РЅРµ РёСЃРїРѕР»СЊР·СѓРµС‚СЃСЏ: dy/dt = -a*y
         const double dy = -a * y;
         y = y + dt * dy;
         return y;
@@ -35,13 +35,13 @@ public:
         return "Model 3.1 (Pure Linear Decay)";
     }
 
-    // Устойчивость дискретизации Эйлера: |1 - a*dt| < 1
+    // РЈСЃС‚РѕР№С‡РёРІРѕСЃС‚СЊ РґРёСЃРєСЂРµС‚РёР·Р°С†РёРё Р­Р№Р»РµСЂР°: |1 - a*dt| < 1
     bool isStable() const override {
         return std::abs(1.0 - a * dt) < STABILITY_BOUND;
     }
 
     std::string stabilityWarning() const override {
-        // Проверяем условие устойчивости дискретизации Эйлера
+        // РџСЂРѕРІРµСЂСЏРµРј СѓСЃР»РѕРІРёРµ СѓСЃС‚РѕР№С‡РёРІРѕСЃС‚Рё РґРёСЃРєСЂРµС‚РёР·Р°С†РёРё Р­Р№Р»РµСЂР°
         if (const double z = 1.0 - a * dt; std::abs(z) < STABILITY_BOUND) { 
             return ""; 
         }
