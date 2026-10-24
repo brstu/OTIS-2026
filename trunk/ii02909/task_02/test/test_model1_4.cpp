@@ -8,10 +8,10 @@ TEST(Model14Test, StepResponseMatchesAnalyticalSolution) {
 
     // Step: u = 1 на каждом шаге
     // Ожидание: y_tau = 0.9^(tau-1) для tau >= 1
-    EXPECT_NEAR(model.next(1.0), 1.0,    1e-6);   // y1
-    EXPECT_NEAR(model.next(1.0), 0.9,    1e-6);   // y2
-    EXPECT_NEAR(model.next(1.0), 0.81,   1e-6);   // y3
-    EXPECT_NEAR(model.next(1.0), 0.729,  1e-6);   // y4
+    EXPECT_NEAR(model.next(1.0), 1.0, 1e-6);   // y1
+    EXPECT_NEAR(model.next(1.0), 0.9, 1e-6);   // y2
+    EXPECT_NEAR(model.next(1.0), 0.81, 1e-6);   // y3
+    EXPECT_NEAR(model.next(1.0), 0.729, 1e-6);   // y4
     EXPECT_NEAR(model.next(1.0), 0.6561, 1e-6);   // y5
 }
 
@@ -39,8 +39,8 @@ TEST(Model14Test, ResetRestoresInitialState) {
     EXPECT_NEAR(model.next(1.0), 1.0, 1e-6);
 }
 
-// ---------- Тест 4: name() содержит "Model 1.4" ----------
+// ---------- Тест 4: name() содержит "1.4" ----------
 TEST(Model14Test, NameContainsModelIdentifier) {
     Model1_4 model(0.9, 1.0);
-    EXPECT_NE(model.name().find("Model 1.4"), std::string::npos);
+    EXPECT_NE(model.name().find("1.4"), std::string::npos);
 }

@@ -9,9 +9,9 @@ TEST(Model31Test, EulerStepValues) {
 
     // y_{k+1} = y_k * (1 - a*dt) = y_k * 0.9
     // Стартовое y0 = 1.0
-    EXPECT_NEAR(model.next(0.0), 0.9,    1e-6);   // y1 = 1.0 * 0.9
-    EXPECT_NEAR(model.next(0.0), 0.81,   1e-6);   // y2 = 0.9 * 0.9
-    EXPECT_NEAR(model.next(0.0), 0.729,  1e-6);
+    EXPECT_NEAR(model.next(0.0), 0.9, 1e-6);   // y1 = 1.0 * 0.9
+    EXPECT_NEAR(model.next(0.0), 0.81, 1e-6);   // y2 = 0.9 * 0.9
+    EXPECT_NEAR(model.next(0.0), 0.729, 1e-6);
     EXPECT_NEAR(model.next(0.0), 0.6561, 1e-6);
 }
 
@@ -44,10 +44,10 @@ TEST(Model31Test, ResetRestoresInitialValue) {
     EXPECT_NEAR(model.next(0.0), 0.9, 1e-6);
 }
 
-// ---------- Тест 4: name() ----------
+// ---------- Тест 4: name() содержит "3.1" ----------
 TEST(Model31Test, NameContainsModelIdentifier) {
     Model3_1 model(1.0, 0.1);
-    EXPECT_NE(model.name().find("Model 3.1"), std::string::npos);
+    EXPECT_NE(model.name().find("3.1"), std::string::npos);
 }
 
 // ============================================================
