@@ -6,6 +6,7 @@
 #include <string_view>
 #include <cctype>
 #include <algorithm>
+#include <cstdlib>
 
 #include "Model.h"
 #include "Model1_4.h"
@@ -178,22 +179,25 @@ int main() {
 
     // ---------- —имул€ци€ ----------
     std::cout << "\n===========================================\n";
-    std::cout << std::setw(6) << "tau"
-        << std::setw(14) << "u_tau"
-        << std::setw(14) << "y_tau" << "\n";
+    std::cout << std::left
+        << std::setw(6) << "tau"
+        << std::setw(16) << "u_tau"
+        << std::setw(16) << "y_tau" << "\n";
     std::cout << "-------------------------------------------\n";
 
     std::ofstream csv("result.csv");
     csv << "tau,u_tau,y_tau\n";
 
     model->reset();
+    model->reset();
     for (int tau = 1; tau <= n; ++tau) {
         const double u = signal->value(tau);
         const double y = model->next(u);
 
-        std::cout << std::setw(6) << tau
-            << std::setw(14) << std::fixed << std::setprecision(CSV_PRECISION) << u
-            << std::setw(14) << std::fixed << std::setprecision(CSV_PRECISION) << y
+        std::cout << std::left
+            << std::setw(6) << tau
+            << std::setw(16) << std::fixed << std::setprecision(CSV_PRECISION) << u
+            << std::setw(16) << std::fixed << std::setprecision(CSV_PRECISION) << y
             << "\n";
 
         csv << tau << "," << u << "," << y << "\n";
@@ -202,7 +206,23 @@ int main() {
     csv.close();
     std::cout << "-------------------------------------------\n";
     std::cout << "Results saved to result.csv\n";
-    std::cout << "Done.\n";
 
+#ifdef _WIN32
+    std::cout << "\nBuilding plot with Python...\n";
+    const int py_status = std::system("python plot_results.py result.csv last_run.png \"Simulation result\"");
+    if (py_status == 0) {
+        std::cout << "Plot saved to last_run.png\n";
+        std::cout << "Opening plot...\n";
+        std::system("start last_run.png");
+    }
+    else {
+        std::cerr << "Warning: Python script failed. Check if python and matplotlib are installed.\n";
+    }
+#endif
+
+    std::cout << "Done.\n";
+    std::cout << "\nPress Enter to exit...";
+    std::cin.ignore(10000, '\n');  // очистить оставшийс€ буфер
+    std::cin.get();                 // ждать нажати€ Enter
     return 0;
 }
