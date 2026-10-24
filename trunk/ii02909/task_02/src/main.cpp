@@ -14,6 +14,7 @@
 #include "Model2_9.h"
 #include "Model3_1.h"
 #include "InputSignals.h"
+
 // ============================================================
 // main.cpp для ЛР №2.
 // Логика программы не изменялась по сравнению с ЛР №1.
@@ -97,10 +98,11 @@ static int readChoice(std::string_view prompt, int lo, int hi) {
 }
 
 int main() {
-    std::cout << "===========================================\n";
-    std::cout << " Lab #1 (OTIS) - ii02909\n";
-    std::cout << " Modeling of a controlled object\n";
-    std::cout << "===========================================\n\n";
+    std::cout << "\n+-----------------------------------------+\n";
+    std::cout << "|  ЛАБОРАТОРНАЯ РАБОТА №2 (ТЕСТЫ)         |\n";
+    std::cout << "|  Студент: Игнатюк Д.А. (ii02909)        |\n";
+    std::cout << "|  Моделирование управляемого объекта     |\n";
+    std::cout << "+-----------------------------------------+\n\n";
 
     // ---------- Выбор модели ----------
     std::cout << "Choose a model:\n";
@@ -121,18 +123,18 @@ int main() {
     // ---------- Создание модели ----------
     std::unique_ptr<Model> model;
     switch (modelChoice) {
-        case 1:
-            model = std::make_unique<Model1_4>(a, b);
-            break;
-        case 2:
-            model = std::make_unique<Model2_9>(a, b);
-            break;
-        case 3:
-            model = std::make_unique<Model3_1>(a, dt);
-            break;
-        default:
-            std::cerr << "Unknown model choice\n";
-            return 1;
+    case 1:
+        model = std::make_unique<Model1_4>(a, b);
+        break;
+    case 2:
+        model = std::make_unique<Model2_9>(a, b);
+        break;
+    case 3:
+        model = std::make_unique<Model3_1>(a, dt);
+        break;
+    default:
+        std::cerr << "Unknown model choice\n";
+        return 1;
     }
 
     std::cout << "\nModel: " << model->name() << "\n";
@@ -160,18 +162,18 @@ int main() {
 
     std::unique_ptr<InputSignal> signal;
     switch (sigChoice) {
-        case 1:
-            signal = std::make_unique<StepInput>();
-            break;
-        case 2:
-            signal = std::make_unique<ImpulseInput>();
-            break;
-        case 3:
-            signal = std::make_unique<HarmonicInput>();
-            break;
-        default:
-            std::cerr << "Unknown signal choice\n";
-            return 1;
+    case 1:
+        signal = std::make_unique<StepInput>();
+        break;
+    case 2:
+        signal = std::make_unique<ImpulseInput>();
+        break;
+    case 3:
+        signal = std::make_unique<HarmonicInput>();
+        break;
+    default:
+        std::cerr << "Unknown signal choice\n";
+        return 1;
     }
     std::cout << "Signal: " << signal->name() << "\n";
 
@@ -193,7 +195,6 @@ int main() {
     std::ofstream csv("result.csv");
     csv << "tau,u_tau,y_tau\n";
 
-    model->reset();
     model->reset();
     for (int tau = 1; tau <= n; ++tau) {
         const double u = signal->value(tau);

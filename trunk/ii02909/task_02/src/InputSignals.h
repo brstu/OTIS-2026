@@ -1,18 +1,23 @@
 ﻿#pragma once
-// Копия модели из ЛР №1 для тестирования
+// ============================================================
+// Заголовочный файл для генераторов входных сигналов.
+// Используется в ЛР №2 для тестирования моделей.
+// ============================================================
+
 #include <cmath>
 #include <string>
 
-// Базовый класс генератора входного сигнала u_tau
+// Базовый абстрактный класс для всех входных воздействий
 class InputSignal {
 public:
     virtual ~InputSignal() = default;
-    // tau начинается с 1 (первый шаг)
+    // Получить значение сигнала на шаге tau (начинается с 1)
     virtual double value(int tau) const = 0;
+    // Название сигнала (для вывода в консоль)
     virtual std::string name() const = 0;
 };
 
-// Ступенчатое: u_tau = const
+// Ступенчатое воздействие (постоянное значение)
 class StepInput : public InputSignal {
 private:
     static constexpr double DEFAULT_AMPLITUDE = 1.0;
@@ -26,28 +31,28 @@ public:
     }
 
     std::string name() const override {
-        return "Step (u = const = " + std::to_string(amplitude) + ")";
+        return "Constant Step Signal (A = " + std::to_string(amplitude) + ")";
     }
 };
 
-// Импульсное: u_1 = 1, u_{tau>1} = 0
+// Импульсное воздействие (одиночный скачок на первом шаге)
 class ImpulseInput : public InputSignal {
 public:
     double value(int tau) const override {
         return (tau == 1) ? 1.0 : 0.0;
     }
     std::string name() const override {
-        return "Impulse (u_1 = 1, u_tau>1 = 0)";
+        return "Single Impulse (tau=1)";
     }
 };
 
-// Гармоническое: u_tau = sin(tau)
+// Гармоническое воздействие (синусоида)
 class HarmonicInput : public InputSignal {
 public:
     double value(int tau) const override {
         return std::sin(static_cast<double>(tau));
     }
     std::string name() const override {
-        return "Harmonic (u_tau = sin(tau))";
+        return "Harmonic Sine Wave";
     }
 };
