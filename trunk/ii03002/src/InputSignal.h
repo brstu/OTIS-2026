@@ -1,7 +1,6 @@
-#ifndef INPUT_SIGNAL_H
-#define INPUT_SIGNAL_H
-
+#pragma once
 #include <string>
+#include <string_view>
 
 enum class SignalType {
     STEP,
@@ -11,8 +10,6 @@ enum class SignalType {
 
 class InputSignal {
 public:
-    static double getSignal(SignalType type, int tau);
-    static std::string getSignalName(SignalType type);
+    static double getSignal(SignalType sig_type, int time_index);
+    static std::string getSignalName(SignalType sig_type);
 };
-
-#endif

@@ -1,19 +1,25 @@
-#ifndef MODEL_H
-#define MODEL_H
+#pragma once
 
 class Model {
-private:
-    double y;
+protected:
+    double m_y{0.0};
 
 public:
-    explicit Model(double initial_y = 0.0) : y(initial_y) {}
+    Model() = default;
+    explicit Model(double start_val) : m_y(start_val) {}
     virtual ~Model() = default;
 
-    virtual double step(double u) = 0;
+    virtual double step(double input_u) = 0;
 
-    double getY() const { return y; }
-    void setY(double new_y) { y = new_y; }
-    virtual void reset(double initial_y = 0.0) { y = initial_y; }
+    [[nodiscard]] double getY() const noexcept { 
+        return m_y; 
+    }
+    
+    void setY(double next_val) noexcept { 
+        m_y = next_val; 
+    }
+    
+    virtual void reset(double start_val = 0.0) { 
+        m_y = start_val; 
+    }
 };
-
-#endif
