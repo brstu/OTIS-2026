@@ -19,10 +19,10 @@ public:
 
     double advance(double u) override
     {
-        double y_next = a1 * y + a2 * y_prev + b * u;
-        y_prev = y;
-        y = y_next;
-        return y;
+    double y_next = a1 * y + a2 * y_prev + b * u;
+    y_prev = y;
+    y = y_next;
+    return y;
     }
 
     void reset() override
