@@ -35,4 +35,4 @@ public:
     {
         return "Model 1.3 (Oscillatory)";
     }
-}
+};

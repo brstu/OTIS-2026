@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <memory>
 #include <string>
-#include <cstdlib>
+#include <cstdlib> 
 
 #include "DynamicModel.h"
 #include "SignalGenerator.h"
@@ -88,16 +88,11 @@ int main()
     std::cout << "--------------------------------------------\n";
     std::cout << "Results saved to result.csv\n";
 
-    // --- Автоматический запуск Python для построения графика ---
     std::cout << "Generating plot with Python...\n";
-
-    // Вызываем Python. Обрати внимание на путь к скрипту.
     const std::string plotCmd = "python ../../plot_results.py result.csv plot.png \"Simulation Result\"";
-
     if (const int result = std::system(plotCmd.c_str()); result == 0) // NOSONAR
     {
         std::cout << "[OK] Plot generated. Opening in default viewer...\n";
-        // Открываем картинку в просмотрщике Windows
         std::system("start plot.png");
     }
     else
