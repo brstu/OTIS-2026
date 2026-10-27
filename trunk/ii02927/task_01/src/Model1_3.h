@@ -13,8 +13,8 @@ private:
 
 public:
     Model1_3(double a1_, double a2_, double b_)
-        : a1(a1_), a2(a2_), b(b_) {
-    }
+        : a1(a1_), a2(a2_), b(b_) 
+    {
     }
 
     double advance(double u) override
@@ -35,4 +35,3 @@ public:
     {
         return "Model 1.3 (Oscillatory)";
     }
-};
