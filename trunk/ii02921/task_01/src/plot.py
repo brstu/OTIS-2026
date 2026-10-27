@@ -3,18 +3,22 @@ import os
 import csv
 import matplotlib.pyplot as plt
 
+# Определяем константы для имен файлов во избежание дублирования литералов
+CSV_NAME = "results.csv"
+PLOT_NAME = "plot.png"
+
 # Определяем абсолютный путь к папке src и к корневой папке ii02921
 SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.abspath(os.path.join(SRC_DIR, ".."))
 
 # CSV файл гарантированно ищется в корневой папке ii02921
-csv_file = os.path.join(ROOT_DIR, "results.csv")
+csv_file = os.path.join(ROOT_DIR, CSV_NAME)
 
 # Если файл еще не создан в корне, проверяем резервные пути (текущая директория или build)
 if not os.path.exists(csv_file):
-    csv_file = "results.csv"
+    csv_file = CSV_NAME
 if not os.path.exists(csv_file):
-    csv_file = os.path.join(ROOT_DIR, "build", "src", "results.csv")
+    csv_file = os.path.join(ROOT_DIR, "build", "src", CSV_NAME)
 
 # Папка doc гарантированно находится в корне ii02921/doc
 doc_dir = os.path.join(ROOT_DIR, "doc")
@@ -51,7 +55,7 @@ plt.legend()
 plt.tight_layout()
 
 # Сохранение графика ровно в ii02921/doc/plot.png
-save_path = os.path.join(doc_dir, "plot.png")
+save_path = os.path.join(doc_dir, PLOT_NAME)
 plt.savefig(save_path, dpi=300)
 plt.close()
 

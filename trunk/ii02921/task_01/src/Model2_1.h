@@ -10,7 +10,7 @@ private:
     double c;
     double d;
     double y_prev;
-    double u_prev;
+    double u_prev = 0.0; // Инициализация прямо в классе для соответствия cpp:S3230
 
 public:
     explicit Model2_1(double a_val, double b_val, double c_val, double d_val, double initial_y = 0.0);
@@ -18,4 +18,4 @@ public:
     void reset(double initial_y = 0.0) override;
 };
 
-#endif
+#endif // MODEL2_1_H
