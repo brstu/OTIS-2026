@@ -76,7 +76,9 @@ int main() {
 		}
 		selectedModel = std::make_unique<model3_5>(b3, dt);
 		modelName = "Model 3.5";
-
+		
+	default:
+		return 1;
 	}
 
 	unsigned int in;
@@ -92,6 +94,7 @@ int main() {
 	case 1: inputName = "Step"; break;
 	case 2: inputName = "Impulse"; break;
 	case 3: inputName = "Harmonic"; break;
+	default: return 1;
 	}
 
 	std::cout << "\n" << std::setw(6) << "tau"
