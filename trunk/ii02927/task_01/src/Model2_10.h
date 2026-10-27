@@ -7,10 +7,12 @@
 class Model2_10 : public DynamicModel
 {
 private:
-    double a, b, y;
+    double a;
+    double b;
+    double y = 0.0;
 
 public:
-    Model2_10(double a_, double b_) : a(a_), b(b_), y(0.0) {}
+    Model2_10(double a_, double b_) : a(a_), b(b_) {}
 
     double advance(double u) override
     {

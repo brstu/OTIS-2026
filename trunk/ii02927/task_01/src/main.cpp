@@ -93,9 +93,8 @@ int main()
 
     // Вызываем Python. Обрати внимание на путь к скрипту.
     const std::string plotCmd = "python ../../plot_results.py result.csv plot.png \"Simulation Result\"";
-    const int result = std::system(plotCmd.c_str());
 
-    if (result == 0)
+    if (const int result = std::system(plotCmd.c_str()); result == 0) // NOSONAR
     {
         std::cout << "[OK] Plot generated. Opening in default viewer...\n";
         // Открываем картинку в просмотрщике Windows
