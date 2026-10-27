@@ -13,16 +13,16 @@ private:
 
 public:
     Model1_3(double a1_, double a2_, double b_)
-        : a1(a1_), a2(a2_), b(b_) 
+        : a1(a1_), a2(a2_), b(b_)
     {
     }
 
     double advance(double u) override
     {
-    double y_next = a1 * y + a2 * y_prev + b * u;
-    y_prev = y;
-    y = y_next;
-    return y;
+        double y_next = a1 * y + a2 * y_prev + b * u;
+        y_prev = y;
+        y = y_next;
+        return y;
     }
 
     void reset() override
@@ -35,3 +35,4 @@ public:
     {
         return "Model 1.3 (Oscillatory)";
     }
+}
