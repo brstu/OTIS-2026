@@ -18,7 +18,8 @@ double ask(const string& text, double def) {
 }
 
 int main(int argc, char** argv) {
-    filesystem::path outDir = (argc > 1) ? argv[1] : ".";
+    // Папка для результатов: первый аргумент (по умолчанию - текущая)
+    const filesystem::path outDir = (argc > 1) ? argv[1] : ".";
     filesystem::create_directories(outDir);
 
     cout << "=== Lab 1, variant 4: Model 1.4, Model 2.6, Model 3.8 ===\n";
@@ -74,24 +75,34 @@ int main(int argc, char** argv) {
 
     for (InputType type : inputs) {
         vector<unique_ptr<Model>> models;
-        if (use14) models.push_back(make_unique<LinearModel14>(a, b));
-        if (use26) models.push_back(make_unique<NonlinearModel26>(a1, a2, b2));
-        if (use38) models.push_back(make_unique<DiffModel38>(c1, c2, b3, dt));
+        if (use14) {
+            models.push_back(make_unique<LinearModel14>(a, b));
+        }
+        if (use26) {
+            models.push_back(make_unique<NonlinearModel26>(a1, a2, b2));
+        }
+        if (use38) {
+            models.push_back(make_unique<DiffModel38>(c1, c2, b3, dt));
+        }
 
         cout << "\n########## Входное воздействие: " << inputName(type) << " ##########\n";
 
         ofstream csv(outDir / ("results_" + inputName(type) + ".csv"));
         csv << "tau,u";
-        for (const auto& m : models) csv << "," << m->name();
+        for (const auto& m : models) {
+            csv << "," << m->name();
+        }
         csv << "\n";
 
         cout << fixed << setprecision(5);
         cout << setw(5) << "tau" << setw(12) << "u";
-        for (const auto& m : models) cout << setw(14) << m->name();
+        for (const auto& m : models) {
+            cout << setw(14) << m->name();
+        }
         cout << "\n";
 
         for (int tau = 0; tau <= n; tau++) {
-            double u = inputValue(type, tau, u0);
+            const double u = inputValue(type, tau, u0);
 
             // Выводим y_tau
             cout << setw(5) << tau << setw(12) << u;
@@ -104,7 +115,9 @@ int main(int argc, char** argv) {
             csv << "\n";
 
             // Считаем y_{tau+1}
-            for (const auto& m : models) m->nextStep(u);
+            for (const auto& m : models) {
+                m->nextStep(u);
+            }
         }
     }
     cout << "\nРезультаты сохранены в: " << outDir.string() << "\n";
