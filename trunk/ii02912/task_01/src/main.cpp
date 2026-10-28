@@ -1,3 +1,5 @@
+#include <cerrno>
+#include <cmath>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
@@ -16,7 +18,6 @@ namespace fs = std::filesystem;
 #define PLOT_SCRIPT "plot.py"
 #endif
 
-
 static std::string readLine(const std::string& prompt) {
     std::cout << prompt;
     std::string s;
@@ -30,16 +31,43 @@ static std::string fmt(double v) {
     std::ostringstream os; os << v; return os.str();
 }
 
+static bool parseDouble(std::string s, double& out) {
+    for (char& c : s) {
+        if (c == ',') {
+            c = '.';
+        }
+    }
+    char* end = nullptr;
+    errno = 0;
+    const double v = std::strtod(s.c_str(), &end);
+    if (end == s.c_str() || *end != '\0' || errno == ERANGE || !std::isfinite(v)) {
+        return false;
+    }
+    out = v;
+    return true;
+}
+
+static bool parseInt(const std::string& s, int lo, int hi, int& out) {
+    char* end = nullptr;
+    errno = 0;
+    const long v = std::strtol(s.c_str(), &end, 10);
+    if (end == s.c_str() || *end != '\0' || errno == ERANGE || v < lo || v > hi) {
+        return false;
+    }
+    out = static_cast<int>(v);
+    return true;
+}
+
 static double readDouble(const std::string& name, double def) {
     while (true) {
         std::string s = readLine("  " + name + " [" + fmt(def) + "]: ");
-        if (s.empty()) return def;
-        for (char& c : s) if (c == ',') c = '.';
-        try {
-            size_t pos = 0;
-            double v = std::stod(s, &pos);
-            if (pos == s.size()) return v;
-        } catch (...) {}
+        if (s.empty()) {
+            return def;
+        }
+        double v = 0.0;
+        if (parseDouble(s, v)) {
+            return v;
+        }
         std::cout << "  Ошибка: введите число.\n";
     }
 }
@@ -47,12 +75,13 @@ static double readDouble(const std::string& name, double def) {
 static int readInt(const std::string& name, int def, int lo, int hi) {
     while (true) {
         std::string s = readLine("  " + name + " [" + std::to_string(def) + "]: ");
-        if (s.empty()) return def;
-        try {
-            size_t pos = 0;
-            int v = std::stoi(s, &pos);
-            if (pos == s.size() && v >= lo && v <= hi) return v;
-        } catch (...) {}
+        if (s.empty()) {
+            return def;
+        }
+        int v = 0;
+        if (parseInt(s, lo, hi, v)) {
+            return v;
+        }
         std::cout << "  Ошибка: введите целое число от " << lo << " до " << hi << ".\n";
     }
 }
@@ -79,9 +108,9 @@ static fs::path simulate(Model& model, const Input& input, int n, const fs::path
 }
 
 static int runPython(const std::string& py, const fs::path& csv) {
-    std::string cmd = py + " \"" + PLOT_SCRIPT + "\" \"" + csv.string() + "\"";
+    std::string cmd = py + " \"" + PLOT_SCRIPT + "\" \"" + csv.filename().string() + "\"";
 #ifdef _WIN32
-    cmd = "\"" + cmd + "\"";   
+    cmd = "\"" + cmd + "\"";  
 #endif
     return std::system(cmd.c_str());
 }
