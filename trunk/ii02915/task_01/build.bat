@@ -1,62 +1,52 @@
 @echo off
-chcp 65001 >nul
-setlocal
-
+chcp 65001 > nul
 echo ============================================
 echo    Сборка проекта OTIS Lab 1 (Variant 15)
 echo ============================================
+
+REM Проверяем, есть ли CMakeLists.txt в папке src
+if not exist "src\CMakeLists.txt" (
+    echo [ERROR] Файл CMakeLists.txt не найден в папке: src\
+    pause
+    exit /b 1
+)
+
+echo === 1. Создание папки build и конфигурация ===
+cmake -S src -B build
+
 echo.
+echo === 2. Компиляция проекта ===
+cmake --build build --config Release
 
-:: Переход в папку со скриптом
-cd /d "%~dp0"
-
-:: Проверка наличия CMakeLists.txt (исправлено расширение)
-if not exist "CMakeLists.txt" (
-    echo [ERROR] Файл CMakeLists.txt не найден в папке: %~dp0
+if %errorlevel% neq 0 (
+    echo [Ошибка] Компиляция не удалась!
     pause
-    exit /b 1
+    exit /b %errorlevel%
 )
 
-:: Удаление старой папки build для чистой сборки
-if exist "build" (
-    echo [INFO] Удаление старой папки build...
-    rmdir /s /q build
-)
-
-:: Шаг 1: Конфигурация CMake
-echo [1/3] Конфигурация проекта...
-cmake -S . -B build -G "MinGW Makefiles"
-if errorlevel 1 (
-    echo [ERROR] Ошибка конфигурации CMake! Убедитесь, что установлены CMake и MinGW (g++ / gcc).
-    pause
-    exit /b 1
-)
-
-:: Шаг 2: Сборка проекта
-echo [2/3] Компиляция проекта...
-cmake --build build
-if errorlevel 1 (
-    echo [ERROR] Ошибка компиляции! Проверьте исходный код проекта.
-    pause
-    exit /b 1
-)
-
-:: Шаг 3: Копирование exe в корень проекта
-echo [3/3] Копирование исполняемого файла...
-if exist "build\lab01.exe" (
-    copy /Y "build\lab01.exe" ".\lab01.exe" >nul
-    echo [OK] Исполняемый файл успешно создан: lab01.exe
-) else if exist "build\Release\lab01.exe" (
-    copy /Y "build\Release\lab01.exe" ".\lab01.exe" >nul
-    echo [OK] Исполняемый файл успешно создан: lab01.exe
+echo.
+echo === 3. Запуск симуляции (C++) ===
+REM Ищем .exe файл в возможных папках сборки
+if exist build\lab01_ii02915.exe (
+    build\lab01_ii02915.exe
+) else if exist build\Debug\lab01_ii02915.exe (
+    build\Debug\lab01_ii02915.exe
+) else if exist build\Release\lab01_ii02915.exe (
+    build\Release\lab01_ii02915.exe
 ) else (
-    echo [WARNING] Исполняемый файл не найден в папке build. Проверьте имя таргета в CMakeLists.txt!
+    echo [Ошибка] Не найден скомпилированный exe-файл!
+    pause
+    exit /b 1
 )
 
 echo.
-echo ============================================
-echo    Сборка завершена успешно!
-echo ============================================
+echo === 4. Построение графика (Python) ===
+if exist src\plot.py (
+    python src\plot.py
+) else (
+    echo [Предупреждение] Файл src\plot.py не найден, график не построен.
+)
+
 echo.
+echo === Всё готово! ===
 pause
-endlocal
