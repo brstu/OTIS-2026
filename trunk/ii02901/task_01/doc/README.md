@@ -60,16 +60,37 @@ $$
 - `Model2_3`
 - `Model3_5`
 
-## Результат
+## UML-диаграмма
+```mermaid
+classDiagram
+    class model {
+        <<abstract>>
+        +step(double y_tau, double u_tau) double
+    }
 
-Программа:
-- запрашивает количество шагов симуляции `n`;
-- запрашивает тип модели для симуляции;
-- запрашивает коэффициенты для модели;
-- симулирует модель;
-- выводит результат в виде таблицы;
-- сохраняет результат в `.csv` файл;
-- строит график через Matplotlib (Python).
+    class model1_1 {
+        -a, b : double
+        +model1_1(double a, double b)
+        +step(double y_tau, double u_tau) double
+    }
+
+    class model2_3 {
+        -a, b, delta : double
+        -deadzone(double u) double
+        +model2_3(double a, double b, double delta)
+        +step(double y_tau, double u_tau) double
+    }
+
+    class model3_5 {
+        -b, dt : double
+        +model3_5(double b, double dt)
+        +step(double y_tau, double u_tau) double
+    }
+
+    model <|-- model1_1
+    model <|-- model2_3
+    model <|-- model3_5
+```
 
 ## Пример работы программы:
 
@@ -137,34 +158,14 @@ pause
 ![](sim.png)
 ### Демонстрация графиков:
 ![](graph.png)
-## UML-диаграмма
-```mermaid
-classDiagram
-    class model {
-        <<abstract>>
-        +step(double y_tau, double u_tau) double
-    }
 
-    class model1_1 {
-        -a, b : double
-        +model1_1(double a, double b)
-        +step(double y_tau, double u_tau) double
-    }
+## Результат
 
-    class model2_3 {
-        -a, b, delta : double
-        -deadzone(double u) double
-        +model2_3(double a, double b, double delta)
-        +step(double y_tau, double u_tau) double
-    }
-
-    class model3_5 {
-        -b, dt : double
-        +model3_5(double b, double dt)
-        +step(double y_tau, double u_tau) double
-    }
-
-    model <|-- model1_1
-    model <|-- model2_3
-    model <|-- model3_5
-```
+Программа:
+- запрашивает количество шагов симуляции `n`;
+- запрашивает тип модели для симуляции;
+- запрашивает коэффициенты для модели;
+- симулирует модель;
+- выводит результат в виде таблицы;
+- сохраняет результат в `.csv` файл;
+- строит график через Matplotlib (Python).
