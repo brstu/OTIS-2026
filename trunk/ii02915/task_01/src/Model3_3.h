@@ -8,7 +8,7 @@ private:
     double gain_;
 
 public:
-    Model3_3(double initialValue = 0.0, double tau = 1.0, double gain = 1.0)
+    explicit Model3_3(double initialValue = 0.0, double tau = 1.0, double gain = 1.0)
         : y_(initialValue), tau_(tau), gain_(gain) {
     }
 

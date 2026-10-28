@@ -9,7 +9,7 @@ private:
     double b_;
 
 public:
-    Model2_9(double initialValue = 0.0, double a = 1.0, double b = 1.0)
+    explicit Model2_9(double initialValue = 0.0, double a = 1.0, double b = 1.0)
         : x_(initialValue), a_(a), b_(b) {
     }
 
