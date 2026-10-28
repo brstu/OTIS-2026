@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(TARGET_NAME "ii03019_task_01")
+set(TARGET_NAME "ii03002_task_01")
 
 add_executable(${TARGET_NAME}
     main.cpp
