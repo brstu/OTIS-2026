@@ -1,28 +1,22 @@
 @echo off
-cd /d "%~dp0"
-
-echo Starting configuration
-echo ----------------------------
-cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
-if %ERRORLEVEL% NEQ 0 (
-    echo.
-    echo [ERROR] Configuration failed!
+echo Starting configuration...
+if not exist build mkdir build
+cd build
+cmake -G "Visual Studio 17 2022" -A x64 ..
+if %errorlevel% neq 0 (
+    echo CMake configuration failed!
     pause
     exit /b 1
 )
-echo [OK] Configuration completed.
-
 echo.
-echo Building project
-echo ------------------------
-cmake --build build --config Release
-if %ERRORLEVEL% NEQ 0 (
-    echo.
-    echo [ERROR] Build failed!
+echo Building project...
+cmake --build . --config Release
+if %errorlevel% neq 0 (
+    echo Build failed!
     pause
     exit /b 1
 )
-
 echo.
-echo Build completed
+echo Build completed successfully!
+cd ..
 pause

@@ -1,6 +1,9 @@
 @echo off
 cd /d "%~dp0"
-pushd build\bin
-task01.exe
-popd
+if not exist build\Release\otis.exe (
+    echo Executable not found! Run build.bat first.
+    pause
+    exit /b 1
+)
+build\Release\otis.exe
 pause

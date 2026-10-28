@@ -1,71 +1,52 @@
-# UML-диаграмма классов (вариант 3)
-
-Диаграмма отражает ООП-структуру программы: абстрактные базовые классы `Model` и `InputSignal` и их классы-наследники.
+# UML-диаграмма классов
 
 ```mermaid
 classDiagram
     class Model {
         <<abstract>>
-        +nextStep(u: double) double*
-        +current() double*
-        +name() string*
-        +equation() string*
-        +params() string*
-        +timeStep() double
-        +isStable(info: string) bool
-    }
-    class LinearModel13 {
-        -a1: double
-        -a2: double
-        -b: double
-        -yCur: double
-        -yPrev: double
-        +nextStep(u: double) double
-        +isStable(info: string) bool
-    }
-    class NonlinearModel25 {
-        -a: double
-        -b: double
-        -y: double
-        +nextStep(u: double) double
-    }
-    class DiffModel37 {
-        -a: double
-        -b: double
-        -dt: double
-        -y: double
-        +nextStep(u: double) double
-        +timeStep() double
-    }
-    class InputSignal {
-        <<abstract>>
-        +value(tau: int, t: double) double*
-        +name() string*
-    }
-    class StepInput {
-        -c: double
-        +value(tau: int, t: double) double
-    }
-    class ImpulseInput {
-        +value(tau: int, t: double) double
-    }
-    class HarmonicInput {
-        +value(tau: int, t: double) double
-    }
-    class main {
-        +createModel()
-        +createInput()
-        +printTable()
-        +saveCsv()
-        +showPlot()
+        +step(double u) double*
+        +reset() void*
     }
 
-    Model <|-- LinearModel13
-    Model <|-- NonlinearModel25
-    Model <|-- DiffModel37
-    InputSignal <|-- StepInput
-    InputSignal <|-- ImpulseInput
-    InputSignal <|-- HarmonicInput
-    main ..> Model : uses
-    main ..> InputSignal : uses
+    class LinearModel {
+        -a1 : double
+        -a2 : double
+        -b : double
+        -y_prev : double
+        -y_curr : double
+        +LinearModel(a1, a2, b)
+        +step(double u) double
+        +reset() void
+        +isStable() bool
+    }
+
+    class NonlinearModel {
+        -a : double
+        -b : double
+        -y_curr : double
+        +NonlinearModel(a, b)
+        +step(double u) double
+        +reset() void
+    }
+
+    class DifferentialModel {
+        -a : double
+        -b : double
+        -dt : double
+        -y_curr : double
+        +DifferentialModel(a, b, dt)
+        +step(double u) double
+        +reset() void
+    }
+
+    Model <|-- LinearModel
+    Model <|-- NonlinearModel
+    Model <|-- DifferentialModel
 ```
+
+## Описание
+
+- **Model** — абстрактный базовый класс с чисто виртуальными методами `step` и `reset`.
+- **LinearModel** — реализация линейной модели 1.3 + проверка устойчивости.
+- **NonlinearModel** — реализация нелинейной модели 2.5.
+- **DifferentialModel** — реализация дифференциальной модели 3.7 методом Эйлера.
