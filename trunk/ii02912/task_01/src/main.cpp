@@ -64,8 +64,7 @@ static double readDouble(const std::string& name, double def) {
         if (s.empty()) {
             return def;
         }
-        double v = 0.0;
-        if (parseDouble(s, v)) {
+        if (double v = 0.0; parseDouble(s, v)) {
             return v;
         }
         std::cout << "  Ошибка: введите число.\n";
@@ -78,8 +77,7 @@ static int readInt(const std::string& name, int def, int lo, int hi) {
         if (s.empty()) {
             return def;
         }
-        int v = 0;
-        if (parseInt(s, lo, hi, v)) {
+        if (int v = 0; parseInt(s, lo, hi, v)) {
             return v;
         }
         std::cout << "  Ошибка: введите целое число от " << lo << " до " << hi << ".\n";
