@@ -27,8 +27,13 @@
 | 2.2 | Actuator Saturation Non-linearity | $y_{\tau+1} = a y_\tau + b\cdot \mathrm{sat}(u_\tau)$ |
 | 3.4 | Quadratic Self-Decay | $\dfrac{dy}{dt} = -a y^2$ |
 
-$$\mathrm{sat}(u)=\begin{cases}U_{max}, & u>U_{max}\\ u, & U_{min}\le u\le U_{max}\\ U_{min}, & u<U_{min}\end{cases}$$
-
+```math
+\mathrm{sat}(u)=\begin{cases}
+U_{max}, & u>U_{max} \\
+u, & U_{min}\le u\le U_{max} \\
+U_{min}, & u<U_{min}
+\end{cases}
+```
 **Параметры по умолчанию** (вводятся вручную, значения ниже подставляются при нажатии Enter):
 
 | Модель | Параметры |
