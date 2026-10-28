@@ -14,7 +14,6 @@ set(SOURCES
 
 add_executable(task_01 ${SOURCES})
 
-# Автоматическое копирование plot.py в папку сборки рядом с .exe файлом
 add_custom_command(
     TARGET task_01 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
