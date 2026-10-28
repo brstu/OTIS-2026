@@ -50,7 +50,7 @@ $$y_{\tau+1} = y_\tau + \Delta t\,(-a_1 y_\tau - a_2 y_\tau^2 + b u_\tau)$$
 |---|---|
 | `src/models.h` | базовый абстрактный класс `Model` и три класса-наследника: `Model14`, `Model26`, `Model38` |
 | `src/main.cpp` | меню, ввод коэффициентов, входные сигналы, цикл расчёта, вывод таблицы и запись `results.csv` |
-| `src/plot.py` | читает `results.csv` и сразу открывает график (картинку сохраняет в `results.png`) |
+| `src/plot.py` | читает `results.csv`, сохраняет график в `doc/` под именем модели и сигнала (например, `model14_step.png`) и открывает его |
 
 Остальное — сборка: `src/CMakeLists.txt`, `build.bat`, `run.bat`.
 

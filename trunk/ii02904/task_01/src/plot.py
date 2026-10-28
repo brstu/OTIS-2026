@@ -1,19 +1,34 @@
 """Читает results.csv (его создаёт программа на C++) и показывает график."""
 
 import csv
+from pathlib import Path
 
 import matplotlib.pyplot as plt
 
-FILE_NAME = "results.csv"
-PICTURE_NAME = "results.png"
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+RESULT_FILE = "results.csv"
+DOC_DIR = PROJECT_DIR / "doc"
+MODEL_FILE_NAMES = {
+    "Модель 1.4": "model14",
+    "Модель 2.6": "model26",
+    "Модель 3.8": "model38",
+}
+SIGNAL_FILE_NAMES = {
+    "ступенчатый сигнал": "step",
+    "импульсный сигнал": "impulse",
+    "гармонический сигнал": "harmonic",
+}
 
 
 def main():
     """Читает файл с результатами и рисует график."""
     # В первой строке файла лежит заголовок графика, дальше таблица tau,u,y
-    with open(FILE_NAME, encoding="utf-8") as file:
+    with open(RESULT_FILE, encoding="utf-8") as file:
         title = file.readline().strip()
         rows = list(csv.DictReader(file))
+
+    model_name, signal_name = title.split(", ", maxsplit=1)
+    picture_name = f"{MODEL_FILE_NAMES[model_name]}_{SIGNAL_FILE_NAMES[signal_name]}.png"
 
     tau = [int(row["tau"]) for row in rows]
     u = [float(row["u"]) for row in rows]
@@ -27,7 +42,10 @@ def main():
     plt.grid(True)
     plt.legend()
 
-    plt.savefig(PICTURE_NAME, dpi=150)  # заодно сохраняем картинку в файл
+    DOC_DIR.mkdir(parents=True, exist_ok=True)
+    picture_path = DOC_DIR / picture_name
+    plt.savefig(picture_path, dpi=150)
+    print(f"График сохранён: {picture_path.relative_to(PROJECT_DIR)}")
     plt.show()  # и сразу открываем окно с графиком
 
 
