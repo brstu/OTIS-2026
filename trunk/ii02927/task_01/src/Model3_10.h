@@ -6,7 +6,9 @@
 class Model3_10 : public DynamicModel
 {
 private:
-    double a, b, dt;
+    double a;
+    double b;
+    double dt;
     double y = 0.0;
 
 public:

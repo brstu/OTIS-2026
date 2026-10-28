@@ -1,12 +1,15 @@
 #pragma once
 #include "DynamicModel.h"
-#include <sstream>
+#include <string>
 
 // Model 1.6: y_{t+1} = a1*y_t + a2*y_{t-1} + a3*y_{t-2} + b*u_t
 class Model1_6 : public DynamicModel
 {
 private:
-    double a1, a2, a3, b;
+    double a1;
+    double a2;
+    double a3;
+    double b;
     double y = 0.0;
     double y_prev1 = 0.0; // y_{t-1}
     double y_prev2 = 0.0; // y_{t-2}

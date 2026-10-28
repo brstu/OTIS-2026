@@ -7,7 +7,9 @@
 class Model2_8 : public DynamicModel
 {
 private:
-    double a, b, c;
+    double a;
+    double b;
+    double c;
     double y = 0.0;
     double y_prev = 0.0;
 
