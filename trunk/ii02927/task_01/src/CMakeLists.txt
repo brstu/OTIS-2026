@@ -8,9 +8,9 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(ii02927_task_01
     main.cpp
     DynamicModel.h
-    Model1_3.h
-    Model2_10.h
-    Model3_2.h
+    Model1_6.h
+    Model2_8.h
+    Model3_10.h
     SignalGenerator.h
     ModelCreator.h
 )

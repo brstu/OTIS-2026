@@ -1,8 +1,8 @@
 #pragma once
 #include "DynamicModel.h"
-#include "Model1_3.h"
-#include "Model2_10.h"
-#include "Model3_2.h"
+#include "Model1_6.h"
+#include "Model2_8.h"
+#include "Model3_10.h"
 #include <memory>
 #include <iostream>
 
@@ -13,48 +13,39 @@ public:
     {
         switch (choice)
         {
-        case 1:
-            return createModel1_3();
-        case 2:
-            return createModel2_10();
-        case 3:
-            return createModel3_2();
-        default:
-            std::cerr << "Unknown model number: " << choice << "\n";
-            return nullptr;
+        case 1: return createModel1_6();
+        case 2: return createModel2_8();
+        case 3: return createModel3_10();
+        default: return nullptr;
         }
     }
 
 private:
-    // 1.3
-    static std::unique_ptr<DynamicModel> createModel1_3()
+    static std::unique_ptr<DynamicModel> createModel1_6()
     {
-        double a1;
-        double a2;
-        double b;
+        double a1, a2, a3, b;
         std::cout << "  a1 = "; std::cin >> a1;
         std::cout << "  a2 = "; std::cin >> a2;
+        std::cout << "  a3 = "; std::cin >> a3;
         std::cout << "  b  = "; std::cin >> b;
-        return std::make_unique<Model1_3>(a1, a2, b);
+        return std::make_unique<Model1_6>(a1, a2, a3, b);
     }
 
-    // 2.10
-    static std::unique_ptr<DynamicModel> createModel2_10()
+    static std::unique_ptr<DynamicModel> createModel2_8()
     {
-        double a;
-        double b;
+        double a, b, c;
         std::cout << "  a = "; std::cin >> a;
         std::cout << "  b = "; std::cin >> b;
-        return std::make_unique<Model2_10>(a, b);
+        std::cout << "  c = "; std::cin >> c;
+        return std::make_unique<Model2_8>(a, b, c);
     }
 
-    // 3.2
-    static std::unique_ptr<DynamicModel> createModel3_2()
+    static std::unique_ptr<DynamicModel> createModel3_10()
     {
-        double b;
-        double dt;
+        double a, b, dt;
+        std::cout << "  a  = "; std::cin >> a;
         std::cout << "  b  = "; std::cin >> b;
         std::cout << "  dt = "; std::cin >> dt;
-        return std::make_unique<Model3_2>(b, dt);
+        return std::make_unique<Model3_10>(a, b, dt);
     }
 };

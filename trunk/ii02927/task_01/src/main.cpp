@@ -39,9 +39,9 @@ int main()
     std::cout << " Student: ii02927\n\n";
 
     std::cout << "Select a model:\n";
-    std::cout << "  1) Model 1.3 (Oscillatory)\n";
-    std::cout << "  2) Model 2.10 (Hyperbolic Tangent)\n";
-    std::cout << "  3) Model 3.2 (Pure Input Drive)\n";
+    std::cout << "  1) Model 1.6 (Third-Order System)\n";
+    std::cout << "  2) Model 2.8 (Chaotic Logistic Map)\n";
+    std::cout << "  3) Model 3.10 (External Constant Offset)\n";
     const int modelChoice = readInt("Your choice (1-3): ", 1);
 
     if (modelChoice > 3) { std::cerr << "Invalid model.\n"; return 1; }
