@@ -6,6 +6,7 @@
 #include <filesystem>
 #include "Models.hpp"
 #include "Input.hpp"
+#include <span>
 
 using namespace std;
 
@@ -44,6 +45,20 @@ int chooseModel() {
     cout << "  1 - Model 1.4 (линейная)\n";
     cout << "  2 - Model 2.6 (нелинейная)\n";
     cout << "  3 - Model 3.8 (дифференциальная)\n";
+    cout << "  0 - все сразу\n";
+    const auto choice = static_cast<int>(ask("Ваш выбор", 0));
+    if (choice < 0 || choice > 3) {
+        cout << "Неверный выбор, показываю все модели.\n";
+        return 0;
+    }
+    return choice;
+}
+
+int choiseSimulation() {
+    cout << "Какую симуляцию показать показать?\n";
+    cout << "  1 - step\n";
+    cout << "  2 - impulse\n";
+    cout << "  3 - harmonic\n";
     cout << "  0 - все сразу\n";
     const auto choice = static_cast<int>(ask("Ваш выбор", 0));
     if (choice < 0 || choice > 3) {
@@ -152,10 +167,17 @@ int main(int argc, char** argv) {
     const Params params = readParams();
 
     const vector inputs = {InputType::Step, InputType::Impulse, InputType::Harmonic};
-    for (InputType type : inputs) {
+    const int ch = choiseSimulation();
+    if(ch != 0){
+        for (InputType type : std::vector<InputType>(inputs.begin() + ch, inputs.begin() + ch + 1)){
+            simulate(type, params, outDir);
+        }
+    }
+    else{
+    for (InputType type : inputs){
         simulate(type, params, outDir);
     }
-
+    }
     cout << "\nРезультаты сохранены в: " << outDir.string() << "\n";
     return 0;
 }
