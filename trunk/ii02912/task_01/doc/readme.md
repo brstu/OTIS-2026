@@ -29,9 +29,9 @@
 
 ```math
 \mathrm{sat}(u)=\begin{cases}
-U_{max}, & u>U_{max} \\
-u, & U_{min}\le u\le U_{max} \\
-U_{min}, & u<U_{min}
+U_{max}, & u \gt U_{max} \\
+u, & U_{min} \le u \le U_{max} \\
+U_{min}, & u \lt U_{min}
 \end{cases}
 ```
 **Параметры по умолчанию** (вводятся вручную, значения ниже подставляются при нажатии Enter):
