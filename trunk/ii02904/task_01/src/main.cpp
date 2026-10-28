@@ -9,17 +9,18 @@
 
 using namespace std;
 
-// Спросить число; если нажать Enter - берётся значение по умолчанию
-double ask(const string& text, double def) {
+double ask(const string &text, double def)
+{
     cout << text << " [" << def << "]: ";
     string line;
     getline(cin, line);
-    if (line.empty()) return def;
+    if (line.empty())
+        return def;
     return stod(line);
 }
 
-int main(int argc, char** argv) {
-    // Папка для результатов: первый аргумент (по умолчанию - текущая)
+int main(int argc, char **argv)
+{
     filesystem::path outDir = (argc > 1) ? argv[1] : ".";
     filesystem::create_directories(outDir);
 
@@ -75,6 +76,7 @@ int main(int argc, char** argv) {
     }
 
     const vector inputs = {InputType::Step, InputType::Impulse, InputType::Harmonic};
+    const vector inputs = {InputType::Step, InputType::Impulse, InputType::Harmonic};
 
     for (InputType type : inputs) {
         // Создаём только выбранные модели (полиморфизм: храним их как Model)
@@ -95,7 +97,8 @@ int main(int argc, char** argv) {
         for (const auto& m : models) cout << setw(14) << m->name();
         cout << "\n";
 
-        for (int tau = 0; tau <= n; tau++) {
+        for (int tau = 0; tau <= n; tau++)
+        {
             double u = inputValue(type, tau, u0);
 
             // Выводим y_tau
