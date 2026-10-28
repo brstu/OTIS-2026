@@ -1,5 +1,3 @@
-"""Читает results.csv (его создаёт программа на C++) и показывает график."""
-
 import csv
 from pathlib import Path
 
@@ -21,8 +19,6 @@ SIGNAL_FILE_NAMES = {
 
 
 def main():
-    """Читает файл с результатами и рисует график."""
-    # В первой строке файла лежит заголовок графика, дальше таблица tau,u,y
     with open(RESULT_FILE, encoding="utf-8") as file:
         title = file.readline().strip()
         rows = list(csv.DictReader(file))
@@ -46,7 +42,7 @@ def main():
     picture_path = DOC_DIR / picture_name
     plt.savefig(picture_path, dpi=150)
     print(f"График сохранён: {picture_path.relative_to(PROJECT_DIR)}")
-    plt.show()  # и сразу открываем окно с графиком
+    plt.show()
 
 
 if __name__ == "__main__":

@@ -5,26 +5,23 @@
 #include <iomanip>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
 
 #include "models.h"
 
-// Если y стало больше этого числа (по модулю), считаем, что процесс расходится
 const double MAX_Y = 1e9;
 const char* const RESULT_FILE = "results.csv";
 
-// Ширина колонок таблицы
 const int TAU_WIDTH = 6;
 const int VALUE_WIDTH = 18;
 
-// Печатает горизонтальную линию таблицы: +--------+------+------+
 void printLine()
 {
     std::cout << "+" << std::string(TAU_WIDTH + 2, '-') << "+" << std::string(VALUE_WIDTH + 2, '-')
               << "+" << std::string(VALUE_WIDTH + 2, '-') << "+\n";
 }
 
-// Печатает шапку таблицы
 void printHeader()
 {
     printLine();
@@ -33,14 +30,12 @@ void printHeader()
     printLine();
 }
 
-// Печатает одну строку таблицы
 void printRow(int tau, double u, double y)
 {
     std::cout << "| " << std::setw(TAU_WIDTH) << tau << " | " << std::setw(VALUE_WIDTH) << u
               << " | " << std::setw(VALUE_WIDTH) << y << " |\n";
 }
 
-// Читает число с клавиатуры. Если ввели не число - спрашивает ещё раз.
 double readNumber(const std::string& text)
 {
     while (true) {
@@ -50,35 +45,32 @@ double readNumber(const std::string& text)
             std::cout << "\nВвод закончился, выход.\n";
             std::exit(1);
         }
-        std::replace(line.begin(), line.end(), ',', '.');  // чтобы можно было писать 0,5
+        std::replace(line.begin(), line.end(), ',', '.');
         try {
             return std::stod(line);
-        } catch (const std::exception&) {
+        } catch (const std::invalid_argument&) {
+            std::cout << "Нужно ввести число, попробуйте ещё раз.\n";
+        } catch (const std::out_of_range&) {
             std::cout << "Нужно ввести число, попробуйте ещё раз.\n";
         }
     }
 }
 
-// Читает целое число от minValue до maxValue
 int readInt(const std::string& text, int minValue, int maxValue)
 {
     while (true) {
-        int value = static_cast<int>(readNumber(text));
-        if (value >= minValue && value <= maxValue) {
+        if (const auto value = static_cast<int>(readNumber(text)); value >= minValue && value <= maxValue) {
             return value;
         }
         std::cout << "Число должно быть от " << minValue << " до " << maxValue << ".\n";
     }
 }
 
-// Спрашивает у пользователя коэффициенты и создаёт выбранную модель
 std::unique_ptr<Model> createModel(int choice, double y0)
 {
     if (choice == 1) {
         double a = readNumber("a = ");
         double b = readNumber("b = ");
-        // Устойчивость: характеристическое уравнение z - a = 0, корень z = a.
-        // Процесс устойчив, если корень внутри единичной окружности, то есть |a| < 1.
         if (std::abs(a) >= 1) {
             std::cout << "\nПРЕДУПРЕЖДЕНИЕ: |a| >= 1, система неустойчива, y будет расти!\n";
         }
@@ -99,7 +91,6 @@ std::unique_ptr<Model> createModel(int choice, double y0)
     return std::make_unique<Model38>(a1, a2, b, dt, y0);
 }
 
-// Входной сигнал u в момент tau: 1 - ступенька, 2 - импульс, 3 - синус
 double getInput(int signalType, int tau, double stepValue)
 {
     if (signalType == 1) {
@@ -151,15 +142,13 @@ int main()
         std::cout << "Не удалось создать файл " << RESULT_FILE << "\n";
         return 1;
     }
-    // Первая строка файла - заголовок для графика, потом таблица tau,u,y
     file << model->name() << ", " << signalName(signalType) << "\n";
     file << "tau,u,y\n";
 
     file << std::setprecision(10);
-    std::cout << "\n" << std::fixed << std::setprecision(6);  // в таблице 6 знаков после запятой
+    std::cout << "\n" << std::fixed << std::setprecision(6);
     printHeader();
 
-    // Строка tau = 0: здесь y - это начальное значение y(0)
     double y = y0;
     bool diverged = false;
     int divergedStep = 0;
@@ -169,16 +158,13 @@ int main()
         printRow(tau, u, y);
         file << tau << "," << u << "," << y << "\n";
 
-        if (tau == n) {
-            break;  // последняя строка выведена, считать дальше не нужно
-        }
-
-        // Считаем y(tau+1) по входу u(tau)
-        y = model->nextStep(u);
-        if (!std::isfinite(y) || std::abs(y) > MAX_Y) {
-            diverged = true;
-            divergedStep = tau + 1;
-            break;
+        if (tau < n) {
+            y = model->nextStep(u);
+            if (!std::isfinite(y) || std::abs(y) > MAX_Y) {
+                diverged = true;
+                divergedStep = tau + 1;
+                break;
+            }
         }
     }
     printLine();

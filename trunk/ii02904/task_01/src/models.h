@@ -2,20 +2,15 @@
 
 #include <string>
 
-// Базовый (абстрактный) класс для всех моделей.
-// Запись "= 0" значит: метод только объявлен, а написать его обязан наследник.
 class Model {
 public:
     virtual ~Model() = default;
 
-    // Считает следующее значение y, когда на вход пришло значение u
     virtual double nextStep(double u) = 0;
 
-    // Название модели (для вывода)
     virtual std::string name() const = 0;
 };
 
-// Модель 1.4 (линейная): y(t+1) = a*y(t) + b*(u(t) - u(t-1))
 class Model14 : public Model {
 public:
     Model14(double a, double b, double y0) : a_(a), b_(b), y_(y0) {}
@@ -23,7 +18,7 @@ public:
     double nextStep(double u) override
     {
         y_ = a_ * y_ + b_ * (u - uPrev_);
-        uPrev_ = u;  // запоминаем u, оно понадобится на следующем шаге
+        uPrev_ = u;
         return y_;
     }
 
@@ -33,10 +28,9 @@ private:
     double a_;
     double b_;
     double y_;
-    double uPrev_ = 0.0;  // u(t-1), в самом начале равно 0
+    double uPrev_ = 0.0;
 };
 
-// Модель 2.6 (нелинейная): y(t+1) = a1*y(t)^3 - a2*y(t-1) + b*u(t)^2
 class Model26 : public Model {
 public:
     Model26(double a1, double a2, double b, double y0) : a1_(a1), a2_(a2), b_(b), y_(y0) {}
@@ -44,7 +38,7 @@ public:
     double nextStep(double u) override
     {
         double next = a1_ * y_ * y_ * y_ - a2_ * yPrev_ + b_ * u * u;
-        yPrev_ = y_;  // y(t) станет y(t-1)
+        yPrev_ = y_;
         y_ = next;
         return y_;
     }
@@ -56,11 +50,9 @@ private:
     double a2_;
     double b_;
     double y_;
-    double yPrev_ = 0.0;  // y(t-1), в самом начале равно 0
+    double yPrev_ = 0.0;
 };
 
-// Модель 3.8 (дифференциальное уравнение): dy/dt = -a1*y - a2*y^2 + b*u
-// Решаем методом Эйлера: y(t+1) = y(t) + dt * (-a1*y(t) - a2*y(t)^2 + b*u(t))
 class Model38 : public Model {
 public:
     Model38(double a1, double a2, double b, double dt, double y0)

@@ -1,8 +1,6 @@
 @echo off
 cd /d "%~dp0"
 chcp 65001 >nul
-rem Один файл на всё: сборка через CMake, настройка .venv, запуск программы и показ графика.
-
 echo ===== 1. Настройка CMake =====
 where cmake >nul 2>nul
 if errorlevel 1 (
@@ -22,7 +20,6 @@ echo ===== 2. Компиляция =====
 cmake --build build --config Release
 if errorlevel 1 goto error
 
-rem Программа лежит в build или в build\Release, это зависит от компилятора
 set "EXE=build\task_01.exe"
 if not exist "%EXE%" set "EXE=build\Release\task_01.exe"
 if not exist "%EXE%" (
@@ -33,7 +30,6 @@ echo Сборка прошла успешно: %EXE%
 
 echo.
 echo ===== 3. Виртуальное окружение Python =====
-rem Если папки .venv нет, создаём её
 if not exist ".venv\Scripts\python.exe" (
     set "SYS_PYTHON=python"
     where python >nul 2>nul
@@ -42,7 +38,6 @@ if not exist ".venv\Scripts\python.exe" (
     %SYS_PYTHON% -m venv .venv
     if errorlevel 1 goto error
 )
-rem Если в .venv нет matplotlib, ставим его из requirements.txt
 ".venv\Scripts\python.exe" -c "import matplotlib" >nul 2>nul
 if errorlevel 1 (
     echo Устанавливаю matplotlib в .venv
