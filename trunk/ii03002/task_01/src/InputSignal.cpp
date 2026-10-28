@@ -23,8 +23,7 @@ std::string InputSignal::getSignalName(SignalType sig_type) {
         "Harmonic"
     };
 
-    const auto idx = static_cast<size_t>(sig_type);
-    if (idx < names.size()) {
+    if (const auto idx = static_cast<size_t>(sig_type); idx < names.size()) {
         return names[idx];
     }
     return "Unknown";

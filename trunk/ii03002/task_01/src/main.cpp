@@ -17,17 +17,15 @@ int getSafeSteps(int raw_steps) {
     return (raw_steps < min_steps || raw_steps > max_steps) ? default_steps : raw_steps;
 }
 
-// Универсальная функция ввода числа с дефолтным значением (устраняет дублирование кода)
+// Универсальная функция ввода числа с дефолтным значением
 template <typename T>
 T promptValue(const std::string& prompt, T default_value, T min_v = {}, T max_v = {}, bool check_range = false) {
     std::cout << prompt << " (default " << default_value << "): ";
     if (std::string input; std::getline(std::cin, input) && !input.empty()) {
         std::stringstream ss(input);
         T val;
-        if (ss >> val) {
-            if (!check_range || (val >= min_v && val <= max_v)) {
-                return val;
-            }
+        if ((ss >> val) && (!check_range || (val >= min_v && val <= max_v))) {
+            return val;
         }
     }
     return default_value;

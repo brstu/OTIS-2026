@@ -1,7 +1,7 @@
 #pragma once
 
 class Model {
-protected:
+private:
     double m_y{0.0};
 
 public:
