@@ -9,6 +9,7 @@
 
 using namespace std;
 
+// Спросить число; если нажать Enter - берётся значение по умолчанию
 double ask(const string& text, double def) {
     cout << text << " [" << def << "]: ";
     string line;
@@ -16,6 +17,138 @@ double ask(const string& text, double def) {
     if (line.empty()) return def;
     return stod(line);
 }
+
+namespace {
+
+// Все настройки симуляции в одном месте
+struct Params {
+    bool use14 = true;
+    bool use26 = true;
+    bool use38 = true;
+    int n = 20;
+    double u0 = 1.0;
+    // Model 1.4
+    double a = 0.8;
+    double b = 1.0;
+    // Model 2.6
+    double a1 = 0.1;
+    double a2 = 0.5;
+    double b2 = 1.0;
+    // Model 3.8
+    double c1 = 1.0;
+    double c2 = 0.5;
+    double b3 = 1.0;
+    double dt = 0.1;
+};
+
+// Меню выбора модели: 0 - все, 1..3 - одна модель
+int chooseModel() {
+    cout << "Какую модель показать?\n";
+    cout << "  1 - Model 1.4 (линейная)\n";
+    cout << "  2 - Model 2.6 (нелинейная)\n";
+    cout << "  3 - Model 3.8 (дифференциальная)\n";
+    cout << "  0 - все сразу\n";
+    const auto choice = static_cast<int>(ask("Ваш выбор", 0));
+    if (choice < 0 || choice > 3) {
+        cout << "Неверный выбор, показываю все модели.\n";
+        return 0;
+    }
+    return choice;
+}
+
+// Ввод параметров только для выбранных моделей
+Params readParams() {
+    Params p;
+    const int choice = chooseModel();
+    p.use14 = (choice == 0 || choice == 1);
+    p.use26 = (choice == 0 || choice == 2);
+    p.use38 = (choice == 0 || choice == 3);
+
+    p.n = static_cast<int>(ask("Число шагов симуляции n", p.n));
+    p.u0 = ask("Значение ступенчатого воздействия", p.u0);
+
+    if (p.use14) {
+        cout << "\n-- Model 1.4 --\n";
+        p.a = ask("a", p.a);
+        p.b = ask("b", p.b);
+    }
+    if (p.use26) {
+        cout << "\n-- Model 2.6 --\n";
+        p.a1 = ask("a1", p.a1);
+        p.a2 = ask("a2", p.a2);
+        p.b2 = ask("b", p.b2);
+    }
+    if (p.use38) {
+        cout << "\n-- Model 3.8 --\n";
+        p.c1 = ask("a1", p.c1);
+        p.c2 = ask("a2", p.c2);
+        p.b3 = ask("b", p.b3);
+        p.dt = ask("dt", p.dt);
+    }
+    return p;
+}
+
+// Создаём только выбранные модели (полиморфизм: храним их как Model)
+vector<unique_ptr<Model>> createModels(const Params& p) {
+    vector<unique_ptr<Model>> models;
+    if (p.use14) {
+        models.push_back(make_unique<LinearModel14>(p.a, p.b));
+    }
+    if (p.use26) {
+        models.push_back(make_unique<NonlinearModel26>(p.a1, p.a2, p.b2));
+    }
+    if (p.use38) {
+        models.push_back(make_unique<DiffModel38>(p.c1, p.c2, p.b3, p.dt));
+    }
+    return models;
+}
+
+// Шапка таблицы (консоль) и заголовок CSV
+void writeHeader(const vector<unique_ptr<Model>>& models, ostream& csv) {
+    csv << "tau,u";
+    cout << setw(5) << "tau" << setw(12) << "u";
+    for (const auto& m : models) {
+        csv << "," << m->name();
+        cout << setw(14) << m->name();
+    }
+    csv << "\n";
+    cout << "\n";
+}
+
+// Одна строка таблицы: tau, u и текущие y всех моделей
+void writeRow(const vector<unique_ptr<Model>>& models, ostream& csv, int tau, double u) {
+    cout << setw(5) << tau << setw(12) << u;
+    csv << tau << "," << u;
+    for (const auto& m : models) {
+        cout << setw(14) << m->current();
+        csv << "," << m->current();
+    }
+    cout << "\n";
+    csv << "\n";
+}
+
+// Симуляция для одного типа входного воздействия
+void simulate(InputType type, const Params& p, const filesystem::path& outDir) {
+    auto models = createModels(p);
+
+    cout << "\n########## Входное воздействие: " << inputName(type) << " ##########\n";
+
+    ofstream csv(outDir / ("results_" + inputName(type) + ".csv"));
+    cout << fixed << setprecision(5);
+    writeHeader(models, csv);
+
+    for (int tau = 0; tau <= p.n; tau++) {
+        const double u = inputValue(type, tau, p.u0);
+        writeRow(models, csv, tau, u);
+
+        // Считаем y_{tau+1}
+        for (const auto& m : models) {
+            m->nextStep(u);
+        }
+    }
+}
+
+}  // namespace
 
 int main(int argc, char** argv) {
     // Папка для результатов: первый аргумент (по умолчанию - текущая)
@@ -25,101 +158,13 @@ int main(int argc, char** argv) {
     cout << "=== Lab 1, variant 4: Model 1.4, Model 2.6, Model 3.8 ===\n";
     cout << "(Enter = значение по умолчанию)\n\n";
 
-    cout << "Какую модель показать?\n";
-    cout << "  1 - Model 1.4 (линейная)\n";
-    cout << "  2 - Model 2.6 (нелинейная)\n";
-    cout << "  3 - Model 3.8 (дифференциальная)\n";
-    cout << "  0 - все сразу\n";
-    auto choice = static_cast<int>(ask("Ваш выбор", 0));
-    if (choice < 0 || choice > 3) {
-        cout << "Неверный выбор, показываю все модели.\n";
-        choice = 0;
-    }
-    const bool use14 = (choice == 0 || choice == 1);
-    const bool use26 = (choice == 0 || choice == 2);
-    const bool use38 = (choice == 0 || choice == 3);
-
-    const auto n = static_cast<int>(ask("Число шагов симуляции n", 20));
-    const double u0 = ask("Значение ступенчатого воздействия", 1.0);
-
-    double a = 0.8;
-    double b = 1.0;
-    double a1 = 0.1;
-    double a2 = 0.5;
-    double b2 = 1.0;
-    double c1 = 1.0;
-    double c2 = 0.5;
-    double b3 = 1.0;
-    double dt = 0.1;
-
-    if (use14) {
-        cout << "\n-- Model 1.4 --\n";
-        a = ask("a", a);
-        b = ask("b", b);
-    }
-    if (use26) {
-        cout << "\n-- Model 2.6 --\n";
-        a1 = ask("a1", a1);
-        a2 = ask("a2", a2);
-        b2 = ask("b", b2);
-    }
-    if (use38) {
-        cout << "\n-- Model 3.8 --\n";
-        c1 = ask("a1", c1);
-        c2 = ask("a2", c2);
-        b3 = ask("b", b3);
-        dt = ask("dt", dt);
-    }
+    const Params params = readParams();
 
     const vector inputs = {InputType::Step, InputType::Impulse, InputType::Harmonic};
-
     for (InputType type : inputs) {
-        vector<unique_ptr<Model>> models;
-        if (use14) {
-            models.push_back(make_unique<LinearModel14>(a, b));
-        }
-        if (use26) {
-            models.push_back(make_unique<NonlinearModel26>(a1, a2, b2));
-        }
-        if (use38) {
-            models.push_back(make_unique<DiffModel38>(c1, c2, b3, dt));
-        }
-
-        cout << "\n########## Входное воздействие: " << inputName(type) << " ##########\n";
-
-        ofstream csv(outDir / ("results_" + inputName(type) + ".csv"));
-        csv << "tau,u";
-        for (const auto& m : models) {
-            csv << "," << m->name();
-        }
-        csv << "\n";
-
-        cout << fixed << setprecision(5);
-        cout << setw(5) << "tau" << setw(12) << "u";
-        for (const auto& m : models) {
-            cout << setw(14) << m->name();
-        }
-        cout << "\n";
-
-        for (int tau = 0; tau <= n; tau++) {
-            const double u = inputValue(type, tau, u0);
-
-            // Выводим y_tau
-            cout << setw(5) << tau << setw(12) << u;
-            csv << tau << "," << u;
-            for (const auto& m : models) {
-                cout << setw(14) << m->current();
-                csv << "," << m->current();
-            }
-            cout << "\n";
-            csv << "\n";
-
-            // Считаем y_{tau+1}
-            for (const auto& m : models) {
-                m->nextStep(u);
-            }
-        }
+        simulate(type, params, outDir);
     }
+
     cout << "\nРезультаты сохранены в: " << outDir.string() << "\n";
     return 0;
 }

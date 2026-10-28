@@ -1,14 +1,18 @@
-import sys
+# Визуализация: читает results_*.csv и рисует графики (Matplotlib)
+# Рисуются только те модели, которые есть в CSV (выбраны в программе)
 import os
 import numpy as np
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-out_dir = sys.argv[1] if len(sys.argv) > 1 else "."
+# Папка с результатами: ../doc рядом со скриптом (путь не берётся из аргументов)
+out_dir = os.path.normpath(
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "doc"))
 
 inputs = ["step", "impulse", "harmonic"]
 
+# Названия моделей берём из заголовка CSV
 with open(os.path.join(out_dir, "results_step.csv"), encoding="utf-8") as f:
     titles = f.readline().strip().split(",")[2:]
 n_models = len(titles)
