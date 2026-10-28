@@ -2,7 +2,6 @@
 #include "DynamicModel.h"
 #include <string>
 
-// Model 1.6: y_{t+1} = a1*y_t + a2*y_{t-1} + a3*y_{t-2} + b*u_t
 class Model1_6 : public DynamicModel
 {
 private:
@@ -11,8 +10,8 @@ private:
     double a3;
     double b;
     double y = 0.0;
-    double y_prev1 = 0.0; // y_{t-1}
-    double y_prev2 = 0.0; // y_{t-2}
+    double y_prev1 = 0.0;
+    double y_prev2 = 0.0;
 
 public:
     Model1_6(double a1_, double a2_, double a3_, double b_)
