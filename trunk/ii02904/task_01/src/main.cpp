@@ -9,25 +9,21 @@
 
 using namespace std;
 
-double ask(const string &text, double def)
-{
+double ask(const string& text, double def) {
     cout << text << " [" << def << "]: ";
     string line;
     getline(cin, line);
-    if (line.empty())
-        return def;
+    if (line.empty()) return def;
     return stod(line);
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char** argv) {
     filesystem::path outDir = (argc > 1) ? argv[1] : ".";
     filesystem::create_directories(outDir);
 
     cout << "=== Lab 1, variant 4: Model 1.4, Model 2.6, Model 3.8 ===\n";
     cout << "(Enter = значение по умолчанию)\n\n";
 
-    // Выбор модели
     cout << "Какую модель показать?\n";
     cout << "  1 - Model 1.4 (линейная)\n";
     cout << "  2 - Model 2.6 (нелинейная)\n";
@@ -45,7 +41,6 @@ int main(int argc, char **argv)
     const auto n = static_cast<int>(ask("Число шагов симуляции n", 20));
     const double u0 = ask("Значение ступенчатого воздействия", 1.0);
 
-    // Параметры (значения по умолчанию, если модель не выбрана - не используются)
     double a = 0.8;
     double b = 1.0;
     double a1 = 0.1;
@@ -76,10 +71,8 @@ int main(int argc, char **argv)
     }
 
     const vector inputs = {InputType::Step, InputType::Impulse, InputType::Harmonic};
-    const vector inputs = {InputType::Step, InputType::Impulse, InputType::Harmonic};
 
     for (InputType type : inputs) {
-        // Создаём только выбранные модели (полиморфизм: храним их как Model)
         vector<unique_ptr<Model>> models;
         if (use14) models.push_back(make_unique<LinearModel14>(a, b));
         if (use26) models.push_back(make_unique<NonlinearModel26>(a1, a2, b2));
@@ -97,8 +90,7 @@ int main(int argc, char **argv)
         for (const auto& m : models) cout << setw(14) << m->name();
         cout << "\n";
 
-        for (int tau = 0; tau <= n; tau++)
-        {
+        for (int tau = 0; tau <= n; tau++) {
             double u = inputValue(type, tau, u0);
 
             // Выводим y_tau
