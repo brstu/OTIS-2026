@@ -101,5 +101,6 @@ int main()
     }
 
     std::cout << "Done.\n";
+    system("pause");
     return 0;
 }
