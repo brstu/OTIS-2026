@@ -1,13 +1,3 @@
-"""Графики по результатам симуляции.
-
-Сетка: строки = выбранные воздействия, колонки = выбранные модели.
-Что именно выбрано, берётся из plot_inputs.txt (пишет main.cpp),
-а если его нет — по фактически существующим results_*.csv.
-
-Запуск:  python plot.py [каталог_с_csv]
-"""
-from __future__ import annotations
-
 import sys
 from pathlib import Path
 
