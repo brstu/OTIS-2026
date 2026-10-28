@@ -23,7 +23,10 @@ public:
 private:
     static std::unique_ptr<DynamicModel> createModel1_6()
     {
-        double a1, a2, a3, b;
+        double a1;
+        double a2;
+        double a3;
+        double b;
         std::cout << "  a1 = "; std::cin >> a1;
         std::cout << "  a2 = "; std::cin >> a2;
         std::cout << "  a3 = "; std::cin >> a3;
@@ -33,7 +36,9 @@ private:
 
     static std::unique_ptr<DynamicModel> createModel2_8()
     {
-        double a, b, c;
+        double a;
+        double b;
+        double c;
         std::cout << "  a = "; std::cin >> a;
         std::cout << "  b = "; std::cin >> b;
         std::cout << "  c = "; std::cin >> c;
@@ -42,7 +47,9 @@ private:
 
     static std::unique_ptr<DynamicModel> createModel3_10()
     {
-        double a, b, dt;
+        double a;
+        double b;
+        double dt;
         std::cout << "  a  = "; std::cin >> a;
         std::cout << "  b  = "; std::cin >> b;
         std::cout << "  dt = "; std::cin >> dt;
