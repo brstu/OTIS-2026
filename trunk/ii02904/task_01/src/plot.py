@@ -8,13 +8,18 @@ import matplotlib.pyplot as plt
 out_dir = sys.argv[1] if len(sys.argv) > 1 else "."
 
 inputs = ["step", "impulse", "harmonic"]
-titles = ["Model 1.4", "Model 2.6", "Model 3.8"]
 
-fig, axes = plt.subplots(3, 3, figsize=(13, 9), sharex=True)
+with open(os.path.join(out_dir, "results_step.csv"), encoding="utf-8") as f:
+    titles = f.readline().strip().split(",")[2:]
+n_models = len(titles)
+
+fig, axes = plt.subplots(3, n_models, figsize=(4.5 * n_models + 1, 9),
+                         sharex=True, squeeze=False)
 for row, name in enumerate(inputs):
-    data = np.loadtxt(os.path.join(out_dir, f"results_{name}.csv"), delimiter=",", skiprows=1)
+    data = np.loadtxt(os.path.join(out_dir, f"results_{name}.csv"),
+                      delimiter=",", skiprows=1, ndmin=2)
     tau, u = data[:, 0], data[:, 1]
-    for col in range(3):
+    for col in range(n_models):
         ax = axes[row][col]
         ax.step(tau, u, "--", color="gray", label="u", where="post")
         ax.plot(tau, data[:, 2 + col], "o-", label="y")

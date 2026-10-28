@@ -42,6 +42,8 @@ echo ===== 4. Plot graphs =====
 "%PYTHON%" src\plot.py "%OUT_DIR%"
 if errorlevel 1 goto error
 
+start "" %OUT_DIR%\plot.png
+
 echo.
 echo Done!
 pause
