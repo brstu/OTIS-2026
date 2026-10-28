@@ -9,7 +9,6 @@
 
 using namespace std;
 
-// Спросить число; если нажать Enter - берётся значение по умолчанию
 double ask(const string& text, double def) {
     cout << text << " [" << def << "]: ";
     string line;
@@ -20,7 +19,6 @@ double ask(const string& text, double def) {
 
 namespace {
 
-// Все настройки симуляции в одном месте
 struct Params {
     bool use14 = true;
     bool use26 = true;
@@ -41,7 +39,6 @@ struct Params {
     double dt = 0.1;
 };
 
-// Меню выбора модели: 0 - все, 1..3 - одна модель
 int chooseModel() {
     cout << "Какую модель показать?\n";
     cout << "  1 - Model 1.4 (линейная)\n";
@@ -56,7 +53,6 @@ int chooseModel() {
     return choice;
 }
 
-// Ввод параметров только для выбранных моделей
 Params readParams() {
     Params p;
     const int choice = chooseModel();
@@ -88,7 +84,6 @@ Params readParams() {
     return p;
 }
 
-// Создаём только выбранные модели (полиморфизм: храним их как Model)
 vector<unique_ptr<Model>> createModels(const Params& p) {
     vector<unique_ptr<Model>> models;
     if (p.use14) {
@@ -103,7 +98,6 @@ vector<unique_ptr<Model>> createModels(const Params& p) {
     return models;
 }
 
-// Шапка таблицы (консоль) и заголовок CSV
 void writeHeader(const vector<unique_ptr<Model>>& models, ostream& csv) {
     csv << "tau,u";
     cout << setw(5) << "tau" << setw(12) << "u";
@@ -115,7 +109,6 @@ void writeHeader(const vector<unique_ptr<Model>>& models, ostream& csv) {
     cout << "\n";
 }
 
-// Одна строка таблицы: tau, u и текущие y всех моделей
 void writeRow(const vector<unique_ptr<Model>>& models, ostream& csv, int tau, double u) {
     cout << setw(5) << tau << setw(12) << u;
     csv << tau << "," << u;
@@ -127,7 +120,6 @@ void writeRow(const vector<unique_ptr<Model>>& models, ostream& csv, int tau, do
     csv << "\n";
 }
 
-// Симуляция для одного типа входного воздействия
 void simulate(InputType type, const Params& p, const filesystem::path& outDir) {
     auto models = createModels(p);
 
@@ -141,17 +133,16 @@ void simulate(InputType type, const Params& p, const filesystem::path& outDir) {
         const double u = inputValue(type, tau, p.u0);
         writeRow(models, csv, tau, u);
 
-        // Считаем y_{tau+1}
         for (const auto& m : models) {
             m->nextStep(u);
         }
     }
 }
 
-}  // namespace
+}  
 
 int main(int argc, char** argv) {
-    // Папка для результатов: первый аргумент (по умолчанию - текущая)
+
     const filesystem::path outDir = (argc > 1) ? argv[1] : ".";
     filesystem::create_directories(outDir);
 
