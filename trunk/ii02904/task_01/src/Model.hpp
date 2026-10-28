@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 
-// Базовый абстрактный класс: любая модель умеет считать следующий шаг.
+
 class Model {
 public:
     virtual ~Model() = default;
