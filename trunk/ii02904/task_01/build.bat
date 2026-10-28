@@ -2,14 +2,18 @@
 chcp 65001 >nul
 cd /d "%~dp0"
 
-
+rem ---------------------------------------------------------------
+rem Python virtual environment.
+rem If auto-detection fails, put the full path to your venv here, e.g.:
+rem set "VENV_DIR=C:\path\to\project\.venv"
+rem ---------------------------------------------------------------
 set "VENV_DIR="
 
 set "PYTHON=python"
 if defined VENV_DIR (
     if exist "%VENV_DIR%\Scripts\python.exe" set "PYTHON=%VENV_DIR%\Scripts\python.exe"
 ) else (
-
+    rem Auto-search: .venv / venv / env in this folder and up to 3 folders above
     for %%D in (".venv" "venv" "env") do (
         for %%P in ("%~dp0%%~D" "%~dp0..\%%~D" "%~dp0..\..\%%~D" "%~dp0..\..\..\%%~D") do (
             if exist "%%~P\Scripts\python.exe" set "PYTHON=%%~P\Scripts\python.exe"
@@ -18,6 +22,7 @@ if defined VENV_DIR (
 )
 echo Python: %PYTHON%
 
+rem Results (csv, png) go to doc
 set "OUT_DIR=%~dp0doc"
 if not exist "%OUT_DIR%" mkdir "%OUT_DIR%"
 echo Output folder: %OUT_DIR%
@@ -39,10 +44,11 @@ if errorlevel 1 goto error
 
 echo.
 echo ===== 4. Plot graphs =====
-"%PYTHON%" src\plot.py "%OUT_DIR%"
+"%PYTHON%" src\plot.py
 if errorlevel 1 goto error
 
-start "" %OUT_DIR%\plot.png
+rem Open the graph in the default image viewer
+start "" "%OUT_DIR%\plot.png"
 
 echo.
 echo Done!
