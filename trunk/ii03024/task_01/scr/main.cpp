@@ -11,7 +11,7 @@
 // Функция для автоматического построения графика через Gnuplot
 void showGraph(const std::string& filename, const std::string& titleName) {
     std::ofstream script("plot_temp.gnu");
-    script << "set encoding utf8\n";
+    //script << "set encoding utf8\n";
     script << "set grid\n";
     script << "set title \"" << titleName << "\"\n";
     script << "set xlabel \"Шаг времени (tau)\"\n";

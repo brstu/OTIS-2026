@@ -1,8 +1,9 @@
 set encoding utf8
+set terminal windows font "Arial,12"
 set grid
-set title "Модель 11 (Линейная)"
-set xlabel "Шаг времени (tau)"
-set ylabel "Выход y(tau)"
+set title "Model 11 (Linear)"
+set xlabel "Time step (tau)"
+set ylabel "Output y(tau)"
 set datafile separator ","
-plot 'Model11_Step.csv' skip 1 using 1:3 with lines linewidth 2 title 'y(tau)'
-pause -1 "Нажмите Enter, чтобы закрыть график..."
+plot 'Modell1_Step.csv' skip 1 using 1:3 with lines linewidth 2 title 'y(tau)'
+pause -1 "Press Enter to close the plot..."
