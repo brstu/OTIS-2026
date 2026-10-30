@@ -15,7 +15,7 @@ double Model2_3::deadzone(double u, double d) {
 
 double Model2_3::step(double u) {
     const double nonlin = deadzone(u, delta);
-    const double next_y = a * getY() + b * nonlin;
-    setY(next_y);
+    const double next_y = a * currentState() + b * nonlin;
+    updateState(next_y);
     return next_y;
 }

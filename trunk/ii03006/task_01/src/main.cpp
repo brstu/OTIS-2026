@@ -2,139 +2,145 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
-#include <sstream>
 #include <memory>
+#include <algorithm>
 #include "InputSignal.h"
 #include "Model.h"
 #include "Model1_8.h"
 #include "Model2_3.h"
 #include "Model3_3.h"
 
-int getSafeSteps(int raw_steps) {
-    constexpr int min_steps = 1;
-    constexpr int max_steps = 1000;
-    constexpr int default_steps = 30;
-    return (raw_steps < min_steps || raw_steps > max_steps) ? default_steps : raw_steps;
-}
+struct ExperimentConfig {
+    int total_ticks{30};
+    int model_id{1};
+    DiscreteSignalPattern signal_type{DiscreteSignalPattern::HeavisideStep};
+};
 
-template <typename T>
-T promptValue(const std::string& prompt, T default_value, T min_v = {}, T max_v = {}, bool check_range = false) {
-    std::cout << prompt << " (default " << default_value << "): ";
-    if (std::string input; std::getline(std::cin, input) && !input.empty()) {
-        std::stringstream ss(input);
-        T val;
-        if ((ss >> val) && (!check_range || (val >= min_v && val <= max_v))) {
-            return val;
+static double readField(const char* label, double fallback) {
+    std::cout << label << " [" << fallback << "]: ";
+    std::string line;
+    if (std::getline(std::cin, line) && !line.empty()) {
+        try {
+            return std::stod(line);
+        } catch (...) {
+            return fallback;
         }
     }
-    return default_value;
+    return fallback;
 }
 
-int getModelChoice() {
-    std::cout << "Select model:\n"
-              << "  1. Model 1.8 (Generalized Autoregressive Linear Model)\n"
-              << "  2. Model 2.3 (Dead-Zone Non-linearity)\n"
-              << "  3. Model 3.3 (Standard First-Order Process)\n";
-    return promptValue<int>("Enter choice (1-3)", 1, 1, 3, true);
-}
-
-SignalType getSignalChoice() {
-    std::cout << "\nSelect input signal:\n"
-              << "  1. Step\n"
-              << "  2. Impulse\n"
-              << "  3. Harmonic\n";
-    const int val = promptValue<int>("Enter choice (1-3)", 1, 1, 3, true);
-    if (val == 2) return SignalType::IMPULSE;
-    if (val == 3) return SignalType::HARMONIC;
-    return SignalType::STEP;
-}
-
-int main(int argc, char* argv[]) {
-    int parsed_steps = 30;
+static ExperimentConfig configureExperiment(int argc, char* argv[]) {
+    ExperimentConfig cfg;
 
     if (argc > 1) {
         try {
-            parsed_steps = getSafeSteps(std::stoi(argv[1]));
+            cfg.total_ticks = std::clamp(std::stoi(argv[1]), 1, 1000);
         } catch (...) {
-            parsed_steps = 30;
+            cfg.total_ticks = 30;
         }
     } else {
-        parsed_steps = getSafeSteps(promptValue<int>("Enter simulation steps", 30));
-    }
-
-    const int steps = parsed_steps;
-    const int model_choice = getModelChoice();
-    const SignalType selected_signal = getSignalChoice();
-
-    std::unique_ptr<Model> active_model;
-    std::string model_name;
-
-    std::cout << "\n--- Parameters configuration ---\n";
-
-    switch (model_choice) {
-        case 2: {
-            const double a = promptValue("Enter parameter a", 0.6);
-            const double b = promptValue("Enter parameter b", 0.5);
-            const double delta = promptValue("Enter dead-zone delta", 0.2);
-            const double y0 = promptValue("Enter initial y0", 0.0);
-            active_model = std::make_unique<Model2_3>(a, b, delta, y0);
-            model_name = "Model 2.3";
-            break;
-        }
-        case 3: {
-            const double a = promptValue("Enter parameter a", 0.5);
-            const double b = promptValue("Enter parameter b", 0.8);
-            const double dt = promptValue("Enter time step dt", 0.1);
-            const double y0 = promptValue("Enter initial y0", 0.0);
-            active_model = std::make_unique<Model3_3>(a, b, dt, y0);
-            model_name = "Model 3.3";
-            break;
-        }
-        case 1:
-        default: {
-            const double a1 = promptValue("Enter parameter a1", 0.5);
-            const double a2 = promptValue("Enter parameter a2", 0.2);
-            const double b1 = promptValue("Enter parameter b1", 0.4);
-            const double b2 = promptValue("Enter parameter b2", 0.1);
-            const double y0 = promptValue("Enter initial y0", 0.0);
-            active_model = std::make_unique<Model1_8>(a1, a2, b1, b2, y0);
-            model_name = "Model 1.8";
-            break;
+        std::cout << "Enter simulation steps [30]: ";
+        if (std::string line; std::getline(std::cin, line) && !line.empty()) {
+            try {
+                cfg.total_ticks = std::clamp(std::stoi(line), 1, 1000);
+            } catch (...) {
+                cfg.total_ticks = 30;
+            }
         }
     }
 
-    const std::string sig_name = InputSignal::getSignalName(selected_signal);
+    std::cout << "\nChoose dynamic system:\n"
+              << " 1) Linear ARX (Model 1.8)\n"
+              << " 2) Dead-zone non-linear (Model 2.3)\n"
+              << " 3) Continuous ODE (Model 3.3)\n"
+              << "Selection: ";
+    if (std::string line; std::getline(std::cin, line) && !line.empty()) {
+        try {
+            cfg.model_id = std::clamp(std::stoi(line), 1, 3);
+        } catch (...) {
+            cfg.model_id = 1;
+        }
+    }
 
-    std::ofstream out("results.csv");
-    if (!out.is_open()) {
-        std::cerr << "Failed to open results.csv\n";
+    std::cout << "\nChoose excitation type:\n"
+              << " 1) Heaviside Step\n"
+              << " 2) Dirac Impulse\n"
+              << " 3) Sinusoidal Wave\n"
+              << "Selection: ";
+    if (std::string line; std::getline(std::cin, line) && !line.empty()) {
+        try {
+            const int sig_id = std::stoi(line);
+            if (sig_id == 2) cfg.signal_type = DiscreteSignalPattern::DiracImpulse;
+            else if (sig_id == 3) cfg.signal_type = DiscreteSignalPattern::SinusoidalWave;
+            else cfg.signal_type = DiscreteSignalPattern::HeavisideStep;
+        } catch (...) {
+            cfg.signal_type = DiscreteSignalPattern::HeavisideStep;
+        }
+    }
+
+    return cfg;
+}
+
+int main(int argc, char* argv[]) {
+    const ExperimentConfig cfg = configureExperiment(argc, argv);
+
+    std::unique_ptr<Model> system;
+    std::string system_tag;
+
+    std::cout << "\n=== Dynamic Parameters Setup ===\n";
+    if (cfg.model_id == 2) {
+        const double a = readField("Coeff a", 0.6);
+        const double b = readField("Coeff b", 0.5);
+        const double d = readField("Dead-zone delta", 0.2);
+        const double y0 = readField("Init y0", 0.0);
+        system = std::make_unique<Model2_3>(a, b, d, y0);
+        system_tag = "Model 2.3";
+    } else if (cfg.model_id == 3) {
+        const double a = readField("Coeff a", 0.5);
+        const double b = readField("Coeff b", 0.8);
+        const double dt = readField("Step dt", 0.1);
+        const double y0 = readField("Init y0", 0.0);
+        system = std::make_unique<Model3_3>(a, b, dt, y0);
+        system_tag = "Model 3.3";
+    } else {
+        const double a1 = readField("Coeff a1", 0.5);
+        const double a2 = readField("Coeff a2", 0.2);
+        const double b1 = readField("Coeff b1", 0.4);
+        const double b2 = readField("Coeff b2", 0.1);
+        const double y0 = readField("Init y0", 0.0);
+        system = std::make_unique<Model1_8>(a1, a2, b1, b2, y0);
+        system_tag = "Model 1.8";
+    }
+
+    std::ofstream export_file("results.csv");
+    if (!export_file.is_open()) {
+        std::cerr << "Cannot open export destination 'results.csv'\n";
         return 1;
     }
 
-    out << "step,signal,u,y,model_name\n";
+    export_file << "step,signal,u,y,model_name\n";
+    const std::string_view sig_label = SignalGenerator::nameOf(cfg.signal_type);
 
-    std::cout << "\n============================================\n";
-    std::cout << "Simulation started for selected configuration\n";
-    std::cout << "============================================\n";
+    std::cout << "\n" << std::string(36, '=') << "\n";
+    std::cout << " Simulation in progress...\n";
+    std::cout << std::string(36, '=') << "\n";
+    std::cout << std::setw(6) << "Tick"
+              << std::setw(12) << "Control (u)"
+              << std::setw(16) << "Output (y)" << "\n";
 
-    std::cout << std::setw(6) << "Step"
-              << std::setw(12) << "Input u"
-              << std::setw(16) << "Output y" << "\n";
+    for (int k = 0; k < cfg.total_ticks; ++k) {
+        const double u_k = SignalGenerator::sample(cfg.signal_type, k);
+        const double y_k = system->step(u_k);
 
-    for (int t = 0; t < steps; ++t) {
-        const double u = InputSignal::getSignal(selected_signal, t);
-        const double y = active_model->step(u);
-
-        std::cout << std::setw(6) << t
+        std::cout << std::setw(6) << k
                   << std::fixed << std::setprecision(4)
-                  << std::setw(12) << u
-                  << std::setw(16) << y << "\n";
+                  << std::setw(12) << u_k
+                  << std::setw(16) << y_k << "\n";
 
-        out << t << "," << sig_name << "," << u << ","
-            << y << "," << model_name << "\n";
+        export_file << k << "," << sig_label << "," << u_k << "," << y_k << "," << system_tag << "\n";
     }
 
-    out.close();
-    std::cout << "\nResults saved to results.csv\n";
+    export_file.close();
+    std::cout << "\nData recorded to 'results.csv'.\n";
     return 0;
 }

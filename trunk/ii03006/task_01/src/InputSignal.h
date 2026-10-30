@@ -1,14 +1,13 @@
 #pragma once
-#include <string>
+#include <string_view>
 
-enum class SignalType {
-    STEP,
-    IMPULSE,
-    HARMONIC
+enum class DiscreteSignalPattern {
+    HeavisideStep,
+    DiracImpulse,
+    SinusoidalWave
 };
 
-class InputSignal {
-public:
-    static double getSignal(SignalType sig_type, int time_index);
-    static std::string getSignalName(SignalType sig_type);
-};
+namespace SignalGenerator {
+    double sample(DiscreteSignalPattern pattern, int k);
+    std::string_view nameOf(DiscreteSignalPattern pattern);
+}

@@ -1,28 +1,29 @@
 #include "InputSignal.h"
 #include <cmath>
-#include <array>
 
-double InputSignal::getSignal(SignalType sig_type, int time_index) {
-    if (sig_type == SignalType::STEP) {
-        return 1.0;
+namespace SignalGenerator {
+
+double sample(DiscreteSignalPattern pattern, int k) {
+    switch (pattern) {
+        case DiscreteSignalPattern::HeavisideStep:
+            return 1.0;
+        case DiscreteSignalPattern::DiracImpulse:
+            return (k == 0) ? 1.0 : 0.0;
+        case DiscreteSignalPattern::SinusoidalWave:
+            return std::sin(0.4 * static_cast<double>(k));
+        default:
+            return 0.0;
     }
-    if (sig_type == SignalType::IMPULSE) {
-        return time_index == 0 ? 1.0 : 0.0;
-    }
-    if (sig_type == SignalType::HARMONIC) {
-        constexpr double freq = 0.4;
-        return std::sin(freq * static_cast<double>(time_index));
-    }
-    return 0.0;
 }
 
-std::string InputSignal::getSignalName(SignalType sig_type) {
-    static constexpr std::array<const char*, 3> names = {
-        "Step", "Impulse", "Harmonic"
-    };
-
-    if (const auto idx = static_cast<size_t>(sig_type); idx < names.size()) {
-        return names[idx];
+std::string_view nameOf(DiscreteSignalPattern pattern) {
+    if (pattern == DiscreteSignalPattern::DiracImpulse) {
+        return "Impulse";
     }
-    return "Unknown";
+    if (pattern == DiscreteSignalPattern::SinusoidalWave) {
+        return "Harmonic";
+    }
+    return "Step";
 }
+
+} // namespace SignalGenerator
