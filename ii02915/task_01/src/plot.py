@@ -3,8 +3,8 @@ import sys
 
 import matplotlib.pyplot as plt
 
-# Имя файла берём из аргумента, по умолчанию result.csv
-filename = sys.argv[1] if len(sys.argv) > 1 else "result.csv"
+# Файл с результатами, который создаёт программа на C++
+filename = "result.csv"
 
 steps = []
 inputs = []
