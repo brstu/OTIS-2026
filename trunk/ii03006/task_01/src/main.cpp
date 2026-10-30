@@ -2,9 +2,9 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
+#include <sstream>
 #include <memory>
 #include <algorithm>
-#include <exception>
 #include "InputSignal.h"
 #include "Model.h"
 #include "Model1_8.h"
@@ -20,10 +20,10 @@ struct ExperimentConfig {
 static double readField(const char* label, double fallback) {
     std::cout << label << " [" << fallback << "]: ";
     if (std::string line; std::getline(std::cin, line) && !line.empty()) {
-        try {
-            return std::stod(line);
-        } catch (const std::exception&) {
-            return fallback;
+        std::istringstream stream(line);
+        double parsed_value = 0.0;
+        if (stream >> parsed_value) {
+            return parsed_value;
         }
     }
     return fallback;
@@ -33,18 +33,18 @@ static ExperimentConfig configureExperiment(int argc, char* argv[]) {
     ExperimentConfig cfg;
 
     if (argc > 1) {
-        try {
-            cfg.total_ticks = std::clamp(std::stoi(argv[1]), 1, 1000);
-        } catch (const std::exception&) {
-            cfg.total_ticks = 30;
+        std::istringstream arg_stream(argv[1]);
+        int parsed_arg = 30;
+        if (arg_stream >> parsed_arg) {
+            cfg.total_ticks = std::clamp(parsed_arg, 1, 1000);
         }
     } else {
         std::cout << "Enter simulation steps [30]: ";
         if (std::string line; std::getline(std::cin, line) && !line.empty()) {
-            try {
-                cfg.total_ticks = std::clamp(std::stoi(line), 1, 1000);
-            } catch (const std::exception&) {
-                cfg.total_ticks = 30;
+            std::istringstream stream(line);
+            int parsed_steps = 30;
+            if (stream >> parsed_steps) {
+                cfg.total_ticks = std::clamp(parsed_steps, 1, 1000);
             }
         }
     }
@@ -55,10 +55,10 @@ static ExperimentConfig configureExperiment(int argc, char* argv[]) {
               << " 3) Continuous ODE (Model 3.3)\n"
               << "Selection: ";
     if (std::string line; std::getline(std::cin, line) && !line.empty()) {
-        try {
-            cfg.model_id = std::clamp(std::stoi(line), 1, 3);
-        } catch (const std::exception&) {
-            cfg.model_id = 1;
+        std::istringstream stream(line);
+        int parsed_id = 1;
+        if (stream >> parsed_id) {
+            cfg.model_id = std::clamp(parsed_id, 1, 3);
         }
     }
 
@@ -68,8 +68,9 @@ static ExperimentConfig configureExperiment(int argc, char* argv[]) {
               << " 3) Sinusoidal Wave\n"
               << "Selection: ";
     if (std::string line; std::getline(std::cin, line) && !line.empty()) {
-        try {
-            const int sig_id = std::stoi(line);
+        std::istringstream stream(line);
+        int sig_id = 1;
+        if (stream >> sig_id) {
             if (sig_id == 2) {
                 cfg.signal_type = DiscreteSignalPattern::DiracImpulse;
             } else if (sig_id == 3) {
@@ -77,8 +78,6 @@ static ExperimentConfig configureExperiment(int argc, char* argv[]) {
             } else {
                 cfg.signal_type = DiscreteSignalPattern::HeavisideStep;
             }
-        } catch (const std::exception&) {
-            cfg.signal_type = DiscreteSignalPattern::HeavisideStep;
         }
     }
 
