@@ -32,65 +32,82 @@
 | 2 | 2.3 | нелинейная дискретная | Dead-Zone Non-linearity |
 | 3 | 3.3 | дифференциальное уравнение | Bounded Saturation Rate |
 
-## Входные воздействия
-
-1. Ступенчатое: `u(t) = A`
-2. Импульсное: `u(0) = A`, `u(t > 0) = 0`
-3. Гармоническое: `u(t) = A * sin(t)`
+## Входной сигнал
+Для тестирования переходных характеристик реализованы воздействия:
+* **Ступень (Heaviside):** $u[k] = 1$
+* **Единичный импульс (Dirac discrete):** $u[0] = 1$, $u[k > 0] = 0$
+* **Гармоническое воздействие:** $u[k] = \sin(0.4 \cdot k)$
 
 ## ООП
 
-Создан абстрактный базовый класс `Model` с чисто виртуальным методом `step(double u)`.
+Создан абстрактный базовый класс `Model` с виртуальным методом `step(double input_u)`.
 
 От него наследуются классы моделей:
 - `Model1_8`
 - `Model2_3`
 - `Model3_3`
 
-## UML Диаграмма классов
+## UML Диаграмма
 
 ```mermaid
 classDiagram
+    class SignalType {
+        <<enumeration>>
+        STEP
+        IMPULSE
+        HARMONIC
+    }
+
     class Model {
         <<abstract>>
-        #double y
-        +Model(initial_y: double)
+        -double m_y
+        +Model()
+        +Model(start_val: double)
         +~Model()*
-        +step(u: double)* double
-        +getState() double
+        +step(input_u: double)* double
+        +getY() double
+        +setY(next_val: double) void
+        +reset(start_val: double) void
+    }
+
+    class Model1_8 {
+        -double a1
+        -double a2
+        -double b1
+        -double b2
+        -double y_prev
+        -double u_prev
+        +Model1_8(a1_val: double, a2_val: double, b1_val: double, b2_val: double, initial_y: double)
+        +step(u: double) double
         +reset(initial_y: double) void
     }
 
-    class Model1_1 {
+    class Model2_3 {
         -double a
         -double b
-        +Model1_1(a_val: double, b_val: double, initial_y: double)
+        -double delta
+        -deadzone(u: double, d: double)\$ double
+        +Model2_3(a_val: double, b_val: double, delta_val: double, initial_y: double)
         +step(u: double) double
     }
 
-    class Model2_5 {
+    class Model3_3 {
         -double a
-        -double b
-        -sign(val: double)\$ double
-        +Model2_5(a_val: double, b_val: double, initial_y: double)
-        +step(u: double) double
-    }
-
-    class Model3_9 {
         -double b
         -double dt
-        +Model3_9(b_val: double, dt_val: double, initial_y: double)
+        +Model3_3(a_val: double, b_val: double, dt_val: double, initial_y: double)
         +step(u: double) double
     }
 
     class InputSignal {
-        +getSignal(type: SignalType, tau: int)\$ double
-        +getSignalName(type: SignalType)\$ string
+        +getSignal(sig_type: SignalType, time_index: int)\$ double
+        +getSignalName(sig_type: SignalType)\$ string
     }
 
-    Model <|-- Model1_1
-    Model <|-- Model2_5
-    Model <|-- Model3_9
+    Model <|-- Model1_8
+    Model <|-- Model2_3
+    Model <|-- Model3_3
+    InputSignal ..> SignalType : uses
     InputSignal ..> Model : generates input u
 ```
 
@@ -106,7 +123,7 @@ setlocal
 chcp 65001 >nul
 
 if not exist "%~dp0CMakeLists.txt" (
-    echo ERROR CMakeLists not found in this folder
+    echo ERROR: CMakeLists.txt not found in this folder
     pause
     exit /b 1
 )
@@ -115,33 +132,42 @@ cd /d "%~dp0"
 
 echo STARTING BUILD PROCESS
 
-echo STAGE 1 Configuration
+echo [STAGE 1] Configuration
 cmake -S . -B build -G "MinGW Makefiles"
 if errorlevel 1 goto error
 
-echo STAGE 2 Compilation
+echo [STAGE 2] Compilation
 cmake --build build
 if errorlevel 1 goto error
 
-echo STAGE 3 Execution
-if exist "build\src\task_01.exe" (
+echo [STAGE 3] Execution
+if exist "build\src\ii03006_task_01.exe" (
+    "build\src\ii03006_task_01.exe"
+) else if exist "build\ii03006_task_01.exe" (
+    "build\ii03006_task_01.exe"
+) else if exist "build\src\task_01.exe" (
     "build\src\task_01.exe"
 ) else if exist "build\task_01.exe" (
     "build\task_01.exe"
 ) else (
-    echo WARNING Executable not found in standard paths
+    echo WARNING: Executable not found in standard paths
 )
-
-echo STAGE 4 Plotting
-py src\plot.py
 if errorlevel 1 goto error
 
-echo SUCCESS Build completed successfully
+echo [STAGE 4] Plotting
+(python src\plot.py 2>nul || py src\plot.py)
+if errorlevel 1 goto error
+
+if exist "doc\plot_task01.png" (
+    start "" "doc\plot_task01.png"
+)
+
+echo SUCCESS: Build completed successfully
 pause
 goto end
 
 :error
-echo ERROR Build failed
+echo ERROR: Build failed
 pause
 exit /b 1
 
@@ -151,9 +177,9 @@ endlocal
 
 После сборки исполняемый файл запускается автоматически либо вручную из каталога `build/src`.
 
-### Демонстрация исполняемого файла task_01.exe:
+### Демонстрация task_01.exe:
 
-![](work.png)
+![](output.png)
 
 При запуске исполняемого файла мы получаем результат `results.csv`, после чего автоматически запускается `src/plot.py` для визуализации ответа:
 
@@ -163,9 +189,8 @@ endlocal
 ## Вывод
 
 Программа:
-- моделирует все три системы варианта;
-- симулирует отклик на все три типа входных воздействий (ступенчатое, импульсное, гармоническое);
-- позволяет задать количество шагов `n`;
-- выводит результаты в табличном виде;
-- сохраняет результаты в `results.csv`;
-- визуализирует графики через Python/Matplotlib.
+- моделирование поведения всех трёх динамических систем Варианта 24 (Model 1.8, Model 2.3, Model 3.3);
+- расчёт переходных процессов при подаче типовых входных воздействий (ступенчатого, импульсного и гармонического сигналов);
+- конфигурирование продолжительности симуляции через параметр количества тактов $n$;
+- форматированный вывод динамики состояний в консоль и экспорт числового ряда в файл `results.csv`;
+- автоматическую визуализацию графиков переходных процессов средствами библиотеки Matplotlib (Python).

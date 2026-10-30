@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <algorithm>
+#include <exception>
 #include "InputSignal.h"
 #include "Model.h"
 #include "Model1_8.h"
@@ -18,11 +19,10 @@ struct ExperimentConfig {
 
 static double readField(const char* label, double fallback) {
     std::cout << label << " [" << fallback << "]: ";
-    std::string line;
-    if (std::getline(std::cin, line) && !line.empty()) {
+    if (std::string line; std::getline(std::cin, line) && !line.empty()) {
         try {
             return std::stod(line);
-        } catch (...) {
+        } catch (const std::exception&) {
             return fallback;
         }
     }
@@ -35,7 +35,7 @@ static ExperimentConfig configureExperiment(int argc, char* argv[]) {
     if (argc > 1) {
         try {
             cfg.total_ticks = std::clamp(std::stoi(argv[1]), 1, 1000);
-        } catch (...) {
+        } catch (const std::exception&) {
             cfg.total_ticks = 30;
         }
     } else {
@@ -43,7 +43,7 @@ static ExperimentConfig configureExperiment(int argc, char* argv[]) {
         if (std::string line; std::getline(std::cin, line) && !line.empty()) {
             try {
                 cfg.total_ticks = std::clamp(std::stoi(line), 1, 1000);
-            } catch (...) {
+            } catch (const std::exception&) {
                 cfg.total_ticks = 30;
             }
         }
@@ -57,7 +57,7 @@ static ExperimentConfig configureExperiment(int argc, char* argv[]) {
     if (std::string line; std::getline(std::cin, line) && !line.empty()) {
         try {
             cfg.model_id = std::clamp(std::stoi(line), 1, 3);
-        } catch (...) {
+        } catch (const std::exception&) {
             cfg.model_id = 1;
         }
     }
@@ -70,10 +70,14 @@ static ExperimentConfig configureExperiment(int argc, char* argv[]) {
     if (std::string line; std::getline(std::cin, line) && !line.empty()) {
         try {
             const int sig_id = std::stoi(line);
-            if (sig_id == 2) cfg.signal_type = DiscreteSignalPattern::DiracImpulse;
-            else if (sig_id == 3) cfg.signal_type = DiscreteSignalPattern::SinusoidalWave;
-            else cfg.signal_type = DiscreteSignalPattern::HeavisideStep;
-        } catch (...) {
+            if (sig_id == 2) {
+                cfg.signal_type = DiscreteSignalPattern::DiracImpulse;
+            } else if (sig_id == 3) {
+                cfg.signal_type = DiscreteSignalPattern::SinusoidalWave;
+            } else {
+                cfg.signal_type = DiscreteSignalPattern::HeavisideStep;
+            }
+        } catch (const std::exception&) {
             cfg.signal_type = DiscreteSignalPattern::HeavisideStep;
         }
     }
