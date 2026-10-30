@@ -184,7 +184,7 @@ int main() {
             break;
         }
         runOnce(choice);
-        std::cout << "\nГрафик можно построить: python plot.py " << kCsvName << "\n";
+        std::cout << "\nГрафик можно построить командой: python plot.py\n";
     }
     return 0;
 }
