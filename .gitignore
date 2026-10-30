@@ -41,5 +41,7 @@ Thumbs.db
 # --- Local simulation results (optional) ---
 # Uncomment if you don't want to commit your simulation data
 # result.csv
-# Local simulation output (используем doc/example_output.csv для примера)
+# Local simulation output (пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ doc/example_output.csv пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ)
 trunk/ii02909/task_01/result.csv
+.vs/
+build/
