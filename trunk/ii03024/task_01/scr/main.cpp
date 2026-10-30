@@ -16,7 +16,7 @@ void showGraph(const std::string& filename, const std::string& titleName) {
     script << "set title \"" << titleName << "\"\n";
     script << "set xlabel \"Шаг времени (tau)\"\n";
     script << "set ylabel \"Выход y(tau)\"\n";
-    
+
     script << "set datafile separator \",\"\n";
 
     script << "plot '" << filename << "' skip 1 using 1:3 with lines linewidth 2 title 'y(tau)'\n";
@@ -26,6 +26,7 @@ void showGraph(const std::string& filename, const std::string& titleName) {
     std::string command = "\"D:\\gnuplot\\bin\\gnuplot.exe\" plot_temp.gnu";
     std::system(command.c_str());
 }
+
 int main() {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
@@ -48,19 +49,19 @@ int main() {
     std::string modelTitle = "";
 
     if (modelChoice == 1) {
-        double a1, a2, b;
-        std::cout << "a1 = "; std::cin >> a1;
-        std::cout << "a2 = "; std::cin >> a2;
-        std::cout << "b = ";  std::cin >> b;
-        model = new Model11(a1, a2, b);
+        double a, b; // ИЗМЕНЕНО: теперь 2 коэффициента (a и b) вместо a1, a2, b
+        std::cout << "a = "; std::cin >> a;
+        std::cout << "b = "; std::cin >> b;
+        model = new Model11(a, b);
         modelPrefix = "Model11";
         modelTitle = "Модель 11 (Линейная)";
     }
     else if (modelChoice == 2) {
-        double a, b;
+        double a, b, c; // ИЗМЕНЕНО: теперь 3 коэффициента (a, b, c) для модели 2.8
         std::cout << "a = "; std::cin >> a;
         std::cout << "b = "; std::cin >> b;
-        model = new Model28(a, b);
+        std::cout << "c = "; std::cin >> c;
+        model = new Model28(a, b, c);
         modelPrefix = "Model28";
         modelTitle = "Модель 28 (Нелинейная)";
     }
