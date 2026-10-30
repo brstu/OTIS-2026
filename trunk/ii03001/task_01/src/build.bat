@@ -56,7 +56,32 @@ if errorlevel 1 (
 
 echo.
 echo ========================================
-echo Build completed successfully.
+echo Checking Python and Matplotlib (for graphs)...
+echo ========================================
+set "PYCMD="
+where python >nul 2>nul
+if not errorlevel 1 set "PYCMD=python"
+if not defined PYCMD (
+    where py >nul 2>nul
+    if not errorlevel 1 set "PYCMD=py -3"
+)
+
+if not defined PYCMD (
+    echo Python was not found, so graphs will not be shown.
+    echo Install Python from https://www.python.org/downloads/
+    echo During installation, select "Add Python to PATH".
+    goto run_program
+)
+
+%PYCMD% -c "import matplotlib" >nul 2>nul
+if errorlevel 1 (
+    echo Matplotlib is not installed. Installing it now...
+    %PYCMD% -m pip install matplotlib
+)
+
+:run_program
+echo.
+echo ========================================
 echo Starting program...
 echo ========================================
 if exist "build\Release\task_01.exe" (
@@ -69,44 +94,6 @@ if exist "build\Release\task_01.exe" (
     exit /b 1
 )
 
-echo.
-echo ========================================
-echo Program finished. Creating graphs...
-echo ========================================
-
-where python >nul 2>nul
-if not errorlevel 1 (
-    python -c "import matplotlib" >nul 2>nul
-    if errorlevel 1 (
-        echo Matplotlib is not installed. Installing it now...
-        python -m pip install matplotlib
-    )
-    python plot_results.py
-    if errorlevel 1 (
-        echo Graph generation failed. Check Python and Matplotlib installation.
-    )
-    goto finished
-)
-
-where py >nul 2>nul
-if not errorlevel 1 (
-    py -3 -c "import matplotlib" >nul 2>nul
-    if errorlevel 1 (
-        echo Matplotlib is not installed. Installing it now...
-        py -3 -m pip install matplotlib
-    )
-    py -3 plot_results.py
-    if errorlevel 1 (
-        echo Graph generation failed. Check Python and Matplotlib installation.
-    )
-    goto finished
-)
-
-echo Python was not found, so graphs could not be generated.
-echo Install Python from https://www.python.org/downloads/
-echo During installation, select "Add Python to PATH".
-
-:finished
 echo.
 echo ========================================
 echo All tasks finished.

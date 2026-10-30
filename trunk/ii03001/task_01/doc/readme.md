@@ -78,76 +78,6 @@ DZ(y, δ) = 0,       если |y| ≤ δ
 
 Входные сигналы задаются перечислением `InputType { Step, Impulse, Harmonic }` и функцией `inputValue(type, t)`. Функция `simulate(...)` выполняет моделирование и сохраняет результат в CSV.
 
-## Результат
-
-Программа:
-- моделирует все три системы варианта;
-- симулирует отклик каждой модели на все три типа входных воздействий (ступенчатое, импульсное, гармоническое), всего 9 экспериментов;
-- позволяет задать количество шагов `n` (1…100000) и параметры моделей;
-- выводит результаты в табличном виде (`t`, `u(t)`, `y(t)`);
-- сохраняет результаты в 9 CSV-файлов формата `t,u,y`;
-- визуализирует графики через Python/Matplotlib (`plot_results.py`).
-
-### Вводимые параметры
-
-| Параметр | Описание |
-|---|---|
-| `n` | число шагов моделирования (1…100000) |
-| `a`, `b`, `y0` | коэффициенты Model 1.1 и начальное значение `y0` (общее для всех моделей) |
-| `a`, `b`, `delta` | коэффициенты Model 2.3 и ширина зоны нечувствительности `δ ≥ 0` |
-| `b`, `dt` | коэффициент и шаг интегрирования Model 3.5 (`dt > 0`) |
-
-### Выходные файлы
-
-| Модель | Ступенчатое | Импульсное | Гармоническое |
-|---|---|---|---|
-| Model 1.1 | `model11_step.csv` | `model11_impulse.csv` | `model11_harmonic.csv` |
-| Model 2.3 | `model23_step.csv` | `model23_impulse.csv` | `model23_harmonic.csv` |
-| Model 3.5 | `model35_step.csv` | `model35_impulse.csv` | `model35_harmonic.csv` |
-
-Для каждого CSV-файла `plot_results.py` строит и сохраняет график `y(t)` в одноимённый `.png`.
-
-## Пример работы программы
-
-### Сборка и запуск
-
-Проект собирается через CMake (`CMakeLists.txt`, стандарт C++17, исполняемый файл `task_01`). Сборка и запуск автоматизированы файлом `build.bat`, который последовательно:
-
-1. Ищет CMake (в `PATH`, затем в `Program Files`, `Program Files (x86)` и `%LocalAppData%\Programs`).
-2. Конфигурирует проект: `cmake -S . -B build`.
-3. Собирает его в конфигурации Release: `cmake --build build --config Release`.
-4. Запускает `build\Release\task_01.exe` (или `build\task_01.exe`).
-5. Проверяет наличие Python (`python` или `py -3`), при необходимости устанавливает `matplotlib` и запускает `plot_results.py`.
-
-Для сборки необходимы CMake и Visual Studio Build Tools с компонентом «Desktop development with C++». Для построения графиков — Python 3.
-
-Запуск:
-
-```bat
-build.bat
-```
-
-### Демонстрация исполняемого файла task_01.exe:
-
-![](work.png)
-
-После работы программы в каталоге создаются CSV-файлы, после чего запускается `plot_results.py` для визуализации ответа.
-
-### Графики переходных процессов Model 1.1 (First-order inertial)
-![Model 1.1](../task_01/src/model11_step.png)
-![Model 1.1](../task_01/src/model11_harmonic.png)
-![Model 1.1](../task_01/src/model11_impulse.png)
-
-### Графики переходных процессов Model 2.3 (Dead zone)
-![Model 2.3](../task_01/src/model23_step.png)
-![Model 2.3](../task_01/src/model23_harmonic.png)
-![Model 2.3](../task_01/src/model23_impulse.png)
-
-### Графики переходных процессов Model 3.5 (Harmonic driving force)
-![Model 3.5](../task_01/src/model35_step.png)
-![Model 3.5](../task_01/src/model35_harmonic.png)
-![Model 3.5](../task_01/src/model35_impulse.png)
-
 ## UML Диаграмма классов
 
 ```mermaid
@@ -209,4 +139,69 @@ classDiagram
     Functions ..> InputType : uses
     Functions ..> Model : simulates
 ```
- 
+
+### Вводимые параметры
+
+| Параметр | Описание |
+|---|---|
+| `n` | число шагов моделирования (1…100000) |
+| `a`, `b`, `y0` | коэффициенты Model 1.1 и начальное значение `y0` (общее для всех моделей) |
+| `a`, `b`, `delta` | коэффициенты Model 2.3 и ширина зоны нечувствительности `δ ≥ 0` |
+| `b`, `dt` | коэффициент и шаг интегрирования Model 3.5 (`dt > 0`) |
+
+### Выходные файлы
+
+| Модель | Ступенчатое | Импульсное | Гармоническое |
+|---|---|---|---|
+| Model 1.1 | `model11_step.csv` | `model11_impulse.csv` | `model11_harmonic.csv` |
+| Model 2.3 | `model23_step.csv` | `model23_impulse.csv` | `model23_harmonic.csv` |
+| Model 3.5 | `model35_step.csv` | `model35_impulse.csv` | `model35_harmonic.csv` |
+
+Для каждого CSV-файла `plot_results.py` строит и сохраняет график `y(t)` в одноимённый `.png`.
+
+## Пример работы программы
+
+### Сборка и запуск
+
+Проект собирается через CMake (`CMakeLists.txt`, стандарт C++17, исполняемый файл `task_01`). Сборка и запуск автоматизированы файлом `build.bat`, который последовательно:
+
+1. Ищет CMake (в `PATH`, затем в `Program Files`, `Program Files (x86)` и `%LocalAppData%\Programs`).
+2. Конфигурирует проект: `cmake -S . -B build`.
+3. Собирает его в конфигурации Release: `cmake --build build --config Release`.
+4. Запускает `build\Release\task_01.exe` (или `build\task_01.exe`).
+5. Проверяет наличие Python (`python` или `py -3`), при необходимости устанавливает `matplotlib` и запускает `plot_results.py`.
+
+Для сборки необходимы CMake и Visual Studio Build Tools с компонентом «Desktop development with C++». Для построения графиков — Python 3.
+
+Запуск:
+
+```bat
+build.bat
+```
+
+### Демонстрация исполняемого файла task_01.exe:
+
+![](work.png)
+
+После работы программы в каталоге создаются CSV-файлы, после чего запускается `plot_results.py` для визуализации ответа.
+
+### Графики переходных процессов Model 1.1 (First-order inertial)
+![Model 1.1](../src/model11.png)
+
+### Графики переходных процессов Model 2.3 (Dead zone)
+![Model 2.3](../src/model23.png)
+
+
+### Графики переходных процессов Model 3.5 (Harmonic driving force)
+![Model 3.5](../src/model35.png)
+
+
+## Результат
+
+Программа:
+- моделирует все три системы варианта;
+- симулирует отклик каждой модели на все три типа входных воздействий (ступенчатое, импульсное, гармоническое), всего 9 экспериментов;
+- позволяет задать количество шагов `n` (1…100000) и параметры моделей;
+- выводит результаты в табличном виде (`t`, `u(t)`, `y(t)`);
+- сохраняет результаты в 9 CSV-файлов формата `t,u,y`;
+- визуализирует графики через Python/Matplotlib (`plot_results.py`).

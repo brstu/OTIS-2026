@@ -1,11 +1,26 @@
 #include <cmath>
+#include <cstdlib>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <limits>
+#include <sstream>
 #include <string>
 #include <vector>
 
 using namespace std;
+
+constexpr int kTimeWidth = 6;
+constexpr int kValueWidth = 12;
+constexpr int kPreviewRows = 8;
+
+#ifdef _WIN32
+constexpr const char* kPythonCommands[] = { "python", "py -3" };
+constexpr const char* kQuietErrors = " 2>nul";
+#else
+constexpr const char* kPythonCommands[] = { "python3", "python" };
+constexpr const char* kQuietErrors = " 2>/dev/null";
+#endif
 
 enum class InputType { Step = 1, Impulse = 2, Harmonic = 3 };
 
@@ -76,82 +91,248 @@ public:
     string name() const override { return "Model 3.5: harmonic driving force"; }
 };
 
-void simulate(const Model& model, InputType inputType, int n, double y0,
-    const string& filename) {
+// ---------- console helpers ----------
+
+void stopOnEndOfInput() {
+    cerr << "\nInput ended unexpectedly.\n";
+    exit(1);
+}
+
+// Reads one number per prompt: a single Enter is enough.
+double readDouble(const string& prompt) {
+    double value = 0.0;
+    cout << prompt;
+    while (!(cin >> value)) {
+        if (cin.eof()) stopOnEndOfInput();
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Invalid number, try again: ";
+    }
+    return value;
+}
+
+int readInt(const string& prompt, int minValue, int maxValue) {
+    int value = 0;
+    cout << prompt;
+    while (!(cin >> value) || value < minValue || value > maxValue) {
+        if (cin.eof()) stopOnEndOfInput();
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << "Enter an integer from " << minValue << " to " << maxValue << ": ";
+    }
+    return value;
+}
+
+// Short number for the table: 4 decimals, scientific form for huge/tiny values.
+string formatValue(double value) {
+    ostringstream text;
+    const double magnitude = fabs(value);
+    if (magnitude >= 1e6 || (magnitude != 0.0 && magnitude < 1e-4)) {
+        text << scientific << setprecision(3) << value;
+    }
+    else {
+        text << fixed << setprecision(4) << value;
+    }
+    return text.str();
+}
+
+string tableBorder(size_t valueColumns) {
+    string border = "+" + string(kTimeWidth + 2, '-');
+    for (size_t i = 0; i < valueColumns; ++i) {
+        border += "+" + string(kValueWidth + 2, '-');
+    }
+    return border + "+";
+}
+
+void printTableRow(const string& first, const vector<string>& cells) {
+    cout << "| " << right << setw(kTimeWidth) << first << ' ';
+    for (const string& cell : cells) {
+        cout << "| " << right << setw(kValueWidth) << cell << ' ';
+    }
+    cout << "|\n";
+}
+
+void printBanner(const string& text) {
+    const string frame(44, '=');
+    cout << frame << '\n' << "  " << text << '\n' << frame << '\n';
+}
+
+void printMenuLine(const string& text) {
+    cout << "| " << left << setw(40) << text << " |\n";
+}
+
+void printMenu() {
+    const string border = "+" + string(42, '-') + "+";
+    cout << '\n' << border << '\n';
+    printMenuLine("Select a model");
+    cout << border << '\n';
+    printMenuLine("1  Model 1.1 - first-order inertial");
+    printMenuLine("2  Model 2.3 - dead zone");
+    printMenuLine("3  Model 3.5 - harmonic driving force");
+    printMenuLine("0  Exit");
+    cout << border << '\n';
+}
+
+// Prints only a short preview of the results: the first rows and the last one.
+void printPreview(const string& title, const vector<string>& headers,
+    const vector<vector<double>>& results, int n, const string& filename) {
+    const string border = tableBorder(headers.size());
+    const int innerWidth = static_cast<int>(border.size()) - 4;
+
+    cout << "\n+" << string(border.size() - 2, '-') << "+\n";
+    cout << "| " << left << setw(innerWidth) << title << " |\n";
+    cout << border << '\n';
+    printTableRow("t", headers);
+    cout << border << '\n';
+
+    auto rowCells = [&results](int t) {
+        vector<string> cells;
+        for (const auto& series : results) {
+            cells.push_back(formatValue(series[static_cast<size_t>(t)]));
+        }
+        return cells;
+    };
+
+    const bool truncated = n > kPreviewRows + 1;
+    const int shown = truncated ? kPreviewRows : n;
+    for (int t = 0; t < shown; ++t) {
+        printTableRow(to_string(t), rowCells(t));
+    }
+    if (truncated) {
+        printTableRow("...", vector<string>(headers.size(), "..."));
+        printTableRow(to_string(n - 1), rowCells(n - 1));
+    }
+    cout << border << '\n';
+    if (truncated) {
+        cout << "Preview: " << kPreviewRows << " of " << n << " steps. ";
+    }
+    cout << "Full data: " << filename << '\n';
+}
+
+// Simulates one model for all three inputs, saves ALL values to ONE csv file
+// (t, y_step, y_impulse, y_harmonic) and prints only a short preview.
+bool simulate(const Model& model, int n, double y0, const string& filename) {
     ofstream out(filename);
     if (!out) {
         cerr << "Cannot open output file: " << filename << '\n';
-        return;
+        return false;
     }
 
-    cout << "\n" << model.name() << " | input: " << inputName(inputType) << '\n';
-    cout << left << setw(8) << "t" << setw(16) << "u(t)" << setw(16) << "y(t)" << '\n';
-    cout << string(40, '-') << '\n';
-    out << "t,u,y\n";
-    double y = y0;
-    for (int t = 0; t < n; ++t) {
-        double u = inputValue(inputType, t);
-        cout << left << setw(8) << t << setw(16) << fixed << setprecision(6)
-            << u << setw(16) << y << '\n';
-        out << t << ',' << setprecision(10) << u << ',' << y << '\n';
-        y = model.next(y, u, t);
+    const vector inputs = { InputType::Step, InputType::Impulse, InputType::Harmonic };
+
+    vector<vector<double>> results;
+    vector<string> headers;
+    out << "t";
+    for (InputType type : inputs) {
+        vector<double> series;
+        double y = y0;
+        for (int t = 0; t < n; ++t) {
+            series.push_back(y);
+            y = model.next(y, inputValue(type, t), t);
+        }
+        results.push_back(series);
+        headers.push_back("y(" + inputName(type) + ")");
+        out << ",y_" << inputName(type);
     }
-    cout << "CSV saved to " << filename << "\n";
+    out << '\n';
+
+    out << setprecision(10);
+    for (int t = 0; t < n; ++t) {
+        out << t;
+        for (const auto& series : results) {
+            out << ',' << series[static_cast<size_t>(t)];
+        }
+        out << '\n';
+    }
+
+    printPreview(model.name(), headers, results, n, filename);
+    return true;
+}
+
+// Builds the graph of the chosen model with plot_results.py (Python + matplotlib).
+void showPlot(const string& csvFile) {
+    cout << "\nOpening graph... (close the graph window to return to the menu)\n" << flush;
+    for (const char* python : kPythonCommands) {
+        const string command = string(python) + " plot_results.py " + csvFile + kQuietErrors;
+        if (system(command.c_str()) == 0) {
+            return;
+        }
+    }
+    cerr << "Could not build the graph. Install Python 3 and matplotlib "
+         << "(pip install matplotlib).\n";
+}
+
+// ---------- one function per model: ask parameters, simulate, plot ----------
+
+void runFirstOrder(int n, double y0) {
+    cout << "\n[ Model 1.1 ]  y(t+1) = a*y(t) + b*u(t)\n";
+    const double a = readDouble("  a = ");
+    const double b = readDouble("  b = ");
+
+    const FirstOrderModel model(a, b);
+    if (model.hasLinearStabilityCheck() && !model.isStable()) {
+        cout << "  WARNING: Model 1.1 is unstable: |a| >= 1.\n";
+    }
+    else {
+        cout << "  Stable: |a| < 1.\n";
+    }
+
+    if (simulate(model, n, y0, "model11.csv")) {
+        showPlot("model11.csv");
+    }
+}
+
+void runDeadZone(int n, double y0) {
+    cout << "\n[ Model 2.3 ]  y(t+1) = a*y(t) + b*DZ(y(t), delta)\n";
+    const double a = readDouble("  a = ");
+    const double b = readDouble("  b = ");
+    double delta = readDouble("  delta (>= 0) = ");
+    while (delta < 0) {
+        cout << "  delta must be non-negative.\n";
+        delta = readDouble("  delta (>= 0) = ");
+    }
+
+    const DeadZoneModel model(a, b, delta);
+    if (simulate(model, n, y0, "model23.csv")) {
+        showPlot("model23.csv");
+    }
+}
+
+void runHarmonicForce(int n, double y0) {
+    cout << "\n[ Model 3.5 ]  dy/dt = b*sin(t), Euler method\n";
+    const double b = readDouble("  b = ");
+    double dt = readDouble("  dt (> 0) = ");
+    while (dt <= 0) {
+        cout << "  dt must be positive.\n";
+        dt = readDouble("  dt (> 0) = ");
+    }
+
+    const HarmonicForceModel model(b, dt);
+    if (simulate(model, n, y0, "model35.csv")) {
+        showPlot("model35.csv");
+    }
 }
 
 int main() {
-    cout << "Discrete models laboratory\n";
-    int n;
-    cout << "Number of simulation steps n (1..100000): ";
-    if (!(cin >> n) || n < 1 || n > 100000) {
-        cerr << "Invalid n. Use an integer from 1 to 100000.\n";
-        return 1;
+    printBanner("Discrete models laboratory");
+    const int n = readInt("Number of simulation steps n (1..100000): ", 1, 100000);
+    const double y0 = readDouble("Initial value y0: ");
+
+    int choice = -1;
+    while (choice != 0) {
+        printMenu();
+        choice = readInt("Your choice (0-3): ", 0, 3);
+        if (choice == 1) {
+            runFirstOrder(n, y0);
+        }
+        else if (choice == 2) {
+            runDeadZone(n, y0);
+        }
+        else if (choice == 3) {
+            runHarmonicForce(n, y0);
+        }
     }
 
-    double a;
-    double b;
-    double y0;
-    cout << "Enter coefficients a and b for Model 1.1: ";
-    cin >> a >> b;
-    cout << "Initial value y0: ";
-    cin >> y0;
-
-    FirstOrderModel first(a, b);
-    if (first.hasLinearStabilityCheck() && !first.isStable()) {
-        cout << "WARNING: Model 1.1 is unstable for this coefficient: |a| >= 1.\n";
-    }
-    else {
-        cout << "Model 1.1 stability condition |a| < 1 is satisfied.\n";
-    }
-
-    double a2;
-    double b2;
-    double delta;
-    cout << "Enter coefficients a and b and dead-zone width delta for Model 2.3: ";
-    cin >> a2 >> b2 >> delta;
-    if (delta < 0) {
-        cerr << "delta must be non-negative.\n";
-        return 1;
-    }
-
-    double b3;
-    double dt;
-    cout << "Enter coefficient b and time step dt for Model 3.5 (dt > 0): ";
-    cin >> b3 >> dt;
-    if (dt <= 0) {
-        cerr << "dt must be positive.\n";
-        return 1;
-    }
-
-    DeadZoneModel deadZoneModel(a2, b2, delta);
-    HarmonicForceModel harmonicModel(b3, dt);
-
-    vector inputs = { InputType::Step, InputType::Impulse, InputType::Harmonic };
-    for (InputType type : inputs) {
-        simulate(first, type, n, y0, "model11_" + inputName(type) + ".csv");
-        simulate(deadZoneModel, type, n, y0, "model23_" + inputName(type) + ".csv");
-        simulate(harmonicModel, type, n, y0, "model35_" + inputName(type) + ".csv");
-    }
-    cout << "\nDone. Nine CSV files were created in the current directory.\n";
+    cout << "\nGoodbye.\n";
     return 0;
 }
