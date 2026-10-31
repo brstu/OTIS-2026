@@ -1,10 +1,10 @@
-#include "model28.h"
+п»ї#include "model28.h"
 #include <cmath>
 
 Model28::Model28(double a, double b, double c) : a(a), b(b), c(c), y(0.0), y_prev(0.0) {}
 
 std::string Model28::getName() const {
-    return "Model 28 - Нелинейная система";
+    return "Model 28 - РќРµР»РёРЅРµР№РЅР°СЏ СЃРёСЃС‚РµРјР°";
 }
 
 void Model28::reset() {

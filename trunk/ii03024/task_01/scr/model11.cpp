@@ -1,9 +1,9 @@
-#include "model11.h"
+п»ї#include "model11.h"
 
 Model11::Model11(double a, double b) : a(a), b(b), y_prev(0.0) {}
 
 std::string Model11::getName() const {
-    return "Model 11 - Линейная система";
+    return "Model 11 - Р›РёРЅРµР№РЅР°СЏ СЃРёСЃС‚РµРјР°";
 }
 
 void Model11::reset() {

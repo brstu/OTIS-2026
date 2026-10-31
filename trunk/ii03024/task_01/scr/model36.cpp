@@ -1,9 +1,9 @@
-#include "model36.h"
+п»ї#include "model36.h"
 
 Model36::Model36(double a, double b) : a(a), b(b), y(0.0) {}
 
 std::string Model36::getName() const {
-    return "Model 36 - Дифференциальная система";
+    return "Model 36 - Р”РёС„С„РµСЂРµРЅС†РёР°Р»СЊРЅР°СЏ СЃРёСЃС‚РµРјР°";
 }
 
 void Model36::reset() {
