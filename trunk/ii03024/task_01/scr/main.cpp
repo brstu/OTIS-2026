@@ -1,26 +1,26 @@
-#include <iostream>
+п»ї#include <iostream>
 #include <fstream>
 #include <iomanip>
 #include <cmath>
-#include <cstdlib> // Для функции system() для запуска Gnuplot
+#include <cstdlib> // Р”Р»СЏ С„СѓРЅРєС†РёРё system() РґР»СЏ Р·Р°РїСѓСЃРєР° Gnuplot
 #include <windows.h>
 #include "model11.h"
 #include "model28.h"
 #include "model36.h"
 
-// Функция для автоматического построения графика через Gnuplot
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРіРѕ РїРѕСЃС‚СЂРѕРµРЅРёСЏ РіСЂР°С„РёРєР° С‡РµСЂРµР· Gnuplot
 void showGraph(const std::string& filename, const std::string& titleName) {
     std::ofstream script("plot_temp.gnu");
     //script << "set encoding utf8\n";
     script << "set grid\n";
     script << "set title \"" << titleName << "\"\n";
-    script << "set xlabel \"Шаг времени (tau)\"\n";
-    script << "set ylabel \"Выход y(tau)\"\n";
+    script << "set xlabel \"РЁР°Рі РІСЂРµРјРµРЅРё (tau)\"\n";
+    script << "set ylabel \"Р’С‹С…РѕРґ y(tau)\"\n";
 
     script << "set datafile separator \",\"\n";
 
     script << "plot '" << filename << "' skip 1 using 1:3 with lines linewidth 2 title 'y(tau)'\n";
-    script << "pause -1 \"Нажмите Enter, чтобы закрыть график...\"\n";
+    script << "pause -1 \"РќР°Р¶РјРёС‚Рµ Enter, С‡С‚РѕР±С‹ Р·Р°РєСЂС‹С‚СЊ РіСЂР°С„РёРє...\"\n";
     script.close();
 
     std::string command = "\"D:\\gnuplot\\bin\\gnuplot.exe\" plot_temp.gnu";
@@ -32,15 +32,15 @@ int main() {
     SetConsoleOutputCP(1251);
 
     std::cout << "==================================================\n";
-    std::cout << " ОТИС-2026 | Лабораторная работа №1\n";
-    std::cout << " Вариант 26\n";
+    std::cout << " РћРўРРЎ-2026 | Р›Р°Р±РѕСЂР°С‚РѕСЂРЅР°СЏ СЂР°Р±РѕС‚Р° в„–1\n";
+    std::cout << " Р’Р°СЂРёР°РЅС‚ 26\n";
     std::cout << "==================================================\n\n";
 
-    std::cout << "Выберите модель:\n";
-    std::cout << "1 - Model 11 (Линейная)\n";
-    std::cout << "2 - Model 28 (Нелинейная)\n";
-    std::cout << "3 - Model 36 (Дифференциальная)\n";
-    std::cout << "Ваш выбор: ";
+    std::cout << "Р’С‹Р±РµСЂРёС‚Рµ РјРѕРґРµР»СЊ:\n";
+    std::cout << "1 - Model 11 (Р›РёРЅРµР№РЅР°СЏ)\n";
+    std::cout << "2 - Model 28 (РќРµР»РёРЅРµР№РЅР°СЏ)\n";
+    std::cout << "3 - Model 36 (Р”РёС„С„РµСЂРµРЅС†РёР°Р»СЊРЅР°СЏ)\n";
+    std::cout << "Р’Р°С€ РІС‹Р±РѕСЂ: ";
     int modelChoice;
     std::cin >> modelChoice;
 
@@ -49,21 +49,21 @@ int main() {
     std::string modelTitle = "";
 
     if (modelChoice == 1) {
-        double a, b; // ИЗМЕНЕНО: теперь 2 коэффициента (a и b) вместо a1, a2, b
+        double a, b; // РР—РњР•РќР•РќРћ: С‚РµРїРµСЂСЊ 2 РєРѕСЌС„С„РёС†РёРµРЅС‚Р° (a Рё b) РІРјРµСЃС‚Рѕ a1, a2, b
         std::cout << "a = "; std::cin >> a;
         std::cout << "b = "; std::cin >> b;
         model = new Model11(a, b);
         modelPrefix = "Model11";
-        modelTitle = "Модель 11 (Линейная)";
+        modelTitle = "РњРѕРґРµР»СЊ 11 (Р›РёРЅРµР№РЅР°СЏ)";
     }
     else if (modelChoice == 2) {
-        double a, b, c; // ИЗМЕНЕНО: теперь 3 коэффициента (a, b, c) для модели 2.8
+        double a, b, c; // РР—РњР•РќР•РќРћ: С‚РµРїРµСЂСЊ 3 РєРѕСЌС„С„РёС†РёРµРЅС‚Р° (a, b, c) РґР»СЏ РјРѕРґРµР»Рё 2.8
         std::cout << "a = "; std::cin >> a;
         std::cout << "b = "; std::cin >> b;
         std::cout << "c = "; std::cin >> c;
         model = new Model28(a, b, c);
         modelPrefix = "Model28";
-        modelTitle = "Модель 28 (Нелинейная)";
+        modelTitle = "РњРѕРґРµР»СЊ 28 (РќРµР»РёРЅРµР№РЅР°СЏ)";
     }
     else if (modelChoice == 3) {
         double a, b;
@@ -71,27 +71,27 @@ int main() {
         std::cout << "b = "; std::cin >> b;
         model = new Model36(a, b);
         modelPrefix = "Model36";
-        modelTitle = "Модель 36 (Дифференциальная)";
+        modelTitle = "РњРѕРґРµР»СЊ 36 (Р”РёС„С„РµСЂРµРЅС†РёР°Р»СЊРЅР°СЏ)";
     }
     else {
-        std::cout << "Неверный выбор!\n";
+        std::cout << "РќРµРІРµСЂРЅС‹Р№ РІС‹Р±РѕСЂ!\n";
         return 1;
     }
 
-    std::cout << "\nТип входного воздействия:\n";
-    std::cout << "1 - ступенчатое\n";
-    std::cout << "2 - импульсное\n";
-    std::cout << "3 - гармоническое\n";
-    std::cout << "Ваш выбор: ";
+    std::cout << "\nРўРёРї РІС…РѕРґРЅРѕРіРѕ РІРѕР·РґРµР№СЃС‚РІРёСЏ:\n";
+    std::cout << "1 - СЃС‚СѓРїРµРЅС‡Р°С‚РѕРµ\n";
+    std::cout << "2 - РёРјРїСѓР»СЊСЃРЅРѕРµ\n";
+    std::cout << "3 - РіР°СЂРјРѕРЅРёС‡РµСЃРєРѕРµ\n";
+    std::cout << "Р’Р°С€ РІС‹Р±РѕСЂ: ";
     int signalChoice;
     std::cin >> signalChoice;
 
     double A;
-    std::cout << "Амплитуда A = ";
+    std::cout << "РђРјРїР»РёС‚СѓРґР° A = ";
     std::cin >> A;
 
     int n;
-    std::cout << "Количество шагов n = ";
+    std::cout << "РљРѕР»РёС‡РµСЃС‚РІРѕ С€Р°РіРѕРІ n = ";
     std::cin >> n;
 
     std::string signalName = "";
@@ -104,7 +104,7 @@ int main() {
 
     fout << "tau,u,y\n";
 
-    std::cout << "\nМодель: " << model->getName() << "\n\n";
+    std::cout << "\nРњРѕРґРµР»СЊ: " << model->getName() << "\n\n";
     std::cout << std::setw(10) << "tau" << std::setw(15) << "u" << std::setw(15) << "y" << "\n";
     std::cout << "--------------------------------------------------\n";
 
@@ -132,9 +132,9 @@ int main() {
     }
 
     fout.close();
-    std::cout << "\nРезультаты сохранены в файл " << filename << "\n";
+    std::cout << "\nР РµР·СѓР»СЊС‚Р°С‚С‹ СЃРѕС…СЂР°РЅРµРЅС‹ РІ С„Р°Р№Р» " << filename << "\n";
 
-    std::cout << "Построение графика...\n";
+    std::cout << "РџРѕСЃС‚СЂРѕРµРЅРёРµ РіСЂР°С„РёРєР°...\n";
     showGraph(filename, modelTitle);
 
     delete model;
