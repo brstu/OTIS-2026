@@ -23,10 +23,10 @@ if %errorlevel% neq 0 (
 echo [INFO] Сборка успешно завершена!
 echo [INFO] Запуск C++ программы для расчета и выгрузки .csv...
 cd Release
-if exist task_01.exe (
-    task_01.exe
+if exist task_01_ii03021.exe (
+    task_01_ii03021.exe
 ) else (
-    ..\task_01.exe
+    ..\task_01_ii03021.exe
 )
 
 :: Возвращаемся в корень task_01

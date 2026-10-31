@@ -47,15 +47,53 @@
 - `Model2_10`
 - `Model3_4`
 
-## Результат
+## UML Диаграмма классов
 
-Программа:
-- моделирует все три системы варианта;
-- симулирует отклик на все три типа входных воздействий (ступенчатое, импульсное, гармоническое);
-- позволяет задать количество шагов `n`;
-- выводит результаты в табличном виде;
-- сохраняет результаты в `model_1_6_results.csv, model_2_10_results.csv, model_3_4_results.csv`;
-- визуализирует графики через Python/Matplotlib.
+```mermaid
+classDiagram
+    class Model {
+        <<abstract>>
+        #vector<double> history
+        +Model(initial_y: double)
+        +~Model()*
+        +calculateNext(u: double, step: int)* double
+        +simulate(steps: int, type: InputType) vector<double>
+        +reset(initial_y: double) void
+    }
+
+    class Model1_6 {
+        -double a1
+        -double a2
+        -double a3
+        -double b
+        +Model1_6(a1_val: double, a2_val: double, a3_val: double, b_val: double)
+        +calculateNext(u: double, step: int) double
+    }
+
+    class Model2_10 {
+        -double a
+        -double b
+        +Model2_10(a_val: double, b_val: double)
+        +calculateNext(u: double, step: int) double
+    }
+
+    class Model3_4 {
+        -double a
+        -double dt
+        +Model3_4(a_val: double, dt_val: double)
+        +calculateNext(u: double, step: int) double
+    }
+
+    class InputSignal {
+        <<enumeration>> SignalType
+        +getSignal(type: SignalType, tau: int)$ double
+    }
+
+    Model <|-- Model1_6
+    Model <|-- Model2_10
+    Model <|-- Model3_4
+    InputSignal ..> Model : uses inputs u
+```
 
 ## Пример работы программы
 
@@ -119,59 +157,15 @@ pause
 
 При запуске исполняемого файла мы получаем результат в `.csv` файлах, после чего автоматически запускается `src/plot_results.py` для визуализации ответа:
 
-### График переходных процессов Model 1.6
-![Model 1.6](images/model_1_6.png)
+### График переходных процессов
+![](../simulation_plot.png)
 
-### График переходных процессов Model 2.10
-![](images/model_2_10.png)
+## Вывод
 
-### График переходных процессов Model 3.4
-![](images/model_3_4.png)
-
-## UML Диаграмма классов
-
-```mermaid
-classDiagram
-    class Model {
-        <<abstract>>
-        #vector<double> history
-        +Model(initial_y: double)
-        +~Model()*
-        +calculateNext(u: double, step: int)* double
-        +simulate(steps: int, type: InputType) vector<double>
-        +reset(initial_y: double) void
-    }
-
-    class Model1_6 {
-        -double a1
-        -double a2
-        -double a3
-        -double b
-        +Model1_6(a1_val: double, a2_val: double, a3_val: double, b_val: double)
-        +calculateNext(u: double, step: int) double
-    }
-
-    class Model2_10 {
-        -double a
-        -double b
-        +Model2_10(a_val: double, b_val: double)
-        +calculateNext(u: double, step: int) double
-    }
-
-    class Model3_4 {
-        -double a
-        -double dt
-        +Model3_4(a_val: double, dt_val: double)
-        +calculateNext(u: double, step: int) double
-    }
-
-    class InputSignal {
-        <<enumeration>> SignalType
-        +getSignal(type: SignalType, tau: int)$ double
-    }
-
-    Model <|-- Model1_6
-    Model <|-- Model2_10
-    Model <|-- Model3_4
-    InputSignal ..> Model : uses inputs u
-```
+Программа:
+- моделирует все три системы варианта;
+- симулирует отклик на все три типа входных воздействий (ступенчатое, импульсное, гармоническое);
+- позволяет задать количество шагов `n`;
+- выводит результаты в табличном виде;
+- сохраняет результаты в `simulation_results`;
+- визуализирует графики через Python/Matplotlib.
