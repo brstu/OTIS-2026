@@ -1,5 +1,5 @@
 @echo off
-echo Сборка проекта...
+echo Project build...
 
 if not exist build mkdir build
 cd build
@@ -7,8 +7,8 @@ cd build
 cmake .. -G "MinGW Makefiles"
 cmake --build .
 
-echo Запуск программы...
+echo To run a program...
 lab1.exe
 
 cd ..
-pause
+cmd /k
