@@ -8,6 +8,7 @@
 #include <vector>
 #include <cmath>
 #include <fstream>
+#include <cstdlib>
 
 #include "Plant.h"
 #include "PIDController.h"
@@ -15,7 +16,8 @@
 int main() {
 
     // --- 1. Plant parameters ---
-    double a, b;
+    double a;
+    double b;
     std::cout << "Enter plant parameters (Model 1.4):\n";
     std::cout << "  Coefficient a [default 0.9]: ";
     if (!(std::cin >> a)) a = 0.9;
@@ -23,7 +25,10 @@ int main() {
     if (!(std::cin >> b)) b = 1.0;
 
     // --- 2. PID parameters ---
-    double Kp, Ki, Kd, T0;
+    double Kp;
+    double Ki;
+    double Kd;
+    double T0;
     std::cout << "\nEnter PID coefficients:\n";
     std::cout << "  Kp [default 1.0]: ";  if (!(std::cin >> Kp)) Kp = 1.0;
     std::cout << "  Ki [default 0.1]: ";  if (!(std::cin >> Ki)) Ki = 0.1;
@@ -74,17 +79,19 @@ int main() {
         double y = plant.getOutput();
         double e = target - y;
         
+        bool stop = false;
+
         if (mode == 2 && std::abs(e) < epsilon) {
             std::cout << "Target accuracy achieved (|e| < " << epsilon << ") at step " << step << "\n";
-            break;
-        }
-
-        if (mode == 1 && step > n) {
-            break;
-        }
-
-        if (step > 10000) {
+            stop = true;
+        } else if (mode == 1 && step > n) {
+            stop = true;
+        } else if (step > 10000) {
             std::cout << "Iteration limit (10000) reached. Force stop.\n";
+            stop = true;
+        }
+
+        if (stop) {
             break;
         }
 
@@ -107,9 +114,7 @@ int main() {
 
 #ifdef _WIN32
     std::cout << "\nGenerating plot...\n";
-    // 1. Запускаем Python для создания картинки
     std::system("python plot_pid.py");
-    // 2. Принудительно открываем картинку через Windows
     std::system("start plot_task03.png");
 #endif
     return 0;

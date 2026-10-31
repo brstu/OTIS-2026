@@ -18,7 +18,8 @@ def plot_results():
         return
 
     # Создаем фигуру с двумя графиками (сверху и снизу)
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
+    # Используем _ для fig, так как переменная fig дальше не используется
+    _, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8))
 
     # --- График 1: Переходный процесс (Цель и Выход) ---
     ax1.plot(df['k'], df['w'], 'r--', label='Target (w)')

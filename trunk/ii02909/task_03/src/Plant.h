@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 /**
  * @file Plant.h
@@ -10,10 +10,10 @@
 
 class Plant {
 private:
-    double a;       ///< Коэффициент затухания (потери)
-    double b;       ///< Коэффициент усиления по входу
-    double y;       ///< Текущее состояние (выходная переменная)
-    double u_prev;  ///< Предыдущее управляющее воздействие
+    double a;               ///< Коэффициент затухания (потери)
+    double b;               ///< Коэффициент усиления по входу
+    double y = 0.0;         ///< Текущее состояние (выходная переменная)
+    double u_prev = 0.0;    ///< Предыдущее управляющее воздействие
 
 public:
     /**
@@ -21,7 +21,7 @@ public:
      * @param a_param Коэффициент a
      * @param b_param Коэффициент b
      */
-    Plant(double a_param, double b_param) : a(a_param), b(b_param), y(0.0), u_prev(0.0) {}
+    Plant(double a_param, double b_param) : a(a_param), b(b_param) {}
 
     /**
      * @brief Сброс состояния объекта в начальное (y=0, u_prev=0).
