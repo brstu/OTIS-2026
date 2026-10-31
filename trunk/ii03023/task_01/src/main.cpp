@@ -8,8 +8,7 @@
 #include "Model3_4.h"
 
 // Сохранение результатов и входного сигнала в CSV-файл для визуализации
-void saveToCsv(const std::string& filename, const std::vector<double>& steps_data, 
-               const std::vector<double>& input_data, const std::vector<double>& model_data) {
+oid saveToCsv(const std::string& filename, const std::vector<double>& input_data, const std::vector<double>&) {
     std::string fullPath = "../../" + filename; 
     
     std::ofstream file(fullPath);
@@ -59,7 +58,10 @@ int main() {
 
     // 2. ВВОД ПАРАМЕТРОВ УРАВНЕНИЯ
     if (modelChoice == 1) {
-        double a1, a2, a3, b;
+        double a1;
+        double a2;
+        double a3;
+        double b;
         std::cout << "\n--- Ввод коэффициентов для Модели 1.6 ---\n";
         std::cout << "Введите a1: "; std::cin >> a1;
         std::cout << "Введите a2: "; std::cin >> a2;
@@ -69,7 +71,8 @@ int main() {
         modelName = "Модель 1.6";
     } 
     else if (modelChoice == 2) {
-        double a, b;
+        double a;
+        double b;
         std::cout << "\n--- Ввод коэффициентов для Модели 2.10 ---\n";
         std::cout << "Введите a: "; std::cin >> a;
         std::cout << "Введите b: "; std::cin >> b;
@@ -77,7 +80,8 @@ int main() {
         modelName = "Модель 2.10";
     } 
     else {
-        double a, dt;
+        double a;
+        double dt;
         std::cout << "\n--- Ввод коэффициентов для Модели 3.4 ---\n";
         std::cout << "Введите a (параметр затухания): "; std::cin >> a;
         std::cout << "Введите dt (шаг дискретизации): "; std::cin >> dt;
