@@ -40,3 +40,8 @@ trunk/ii02918/task_01/result.csv
 example_output.csv
 
 result_plot.png
+# Ignore task artifacts
+trunk/ii02909/task_01/result.csv
+trunk/ii02909/task_02/coverage_report/
+trunk/ii02909/task_02/LastCoverageResults.log
+trunk/ii02909/task_02/build/
