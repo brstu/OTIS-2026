@@ -8,7 +8,7 @@
 #include "Model3_4.h"
 
 // Сохранение результатов и входного сигнала в CSV-файл для визуализации
-oid saveToCsv(const std::string& filename, const std::vector<double>& input_data, const std::vector<double>&) {
+void saveToCsv(const std::string& filename, const std::vector<double>& input_data, const std::vector<double>& model_data) {
     std::string fullPath = "../../" + filename; 
     
     std::ofstream file(fullPath);
@@ -125,7 +125,7 @@ int main() {
     std::cout << "       Сигнал: " << signalName << std::endl;
 
     // Сохранение в CSV
-    saveToCsv("simulation_results.csv", results, inputValues, results);
+    saveToCsv("simulation_results.csv", inputValues, results);
 
     std::cout << "\n[SUCCESS] Готово! Запустите 'build.bat' для отображения графика!" << std::endl;
     return 0;
