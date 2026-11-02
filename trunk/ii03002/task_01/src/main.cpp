@@ -66,8 +66,8 @@ static SimulationContext gatherUserPreferences(int argc, char* argv[]) {
               << " [1] Step function\n"
               << " [2] Dirac impulse\n"
               << " [3] Harmonic wave\n";
-    const int sig_choice = requestInteger("Which signal?", 1, 1, 3);
-    
+              
+    // Оставлен только один вызов внутри условия if
     if (const int sig_choice = requestInteger("Which signal?", 1, 1, 3); sig_choice == 2) {
         ctx.excitation_mode = SignalType::IMPULSE;
     } else if (sig_choice == 3) {
@@ -75,6 +75,8 @@ static SimulationContext gatherUserPreferences(int argc, char* argv[]) {
     } else {
         ctx.excitation_mode = SignalType::STEP;
     }
+
+    return ctx; // Добавлен обязательный возврат структуры
 }
 
 static std::unique_ptr<Model> initializeSystem(const SimulationContext& ctx, std::string& label) {
