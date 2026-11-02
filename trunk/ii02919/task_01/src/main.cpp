@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <stdexcept>  // для std::invalid_argument, std::out_of_range
+#include <cstdlib>    // для std::system
 
 #include "ProcessFactory.h"
 #include "InputSignal.h"
@@ -17,7 +18,6 @@ constexpr int    PRECISION  = 5;      // точность вывода
 
 // =====================================================================
 // readDouble — безопасный ввод числа с плавающей точкой.
-// Если пользователь ввёл некорректное значение — возвращаем def.
 // =====================================================================
 static double readDouble(const std::string& prompt, double def)
 {
@@ -25,7 +25,6 @@ static double readDouble(const std::string& prompt, double def)
     std::string line;
     std::getline(std::cin, line);
 
-    // Пустая строка — берём значение по умолчанию.
     if (line.empty()) {
         return def;
     }
@@ -34,12 +33,10 @@ static double readDouble(const std::string& prompt, double def)
         return std::stod(line);
     }
     catch (const std::invalid_argument&) {
-        // Не удалось преобразовать строку в число.
         std::cout << "  Не удалось разобрать, беру значение по умолчанию.\n";
         return def;
     }
     catch (const std::out_of_range&) {
-        // Число вышло за пределы диапазона double.
         std::cout << "  Число вне диапазона, беру значение по умолчанию.\n";
         return def;
     }
@@ -72,8 +69,8 @@ static int readInt(const std::string& prompt, int def)
 }
 
 // =====================================================================
-// readChoice — ввод числа в диапазоне [lo; hi].
-// Использует init-statement (C++17): переменная v объявляется внутри if.
+// readChoice — ввод числа в диапазоне [lo; hi] с использованием
+// init-statement (C++17).
 // =====================================================================
 static int readChoice(const std::string& prompt, int lo, int hi)
 {
@@ -83,19 +80,15 @@ static int readChoice(const std::string& prompt, int lo, int hi)
         std::getline(std::cin, line);
 
         try {
-            // Init-statement: объявляем v прямо в условии if.
             if (const int v = std::stoi(line); v >= lo && v <= hi) {
                 return v;
             }
-            // Число корректное, но вне диапазона — сообщаем.
             std::cout << "  Число вне диапазона.\n";
         }
         catch (const std::invalid_argument&) {
-            // Не число — сообщаем пользователю.
             std::cout << "  Это не число.\n";
         }
         catch (const std::out_of_range&) {
-            // Слишком большое число — сообщаем пользователю.
             std::cout << "  Число слишком большое.\n";
         }
 
@@ -231,7 +224,59 @@ int main()
 
     std::cout << "----------------------------------------\n";
     std::cout << "Результаты сохранены в result.csv\n";
-    std::cout << "Готово.\n";
+
+    // =====================================================================
+    // АВТОМАТИЧЕСКАЯ ВИЗУАЛИЗАЦИЯ
+    // После симуляции вызываем Python-скрипт, который строит график,
+    // а затем открываем полученный PNG-файл.
+    // =====================================================================
+
+    // Формируем имя PNG-файла, чтобы каждый запуск не перезаписывал старый.
+    // Например, для модели 1 и сигнала 2 получится: "graph_1_2.png".
+    const std::string png_name = "graph_"
+                               + std::to_string(modelChoice)
+                               + "_"
+                               + std::to_string(sigChoice)
+                               + ".png";
+
+    // Путь к Python-скрипту относительно текущей рабочей директории.
+    // Программа запускается из build/src/, значит:
+    //   .. → build/
+    //   ../.. → task_01/
+    // То есть скрипт лежит в "../../plot_results.py".
+    const std::string script_path = "../../plot_results.py";
+
+    // Собираем команду целиком (как если бы ты сама её писала в терминале).
+    // Кавычки вокруг title() — потому что в названии модели есть пробелы.
+    const std::string cmd = "python3 " + script_path
+                          + " " + png_name
+                          + " \"" + model->title() + "\"";
+
+    std::cout << "\nЗапуск визуализации...\n";
+    std::cout << "Команда: " << cmd << "\n";
+
+    // Выполняем команду через системный вызов.
+    // std::system возвращает 0, если команда завершилась успешно.
+    const int ret = std::system(cmd.c_str());
+
+    if (ret == 0) {
+        std::cout << "График сохранён: " << png_name << "\n";
+
+        // Открываем картинку стандартным просмотрщиком.
+        // Для macOS — команда "open".
+        // Если у тебя Linux — замени "open" на "xdg-open".
+        // Если Windows — на "start".
+        const std::string open_cmd = "open " + png_name;
+        std::system(open_cmd.c_str());
+    }
+    else {
+        std::cout << "Не удалось построить график (код возврата "
+                  << ret << ").\n";
+        std::cout << "Проверь, что файл " << script_path
+                  << " существует и что Python установлен.\n";
+    }
+
+    std::cout << "\nГотово.\n";
 
     return 0;
 }

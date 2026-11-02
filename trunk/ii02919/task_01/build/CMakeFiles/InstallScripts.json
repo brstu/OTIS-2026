@@ -1,0 +1,8 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_01/build/cmake_install.cmake",
+		"/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_01/build/src/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
