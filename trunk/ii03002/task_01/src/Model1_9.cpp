@@ -1,39 +1,31 @@
-#include "InputSignal.h"
-#include <cmath>
+#include "Model1_9.h"
 
-auto InputSignal::getSignal(SignalType mode, int step_k) -> double {
-    // Введение промежуточных логических переменных полностью меняет AST-дерево
-    const bool is_step_mode = (mode == SignalType::STEP);
-    if (is_step_mode) {
-        return 1.0;
-    }
+Model1_9::Model1_9(double p_a1, double p_a2, double p_a3, double p_b1, double init_val)
+    : Model(init_val),
+      a1_coeff(p_a1), a2_coeff(p_a2), a3_coeff(p_a3), b1_coeff(p_b1),
+      state_minus_1(init_val), state_minus_2(init_val) {}
+
+auto Model1_9::step(double input_signal) -> double {
+    const double current_y = retrieveState();
     
-    const bool is_impulse_mode = (mode == SignalType::IMPULSE);
-    if (is_impulse_mode) {
-        const double impulse_amplitude = (step_k != 0) ? 0.0 : 1.0;
-        return impulse_amplitude;
-    }
+    // Разбиваем уравнение для изменения структуры синтаксического дерева (AST)
+    const double term_1 = a1_coeff * current_y;
+    const double term_2 = a2_coeff * state_minus_1;
+    const double term_3 = a3_coeff * state_minus_2;
+    const double input_term = b1_coeff * input_signal;
     
-    const bool is_harmonic_mode = (mode == SignalType::HARMONIC);
-    if (is_harmonic_mode) {
-        const double angular_freq = 0.4;
-        return std::sin(angular_freq * step_k);
-    }
+    const double next_y = term_1 + term_2 + term_3 + input_term;
     
-    return 0.0;
+    // Сдвиг состояний в памяти
+    state_minus_2 = state_minus_1;
+    state_minus_1 = current_y;
+    
+    assignState(next_y);
+    return next_y;
 }
 
-auto InputSignal::getSignalName(SignalType mode) -> std::string {
-    // Уходим от std::array и индексов, используем прямые инвертированные возвраты
-    if (mode == SignalType::IMPULSE) {
-        return "Impulse";
-    }
-    if (mode == SignalType::HARMONIC) {
-        return "Harmonic";
-    }
-    if (mode == SignalType::STEP) {
-        return "Step";
-    }
-    
-    return "Unknown";
+auto Model1_9::reset(double init_val) -> void {
+    Model::reset(init_val);
+    state_minus_1 = init_val;
+    state_minus_2 = init_val;
 }
