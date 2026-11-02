@@ -55,19 +55,38 @@
 - `Model2_2`
 - `Model3_4`
 
-## Результат
+## UML
 
-Программа:
+```mermaid
+classDiagram
+    class Model {
+        <<abstract>>
+        +next(y, u, delayedU, dt) double
+        +reset() void
+        +name() string
+        +isStable() bool
+        +stabilityWarning() string
+    }
 
-- реализует три математические модели: линейную, модель с насыщением и дифференциальную;
-- использует абстрактный базовый класс `Model`;
-- позволяет задать параметры моделирования;
-- формирует входной сигнал;
-- выполняет моделирование на заданном количестве шагов;
-- выводит результаты моделирования в табличном виде;
-- сохраняет результаты в файл `results.csv`;
-- позволяет построить график результатов с помощью Python и библиотеки Matplotlib;
-- сохраняет построенный график в папку `doc/`.
+    class Model1_10 {
+        +next(y, u, delayedU, dt) double
+        +name() string
+    }
+
+    class Model2_2 {
+        +next(y, u, delayedU, dt) double
+        +name() string
+    }
+
+    class Model3_4 {
+        +next(y, u, delayedU, dt) double
+        +name() string
+    }
+
+    Model <|-- Model1_10
+    Model <|-- Model2_2
+    Model <|-- Model3_4
+```
 
 ## Пример работы программы:
 
@@ -156,36 +175,16 @@ exit /b 1
 ## Демострация графика
 ![Результат выполнения файла plot.py](graph.png)
 
+## Вывод
 
-## UML
+Программа:
 
-```mermaid
-classDiagram
-    class Model {
-        <<abstract>>
-        +next(y, u, delayedU, dt) double
-        +reset() void
-        +name() string
-        +isStable() bool
-        +stabilityWarning() string
-    }
-
-    class Model1_10 {
-        +next(y, u, delayedU, dt) double
-        +name() string
-    }
-
-    class Model2_2 {
-        +next(y, u, delayedU, dt) double
-        +name() string
-    }
-
-    class Model3_4 {
-        +next(y, u, delayedU, dt) double
-        +name() string
-    }
-
-    Model <|-- Model1_10
-    Model <|-- Model2_2
-    Model <|-- Model3_4
-```
+- реализует три математические модели: линейную, модель с насыщением и дифференциальную;
+- использует абстрактный базовый класс `Model`;
+- позволяет задать параметры моделирования;
+- формирует входной сигнал;
+- выполняет моделирование на заданном количестве шагов;
+- выводит результаты моделирования в табличном виде;
+- сохраняет результаты в файл `results.csv`;
+- позволяет построить график результатов с помощью Python и библиотеки Matplotlib;
+- сохраняет построенный график в папку `doc/`.
