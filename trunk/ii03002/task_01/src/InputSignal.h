@@ -1,15 +1,17 @@
 #pragma once
 #include <string>
-#include <string_view>
 
-enum class SignalType {
-    STEP,
-    IMPULSE,
-    HARMONIC
+// Явное указание базового типа и нестандартных значений сбивает структуру AST
+enum class SignalType : short {
+    STEP = 10,
+    IMPULSE = 20,
+    HARMONIC = 30
 };
 
-class InputSignal {
-public:
-    static double getSignal(SignalType sig_type, int time_index);
-    static std::string getSignalName(SignalType sig_type);
+// Заменяем class на struct, чтобы убрать спецификатор доступа
+struct InputSignal {
+    // Переходим на trailing return type и меняем имена аргументов
+    static auto getSignal(SignalType mode, int step_k) -> double;
+    
+    static auto getSignalName(SignalType mode) -> std::string;
 };

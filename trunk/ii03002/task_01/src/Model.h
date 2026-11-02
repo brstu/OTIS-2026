@@ -2,24 +2,26 @@
 
 class Model {
 private:
-    double m_y{0.0};
+    double output_state{0.0};
 
 public:
-    Model() = default;
-    explicit Model(double start_val) : m_y(start_val) {}
+    Model() noexcept = default;
+    
+    explicit Model(double init_val) noexcept : output_state(init_val) {}
+    
     virtual ~Model() = default;
 
-    virtual double step(double input_u) = 0;
+    virtual auto step(double input_signal) -> double = 0;
 
-    [[nodiscard]] double getY() const noexcept { 
-        return m_y; 
+    [[nodiscard]] auto retrieveState() const noexcept -> double {
+        return output_state;
     }
-    
-    void setY(double next_val) noexcept { 
-        m_y = next_val; 
+
+    auto assignState(double new_val) noexcept -> void {
+        output_state = new_val;
     }
-    
-    virtual void reset(double start_val = 0.0) { 
-        m_y = start_val; 
+
+    virtual auto reset(double init_val = 0.0) -> void {
+        output_state = init_val;
     }
 };
