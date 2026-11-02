@@ -121,12 +121,48 @@ $$u_\tau = A \cdot \sin(\tau)$$
 
 Каждый дочерний класс реализует собственную формулу вычисления.
 
-## UML - диаграмма
+## UML-диаграмма классов
 
-![](uml.png)
+Ниже представлена диаграмма классов, отражающая структуру объектно-ориентированной реализации программы:
 
-На диаграмме видно, что класс Model является абстрактным базовым классом. От него наследуются три класса, реализующие соответствующие математические модели.
+```plantuml
+@startuml
+skinparam classAttributeIconSize 0
+skinparam backgroundColor #FFFFFF
 
+abstract class Model {
+    + {abstract} double calculateNext(double y_current, double y_prev, double u)
+    + virtual ~Model()
+}
+
+class Model1_1 {
+    - double a
+    - double b
+    + Model1_1(double coeff_a, double coeff_b)
+    + double calculateNext(double y_current, double y_prev, double u) override
+}
+
+class Model2_8 {
+    - double a
+    - double b
+    - double c
+    + Model2_8(double ca, double cb, double cc)
+    + double calculateNext(double y_current, double y_prev, double u) override
+}
+
+class Model3_6 {
+    - double a
+    - double b
+    - double dt
+    + Model3_6(double ca, double cb, double step)
+    + double calculateNext(double y_current, double y_prev, double u) override
+}
+
+Model <|-- Model1_1
+Model <|-- Model2_8
+Model <|-- Model3_6
+
+@enduml
 ## Работа программы
 
 После запуска программы пользователю предлагается выбрать модель для исследования. Далее вводятся необходимые параметры модели и выбирается тип входного воздействия.
