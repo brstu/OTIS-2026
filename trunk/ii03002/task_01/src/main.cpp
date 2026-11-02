@@ -68,15 +68,13 @@ static SimulationContext gatherUserPreferences(int argc, char* argv[]) {
               << " [3] Harmonic wave\n";
     const int sig_choice = requestInteger("Which signal?", 1, 1, 3);
     
-    if (sig_choice == 2) {
+    if (const int sig_choice = requestInteger("Which signal?", 1, 1, 3); sig_choice == 2) {
         ctx.excitation_mode = SignalType::IMPULSE;
     } else if (sig_choice == 3) {
         ctx.excitation_mode = SignalType::HARMONIC;
     } else {
         ctx.excitation_mode = SignalType::STEP;
     }
-
-    return ctx;
 }
 
 static std::unique_ptr<Model> initializeSystem(const SimulationContext& ctx, std::string& label) {
