@@ -1,84 +1,52 @@
 #pragma once
 #include "DynamicModel.h"
-#include <deque>
+#include "StabilityAnalyzer.h"
+#include <vector>
 #include <cmath>
 #include <sstream>
-#include "StabilityAnalyzer.h"
-
-//  StateDelayModel — реализация Model 1.5
-//  Модель с задержкой по состоянию на k шагов
 
 class StateDelayModel : public DynamicModel
 {
-private:
-    // Порог устойчивости: |z| < STABILITY_LIMIT
-    static constexpr double STABILITY_LIMIT = 1.0;
-
-    double a1;
-    double a2;
-    double b;
-    int    k;                     
-
-    std::deque<double> history; 
+    double f1;
+    double f2;
+    double g;
+    int delay;
+    std::vector<double> hist;
 
 public:
-    StateDelayModel(double a1_, double a2_, double b_, int k_)
-        : a1(a1_), a2(a2_), b(b_), k(k_)
+    StateDelayModel(double a1, double a2, double b, int k)
+        : f1(a1), f2(a2), g(b), delay(k)
     {
-        for (int i = 0; i <= k; ++i)
-        {
-            history.push_back(0.0);
-        }
+        reset();
     }
 
-    double advance(double u) override
+    double advance(double input) override
     {
-        // Значение y из истории на k шагов назад
-        const double yDelayed = history.front();
+        double y_old = hist.front();
+        double y_now = hist.back();
 
-        // текущее y_t — последнее в истории
-        const double yCurrent = history.back();
+        double y_next = f1 * y_now + f2 * y_old + g * input;
 
-        // Формула: задержанное состояние домножается на a2
-        const double yNext = a1 * yCurrent + a2 * yDelayed + b * u;
+        hist.erase(hist.begin());
+        hist.push_back(y_next);
 
-        // Сдвигаем историю: удаляем старое, добавляем новое
-        history.pop_front();
-        history.push_back(yNext);
-
-        return yNext;
+        return y_next;
     }
 
     void reset() override
     {
-        // Начальные значения y = 0, храним k+1 элементов
-        history.clear();
-        for (int i = 0; i <= k; ++i)
-        {
-            history.push_back(0.0);
-        }
+        hist.assign(delay + 1, 0.0);
     }
 
     std::string describe() const override
     {
-        std::ostringstream oss;
-        oss << "Model 1.5 (State Delay, k=" << k << ")";
-        return oss.str();
+        std::ostringstream out;
+        out << "Model 1.5 (State Delay, k=" << delay << ")";
+        return out.str();
     }
 
     bool verifyStability() const override
     {
-        return StabilityAnalyzer::isStableStateDelay(a1, a2);
-    }
-
-    std::string getWarningMessage() const override
-    {
-        const double sum = std::abs(a1) + std::abs(a2);
-        if (sum < STABILITY_LIMIT) return "";
-
-        std::ostringstream oss;
-        oss << "[WARNING] Model 1.5: |a1|+|a2| = " << sum
-            << " >= 1. Possible instability.";
-        return oss.str();
+        return StabilityAnalyzer::isStableStateDelay(f1, f2);
     }
 };

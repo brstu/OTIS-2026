@@ -1,66 +1,42 @@
 #pragma once
 #include "DynamicModel.h"
+#include "StabilityAnalyzer.h"
 #include <cmath>
 #include <sstream>
-#include "StabilityAnalyzer.h"
-//  QuadraticDecayODE — реализация Model 3.8
-//  Модель с линейно-квадратичным затуханием
-//  Решается численно методом Эйлера с шагом dt.
+
 class QuadraticDecayODE : public DynamicModel
 {
-private:
-    static constexpr double STABILITY_LIMIT = 1.0;
-    static constexpr double INITIAL_Y = 1.0;   // y(0) = 1
+    static constexpr double INITIAL_Y = 1.0;
 
-    double a1;
-    double a2;
-    double b;
-    double dt;      // шаг интегрирования
-    double y = INITIAL_Y;       // текущее состояние
+    double p1;
+    double p2;
+    double gain;
+    double delta;
+    double cur_y = INITIAL_Y;
 
 public:
-    QuadraticDecayODE(double a1_, double a2_, double b_, double dt_)
-        : a1(a1_), a2(a2_), b(b_), dt(dt_)
-    {
+    QuadraticDecayODE(double a1, double a2, double b, double dt)
+        : p1(a1), p2(a2), gain(b), delta(dt) {
     }
 
-    double advance(double u) override
+    double advance(double input) override
     {
-        // Производная по формуле линейно-квадратичного затухания
-        const double dydt = -a1 * y - a2 * y * y + b * u;
-
-        // Шаг интегрирования методом Эйлера
-        y = y + dt * dydt;
-        return y;
+        double deriv = -p1 * cur_y - p2 * cur_y * cur_y + gain * input;
+        cur_y = cur_y + delta * deriv;
+        return cur_y;
     }
 
-    void reset() override
-    {
-        y = INITIAL_Y;
-    }
+    void reset() override { cur_y = INITIAL_Y; }
 
     std::string describe() const override
     {
-        std::ostringstream oss;
-        oss << "Model 3.8 (Quadratic Decay ODE, dt=" << dt << ")";
-        return oss.str();
+        std::ostringstream out;
+        out << "Model 3.8 (Quadratic Decay ODE, dt=" << delta << ")";
+        return out.str();
     }
 
-    // Проверка устойчивости численной схемы Эйлера
     bool verifyStability() const override
     {
-        return StabilityAnalyzer::isStableEuler(a1, a2, dt, INITIAL_Y);
-    }
-
-    std::string getWarningMessage() const override
-    {
-        const double multiplier = 1.0 + dt * (-a1 - 2.0 * a2 * INITIAL_Y);
-        if (std::abs(multiplier) < STABILITY_LIMIT) return "";
-
-        std::ostringstream oss;
-        oss << "[WARNING] Model 3.8: Euler scheme may be unstable. "
-            << "|1 + dt*(-a1 - 2*a2*y0)| = " << std::abs(multiplier)
-            << " >= 1. Decrease dt.";
-        return oss.str();
+        return StabilityAnalyzer::isStableEuler(p1, p2, delta, INITIAL_Y);
     }
 };

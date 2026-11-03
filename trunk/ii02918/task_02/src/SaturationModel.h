@@ -1,63 +1,38 @@
 #pragma once
 #include "DynamicModel.h"
 #include <sstream>
-//  SaturationModel Ч реализаци€ Model 2.2
-//  ћодель линейной системы с насыщением на входе
-//  ‘ункци€ насыщени€ ограничивает вход снизу Umin и сверху Umax.
+#include <algorithm>
+
 class SaturationModel : public DynamicModel
 {
-private:
-    double a;
-    double b;
-    double uMin;    // нижн€€ граница насыщени€
-    double uMax;    // верхн€€ граница насыщени€
-    double y = 0.0;       // текущее состо€ние
+    double coef_a;
+    double coef_b;
+    double min_val;
+    double max_val;
+    double cur_y{ 0.0 };
 
 public:
-    SaturationModel(double a_, double b_, double uMin_, double uMax_)
-        : a(a_), b(b_), uMin(uMin_), uMax(uMax_)
-    {
+    SaturationModel(double a, double b, double lo, double hi)
+        : coef_a(a), coef_b(b), min_val(lo), max_val(hi) {
     }
 
-public:
-    // ƒелаем функцию насыщени€ публичной дл€ тестов
-    double saturate(double u) const
+    double saturate(double v) const
     {
-        if (u > uMax) return uMax;
-        if (u < uMin) return uMin;
-        return u;
+        return std::clamp(v, min_val, max_val);
     }
 
-    std::string getName() const override { return "Model 2.2"; }
-
-    double advance(double u) override
+    double advance(double input) override
     {
-        const double uSat = saturate(u);
-        y = a * y + b * uSat;
-        return y;
+        cur_y = coef_a * cur_y + coef_b * saturate(input);
+        return cur_y;
     }
 
-    void reset() override
-    {
-        y = 0.0;
-    }
+    void reset() override { cur_y = 0.0; }
 
     std::string describe() const override
     {
-        std::ostringstream oss;
-        oss << "Model 2.2 (Saturation, Umin=" << uMin
-            << ", Umax=" << uMax << ")";
-        return oss.str();
-    }
-
-    // Ќелинейна€ модель Ч линейный анализ устойчивости неприменим
-    bool verifyStability() const override
-    {
-        return true;
-    }
-
-    std::string getWarningMessage() const override
-    {
-        return "";
+        std::ostringstream out;
+        out << "Model 2.2 (Saturation, Umin=" << min_val << ", Umax=" << max_val << ")";
+        return out.str();
     }
 };

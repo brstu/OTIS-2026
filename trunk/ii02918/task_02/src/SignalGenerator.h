@@ -2,71 +2,33 @@
 #include <cmath>
 #include <string>
 
-//  SignalGenerator Ч абстрактный генератор входного воздействи€
 class SignalGenerator
 {
 public:
     virtual ~SignalGenerator() = default;
-
-    // «начение сигнала на шаге tau (нумераци€ начинаетс€ с 1)
-    // ƒобавлена защита от отрицательного времени дл€ Ћ–2
-    virtual double value(int tau) const
-    {
-        if (tau < 0) return 0.0;
-        return 0.0;
-    }
-
-    // »м€ типа сигнала
+    virtual double value(int step) const = 0;
     virtual std::string getName() const = 0;
 };
 
-//  StepSignal Ч ступенчатое воздействие: u = const
 class StepSignal : public SignalGenerator
 {
-private:
-    static constexpr double DEFAULT_LEVEL = 1.0;
-    double level;
-
+    double amp;
 public:
-    explicit StepSignal(double level_ = DEFAULT_LEVEL) : level(level_) {}
-
-    double value(int /*tau*/) const override
-    {
-        return level;
-    }
-
-    std::string getName() const override
-    {
-        return "Step (u = const)";
-    }
+    explicit StepSignal(double a = 1.0) : amp(a) {}
+    double value(int) const override { return amp; }
+    std::string getName() const override { return "Step (u = const)"; }
 };
 
-//  BurstSignal Ч импульсное воздействие: u_1 = 1, u_{tau>1} = 0
 class BurstSignal : public SignalGenerator
 {
 public:
-    double value(int tau) const override
-    {
-        return (tau == 1) ? 1.0 : 0.0;
-    }
-
-    std::string getName() const override
-    {
-        return "Burst (impulse at tau=1)";
-    }
+    double value(int step) const override { return (step == 1) ? 1.0 : 0.0; }
+    std::string getName() const override { return "Burst (impulse at tau=1)"; }
 };
 
-//  HarmonicSignal Ч гармоническое воздействие: u = sin(tau)
 class HarmonicSignal : public SignalGenerator
 {
 public:
-    double value(int tau) const override
-    {
-        return std::sin(static_cast<double>(tau));
-    }
-
-    std::string getName() const override
-    {
-        return "Harmonic (u = sin(tau))";
-    }
+    double value(int step) const override { return std::sin(static_cast<double>(step)); }
+    std::string getName() const override { return "Harmonic (u = sin(tau))"; }
 };
