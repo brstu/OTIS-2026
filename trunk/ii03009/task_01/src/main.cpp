@@ -21,7 +21,6 @@ void removeOldFiles() {
 }
 
 void simulate(Model* model, const std::string& filename, int n, int signal_type) {
-
     std::ofstream csv(filename);
     if (!csv.is_open()) {
         std::cerr << "Ошибка: не удалось создать файл " << filename << "\n";
@@ -30,7 +29,6 @@ void simulate(Model* model, const std::string& filename, int n, int signal_type)
 
     csv << "step,u,y\n";
     model->reset();
-
 
     std::cout << "\n===== " << filename << " =====\n";
     std::cout << std::left
@@ -99,7 +97,12 @@ int main() {
     removeOldFiles();
 
     if (choice == 1) {
-        double a1, a2, a3, b1;
+       
+        double a1;
+        double a2;
+        double a3;
+        double b1;
+        
         std::cout << "Введите коэффициент a1: ";
         std::cin >> a1;
         std::cout << "Введите коэффициент a2: ";
@@ -108,26 +111,35 @@ int main() {
         std::cin >> a3;
         std::cout << "Введите коэффициент b1: ";
         std::cin >> b1;
+        
         LinearModel1_9 m(a1, a2, a3, b1);
         prefix = "out_linear";
         simulate(&m, prefix + "_result.csv", n, signal_type);
     }
     else if (choice == 2) {
-        double a, b;
+       
+        double a;
+        double b;
+        
         std::cout << "Введите коэффициент a: ";
         std::cin >> a;
         std::cout << "Введите коэффициент b: ";
         std::cin >> b;
+        
         NonlinearModel2_9 m(a, b);
         prefix = "out_nonlinear";
         simulate(&m, prefix + "_result.csv", n, signal_type);
     }
     else if (choice == 3) {
-        double b, dt;
+    
+        double b;
+        double dt;
+        
         std::cout << "Введите коэффициент b: ";
         std::cin >> b;
         std::cout << "Введите коэффициент dt: ";
         std::cin >> dt;
+        
         DiffEq3_9 m(b, dt);
         prefix = "out_diffeq";
         simulate(&m, prefix + "_result.csv", n, signal_type);

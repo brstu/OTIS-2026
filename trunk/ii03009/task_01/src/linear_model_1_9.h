@@ -9,7 +9,11 @@ public:
     std::string getName() const override { return "Linear 1.9"; }
 
 private:
-    double a1_, a2_, a3_, b1_;
-    double y_prev1_, y_prev2_; 
-    double y_;
+    double a1_ = 0.0;
+    double a2_ = 0.0;
+    double a3_ = 0.0;
+    double b1_ = 0.0;
+    double y_prev1_ = 0.0; 
+    double y_prev2_ = 0.0; 
+    double y_ = 0.0;
 };

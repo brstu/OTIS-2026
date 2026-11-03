@@ -2,7 +2,7 @@
 #include <cmath>
 
 NonlinearModel2_9::NonlinearModel2_9(double a, double b)
-    : a_(a), b_(b), y_(0.0) {}
+    : a_(a), b_(b) {}
 
 double NonlinearModel2_9::step(double u) {
     double sign_u = (u > 0) - (u < 0); 

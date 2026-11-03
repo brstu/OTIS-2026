@@ -2,7 +2,7 @@
 #include <cmath>
 
 DiffEq3_9::DiffEq3_9(double b, double dt)
-    : b_(b), dt_(dt), y_(0.0) {}
+    : b_(b), dt_(dt) {}
 
 double DiffEq3_9::step(double u) {
     double dydt = b_ * std::tanh(u);

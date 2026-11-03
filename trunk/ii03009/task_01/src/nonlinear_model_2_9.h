@@ -9,6 +9,7 @@ public:
     std::string getName() const override { return "Nonlinear 2.9"; }
 
 private:
-    double a_, b_;
-    double y_;
+    double a_ = 0.0;
+    double b_ = 0.0;
+    double y_ = 0.0;
 };
