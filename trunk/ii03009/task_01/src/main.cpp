@@ -5,7 +5,9 @@
 #include <cmath>
 #include <locale>
 #include <cstdlib>
+#ifdef _WIN32
 #include <windows.h>
+#endif
 
 #include "model.h"
 #include "linear_model_1_9.h"
@@ -57,10 +59,10 @@ void simulate(Model* model, const std::string& filename, int n, int signal_type)
 }
 
 int main() {
-
+#ifdef _WIN32
     SetConsoleOutputCP(65001);
     SetConsoleCP(65001);
-
+#endif
    
     std::setlocale(LC_NUMERIC, "C");
 
