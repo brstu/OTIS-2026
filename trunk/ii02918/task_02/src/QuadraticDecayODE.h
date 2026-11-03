@@ -2,6 +2,7 @@
 #include "DynamicModel.h"
 #include <cmath>
 #include <sstream>
+#include "StabilityAnalyzer.h"
 //  QuadraticDecayODE Ч реализаци€ Model 3.8
 //  ћодель с линейно-квадратичным затуханием
 //  –ешаетс€ численно методом Ёйлера с шагом dt.
@@ -48,9 +49,7 @@ public:
     // ѕроверка устойчивости численной схемы Ёйлера
     bool verifyStability() const override
     {
-        // ќценка устойчивости численной схемы по начальному значению
-        const double multiplier = 1.0 + dt * (-a1 - 2.0 * a2 * INITIAL_Y);
-        return std::abs(multiplier) < STABILITY_LIMIT;
+        return StabilityAnalyzer::isStableEuler(a1, a2, dt, INITIAL_Y);
     }
 
     std::string getWarningMessage() const override

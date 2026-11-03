@@ -13,7 +13,14 @@ private:
     double uMax;    // верхняя граница насыщения
     double y = 0.0;       // текущее состояние
 
-    // Функция насыщения
+public:
+    SaturationModel(double a_, double b_, double uMin_, double uMax_)
+        : a(a_), b(b_), uMin(uMin_), uMax(uMax_)
+    {
+    }
+
+public:
+    // Делаем функцию насыщения публичной для тестов
     double saturate(double u) const
     {
         if (u > uMax) return uMax;
@@ -21,11 +28,7 @@ private:
         return u;
     }
 
-public:
-    SaturationModel(double a_, double b_, double uMin_, double uMax_)
-        : a(a_), b(b_), uMin(uMin_), uMax(uMax_)
-    {
-    }
+    std::string getName() const override { return "Model 2.2"; }
 
     double advance(double u) override
     {

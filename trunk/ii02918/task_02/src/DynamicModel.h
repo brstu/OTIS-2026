@@ -19,6 +19,9 @@ public:
     // Текстовое описание модели.
     virtual std::string describe() const = 0;
 
+    // Краткое имя модели (для тестов)
+    virtual std::string getName() const { return "BaseModel"; }
+
     // Проверка устойчивости (для линейных моделей — через корни
     // характеристического уравнения; по умолчанию — устойчива).
     virtual bool verifyStability() const

@@ -1,6 +1,7 @@
 #pragma once
 #include <cmath>
 #include <string>
+
 //  SignalGenerator Ч абстрактный генератор входного воздействи€
 class SignalGenerator
 {
@@ -8,11 +9,17 @@ public:
     virtual ~SignalGenerator() = default;
 
     // «начение сигнала на шаге tau (нумераци€ начинаетс€ с 1)
-    virtual double value(int tau) const = 0;
+    // ƒобавлена защита от отрицательного времени дл€ Ћ–2
+    virtual double value(int tau) const
+    {
+        if (tau < 0) return 0.0;
+        return 0.0;
+    }
 
     // »м€ типа сигнала
     virtual std::string getName() const = 0;
 };
+
 //  StepSignal Ч ступенчатое воздействие: u = const
 class StepSignal : public SignalGenerator
 {
@@ -33,6 +40,7 @@ public:
         return "Step (u = const)";
     }
 };
+
 //  BurstSignal Ч импульсное воздействие: u_1 = 1, u_{tau>1} = 0
 class BurstSignal : public SignalGenerator
 {
@@ -47,6 +55,7 @@ public:
         return "Burst (impulse at tau=1)";
     }
 };
+
 //  HarmonicSignal Ч гармоническое воздействие: u = sin(tau)
 class HarmonicSignal : public SignalGenerator
 {

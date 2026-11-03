@@ -3,6 +3,7 @@
 #include <deque>
 #include <cmath>
 #include <sstream>
+#include "StabilityAnalyzer.h"
 
 //  StateDelayModel — реализация Model 1.5
 //  Модель с задержкой по состоянию на k шагов
@@ -67,8 +68,7 @@ public:
 
     bool verifyStability() const override
     {
-        // Упрощённый критерий устойчивости: |a1| + |a2| < 1
-        return (std::abs(a1) + std::abs(a2)) < STABILITY_LIMIT;
+        return StabilityAnalyzer::isStableStateDelay(a1, a2);
     }
 
     std::string getWarningMessage() const override
