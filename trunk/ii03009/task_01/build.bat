@@ -9,7 +9,11 @@ cmake ..\src -G "MinGW Makefiles"
 cmake --build .
 
 echo To run a program...
-.\lab1.exe
+.\lab1_ii03009.exe
 
 cd ..
 cmd /k
+
+
+
+
