@@ -5,7 +5,7 @@ NonlinearModel2_9::NonlinearModel2_9(double a, double b)
     : a_(a), b_(b) {}
 
 double NonlinearModel2_9::step(double u) {
-    double sign_u = (u > 0) - (u < 0); 
+    double sign_u = static_cast<double>(u > 0.0) - static_cast<double>(u < 0.0);
     double u_mod = std::sqrt(std::abs(u)) * sign_u;
     
     y_ = a_ * y_ + b_ * u_mod;
