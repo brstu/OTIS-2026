@@ -11,5 +11,5 @@ var control_8hpp =
     [ "PIDController", "class_p_i_d_controller.html", "class_p_i_d_controller" ],
     [ "runFixed", "control_8hpp.html#adba2cd197c5b652f224d2882ee418cdc", null ],
     [ "runUntilSettled", "control_8hpp.html#ab8ad9e6bfccbae397e73c00193e84eb2", null ],
-    [ "saveResults", "control_8hpp.html#ae791440f99490ceec2bddaf14c9e16b2", null ]
+    [ "saveResults", "control_8hpp.html#aa2fe4df79be0c0dad7555d1efdc5eca8", null ]
 ];

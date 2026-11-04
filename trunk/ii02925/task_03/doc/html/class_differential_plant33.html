@@ -163,10 +163,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00026">26</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   26</span>                                                                               : p_(parameters) {</div>
-<div class="line"><span class="lineno">   27</span>    <span class="keywordflow">if</span> (p_.dt &lt;= 0.0) <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Plant time step must be positive&quot;</span>);</div>
-<div class="line"><span class="lineno">   28</span>}</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00027">27</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   27</span>                                                                               : p_(parameters) {</div>
+<div class="line"><span class="lineno">   28</span>    <span class="keywordflow">if</span> (p_.dt &lt;= 0.0) <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Plant time step must be positive&quot;</span>);</div>
+<div class="line"><span class="lineno">   29</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -197,8 +197,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_plant.html#ae7a211d71bfe0bae7db45f368a341ede">Plant</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00035">35</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;differential_3_3&quot;</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00036">36</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   36</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;differential_3_3&quot;</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -228,8 +228,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_plant.html#a12aa3c5ce9e9967e863604b734bcac53">Plant</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00034">34</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   34</span>{ <span class="keywordflow">return</span> y_; }</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00035">35</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   35</span>{ <span class="keywordflow">return</span> y_; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -259,8 +259,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_plant.html#a31f6ae43fd29ee30fc621411aefa60e3">Plant</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00033">33</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   33</span>{ y_ = 0.0; }</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00034">34</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   34</span>{ y_ = 0.0; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -290,11 +290,11 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_plant.html#acc5c9c8e8af2e4b45d8e2e14987e5e03">Plant</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00029">29</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   29</span>                                           {</div>
-<div class="line"><span class="lineno">   30</span>    y_ += p_.dt*(-p_.a*y_ + p_.b*u);</div>
-<div class="line"><span class="lineno">   31</span>    <span class="keywordflow">return</span> y_;</div>
-<div class="line"><span class="lineno">   32</span>}</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00030">30</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   30</span>                                           {</div>
+<div class="line"><span class="lineno">   31</span>    y_ += p_.dt*(-p_.a*y_ + p_.b*u);</div>
+<div class="line"><span class="lineno">   32</span>    <span class="keywordflow">return</span> y_;</div>
+<div class="line"><span class="lineno">   33</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

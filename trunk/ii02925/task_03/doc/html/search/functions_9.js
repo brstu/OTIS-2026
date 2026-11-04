@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['update_0',['update',['../class_plant.html#acc5c9c8e8af2e4b45d8e2e14987e5e03',1,'Plant::update()'],['../class_linear_plant19.html#a95eac8ec83d7a4b1fd72a4d2fbb1752f',1,'LinearPlant19::update()'],['../class_nonlinear_plant21.html#a49231367a8ff0c5da5b79d34e9a61b4e',1,'NonlinearPlant21::update()'],['../class_differential_plant33.html#a9e1e5d558fcb8c5f0ded031a5c9211bd',1,'DifferentialPlant33::update()'],['../class_p_i_d_controller.html#abd481676eb68c38443af051aa2864451',1,'PIDController::update()']]]
+  ['saveresults_0',['saveResults',['../control_8cpp.html#a30c97086c040b1b66903676837c3c150',1,'saveResults(const std::string &amp;baseName, const std::vector&lt; Sample &gt; &amp;samples, const std::string &amp;graphTitle, double scaleMinimum, double scaleMaximum):&#160;control.cpp'],['../control_8hpp.html#aa2fe4df79be0c0dad7555d1efdc5eca8',1,'saveResults(const std::string &amp;baseName, const std::vector&lt; Sample &gt; &amp;samples, const std::string &amp;graphTitle=&quot;&quot;, double scaleMinimum=0.0, double scaleMaximum=0.0):&#160;control.cpp']]]
 ];

@@ -3,6 +3,7 @@
 #include <cmath>
 #include <filesystem>
 #include <fstream>
+#include <iomanip>
 #include <stdexcept>
 
 LinearPlant19::LinearPlant19(LinearPlantParameters parameters) : p_(parameters) {}
@@ -91,7 +92,9 @@ std::vector<Sample> runUntilSettled(Plant& plant, PIDController& pid,
     return result;
 }
 
-void saveResults(const std::string& baseName, const std::vector<Sample>& samples) {
+void saveResults(const std::string& baseName, const std::vector<Sample>& samples,
+                 const std::string& graphTitle,
+                 double scaleMinimum, double scaleMaximum) {
     if (samples.empty()) return;
     std::filesystem::create_directories("results");
     std::ofstream csv("results/" + baseName + ".csv");
@@ -99,18 +102,45 @@ void saveResults(const std::string& baseName, const std::vector<Sample>& samples
     for (const auto& s : samples)
         csv << s.step << ',' << s.setpoint << ',' << s.error << ',' << s.control << ',' << s.output << '\n';
 
-    double low = 0.0, high = samples.front().setpoint;
-    for (const auto& s : samples) {
-        low = std::min({low, s.output, s.control});
-        high = std::max({high, s.output, s.control});
+    double low = scaleMinimum, high = scaleMaximum;
+    if (scaleMaximum <= scaleMinimum) {
+        low = 0.0;
+        high = samples.front().setpoint;
+        for (const auto& s : samples) {
+            low = std::min({low, s.output, s.control});
+            high = std::max({high, s.output, s.control});
+        }
+        const double pad = std::max(0.1, (high-low)*0.1);
+        low -= pad;
+        high += pad;
     }
-    const double pad = std::max(0.1, (high-low)*0.1); low -= pad; high += pad;
-    auto x = [&](std::size_t i) { return 70.0 + (samples.size()<2 ? 0.0 : i*790.0/(samples.size()-1)); };
-    auto y = [&](double value) { return 60.0 + (high-value)*370.0/(high-low); };
+    constexpr double left = 90.0, top = 65.0, width = 850.0, height = 400.0;
+    auto x = [&](std::size_t i) { return left + (samples.size()<2 ? 0.0 : i*width/(samples.size()-1)); };
+    auto y = [&](double value) { return top + (high-value)*height/(high-low); };
     std::ofstream svg("results/" + baseName + ".svg");
-    svg << "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"900\" height=\"500\">"
-        << "<rect x=\"0\" y=\"0\" width=\"900\" height=\"500\" fill=\"white\"/><text x=\"450\" y=\"30\" text-anchor=\"middle\" font-family=\"Arial\" font-size=\"20\">" << baseName << "</text>"
-        << "<rect x=\"70\" y=\"60\" width=\"790\" height=\"370\" fill=\"#f8fafc\" stroke=\"#334155\"/>";
+    svg << "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1000\" height=\"570\">"
+        << "<rect x=\"0\" y=\"0\" width=\"1000\" height=\"570\" fill=\"white\"/>"
+        << "<text x=\"500\" y=\"32\" text-anchor=\"middle\" font-family=\"Arial\" font-size=\"20\">"
+        << (graphTitle.empty() ? baseName : graphTitle) << "</text>"
+        << "<rect x=\"90\" y=\"65\" width=\"850\" height=\"400\" fill=\"#f8fafc\" stroke=\"#334155\"/>";
+    svg << std::fixed << std::setprecision(2);
+    for (int division = 0; division <= 5; ++division) {
+        const double gridY = top + division * height / 5.0;
+        const double value = high - division * (high-low) / 5.0;
+        svg << "<line x1=\"" << left << "\" y1=\"" << gridY << "\" x2=\""
+            << left+width << "\" y2=\"" << gridY << "\" stroke=\"#cbd5e1\"/>"
+            << "<text x=\"80\" y=\"" << gridY+5 << "\" text-anchor=\"end\" "
+            << "font-family=\"Arial\" font-size=\"12\">" << value << "</text>";
+    }
+    for (int division = 0; division <= 5; ++division) {
+        const double gridX = left + division * width / 5.0;
+        const int step = samples.size() < 2 ? 0 :
+            static_cast<int>(std::lround(division * (samples.size()-1) / 5.0));
+        svg << "<line x1=\"" << gridX << "\" y1=\"" << top << "\" x2=\""
+            << gridX << "\" y2=\"" << top+height << "\" stroke=\"#cbd5e1\"/>"
+            << "<text x=\"" << gridX << "\" y=\"485\" text-anchor=\"middle\" "
+            << "font-family=\"Arial\" font-size=\"12\">" << step << "</text>";
+    }
     auto line = [&](const char* color, auto value) {
         svg << "<polyline fill=\"none\" stroke=\"" << color << "\" stroke-width=\"3\" points=\"";
         for (std::size_t i=0;i<samples.size();++i) svg << x(i) << ',' << y(value(samples[i])) << ' ';
@@ -119,8 +149,10 @@ void saveResults(const std::string& baseName, const std::vector<Sample>& samples
     line("#16a34a", [](const Sample& s){return s.setpoint;});
     line("#2563eb", [](const Sample& s){return s.output;});
     line("#dc2626", [](const Sample& s){return s.control;});
-    svg << "<text x=\"600\" y=\"465\" fill=\"#16a34a\" font-family=\"Arial\">setpoint</text>"
-        << "<text x=\"700\" y=\"465\" fill=\"#2563eb\" font-family=\"Arial\">output</text>"
-        << "<text x=\"780\" y=\"465\" fill=\"#dc2626\" font-family=\"Arial\">control</text>"
-        << "<text x=\"450\" y=\"455\" text-anchor=\"middle\" font-family=\"Arial\">step t</text></svg>";
+    svg << "<text x=\"620\" y=\"535\" fill=\"#16a34a\" font-family=\"Arial\">Задание w</text>"
+        << "<text x=\"745\" y=\"535\" fill=\"#2563eb\" font-family=\"Arial\">Выход y</text>"
+        << "<text x=\"850\" y=\"535\" fill=\"#dc2626\" font-family=\"Arial\">Управление u</text>"
+        << "<text x=\"515\" y=\"515\" text-anchor=\"middle\" font-family=\"Arial\">Шаг t</text>"
+        << "<text x=\"22\" y=\"265\" text-anchor=\"middle\" font-family=\"Arial\" "
+        << "transform=\"rotate(-90 22 265)\">Значение</text></svg>";
 }

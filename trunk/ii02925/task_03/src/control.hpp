@@ -86,6 +86,9 @@ public:
     double update(double error);
     /** Clears integral and previous-error state. */
     void reset();
+    double kp() const { return kp_; }
+    double ki() const { return ki_; }
+    double kd() const { return kd_; }
 private:
     double kp_, ki_, kd_, dt_, min_, max_;
     double integral_ = 0.0, previousError_ = 0.0;
@@ -102,4 +105,6 @@ std::vector<Sample> runUntilSettled(Plant& plant, PIDController& pid,
                                     int maximumSteps, int stableSteps = 5);
 
 /** Writes strict CSV table and a dependency-free SVG graph. */
-void saveResults(const std::string& baseName, const std::vector<Sample>& samples);
+void saveResults(const std::string& baseName, const std::vector<Sample>& samples,
+                 const std::string& graphTitle = "",
+                 double scaleMinimum = 0.0, double scaleMaximum = 0.0);

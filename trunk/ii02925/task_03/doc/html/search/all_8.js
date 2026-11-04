@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['opengraph_0',['openGraph',['../main_8cpp.html#a368e11f96fef3a04d24cfd88ea79d777',1,'main.cpp']]],
-  ['output_1',['output',['../struct_sample.html#afbe719d4c00759eac33801a951132adb',1,'Sample::output'],['../class_plant.html#a12aa3c5ce9e9967e863604b734bcac53',1,'Plant::output()'],['../class_linear_plant19.html#a349c540dc9fd47d21e87a0fcbb7b0d2f',1,'LinearPlant19::output()'],['../class_nonlinear_plant21.html#ab760bb7b34dc05c676fab433ecd62cf7',1,'NonlinearPlant21::output()'],['../class_differential_plant33.html#afaab7a5218f3a46e30f12628b5b4a265',1,'DifferentialPlant33::output()']]]
+  ['name_0',['name',['../class_plant.html#ae7a211d71bfe0bae7db45f368a341ede',1,'Plant::name()'],['../class_linear_plant19.html#a7f2acb37b415a3646b01903bd0c9e27b',1,'LinearPlant19::name()'],['../class_nonlinear_plant21.html#a7bafca25633111bc839c307bb22e92f2',1,'NonlinearPlant21::name()'],['../class_differential_plant33.html#a1c458c9506bbd9c2184a92202f743177',1,'DifferentialPlant33::name()']]],
+  ['nonlinearplant21_1',['NonlinearPlant21',['../class_nonlinear_plant21.html',1,'NonlinearPlant21'],['../class_nonlinear_plant21.html#a64bbc7dfb916be3eea89836744f2d637',1,'NonlinearPlant21::NonlinearPlant21()']]],
+  ['nonlinearplantparameters_2',['NonlinearPlantParameters',['../struct_nonlinear_plant_parameters.html',1,'']]]
 ];

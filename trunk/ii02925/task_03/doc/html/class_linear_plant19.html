@@ -163,8 +163,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00008">8</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    8</span>: p_(parameters) {}</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00009">9</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">    9</span>: p_(parameters) {}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -195,8 +195,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_plant.html#ae7a211d71bfe0bae7db45f368a341ede">Plant</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00015">15</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;linear_1_9&quot;</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00016">16</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   16</span>{ <span class="keywordflow">return</span> <span class="stringliteral">&quot;linear_1_9&quot;</span>; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -226,8 +226,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_plant.html#a12aa3c5ce9e9967e863604b734bcac53">Plant</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00014">14</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   14</span>{ <span class="keywordflow">return</span> y0_; }</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00015">15</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   15</span>{ <span class="keywordflow">return</span> y0_; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -257,8 +257,8 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_plant.html#a31f6ae43fd29ee30fc621411aefa60e3">Plant</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00013">13</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   13</span>{ y0_ = y1_ = y2_ = 0.0; }</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00014">14</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   14</span>{ y0_ = y1_ = y2_ = 0.0; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -288,11 +288,11 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="class_plant.html#acc5c9c8e8af2e4b45d8e2e14987e5e03">Plant</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00009">9</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">    9</span>                                     {</div>
-<div class="line"><span class="lineno">   10</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> next = p_.a1*y0_ + p_.a2*y1_ + p_.a3*y2_ + p_.b1*u;</div>
-<div class="line"><span class="lineno">   11</span>    y2_ = y1_; y1_ = y0_; y0_ = next; <span class="keywordflow">return</span> y0_;</div>
-<div class="line"><span class="lineno">   12</span>}</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00010">10</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   10</span>                                     {</div>
+<div class="line"><span class="lineno">   11</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> next = p_.a1*y0_ + p_.a2*y1_ + p_.a3*y2_ + p_.b1*u;</div>
+<div class="line"><span class="lineno">   12</span>    y2_ = y1_; y1_ = y0_; y0_ = next; <span class="keywordflow">return</span> y0_;</div>
+<div class="line"><span class="lineno">   13</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>

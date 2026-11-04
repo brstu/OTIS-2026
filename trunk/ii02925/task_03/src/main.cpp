@@ -7,6 +7,7 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 
@@ -145,7 +146,10 @@ int main(int argc, char* argv[]) {
 
         printTable(samples);
         const std::string base = plant->name() + "_pid";
-        saveResults(base, samples);
+        std::ostringstream title;
+        title << "Замкнутая система: w=" << setpoint
+              << ", Kp=" << pid.kp() << ", Ki=" << pid.ki() << ", Kd=" << pid.kd();
+        saveResults(base, samples, title.str());
         const std::filesystem::path graphPath = std::filesystem::path("results") / (base + ".svg");
         std::cout << "Saved local CSV and graph in results/.\n";
 
