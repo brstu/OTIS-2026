@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.16)
+project(OTIS_Lab1_Variant9 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+add_executable(ii02925_task_01 main.cpp)
+set_target_properties(ii02925_task_01 PROPERTIES OUTPUT_NAME lab1)
+if(WIN32)
+  target_link_libraries(ii02925_task_01 PRIVATE shell32)
+endif()
+if(MSVC)
+  target_compile_options(ii02925_task_01 PRIVATE /W4)
+else()
+  target_compile_options(ii02925_task_01 PRIVATE -Wall -Wextra -Wpedantic)
+endif()
