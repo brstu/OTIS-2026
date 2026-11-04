@@ -1,10 +1,75 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500">
-<rect x="0" y="0" width="900" height="500" fill="white"/>
-<text x="450" y="30" text-anchor="middle" font-family="Arial" font-size="20">linear_1_9_step</text>
-<rect x="70" y="60" width="790" height="370" fill="#f8fafc" stroke="#334155"/>
-<polyline fill="none" stroke="#2563eb" stroke-width="3" points="70,236.622 111.579,236.622 153.158,236.622 194.737,236.622 236.316,236.622 277.895,236.622 319.474,236.622 361.053,236.622 402.632,236.622 444.211,236.622 485.789,236.622 527.368,236.622 568.947,236.622 610.526,236.622 652.105,236.622 693.684,236.622 735.263,236.622 776.842,236.622 818.421,236.622 860,236.622 "/>
-<polyline fill="none" stroke="#dc2626" stroke-width="3" points="70,334.149 111.579,301.64 153.158,272.382 194.737,244.749 236.316,221.83 277.895,201.918 319.474,184.615 361.053,169.69 402.632,156.775 444.211,145.602 485.789,135.94 527.368,127.583 568.947,120.355 610.526,114.104 652.105,108.697 693.684,104.02 735.263,99.9749 776.842,96.4764 818.421,93.4505 860,90.8333 "/>
-<text x="680" y="465" fill="#2563eb" font-family="Arial">input u(t)</text>
-<text x="780" y="465" fill="#dc2626" font-family="Arial">output y(t+1)</text>
-<text x="450" y="455" text-anchor="middle" font-family="Arial">step t</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="570">
+<rect width="1000" height="570" fill="white"/>
+<text x="500" y="32" text-anchor="middle" font-family="Arial" font-size="20">Модель 1.9 — ступенчатый сигнал</text>
+<rect x="90" y="65" width="850" height="400" fill="#f8fafc" stroke="#334155"/>
+<line x1="90" y1="65.00" x2="940" y2="65.00" stroke="#cbd5e1" stroke-width="1"/>
+<text x="80" y="70.00" text-anchor="end" font-family="Arial" font-size="12">2.09</text>
+<line x1="90" y1="145.00" x2="940" y2="145.00" stroke="#cbd5e1" stroke-width="1"/>
+<text x="80" y="150.00" text-anchor="end" font-family="Arial" font-size="12">1.63</text>
+<line x1="90" y1="225.00" x2="940" y2="225.00" stroke="#cbd5e1" stroke-width="1"/>
+<text x="80" y="230.00" text-anchor="end" font-family="Arial" font-size="12">1.18</text>
+<line x1="90" y1="305.00" x2="940" y2="305.00" stroke="#cbd5e1" stroke-width="1"/>
+<text x="80" y="310.00" text-anchor="end" font-family="Arial" font-size="12">0.72</text>
+<line x1="90" y1="385.00" x2="940" y2="385.00" stroke="#cbd5e1" stroke-width="1"/>
+<text x="80" y="390.00" text-anchor="end" font-family="Arial" font-size="12">0.27</text>
+<line x1="90" y1="465.00" x2="940" y2="465.00" stroke="#cbd5e1" stroke-width="1"/>
+<text x="80" y="470.00" text-anchor="end" font-family="Arial" font-size="12">-0.19</text>
+<line x1="90.00" y1="65" x2="90.00" y2="465" stroke="#cbd5e1" stroke-width="1"/>
+<text x="90.00" y="485" text-anchor="middle" font-family="Arial" font-size="12">0</text>
+<line x1="260.00" y1="65" x2="260.00" y2="465" stroke="#cbd5e1" stroke-width="1"/>
+<text x="260.00" y="485" text-anchor="middle" font-family="Arial" font-size="12">4</text>
+<line x1="430.00" y1="65" x2="430.00" y2="465" stroke="#cbd5e1" stroke-width="1"/>
+<text x="430.00" y="485" text-anchor="middle" font-family="Arial" font-size="12">8</text>
+<line x1="600.00" y1="65" x2="600.00" y2="465" stroke="#cbd5e1" stroke-width="1"/>
+<text x="600.00" y="485" text-anchor="middle" font-family="Arial" font-size="12">11</text>
+<line x1="770.00" y1="65" x2="770.00" y2="465" stroke="#cbd5e1" stroke-width="1"/>
+<text x="770.00" y="485" text-anchor="middle" font-family="Arial" font-size="12">15</text>
+<line x1="940.00" y1="65" x2="940.00" y2="465" stroke="#cbd5e1" stroke-width="1"/>
+<text x="940.00" y="485" text-anchor="middle" font-family="Arial" font-size="12">19</text>
+<polyline fill="none" stroke="#2563eb" stroke-width="3" points="90.00,255.94 134.74,255.94 179.47,255.94 224.21,255.94 268.95,255.94 313.68,255.94 358.42,255.94 403.16,255.94 447.89,255.94 492.63,255.94 537.37,255.94 582.11,255.94 626.84,255.94 671.58,255.94 716.32,255.94 761.05,255.94 805.79,255.94 850.53,255.94 895.26,255.94 940.00,255.94 "/>
+<polyline fill="none" stroke="#dc2626" stroke-width="3" points="90.00,361.38 134.74,326.23 179.47,294.60 224.21,264.73 268.95,239.95 313.68,218.43 358.42,199.72 403.16,183.58 447.89,169.62 492.63,157.54 537.37,147.10 582.11,138.06 626.84,130.25 671.58,123.49 716.32,117.64 761.05,112.59 805.79,108.22 850.53,104.43 895.26,101.16 940.00,98.33 "/>
+<circle cx="90.00" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="134.74" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="179.47" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="224.21" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="268.95" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="313.68" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="358.42" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="403.16" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="447.89" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="492.63" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="537.37" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="582.11" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="626.84" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="671.58" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="716.32" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="761.05" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="805.79" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="850.53" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="895.26" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="940.00" cy="255.94" r="2.5" fill="#2563eb"/>
+<circle cx="90.00" cy="361.38" r="3" fill="#dc2626"/>
+<circle cx="134.74" cy="326.23" r="3" fill="#dc2626"/>
+<circle cx="179.47" cy="294.60" r="3" fill="#dc2626"/>
+<circle cx="224.21" cy="264.73" r="3" fill="#dc2626"/>
+<circle cx="268.95" cy="239.95" r="3" fill="#dc2626"/>
+<circle cx="313.68" cy="218.43" r="3" fill="#dc2626"/>
+<circle cx="358.42" cy="199.72" r="3" fill="#dc2626"/>
+<circle cx="403.16" cy="183.58" r="3" fill="#dc2626"/>
+<circle cx="447.89" cy="169.62" r="3" fill="#dc2626"/>
+<circle cx="492.63" cy="157.54" r="3" fill="#dc2626"/>
+<circle cx="537.37" cy="147.10" r="3" fill="#dc2626"/>
+<circle cx="582.11" cy="138.06" r="3" fill="#dc2626"/>
+<circle cx="626.84" cy="130.25" r="3" fill="#dc2626"/>
+<circle cx="671.58" cy="123.49" r="3" fill="#dc2626"/>
+<circle cx="716.32" cy="117.64" r="3" fill="#dc2626"/>
+<circle cx="761.05" cy="112.59" r="3" fill="#dc2626"/>
+<circle cx="805.79" cy="108.22" r="3" fill="#dc2626"/>
+<circle cx="850.53" cy="104.43" r="3" fill="#dc2626"/>
+<circle cx="895.26" cy="101.16" r="3" fill="#dc2626"/>
+<circle cx="940.00" cy="98.33" r="3" fill="#dc2626"/>
+<text x="700" y="535" fill="#2563eb" font-family="Arial">Вход u(t)</text>
+<text x="825" y="535" fill="#dc2626" font-family="Arial">Выход y(t)</text>
+<text x="515" y="515" text-anchor="middle" font-family="Arial">Шаг t</text>
+<text x="22" y="265" text-anchor="middle" font-family="Arial" transform="rotate(-90 22 265)">Значение</text>
 </svg>

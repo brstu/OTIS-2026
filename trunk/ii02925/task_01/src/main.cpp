@@ -149,10 +149,19 @@ std::string signalName(Signal signal) {
     return "harmonic";
 }
 
+std::string graphTitle(int modelChoice, Signal signal) {
+    const std::string model = modelChoice == 1 ? "Модель 1.9" :
+                              modelChoice == 2 ? "Модель 2.1" : "Модель 3.3";
+    const std::string input = signal == Signal::Step ? "ступенчатый сигнал" :
+                              signal == Signal::Impulse ? "импульсный сигнал" :
+                                                         "гармонический сигнал";
+    return model + " — " + input;
+}
+
 void writeSvg(const std::filesystem::path& path, const std::string& title,
               const std::vector<double>& input, const std::vector<double>& output) {
-    constexpr int left = 70, top = 60;
-    constexpr int plotWidth = 790, plotHeight = 370;
+    constexpr int left = 90, top = 65;
+    constexpr int plotWidth = 850, plotHeight = 400;
     double minimum = 0.0, maximum = 0.0;
     for (double value : input) {
         minimum = std::min(minimum, value);
@@ -178,18 +187,51 @@ void writeSvg(const std::filesystem::path& path, const std::string& title,
     };
 
     std::ofstream file(path);
-    file << "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"900\" height=\"500\">\n"
-         << "<rect width=\"900\" height=\"500\" fill=\"white\"/>\n"
-         << "<text x=\"450\" y=\"30\" text-anchor=\"middle\" font-family=\"Arial\" font-size=\"20\">"
+    file << "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1000\" height=\"570\">\n"
+         << "<rect width=\"1000\" height=\"570\" fill=\"white\"/>\n"
+         << "<text x=\"500\" y=\"32\" text-anchor=\"middle\" font-family=\"Arial\" font-size=\"20\">"
          << title << "</text>\n"
-         << "<rect x=\"70\" y=\"60\" width=\"790\" height=\"370\" fill=\"#f8fafc\" stroke=\"#334155\"/>\n";
+         << "<rect x=\"90\" y=\"65\" width=\"850\" height=\"400\" fill=\"#f8fafc\" stroke=\"#334155\"/>\n";
+
+    file << std::fixed << std::setprecision(2);
+    for (int division = 0; division <= 5; ++division) {
+        const double gridY = top + division * plotHeight / 5.0;
+        const double value = maximum - division * (maximum - minimum) / 5.0;
+        file << "<line x1=\"" << left << "\" y1=\"" << gridY << "\" x2=\""
+             << left + plotWidth << "\" y2=\"" << gridY
+             << "\" stroke=\"#cbd5e1\" stroke-width=\"1\"/>\n"
+             << "<text x=\"80\" y=\"" << gridY + 5
+             << "\" text-anchor=\"end\" font-family=\"Arial\" font-size=\"12\">"
+             << value << "</text>\n";
+    }
+    for (int division = 0; division <= 5; ++division) {
+        const double gridX = left + division * plotWidth / 5.0;
+        const int step = input.size() < 2 ? 0 :
+            static_cast<int>(std::lround(division * (input.size() - 1) / 5.0));
+        file << "<line x1=\"" << gridX << "\" y1=\"" << top << "\" x2=\""
+             << gridX << "\" y2=\"" << top + plotHeight
+             << "\" stroke=\"#cbd5e1\" stroke-width=\"1\"/>\n"
+             << "<text x=\"" << gridX << "\" y=\"485\" text-anchor=\"middle\" "
+             << "font-family=\"Arial\" font-size=\"12\">" << step << "</text>\n";
+    }
     file << "<polyline fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" points=\"";
     for (std::size_t i = 0; i < input.size(); ++i) file << x(i) << ',' << y(input[i]) << ' ';
     file << "\"/>\n<polyline fill=\"none\" stroke=\"#dc2626\" stroke-width=\"3\" points=\"";
     for (std::size_t i = 0; i < output.size(); ++i) file << x(i) << ',' << y(output[i]) << ' ';
-    file << "\"/>\n<text x=\"670\" y=\"465\" fill=\"#2563eb\" font-family=\"Arial\">input u(t)</text>\n"
-         << "<text x=\"790\" y=\"465\" fill=\"#dc2626\" font-family=\"Arial\">output y(t)</text>\n"
-         << "<text x=\"450\" y=\"455\" text-anchor=\"middle\" font-family=\"Arial\">step t</text>\n</svg>\n";
+    file << "\"/>\n";
+    if (input.size() <= 100) {
+        for (std::size_t i = 0; i < input.size(); ++i)
+            file << "<circle cx=\"" << x(i) << "\" cy=\"" << y(input[i])
+                 << "\" r=\"2.5\" fill=\"#2563eb\"/>\n";
+        for (std::size_t i = 0; i < output.size(); ++i)
+            file << "<circle cx=\"" << x(i) << "\" cy=\"" << y(output[i])
+                 << "\" r=\"3\" fill=\"#dc2626\"/>\n";
+    }
+    file << "<text x=\"700\" y=\"535\" fill=\"#2563eb\" font-family=\"Arial\">Вход u(t)</text>\n"
+         << "<text x=\"825\" y=\"535\" fill=\"#dc2626\" font-family=\"Arial\">Выход y(t)</text>\n"
+         << "<text x=\"515\" y=\"515\" text-anchor=\"middle\" font-family=\"Arial\">Шаг t</text>\n"
+         << "<text x=\"22\" y=\"265\" text-anchor=\"middle\" font-family=\"Arial\" "
+         << "transform=\"rotate(-90 22 265)\">Значение</text>\n</svg>\n";
 }
 
 void openGraph(const std::filesystem::path& path) {
@@ -249,7 +291,7 @@ int main(int argc, char* argv[]) {
     }
 
     csv.close();
-    writeSvg(graphPath, base, inputs, outputs);
+    writeSvg(graphPath, graphTitle(modelChoice, signal), inputs, outputs);
     std::cout << "\nCSV table: " << csvPath << "\nGraph: " << graphPath << "\n";
 
     const bool disableOpening = argc > 1 && std::string(argv[1]) == "--no-open";
