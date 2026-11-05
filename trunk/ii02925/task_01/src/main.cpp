@@ -36,12 +36,21 @@ public:
         return result;
     }
 
-    void reset() override { y0_ = y1_ = y2_ = 0.0; }
+    void reset() override {
+        y0_ = 0.0;
+        y1_ = 0.0;
+        y2_ = 0.0;
+    }
     std::string name() const override { return "linear_1_9"; }
 
 private:
-    double a1_, a2_, a3_, b1_;
-    double y0_ = 0.0, y1_ = 0.0, y2_ = 0.0;
+    double a1_;
+    double a2_;
+    double a3_;
+    double b1_;
+    double y0_ = 0.0;
+    double y1_ = 0.0;
+    double y2_ = 0.0;
 };
 
 class NonlinearModel21 final : public Model {
@@ -57,12 +66,19 @@ public:
         return result;
     }
 
-    void reset() override { y0_ = y1_ = 0.0; }
+    void reset() override {
+        y0_ = 0.0;
+        y1_ = 0.0;
+    }
     std::string name() const override { return "nonlinear_2_1"; }
 
 private:
-    double a_, b_, c_, d_;
-    double y0_ = 0.0, y1_ = 0.0;
+    double a_;
+    double b_;
+    double c_;
+    double d_;
+    double y0_ = 0.0;
+    double y1_ = 0.0;
 };
 
 class DifferentialModel33 final : public Model {
@@ -79,7 +95,9 @@ public:
     std::string name() const override { return "differential_3_3"; }
 
 private:
-    double a_, b_, dt_;
+    double a_;
+    double b_;
+    double dt_;
     double y_ = 0.0;
 };
 
@@ -150,19 +168,24 @@ std::string signalName(Signal signal) {
 }
 
 std::string graphTitle(int modelChoice, Signal signal) {
-    const std::string model = modelChoice == 1 ? "Модель 1.9" :
-                              modelChoice == 2 ? "Модель 2.1" : "Модель 3.3";
-    const std::string input = signal == Signal::Step ? "ступенчатый сигнал" :
-                              signal == Signal::Impulse ? "импульсный сигнал" :
-                                                         "гармонический сигнал";
+    std::string model = "Модель 3.3";
+    if (modelChoice == 1) model = "Модель 1.9";
+    if (modelChoice == 2) model = "Модель 2.1";
+
+    std::string input = "гармонический сигнал";
+    if (signal == Signal::Step) input = "ступенчатый сигнал";
+    if (signal == Signal::Impulse) input = "импульсный сигнал";
     return model + " — " + input;
 }
 
 void writeSvg(const std::filesystem::path& path, const std::string& title,
               const std::vector<double>& input, const std::vector<double>& output) {
-    constexpr int left = 90, top = 65;
-    constexpr int plotWidth = 850, plotHeight = 400;
-    double minimum = 0.0, maximum = 0.0;
+    constexpr int left = 90;
+    constexpr int top = 65;
+    constexpr int plotWidth = 850;
+    constexpr int plotHeight = 400;
+    double minimum = 0.0;
+    double maximum = 0.0;
     for (double value : input) {
         minimum = std::min(minimum, value);
         maximum = std::max(maximum, value);
@@ -180,18 +203,19 @@ void writeSvg(const std::filesystem::path& path, const std::string& title,
     maximum += padding;
 
     auto x = [&](std::size_t i) {
-        return left + (input.size() < 2 ? 0.0 : i * plotWidth / double(input.size() - 1));
+        const auto lastIndex = static_cast<double>(input.size() - 1);
+        return left + (input.size() < 2 ? 0.0 : static_cast<double>(i) * plotWidth / lastIndex);
     };
     auto y = [&](double value) {
         return top + (maximum - value) * plotHeight / (maximum - minimum);
     };
 
     std::ofstream file(path);
-    file << "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1000\" height=\"570\">\n"
-         << "<rect width=\"1000\" height=\"570\" fill=\"white\"/>\n"
-         << "<text x=\"500\" y=\"32\" text-anchor=\"middle\" font-family=\"Arial\" font-size=\"20\">"
+    file << R"(<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="570">)" << '\n'
+         << R"(<rect width="1000" height="570" fill="white"/>)" << '\n'
+         << R"(<text x="500" y="32" text-anchor="middle" font-family="Arial" font-size="20">)"
          << title << "</text>\n"
-         << "<rect x=\"90\" y=\"65\" width=\"850\" height=\"400\" fill=\"#f8fafc\" stroke=\"#334155\"/>\n";
+         << R"(<rect x="90" y="65" width="850" height="400" fill="#f8fafc" stroke="#334155"/>)" << '\n';
 
     file << std::fixed << std::setprecision(2);
     for (int division = 0; division <= 5; ++division) {
@@ -199,22 +223,22 @@ void writeSvg(const std::filesystem::path& path, const std::string& title,
         const double value = maximum - division * (maximum - minimum) / 5.0;
         file << "<line x1=\"" << left << "\" y1=\"" << gridY << "\" x2=\""
              << left + plotWidth << "\" y2=\"" << gridY
-             << "\" stroke=\"#cbd5e1\" stroke-width=\"1\"/>\n"
+             << R"(" stroke="#cbd5e1" stroke-width="1"/>)" << '\n'
              << "<text x=\"80\" y=\"" << gridY + 5
-             << "\" text-anchor=\"end\" font-family=\"Arial\" font-size=\"12\">"
+             << R"(" text-anchor="end" font-family="Arial" font-size="12">)"
              << value << "</text>\n";
     }
     for (int division = 0; division <= 5; ++division) {
         const double gridX = left + division * plotWidth / 5.0;
         const int step = input.size() < 2 ? 0 :
-            static_cast<int>(std::lround(division * (input.size() - 1) / 5.0));
+            static_cast<int>(std::lround(division * static_cast<double>(input.size() - 1) / 5.0));
         file << "<line x1=\"" << gridX << "\" y1=\"" << top << "\" x2=\""
              << gridX << "\" y2=\"" << top + plotHeight
-             << "\" stroke=\"#cbd5e1\" stroke-width=\"1\"/>\n"
-             << "<text x=\"" << gridX << "\" y=\"485\" text-anchor=\"middle\" "
-             << "font-family=\"Arial\" font-size=\"12\">" << step << "</text>\n";
+             << R"(" stroke="#cbd5e1" stroke-width="1"/>)" << '\n'
+             << R"(<text x=")" << gridX << R"(" y="485" text-anchor="middle" )"
+             << R"(font-family="Arial" font-size="12">)" << step << "</text>\n";
     }
-    file << "<polyline fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" points=\"";
+    file << R"(<polyline fill="none" stroke="#2563eb" stroke-width="3" points=")";
     for (std::size_t i = 0; i < input.size(); ++i) file << x(i) << ',' << y(input[i]) << ' ';
     file << "\"/>\n<polyline fill=\"none\" stroke=\"#dc2626\" stroke-width=\"3\" points=\"";
     for (std::size_t i = 0; i < output.size(); ++i) file << x(i) << ',' << y(output[i]) << ' ';
@@ -227,11 +251,11 @@ void writeSvg(const std::filesystem::path& path, const std::string& title,
             file << "<circle cx=\"" << x(i) << "\" cy=\"" << y(output[i])
                  << "\" r=\"3\" fill=\"#dc2626\"/>\n";
     }
-    file << "<text x=\"700\" y=\"535\" fill=\"#2563eb\" font-family=\"Arial\">Вход u(t)</text>\n"
-         << "<text x=\"825\" y=\"535\" fill=\"#dc2626\" font-family=\"Arial\">Выход y(t)</text>\n"
-         << "<text x=\"515\" y=\"515\" text-anchor=\"middle\" font-family=\"Arial\">Шаг t</text>\n"
-         << "<text x=\"22\" y=\"265\" text-anchor=\"middle\" font-family=\"Arial\" "
-         << "transform=\"rotate(-90 22 265)\">Значение</text>\n</svg>\n";
+    file << R"(<text x="700" y="535" fill="#2563eb" font-family="Arial">Вход u(t)</text>)" << '\n'
+         << R"(<text x="825" y="535" fill="#dc2626" font-family="Arial">Выход y(t)</text>)" << '\n'
+         << R"(<text x="515" y="515" text-anchor="middle" font-family="Arial">Шаг t</text>)" << '\n'
+         << R"(<text x="22" y="265" text-anchor="middle" font-family="Arial" )"
+         << R"svg(transform="rotate(-90 22 265)">Значение</text>)svg" << "\n</svg>\n";
 }
 
 void openGraph(const std::filesystem::path& path) {
@@ -255,7 +279,7 @@ int main(int argc, char* argv[]) {
 
     const int signalChoice = readInt(
         "Choose input: 1 - step, 2 - impulse, 3 - harmonic: ", 1, 3);
-    const Signal signal = static_cast<Signal>(signalChoice);
+    const auto signal = static_cast<Signal>(signalChoice);
     const double amplitude = readDouble("Signal amplitude = ");
     const int steps = readInt("Number of simulation steps = ", 1, 100000);
 
@@ -294,7 +318,9 @@ int main(int argc, char* argv[]) {
     writeSvg(graphPath, graphTitle(modelChoice, signal), inputs, outputs);
     std::cout << "\nCSV table: " << csvPath << "\nGraph: " << graphPath << "\n";
 
-    const bool disableOpening = argc > 1 && std::string(argv[1]) == "--no-open";
-    if (!disableOpening) openGraph(graphPath);
+    if (const bool disableOpening = argc > 1 && std::string(argv[1]) == "--no-open";
+        !disableOpening) {
+        openGraph(graphPath);
+    }
     return 0;
 }
