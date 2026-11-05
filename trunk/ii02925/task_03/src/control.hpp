@@ -14,17 +14,25 @@ struct Sample {
 
 /** Coefficients of linear plant Model 1.9. */
 struct LinearPlantParameters {
-    double a1, a2, a3, b1;
+    double a1;
+    double a2;
+    double a3;
+    double b1;
 };
 
 /** Coefficients of nonlinear plant Model 2.1. */
 struct NonlinearPlantParameters {
-    double a, b, c, d;
+    double a;
+    double b;
+    double c;
+    double d;
 };
 
 /** Coefficients and integration step of differential plant Model 3.3. */
 struct DifferentialPlantParameters {
-    double a, b, dt;
+    double a;
+    double b;
+    double dt;
 };
 
 /** Base interface for a controlled object (plant). */
@@ -44,9 +52,11 @@ public:
 /** Variant 9 linear plant: model 1.9. */
 class LinearPlant19 final : public Plant {
     LinearPlantParameters p_;
-    double y0_ = 0.0, y1_ = 0.0, y2_ = 0.0;
+    double y0_ = 0.0;
+    double y1_ = 0.0;
+    double y2_ = 0.0;
 public:
-    explicit LinearPlant19(LinearPlantParameters parameters = {0.5, 0.2, 0.1, 0.4});
+    explicit LinearPlant19(const LinearPlantParameters& parameters = {0.5, 0.2, 0.1, 0.4});
     double update(double u) override;
     void reset() override;
     double output() const override;
@@ -56,9 +66,11 @@ public:
 /** Variant 9 nonlinear plant: model 2.1. */
 class NonlinearPlant21 final : public Plant {
     NonlinearPlantParameters p_;
-    double y0_ = 0.0, y1_ = 0.0, previousU_ = 0.0;
+    double y0_ = 0.0;
+    double y1_ = 0.0;
+    double previousU_ = 0.0;
 public:
-    explicit NonlinearPlant21(NonlinearPlantParameters parameters = {0.5, 0.05, 0.4, 0.1});
+    explicit NonlinearPlant21(const NonlinearPlantParameters& parameters = {0.5, 0.05, 0.4, 0.1});
     double update(double u) override;
     void reset() override;
     double output() const override;
@@ -70,7 +82,7 @@ class DifferentialPlant33 final : public Plant {
     DifferentialPlantParameters p_;
     double y_ = 0.0;
 public:
-    explicit DifferentialPlant33(DifferentialPlantParameters parameters = {0.6, 1.0, 0.1});
+    explicit DifferentialPlant33(const DifferentialPlantParameters& parameters = {0.6, 1.0, 0.1});
     double update(double u) override;
     void reset() override;
     double output() const override;
@@ -90,8 +102,14 @@ public:
     double ki() const { return ki_; }
     double kd() const { return kd_; }
 private:
-    double kp_, ki_, kd_, dt_, min_, max_;
-    double integral_ = 0.0, previousError_ = 0.0;
+    double kp_;
+    double ki_;
+    double kd_;
+    double dt_;
+    double min_;
+    double max_;
+    double integral_ = 0.0;
+    double previousError_ = 0.0;
     bool first_ = true;
 };
 

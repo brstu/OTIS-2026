@@ -6,25 +6,39 @@
 #include <iomanip>
 #include <stdexcept>
 
-LinearPlant19::LinearPlant19(LinearPlantParameters parameters) : p_(parameters) {}
+LinearPlant19::LinearPlant19(const LinearPlantParameters& parameters) : p_(parameters) {}
 double LinearPlant19::update(double u) {
     const double next = p_.a1*y0_ + p_.a2*y1_ + p_.a3*y2_ + p_.b1*u;
-    y2_ = y1_; y1_ = y0_; y0_ = next; return y0_;
+    y2_ = y1_;
+    y1_ = y0_;
+    y0_ = next;
+    return y0_;
 }
-void LinearPlant19::reset() { y0_ = y1_ = y2_ = 0.0; }
+void LinearPlant19::reset() {
+    y0_ = 0.0;
+    y1_ = 0.0;
+    y2_ = 0.0;
+}
 double LinearPlant19::output() const { return y0_; }
 std::string LinearPlant19::name() const { return "linear_1_9"; }
 
-NonlinearPlant21::NonlinearPlant21(NonlinearPlantParameters parameters) : p_(parameters) {}
+NonlinearPlant21::NonlinearPlant21(const NonlinearPlantParameters& parameters) : p_(parameters) {}
 double NonlinearPlant21::update(double u) {
     const double next = p_.a*y0_ - p_.b*y1_*y1_ + p_.c*u + p_.d*std::sin(previousU_);
-    y1_ = y0_; y0_ = next; previousU_ = u; return y0_;
+    y1_ = y0_;
+    y0_ = next;
+    previousU_ = u;
+    return y0_;
 }
-void NonlinearPlant21::reset() { y0_ = y1_ = previousU_ = 0.0; }
+void NonlinearPlant21::reset() {
+    y0_ = 0.0;
+    y1_ = 0.0;
+    previousU_ = 0.0;
+}
 double NonlinearPlant21::output() const { return y0_; }
 std::string NonlinearPlant21::name() const { return "nonlinear_2_1"; }
 
-DifferentialPlant33::DifferentialPlant33(DifferentialPlantParameters parameters) : p_(parameters) {
+DifferentialPlant33::DifferentialPlant33(const DifferentialPlantParameters& parameters) : p_(parameters) {
     if (p_.dt <= 0.0) throw std::invalid_argument("Plant time step must be positive");
 }
 double DifferentialPlant33::update(double u) {
@@ -48,15 +62,20 @@ double PIDController::update(double error) {
     const double raw = kp_*error + ki_*candidateIntegral + kd_*derivative;
     const double limited = std::clamp(raw, min_, max_);
     // Conditional integration: do not grow the integral further into saturation.
-    const bool pushesHigh = raw > max_ && error > 0.0;
-    const bool pushesLow = raw < min_ && error < 0.0;
-    if (!pushesHigh && !pushesLow) integral_ = candidateIntegral;
+    if (const bool pushesHigh = raw > max_ && error > 0.0;
+        !pushesHigh && !(raw < min_ && error < 0.0)) {
+        integral_ = candidateIntegral;
+    }
     previousError_ = error;
     first_ = false;
     return limited;
 }
 
-void PIDController::reset() { integral_ = previousError_ = 0.0; first_ = true; }
+void PIDController::reset() {
+    integral_ = 0.0;
+    previousError_ = 0.0;
+    first_ = true;
+}
 
 std::vector<Sample> runFixed(Plant& plant, PIDController& pid,
                              double setpoint, int steps) {
@@ -102,7 +121,8 @@ void saveResults(const std::string& baseName, const std::vector<Sample>& samples
     for (const auto& s : samples)
         csv << s.step << ',' << s.setpoint << ',' << s.error << ',' << s.control << ',' << s.output << '\n';
 
-    double low = scaleMinimum, high = scaleMaximum;
+    double low = scaleMinimum;
+    double high = scaleMaximum;
     if (scaleMaximum <= scaleMinimum) {
         low = 0.0;
         high = samples.front().setpoint;
@@ -114,45 +134,51 @@ void saveResults(const std::string& baseName, const std::vector<Sample>& samples
         low -= pad;
         high += pad;
     }
-    constexpr double left = 90.0, top = 65.0, width = 850.0, height = 400.0;
-    auto x = [&](std::size_t i) { return left + (samples.size()<2 ? 0.0 : i*width/(samples.size()-1)); };
+    constexpr double left = 90.0;
+    constexpr double top = 65.0;
+    constexpr double width = 850.0;
+    constexpr double height = 400.0;
+    auto x = [&](std::size_t i) {
+        const auto lastIndex = static_cast<double>(samples.size() - 1);
+        return left + (samples.size() < 2 ? 0.0 : static_cast<double>(i) * width / lastIndex);
+    };
     auto y = [&](double value) { return top + (high-value)*height/(high-low); };
     std::ofstream svg("results/" + baseName + ".svg");
-    svg << "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1000\" height=\"570\">"
-        << "<rect x=\"0\" y=\"0\" width=\"1000\" height=\"570\" fill=\"white\"/>"
-        << "<text x=\"500\" y=\"32\" text-anchor=\"middle\" font-family=\"Arial\" font-size=\"20\">"
+    svg << R"(<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="570">)"
+        << R"(<rect x="0" y="0" width="1000" height="570" fill="white"/>)"
+        << R"(<text x="500" y="32" text-anchor="middle" font-family="Arial" font-size="20">)"
         << (graphTitle.empty() ? baseName : graphTitle) << "</text>"
-        << "<rect x=\"90\" y=\"65\" width=\"850\" height=\"400\" fill=\"#f8fafc\" stroke=\"#334155\"/>";
+        << R"(<rect x="90" y="65" width="850" height="400" fill="#f8fafc" stroke="#334155"/>)";
     svg << std::fixed << std::setprecision(2);
     for (int division = 0; division <= 5; ++division) {
         const double gridY = top + division * height / 5.0;
         const double value = high - division * (high-low) / 5.0;
-        svg << "<line x1=\"" << left << "\" y1=\"" << gridY << "\" x2=\""
-            << left+width << "\" y2=\"" << gridY << "\" stroke=\"#cbd5e1\"/>"
-            << "<text x=\"80\" y=\"" << gridY+5 << "\" text-anchor=\"end\" "
-            << "font-family=\"Arial\" font-size=\"12\">" << value << "</text>";
+        svg << R"(<line x1=")" << left << R"(" y1=")" << gridY << R"(" x2=")"
+            << left+width << R"(" y2=")" << gridY << R"(" stroke="#cbd5e1"/>)"
+            << R"(<text x="80" y=")" << gridY+5 << R"(" text-anchor="end" )"
+            << R"(font-family="Arial" font-size="12">)" << value << "</text>";
     }
     for (int division = 0; division <= 5; ++division) {
         const double gridX = left + division * width / 5.0;
         const int step = samples.size() < 2 ? 0 :
-            static_cast<int>(std::lround(division * (samples.size()-1) / 5.0));
-        svg << "<line x1=\"" << gridX << "\" y1=\"" << top << "\" x2=\""
-            << gridX << "\" y2=\"" << top+height << "\" stroke=\"#cbd5e1\"/>"
-            << "<text x=\"" << gridX << "\" y=\"485\" text-anchor=\"middle\" "
-            << "font-family=\"Arial\" font-size=\"12\">" << step << "</text>";
+            static_cast<int>(std::lround(division * static_cast<double>(samples.size()-1) / 5.0));
+        svg << R"(<line x1=")" << gridX << R"(" y1=")" << top << R"(" x2=")"
+            << gridX << R"(" y2=")" << top+height << R"(" stroke="#cbd5e1"/>)"
+            << R"(<text x=")" << gridX << R"(" y="485" text-anchor="middle" )"
+            << R"(font-family="Arial" font-size="12">)" << step << "</text>";
     }
     auto line = [&](const char* color, auto value) {
-        svg << "<polyline fill=\"none\" stroke=\"" << color << "\" stroke-width=\"3\" points=\"";
+        svg << R"(<polyline fill="none" stroke=")" << color << R"(" stroke-width="3" points=")";
         for (std::size_t i=0;i<samples.size();++i) svg << x(i) << ',' << y(value(samples[i])) << ' ';
-        svg << "\"/>";
+        svg << R"("/>)";
     };
     line("#16a34a", [](const Sample& s){return s.setpoint;});
     line("#2563eb", [](const Sample& s){return s.output;});
     line("#dc2626", [](const Sample& s){return s.control;});
-    svg << "<text x=\"620\" y=\"535\" fill=\"#16a34a\" font-family=\"Arial\">Задание w</text>"
-        << "<text x=\"745\" y=\"535\" fill=\"#2563eb\" font-family=\"Arial\">Выход y</text>"
-        << "<text x=\"850\" y=\"535\" fill=\"#dc2626\" font-family=\"Arial\">Управление u</text>"
-        << "<text x=\"515\" y=\"515\" text-anchor=\"middle\" font-family=\"Arial\">Шаг t</text>"
-        << "<text x=\"22\" y=\"265\" text-anchor=\"middle\" font-family=\"Arial\" "
-        << "transform=\"rotate(-90 22 265)\">Значение</text></svg>";
+    svg << R"(<text x="620" y="535" fill="#16a34a" font-family="Arial">Задание w</text>)"
+        << R"(<text x="745" y="535" fill="#2563eb" font-family="Arial">Выход y</text>)"
+        << R"(<text x="850" y="535" fill="#dc2626" font-family="Arial">Управление u</text>)"
+        << R"(<text x="515" y="515" text-anchor="middle" font-family="Arial">Шаг t</text>)"
+        << R"(<text x="22" y="265" text-anchor="middle" font-family="Arial" )"
+        << R"svg(transform="rotate(-90 22 265)">Значение</text></svg>)svg";
 }
