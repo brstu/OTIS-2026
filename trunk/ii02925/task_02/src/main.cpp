@@ -88,8 +88,12 @@ std::unique_ptr<Model> createModel(int choice, std::string& modelName) {
 
 void writeSvg(const std::filesystem::path& path, const std::string& title,
               const std::vector<double>& input, const std::vector<double>& output) {
-    constexpr int left = 70, top = 60, width = 790, height = 370;
-    double minimum = 0.0, maximum = 0.0;
+    constexpr int left = 70;
+    constexpr int top = 60;
+    constexpr int width = 790;
+    constexpr int height = 370;
+    double minimum = 0.0;
+    double maximum = 0.0;
     for (double value : input) {
         minimum = std::min(minimum, value);
         maximum = std::max(maximum, value);
@@ -106,19 +110,20 @@ void writeSvg(const std::filesystem::path& path, const std::string& title,
     minimum -= padding;
     maximum += padding;
     auto x = [&](std::size_t i) {
-        return left + (input.size() < 2 ? 0.0 : i * width / double(input.size() - 1));
+        const auto lastIndex = static_cast<double>(input.size() - 1);
+        return left + (input.size() < 2 ? 0.0 : static_cast<double>(i) * width / lastIndex);
     };
     auto y = [&](double value) {
         return top + (maximum - value) * height / (maximum - minimum);
     };
 
     std::ofstream file(path);
-    file << "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"900\" height=\"500\">\n"
-         << "<rect width=\"900\" height=\"500\" fill=\"white\"/>\n"
-         << "<text x=\"450\" y=\"30\" text-anchor=\"middle\" font-family=\"Arial\" font-size=\"20\">"
+    file << R"(<svg xmlns="http://www.w3.org/2000/svg" width="900" height="500">)" << '\n'
+         << R"(<rect width="900" height="500" fill="white"/>)" << '\n'
+         << R"(<text x="450" y="30" text-anchor="middle" font-family="Arial" font-size="20">)"
          << title << "</text>\n"
-         << "<rect x=\"70\" y=\"60\" width=\"790\" height=\"370\" fill=\"#f8fafc\" stroke=\"#334155\"/>\n"
-         << "<polyline fill=\"none\" stroke=\"#2563eb\" stroke-width=\"3\" points=\"";
+         << R"(<rect x="70" y="60" width="790" height="370" fill="#f8fafc" stroke="#334155"/>)" << '\n'
+         << R"(<polyline fill="none" stroke="#2563eb" stroke-width="3" points=")";
     for (std::size_t i = 0; i < input.size(); ++i) file << x(i) << ',' << y(input[i]) << ' ';
     file << "\"/>\n<polyline fill=\"none\" stroke=\"#dc2626\" stroke-width=\"3\" points=\"";
     for (std::size_t i = 0; i < output.size(); ++i) file << x(i) << ',' << y(output[i]) << ' ';
@@ -149,7 +154,7 @@ int main(int argc, char* argv[]) {
 
     const int signalChoice = readInt(
         "Choose input: 1 - step, 2 - impulse, 3 - harmonic: ", 1, 3);
-    const SignalType signal = static_cast<SignalType>(signalChoice - 1);
+    const auto signal = static_cast<SignalType>(signalChoice - 1);
     const double amplitude = readDouble("Signal amplitude = ");
     const int steps = readInt("Number of simulation steps = ", 1, 100000);
 
@@ -186,7 +191,9 @@ int main(int argc, char* argv[]) {
 
     writeSvg(graphPath, base, inputs, outputs);
     std::cout << "\nCSV table: " << csvPath << "\nGraph: " << graphPath << "\n";
-    const bool disableOpening = argc > 1 && std::string(argv[1]) == "--no-open";
-    if (!disableOpening) openGraph(graphPath);
+    if (const bool disableOpening = argc > 1 && std::string(argv[1]) == "--no-open";
+        !disableOpening) {
+        openGraph(graphPath);
+    }
     return 0;
 }

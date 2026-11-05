@@ -1,24 +1,34 @@
 #include "models.hpp"
 #include <cmath>
 
-LinearModel19::LinearModel19(LinearParameters parameters) : p_(parameters) {}
+LinearModel19::LinearModel19(const LinearParameters& parameters) : p_(parameters) {}
 double LinearModel19::next(double u, double) {
     const double result = p_.a1*y0_ + p_.a2*y1_ + p_.a3*y2_ + p_.b1*u;
-    y2_ = y1_; y1_ = y0_; y0_ = result;
+    y2_ = y1_;
+    y1_ = y0_;
+    y0_ = result;
     return result;
 }
-void LinearModel19::reset() { y0_ = y1_ = y2_ = 0.0; }
+void LinearModel19::reset() {
+    y0_ = 0.0;
+    y1_ = 0.0;
+    y2_ = 0.0;
+}
 LinearParameters LinearModel19::parameters() const { return p_; }
 
-NonlinearModel21::NonlinearModel21(NonlinearParameters parameters) : p_(parameters) {}
+NonlinearModel21::NonlinearModel21(const NonlinearParameters& parameters) : p_(parameters) {}
 double NonlinearModel21::next(double u, double previousU) {
     const double result = p_.a*y0_ - p_.b*y1_*y1_ + p_.c*u + p_.d*std::sin(previousU);
-    y1_ = y0_; y0_ = result;
+    y1_ = y0_;
+    y0_ = result;
     return result;
 }
-void NonlinearModel21::reset() { y0_ = y1_ = 0.0; }
+void NonlinearModel21::reset() {
+    y0_ = 0.0;
+    y1_ = 0.0;
+}
 
-DifferentialModel33::DifferentialModel33(DifferentialParameters parameters) : p_(parameters) {}
+DifferentialModel33::DifferentialModel33(const DifferentialParameters& parameters) : p_(parameters) {}
 double DifferentialModel33::next(double u, double) {
     y_ += p_.dt * (-p_.a*y_ + p_.b*u);
     return y_;

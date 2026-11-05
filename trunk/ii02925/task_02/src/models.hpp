@@ -2,9 +2,23 @@
 
 #include <string>
 
-struct LinearParameters { double a1, a2, a3, b1; };
-struct NonlinearParameters { double a, b, c, d; };
-struct DifferentialParameters { double a, b, dt; };
+struct LinearParameters {
+    double a1;
+    double a2;
+    double a3;
+    double b1;
+};
+struct NonlinearParameters {
+    double a;
+    double b;
+    double c;
+    double d;
+};
+struct DifferentialParameters {
+    double a;
+    double b;
+    double dt;
+};
 
 class Model {
 public:
@@ -15,28 +29,31 @@ public:
 
 class LinearModel19 final : public Model {
 public:
-    explicit LinearModel19(LinearParameters parameters = {0.5, 0.2, 0.1, 0.4});
+    explicit LinearModel19(const LinearParameters& parameters = {0.5, 0.2, 0.1, 0.4});
     double next(double u, double previousU = 0.0) override;
     void reset() override;
     LinearParameters parameters() const;
 private:
     LinearParameters p_;
-    double y0_ = 0.0, y1_ = 0.0, y2_ = 0.0;
+    double y0_ = 0.0;
+    double y1_ = 0.0;
+    double y2_ = 0.0;
 };
 
 class NonlinearModel21 final : public Model {
 public:
-    explicit NonlinearModel21(NonlinearParameters parameters = {0.5, 0.05, 0.4, 0.1});
+    explicit NonlinearModel21(const NonlinearParameters& parameters = {0.5, 0.05, 0.4, 0.1});
     double next(double u, double previousU = 0.0) override;
     void reset() override;
 private:
     NonlinearParameters p_;
-    double y0_ = 0.0, y1_ = 0.0;
+    double y0_ = 0.0;
+    double y1_ = 0.0;
 };
 
 class DifferentialModel33 final : public Model {
 public:
-    explicit DifferentialModel33(DifferentialParameters parameters = {0.6, 1.0, 0.1});
+    explicit DifferentialModel33(const DifferentialParameters& parameters = {0.6, 1.0, 0.1});
     double next(double u, double previousU = 0.0) override;
     void reset() override;
 private:
