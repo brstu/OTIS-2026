@@ -221,10 +221,10 @@ void writeSvg(const std::filesystem::path& path, const std::string& title,
     for (int division = 0; division <= 5; ++division) {
         const double gridY = top + division * plotHeight / 5.0;
         const double value = maximum - division * (maximum - minimum) / 5.0;
-        file << "<line x1=\"" << left << "\" y1=\"" << gridY << "\" x2=\""
-             << left + plotWidth << "\" y2=\"" << gridY
+        file << R"(<line x1=")" << left << R"(" y1=")" << gridY << R"(" x2=")"
+             << left + plotWidth << R"(" y2=")" << gridY
              << R"(" stroke="#cbd5e1" stroke-width="1"/>)" << '\n'
-             << "<text x=\"80\" y=\"" << gridY + 5
+             << R"(<text x="80" y=")" << gridY + 5
              << R"(" text-anchor="end" font-family="Arial" font-size="12">)"
              << value << "</text>\n";
     }
