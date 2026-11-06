@@ -24,6 +24,7 @@ python -m gcovr -r .. --filter ".*src/.*" --exclude ".*test/.*" --exclude ".*_de
 if exist coverage.html (
     echo.
     echo [УСПЕХ] Отчет о покрытии успешно сохранен в build/coverage.html
+    start "" coverage.html
 ) else (
     echo.
     echo [ВНИМАНИЕ] Не удалось сгенерировать HTML отчет. Проверьте ошибки выше.

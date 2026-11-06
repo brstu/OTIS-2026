@@ -3,7 +3,9 @@
 
 class DiffEqModel3_2 : public Model {
 private:
-    double b, dt, y_t;
+    double b;
+    double dt;
+    double y_t = 0.0;
 public:
     DiffEqModel3_2(double _b, double _dt);
     void reset() override;

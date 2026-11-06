@@ -1,7 +1,7 @@
 #include "LinearModel13.h"
 
 LinearModel13::LinearModel13(double _a1, double _a2, double _b) 
-    : a1(_a1), a2(_a2), b(_b), y_t(0.0), y_t_minus_1(0.0) {}
+    : a1(_a1), a2(_a2), b(_b) {}
 
 void LinearModel13::reset() {
     y_t = 0.0;
