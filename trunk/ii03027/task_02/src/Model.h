@@ -2,6 +2,6 @@
 class Model {
 public:
     virtual ~Model() = default;
-    virtual double step(double input_signal) = 0;
+    virtual double step(double si) = 0;
     virtual void reset() = 0;
 };
