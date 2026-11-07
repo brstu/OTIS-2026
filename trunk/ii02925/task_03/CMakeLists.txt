@@ -1,0 +1,33 @@
+cmake_minimum_required(VERSION 3.16)
+project(OTIS_Lab3_Variant9 LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+add_library(control src/control.cpp)
+target_include_directories(control PUBLIC src)
+if(MSVC)
+  target_compile_options(control PRIVATE /W4)
+else()
+  target_compile_options(control PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+
+add_executable(lab3 src/main.cpp)
+target_link_libraries(lab3 PRIVATE control)
+if(WIN32)
+  target_link_libraries(lab3 PRIVATE shell32)
+endif()
+
+include(CTest)
+if(BUILD_TESTING)
+  include(FetchContent)
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  FetchContent_Declare(googletest
+    URL https://github.com/google/googletest/archive/refs/tags/v1.15.2.zip
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
+  FetchContent_MakeAvailable(googletest)
+  add_executable(lab3_tests test/control_test.cpp)
+  target_link_libraries(lab3_tests PRIVATE control GTest::gtest_main)
+  include(GoogleTest)
+  gtest_discover_tests(lab3_tests)
+endif()
