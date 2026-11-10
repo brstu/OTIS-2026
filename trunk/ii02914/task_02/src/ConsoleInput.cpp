@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <stdexcept>
 #include <string>
 
 namespace {
@@ -23,7 +24,9 @@ bool parseDouble(const std::string& s, double& value) {
         if (!std::isfinite(v)) return false;
         value = v;
         return true;
-    } catch (const std::exception&) {  // invalid_argument / out_of_range
+    } catch (const std::invalid_argument&) {
+        return false;
+    } catch (const std::out_of_range&) {
         return false;
     }
 }
@@ -35,7 +38,9 @@ bool parseInt(const std::string& s, int& value) {
         if (s.find_first_not_of(" \t\r", pos) != std::string::npos) return false;
         value = v;
         return true;
-    } catch (const std::exception&) {
+    } catch (const std::invalid_argument&) {
+        return false;
+    } catch (const std::out_of_range&) {
         return false;
     }
 }
@@ -46,8 +51,7 @@ double readDouble(std::istream& in, std::ostream& out, const std::string& prompt
     out << prompt << " [default " << def << "]: ";
     const std::string line = readLine(in);
     if (line.empty()) return def;
-    double v = 0.0;
-    if (parseDouble(line, v)) return v;
+    if (double v = 0.0; parseDouble(line, v)) return v;
     out << "  Failed to parse, using default value.\n";
     return def;
 }
@@ -56,8 +60,7 @@ int readInt(std::istream& in, std::ostream& out, const std::string& prompt, int 
     out << prompt << " [default " << def << "]: ";
     const std::string line = readLine(in);
     if (line.empty()) return def;
-    int v = 0;
-    if (parseInt(line, v)) return v;
+    if (int v = 0; parseInt(line, v)) return v;
     out << "  Failed to parse, using default value.\n";
     return def;
 }

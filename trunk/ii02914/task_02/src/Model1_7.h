@@ -12,8 +12,8 @@ private:
     double b2;
     double b3;
     double y = 0.0;
-    double u_prev1 = 0.0; // u_{t-1}
-    double u_prev2 = 0.0; // u_{t-2}
+    double u_prev1 = 0.0; // control one step back
+    double u_prev2 = 0.0; // control two steps back
 
 public:
     Model1_7(double a_, double b1_, double b2_, double b3_)
@@ -37,8 +37,8 @@ public:
         return "Model 1.7 (System with Multi-Step Control History)";
     }
 
-    // Характеристическое уравнение однородной части: z - a = 0 => z = a.
-    // (В форме состояния x = (y, u_{t-1}, u_{t-2}) собственные числа {a, 0, 0}.)
+    // Stability depends only on the homogeneous part: the characteristic root equals a.
+    // In state-space form the eigenvalues are a and two zeros (pure delay).
     bool isStable() const override {
         return stability::isStable(stability::classifyFirstOrder(a));
     }
