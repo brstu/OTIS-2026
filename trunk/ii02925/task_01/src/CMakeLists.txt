@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(ii02925_task_01 main.cpp)
+add_executable(ii02925_task_01 main.cpp models.cpp)
 set_target_properties(ii02925_task_01 PROPERTIES OUTPUT_NAME lab1)
 if(WIN32)
   target_link_libraries(ii02925_task_01 PRIVATE shell32)

@@ -7,99 +7,16 @@
 #include <iostream>
 #include <limits>
 #include <memory>
+#include <sstream>
 #include <string>
 #include <vector>
+
+#include "models.hpp"
 
 #ifdef _WIN32
 #include <windows.h>
 #include <shellapi.h>
 #endif
-
-class Model {
-public:
-    virtual ~Model() = default;
-    virtual double next(double u, double previousU) = 0;
-    virtual void reset() = 0;
-    virtual std::string name() const = 0;
-};
-
-class LinearModel19 final : public Model {
-public:
-    LinearModel19(double a1, double a2, double a3, double b1)
-        : a1_(a1), a2_(a2), a3_(a3), b1_(b1) {}
-
-    double next(double u, double) override {
-        const double result = a1_ * y0_ + a2_ * y1_ + a3_ * y2_ + b1_ * u;
-        y2_ = y1_;
-        y1_ = y0_;
-        y0_ = result;
-        return result;
-    }
-
-    void reset() override {
-        y0_ = 0.0;
-        y1_ = 0.0;
-        y2_ = 0.0;
-    }
-    std::string name() const override { return "linear_1_9"; }
-
-private:
-    double a1_;
-    double a2_;
-    double a3_;
-    double b1_;
-    double y0_ = 0.0;
-    double y1_ = 0.0;
-    double y2_ = 0.0;
-};
-
-class NonlinearModel21 final : public Model {
-public:
-    NonlinearModel21(double a, double b, double c, double d)
-        : a_(a), b_(b), c_(c), d_(d) {}
-
-    double next(double u, double previousU) override {
-        const double result = a_ * y0_ - b_ * y1_ * y1_ + c_ * u
-                            + d_ * std::sin(previousU);
-        y1_ = y0_;
-        y0_ = result;
-        return result;
-    }
-
-    void reset() override {
-        y0_ = 0.0;
-        y1_ = 0.0;
-    }
-    std::string name() const override { return "nonlinear_2_1"; }
-
-private:
-    double a_;
-    double b_;
-    double c_;
-    double d_;
-    double y0_ = 0.0;
-    double y1_ = 0.0;
-};
-
-class DifferentialModel33 final : public Model {
-public:
-    DifferentialModel33(double a, double b, double dt)
-        : a_(a), b_(b), dt_(dt) {}
-
-    double next(double u, double) override {
-        y_ += dt_ * (-a_ * y_ + b_ * u);
-        return y_;
-    }
-
-    void reset() override { y_ = 0.0; }
-    std::string name() const override { return "differential_3_3"; }
-
-private:
-    double a_;
-    double b_;
-    double dt_;
-    double y_ = 0.0;
-};
 
 enum class Signal { Step = 1, Impulse = 2, Harmonic = 3 };
 
@@ -108,7 +25,7 @@ double readDouble(const std::string& prompt) {
     while (true) {
         std::cout << prompt;
         if (std::cin >> value && std::isfinite(value)) return value;
-        std::cout << "Incorrect value. Please enter a number.\n";
+        std::cout << "Ошибка: введите число.\n";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
@@ -119,8 +36,8 @@ int readInt(const std::string& prompt, int minimum, int maximum) {
     while (true) {
         std::cout << prompt;
         if (std::cin >> value && value >= minimum && value <= maximum) return value;
-        std::cout << "Incorrect value. Enter an integer from " << minimum
-                  << " to " << maximum << ".\n";
+        std::cout << "Ошибка: введите целое число от " << minimum
+                  << " до " << maximum << ".\n";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
@@ -128,7 +45,7 @@ int readInt(const std::string& prompt, int minimum, int maximum) {
 
 std::unique_ptr<Model> createModel(int choice) {
     if (choice == 1) {
-        std::cout << "Model 1.9: y(t+1)=a1*y(t)+a2*y(t-1)+a3*y(t-2)+b1*u(t)\n";
+        std::cout << "\nМодель 1.9: y(t+1) = a1*y(t) + a2*y(t-1) + a3*y(t-2) + b1*u(t)\n";
         const double a1 = readDouble("a1 = ");
         const double a2 = readDouble("a2 = ");
         const double a3 = readDouble("a3 = ");
@@ -136,7 +53,7 @@ std::unique_ptr<Model> createModel(int choice) {
         return std::make_unique<LinearModel19>(a1, a2, a3, b1);
     }
     if (choice == 2) {
-        std::cout << "Model 2.1: y(t+1)=a*y(t)-b*y(t-1)^2+c*u(t)+d*sin(u(t-1))\n";
+        std::cout << "\nМодель 2.1: y(t+1) = a*y(t) - b*y(t-1)^2 + c*u(t) + d*sin(u(t-1))\n";
         const double a = readDouble("a = ");
         const double b = readDouble("b = ");
         const double c = readDouble("c = ");
@@ -144,13 +61,13 @@ std::unique_ptr<Model> createModel(int choice) {
         return std::make_unique<NonlinearModel21>(a, b, c, d);
     }
 
-    std::cout << "Model 3.3: dy/dt=-a*y+b*u (Euler method)\n";
+    std::cout << "\nМодель 3.3: dy/dt = -a*y + b*u (метод Эйлера)\n";
     const double a = readDouble("a = ");
     const double b = readDouble("b = ");
     double dt = 0.0;
     do {
         dt = readDouble("dt (> 0) = ");
-        if (dt <= 0.0) std::cout << "dt must be positive.\n";
+        if (dt <= 0.0) std::cout << "Ошибка: dt должен быть больше нуля.\n";
     } while (dt <= 0.0);
     return std::make_unique<DifferentialModel33>(a, b, dt);
 }
@@ -228,10 +145,14 @@ void writeSvg(const std::filesystem::path& path, const std::string& title,
              << R"(" text-anchor="end" font-family="Arial" font-size="12">)"
              << value << "</text>\n";
     }
-    for (int division = 0; division <= 5; ++division) {
-        const double gridX = left + division * plotWidth / 5.0;
+    const int xDivisions = input.size() < 2 ? 1 :
+        std::min(5, static_cast<int>(input.size() - 1));
+    for (int division = 0; division <= xDivisions; ++division) {
+        const double gridX = left + division * plotWidth /
+            static_cast<double>(xDivisions);
         const int step = input.size() < 2 ? 0 :
-            static_cast<int>(std::lround(division * static_cast<double>(input.size() - 1) / 5.0));
+            static_cast<int>(std::lround(division * static_cast<double>(input.size() - 1) /
+                                         static_cast<double>(xDivisions)));
         file << "<line x1=\"" << gridX << "\" y1=\"" << top << "\" x2=\""
              << gridX << "\" y2=\"" << top + plotHeight
              << R"(" stroke="#cbd5e1" stroke-width="1"/>)" << '\n'
@@ -271,17 +192,41 @@ void openGraph(const std::filesystem::path& path) {
 #endif
 }
 
+std::string formatNumber(double value) {
+    std::ostringstream stream;
+    if (const double magnitude = std::abs(value);
+        value != 0.0 && (magnitude >= 1e6 || magnitude < 1e-4)) {
+        stream << std::scientific << std::setprecision(6);
+    } else {
+        stream << std::fixed << std::setprecision(6);
+    }
+    stream << value;
+    return stream.str();
+}
+
 int main(int argc, char* argv[]) {
-    std::cout << "Laboratory work 1, variant 9\n";
-    const int modelChoice = readInt(
-        "Choose model: 1 - linear 1.9, 2 - nonlinear 2.1, 3 - differential 3.3: ", 1, 3);
+    std::cout << "\n========================================\n"
+              << "  ЛАБОРАТОРНАЯ РАБОТА № 1 · ВАРИАНТ 9\n"
+              << "========================================\n\n"
+              << "----------------------------------------\n"
+              << "  ВЫБОР МОДЕЛИ\n"
+              << "----------------------------------------\n"
+              << "  1) Линейная 1.9\n"
+              << "  2) Нелинейная 2.1\n"
+              << "  3) Дифференциальная 3.3\n\n";
+    const int modelChoice = readInt("Введите номер [1-3]: ", 1, 3);
     auto model = createModel(modelChoice);
 
-    const int signalChoice = readInt(
-        "Choose input: 1 - step, 2 - impulse, 3 - harmonic: ", 1, 3);
+    std::cout << "\n----------------------------------------\n"
+              << "  ВЫБОР ВХОДНОГО СИГНАЛА\n"
+              << "----------------------------------------\n"
+              << "  1) Ступенчатый\n"
+              << "  2) Импульсный\n"
+              << "  3) Гармонический\n\n";
+    const int signalChoice = readInt("Введите номер [1-3]: ", 1, 3);
     const auto signal = static_cast<Signal>(signalChoice);
-    const double amplitude = readDouble("Signal amplitude = ");
-    const int steps = readInt("Number of simulation steps = ", 1, 100000);
+    const double amplitude = readDouble("Амплитуда сигнала: ");
+    const int steps = readInt("Количество шагов: ", 1, 100000);
 
     std::filesystem::create_directories("results");
     const std::string base = model->name() + "_" + signalName(signal);
@@ -295,8 +240,6 @@ int main(int argc, char* argv[]) {
     }
     csv << "step,input,output\n";
 
-    std::cout << '\n' << std::setw(8) << "step" << std::setw(14) << "input"
-              << std::setw(14) << "output" << '\n';
     std::vector<double> inputs;
     std::vector<double> outputs;
     inputs.reserve(static_cast<std::size_t>(steps));
@@ -309,14 +252,41 @@ int main(int argc, char* argv[]) {
         inputs.push_back(u);
         outputs.push_back(y);
         csv << step << ',' << u << ',' << y << '\n';
-        std::cout << std::fixed << std::setprecision(6) << std::setw(8) << step
-                  << std::setw(14) << u << std::setw(14) << y << '\n';
         previousU = u;
     }
 
+    std::vector<std::string> formattedInputs;
+    std::vector<std::string> formattedOutputs;
+    formattedInputs.reserve(inputs.size());
+    formattedOutputs.reserve(outputs.size());
+    std::size_t stepWidth = std::max<std::size_t>(4, std::to_string(steps - 1).size());
+    std::size_t inputWidth = 10;
+    std::size_t outputWidth = 11;
+    for (std::size_t i = 0; i < inputs.size(); ++i) {
+        formattedInputs.push_back(formatNumber(inputs[i]));
+        formattedOutputs.push_back(formatNumber(outputs[i]));
+        inputWidth = std::max(inputWidth, formattedInputs.back().size());
+        outputWidth = std::max(outputWidth, formattedOutputs.back().size());
+    }
+
+    const std::string tableBorder = "+" + std::string(stepWidth + 2, '-') + "+" +
+        std::string(inputWidth + 2, '-') + "+" +
+        std::string(outputWidth + 2, '-') + "+\n";
+    std::cout << '\n' << tableBorder
+              << "| " << std::left << std::setw(static_cast<int>(stepWidth)) << "step"
+              << " | " << std::setw(static_cast<int>(inputWidth)) << "input u(t)"
+              << " | " << std::setw(static_cast<int>(outputWidth)) << "output y(t)" << " |\n"
+              << tableBorder;
+    for (std::size_t i = 0; i < inputs.size(); ++i) {
+        std::cout << "| " << std::right << std::setw(static_cast<int>(stepWidth)) << i
+                  << " | " << std::setw(static_cast<int>(inputWidth)) << formattedInputs[i]
+                  << " | " << std::setw(static_cast<int>(outputWidth)) << formattedOutputs[i]
+                  << " |\n";
+    }
+    std::cout << tableBorder;
     csv.close();
     writeSvg(graphPath, graphTitle(modelChoice, signal), inputs, outputs);
-    std::cout << "\nCSV table: " << csvPath << "\nGraph: " << graphPath << "\n";
+    std::cout << "\nCSV-таблица: " << csvPath << "\nГрафик: " << graphPath << "\n";
 
     if (const bool disableOpening = argc > 1 && std::string(argv[1]) == "--no-open";
         !disableOpening) {
