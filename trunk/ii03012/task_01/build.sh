@@ -38,7 +38,7 @@ echo "[3/3] Running the program"
 echo "$LINE"
 echo "SUCCESS: build completed, executable is in build/bin"
 echo
-(cd build/bin && ./ii03004_task_01)
+(cd build/bin && ./ii03012_task_01)
 
 echo
 echo "$SEPARATOR"

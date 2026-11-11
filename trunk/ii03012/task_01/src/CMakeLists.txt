@@ -8,7 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Уникальное имя цели, чтобы не конфликтовать с работами других студентов
 # при сборке всего репозитория из корня.
-set(TARGET_NAME ii03004_task_01)
+set(TARGET_NAME ii03012_task_01)
 
 add_executable(${TARGET_NAME}
     main.cpp
