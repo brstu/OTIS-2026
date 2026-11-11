@@ -128,7 +128,7 @@ Public Member Functions</h2></td></tr>
 <a name="details" id="details"></a><h2 id="header-details" class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Simple positional discrete PID controller with output limiting and anti-windup. </p>
 
-<p class="definition">Definition at line <a class="el" href="control_8hpp_source.html#l00081">81</a> of file <a class="el" href="control_8hpp_source.html">control.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="control_8hpp_source.html#l00093">93</a> of file <a class="el" href="control_8hpp_source.html">control.hpp</a>.</p>
 </div><a name="doc-constructors" id="doc-constructors"></a><h2 id="header-doc-constructors" class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a439e8d4e66abb959c79928dd03adb96e" name="a439e8d4e66abb959c79928dd03adb96e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a439e8d4e66abb959c79928dd03adb96e">&#9670;&#160;</a></span>PIDController()</h2>
@@ -169,14 +169,14 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00038">38</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   40</span>    : kp_(<a class="code hl_function" href="#a6e2265a7d06c082a3c3263172047a569">kp</a>), ki_(<a class="code hl_function" href="#a07168a82682ba58dcb71d92880f0b995">ki</a>), kd_(<a class="code hl_function" href="#a714d4cd8898f62d3dfe7cabeeaeab0cb">kd</a>), dt_(dt), min_(minimumControl), max_(maximumControl) {</div>
-<div class="line"><span class="lineno">   41</span>    <span class="keywordflow">if</span> (dt &lt;= 0.0 || minimumControl &gt;= maximumControl)</div>
-<div class="line"><span class="lineno">   42</span>        <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Invalid PID time step or control limits&quot;</span>);</div>
-<div class="line"><span class="lineno">   43</span>}</div>
-<div class="ttc" id="aclass_p_i_d_controller_html_a07168a82682ba58dcb71d92880f0b995"><div class="ttname"><a href="#a07168a82682ba58dcb71d92880f0b995">PIDController::ki</a></div><div class="ttdeci">double ki() const</div><div class="ttdef"><b>Definition</b> <a href="control_8hpp_source.html#l00090">control.hpp:90</a></div></div>
-<div class="ttc" id="aclass_p_i_d_controller_html_a6e2265a7d06c082a3c3263172047a569"><div class="ttname"><a href="#a6e2265a7d06c082a3c3263172047a569">PIDController::kp</a></div><div class="ttdeci">double kp() const</div><div class="ttdef"><b>Definition</b> <a href="control_8hpp_source.html#l00089">control.hpp:89</a></div></div>
-<div class="ttc" id="aclass_p_i_d_controller_html_a714d4cd8898f62d3dfe7cabeeaeab0cb"><div class="ttname"><a href="#a714d4cd8898f62d3dfe7cabeeaeab0cb">PIDController::kd</a></div><div class="ttdeci">double kd() const</div><div class="ttdef"><b>Definition</b> <a href="control_8hpp_source.html#l00091">control.hpp:91</a></div></div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00052">52</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   54</span>    : kp_(<a class="code hl_function" href="#a6e2265a7d06c082a3c3263172047a569">kp</a>), ki_(<a class="code hl_function" href="#a07168a82682ba58dcb71d92880f0b995">ki</a>), kd_(<a class="code hl_function" href="#a714d4cd8898f62d3dfe7cabeeaeab0cb">kd</a>), dt_(dt), min_(minimumControl), max_(maximumControl) {</div>
+<div class="line"><span class="lineno">   55</span>    <span class="keywordflow">if</span> (dt &lt;= 0.0 || minimumControl &gt;= maximumControl)</div>
+<div class="line"><span class="lineno">   56</span>        <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Invalid PID time step or control limits&quot;</span>);</div>
+<div class="line"><span class="lineno">   57</span>}</div>
+<div class="ttc" id="aclass_p_i_d_controller_html_a07168a82682ba58dcb71d92880f0b995"><div class="ttname"><a href="#a07168a82682ba58dcb71d92880f0b995">PIDController::ki</a></div><div class="ttdeci">double ki() const</div><div class="ttdef"><b>Definition</b> <a href="control_8hpp_source.html#l00102">control.hpp:102</a></div></div>
+<div class="ttc" id="aclass_p_i_d_controller_html_a6e2265a7d06c082a3c3263172047a569"><div class="ttname"><a href="#a6e2265a7d06c082a3c3263172047a569">PIDController::kp</a></div><div class="ttdeci">double kp() const</div><div class="ttdef"><b>Definition</b> <a href="control_8hpp_source.html#l00101">control.hpp:101</a></div></div>
+<div class="ttc" id="aclass_p_i_d_controller_html_a714d4cd8898f62d3dfe7cabeeaeab0cb"><div class="ttname"><a href="#a714d4cd8898f62d3dfe7cabeeaeab0cb">PIDController::kd</a></div><div class="ttdeci">double kd() const</div><div class="ttdef"><b>Definition</b> <a href="control_8hpp_source.html#l00103">control.hpp:103</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -204,8 +204,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="control_8hpp_source.html#l00091">91</a> of file <a class="el" href="control_8hpp_source.html">control.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   91</span>{ <span class="keywordflow">return</span> kd_; }</div>
+<p class="definition">Definition at line <a class="el" href="control_8hpp_source.html#l00103">103</a> of file <a class="el" href="control_8hpp_source.html">control.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  103</span>{ <span class="keywordflow">return</span> kd_; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -232,8 +232,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="control_8hpp_source.html#l00090">90</a> of file <a class="el" href="control_8hpp_source.html">control.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   90</span>{ <span class="keywordflow">return</span> ki_; }</div>
+<p class="definition">Definition at line <a class="el" href="control_8hpp_source.html#l00102">102</a> of file <a class="el" href="control_8hpp_source.html">control.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  102</span>{ <span class="keywordflow">return</span> ki_; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -260,8 +260,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="control_8hpp_source.html#l00089">89</a> of file <a class="el" href="control_8hpp_source.html">control.hpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   89</span>{ <span class="keywordflow">return</span> kp_; }</div>
+<p class="definition">Definition at line <a class="el" href="control_8hpp_source.html#l00101">101</a> of file <a class="el" href="control_8hpp_source.html">control.hpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">  101</span>{ <span class="keywordflow">return</span> kp_; }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -281,8 +281,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Clears integral and previous-error state. </p>
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00059">59</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   59</span>{ integral_ = previousError_ = 0.0; first_ = <span class="keyword">true</span>; }</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00074">74</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   74</span>                          {</div>
+<div class="line"><span class="lineno">   75</span>    integral_ = 0.0;</div>
+<div class="line"><span class="lineno">   76</span>    previousError_ = 0.0;</div>
+<div class="line"><span class="lineno">   77</span>    first_ = <span class="keyword">true</span>;</div>
+<div class="line"><span class="lineno">   78</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -302,20 +306,21 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Calculates a new control value from the current error. </p>
 
-<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00045">45</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
-<div class="fragment"><div class="line"><span class="lineno">   45</span>                                         {</div>
-<div class="line"><span class="lineno">   46</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> derivative = first_ ? 0.0 : (error - previousError_) / dt_;</div>
-<div class="line"><span class="lineno">   47</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> candidateIntegral = integral_ + error * dt_;</div>
-<div class="line"><span class="lineno">   48</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> raw = kp_*error + ki_*candidateIntegral + kd_*derivative;</div>
-<div class="line"><span class="lineno">   49</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> limited = std::clamp(raw, min_, max_);</div>
-<div class="line"><span class="lineno">   50</span>    <span class="comment">// Conditional integration: do not grow the integral further into saturation.</span></div>
-<div class="line"><span class="lineno">   51</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> pushesHigh = raw &gt; max_ &amp;&amp; error &gt; 0.0;</div>
-<div class="line"><span class="lineno">   52</span>    <span class="keyword">const</span> <span class="keywordtype">bool</span> pushesLow = raw &lt; min_ &amp;&amp; error &lt; 0.0;</div>
-<div class="line"><span class="lineno">   53</span>    <span class="keywordflow">if</span> (!pushesHigh &amp;&amp; !pushesLow) integral_ = candidateIntegral;</div>
-<div class="line"><span class="lineno">   54</span>    previousError_ = error;</div>
-<div class="line"><span class="lineno">   55</span>    first_ = <span class="keyword">false</span>;</div>
-<div class="line"><span class="lineno">   56</span>    <span class="keywordflow">return</span> limited;</div>
-<div class="line"><span class="lineno">   57</span>}</div>
+<p class="definition">Definition at line <a class="el" href="control_8cpp_source.html#l00059">59</a> of file <a class="el" href="control_8cpp_source.html">control.cpp</a>.</p>
+<div class="fragment"><div class="line"><span class="lineno">   59</span>                                         {</div>
+<div class="line"><span class="lineno">   60</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> derivative = first_ ? 0.0 : (error - previousError_) / dt_;</div>
+<div class="line"><span class="lineno">   61</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> candidateIntegral = integral_ + error * dt_;</div>
+<div class="line"><span class="lineno">   62</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> raw = kp_*error + ki_*candidateIntegral + kd_*derivative;</div>
+<div class="line"><span class="lineno">   63</span>    <span class="keyword">const</span> <span class="keywordtype">double</span> limited = std::clamp(raw, min_, max_);</div>
+<div class="line"><span class="lineno">   64</span>    <span class="comment">// Conditional integration: do not grow the integral further into saturation.</span></div>
+<div class="line"><span class="lineno">   65</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keywordtype">bool</span> pushesHigh = raw &gt; max_ &amp;&amp; error &gt; 0.0;</div>
+<div class="line"><span class="lineno">   66</span>        !pushesHigh &amp;&amp; !(raw &lt; min_ &amp;&amp; error &lt; 0.0)) {</div>
+<div class="line"><span class="lineno">   67</span>        integral_ = candidateIntegral;</div>
+<div class="line"><span class="lineno">   68</span>    }</div>
+<div class="line"><span class="lineno">   69</span>    previousError_ = error;</div>
+<div class="line"><span class="lineno">   70</span>    first_ = <span class="keyword">false</span>;</div>
+<div class="line"><span class="lineno">   71</span>    <span class="keywordflow">return</span> limited;</div>
+<div class="line"><span class="lineno">   72</span>}</div>
 </div><!-- fragment -->
 </div>
 </div>
