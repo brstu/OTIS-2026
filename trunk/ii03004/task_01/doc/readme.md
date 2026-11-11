@@ -1,255 +1,216 @@
 <p align="center">Министерство образования Республики Беларусь</p>
 <p align="center">Учреждение образования</p>
-<p align="center">“Брестский Государственный технический университет”</p>
+<p align="center">«Брестский государственный технический университет»</p>
 <p align="center">Кафедра ИИТ</p>
-<br><br><br><br><br><br><br>
-<p align="center">Лабораторная работа №1</p>
-<p align="center">По дисциплине “Общая теория интеллектуальных систем”</p>
-<p align="center">Тема: “Моделирование температуры объекта”</p>
 <br><br><br><br><br>
+<p align="center"><b>Лабораторная работа №1</b></p>
+<p align="center"><b>По дисциплине: «Общая теория интеллектуальных систем»</b></p>
+<p align="center"><b>Тема: «Моделирование линейных, нелинейных и дифференциальных объектов»</b></p>
+<br><br><br><br>
 <p align="right">Выполнил:</p>
 <p align="right">Студент 2 курса</p>
 <p align="right">Группы ИИ-30</p>
-<p align="right">Мацуй Н. В.</p>
+<p align="right">Громов И. С.</p>
 <p align="right">Проверил:</p>
 <p align="right">Дворанинович Д. А.</p>
-<br><br><br><br><br>
+<br><br><br><br>
 <p align="center">Брест 2026</p>
 
 ---
 
-## Задание
+## Вариант 20
 
-Написать на C++ программу, которая моделирует поведение объекта управления в дискретные моменты времени $\tau = 1, 2, \dots, n$ по трём математическим моделям, выводит результаты в табличном виде и строит графики.
-
-**Вариант 4:**
-
-| Блок | Модель |
-| :--- | :--- |
-| Линейная модель | Model 1.4 |
-| Нелинейная модель | Model 2.6 |
-| Дифференциальное уравнение | Model 3.8 |
+- Линейная модель: **Model 1.10**
+- Нелинейная модель: **Model 2.4**
+- Дифференциальное уравнение: **Model 3.8**
 
 ## Реализованные модели
 
-### Model 1.4 (Discrete Integrator with Loss)
+| Блок | Модель | Тип | Название |
+|:--:|:--:|:--:|---|
+| 1 | 1.10 | линейная дискретная | Distributed Control Window Model |
+| 2 | 2.4 | нелинейная дискретная | Logarithmic Multi-Variable Interaction |
+| 3 | 3.8 | дифференциальное уравнение | Combined Linear-Quadratic Decay |
 
-$$y_{\tau+1} = a y_{\tau} + b(u_{\tau} - u_{\tau-1})$$
+### Математические описания и параметры
 
-Выход реагирует на **изменение** входа, а не на сам вход, поэтому при постоянном входе $y$ затухает к нулю.
+- **Model 1.10**: `y(t+1) = a1*y(t) + b1*u(t) + b2*u(t-2)` (параметры по умолчанию: `a1 = 0.7`, `b1 = 0.5`, `b2 = 0.3`). Проверяется устойчивость по корню характеристического уравнения `z = a1` (`|a1| < 1`).
+- **Model 2.4**: `y(t+1) = a*y(t)*cos(y(t)) + b*ln(1 + |u(t)|)` (параметры по умолчанию: `a = 0.8`, `b = 0.5`).
+- **Model 3.8**: `dy/dt = -a1*y - a2*y^2 + b*u` (метод Эйлера: `y(t+1) = y(t) + dt*(-a1*y(t) - a2*y(t)^2 + b*u(t))`, параметры по умолчанию: `a1 = 0.5`, `a2 = 0.1`, `b = 1`, `dt = 0.1`).
 
-### Model 2.6 (Asymmetric Polynomial Backlash Simulation)
-
-$$y_{\tau+1} = a_1 y_{\tau}^3 - a_2 y_{\tau-1} + b u_{\tau}^2$$
-
-### Model 3.8 (Combined Linear-Quadratic Decay)
-
-$$\frac{dy}{dt} = -a_1 y - a_2 y^2 + b u$$
-
-Решается методом Эйлера с шагом $\Delta t$:
-
-$$y_{\tau+1} = y_{\tau} + \Delta t \left(-a_1 y_{\tau} - a_2 y_{\tau}^2 + b u_{\tau}\right)$$
-
-### Начальные условия
-
-$y_0$ задаётся пользователем. Значения до начала моделирования принимаются равными $y_{-1} = y_0$, $u_{-1} = 0$.
-
-### Параметры по умолчанию
-
-| Модель | Параметры |
-| :--- | :--- |
-| Model 1.4 | $a = 0.8$, $b = 1.0$ |
-| Model 2.6 | $a_1 = 0.1$, $a_2 = 0.3$, $b = 0.5$ |
-| Model 3.8 | $a_1 = 0.5$, $a_2 = 0.1$, $b = 1.0$, $\Delta t = 0.1$ |
-
-Общие: $y_0 = 0$, амплитуда входа $A = 1$, $n = 30$.
+Начальное значение `y0 = 0`, уровень ступеньки `c = 1` (все значения можно изменить при запуске программы).
 
 ## Входные воздействия
 
-1. Ступенчатое: $u_{\tau} = A$
-2. Импульсное: $u_0 = 1$, $u_{\tau > 0} = 0$
-3. Гармоническое: $u_{\tau} = A \sin(\tau)$
+1. Ступенчатое: `u(t) = c`
+2. Импульсное: `u(0) = 1`, `u(t > 0) = 0`
+3. Гармоническое: `u(t) = sin(t)`
 
-## Структура программы (ООП)
+## ООП
 
-Создан абстрактный базовый класс `Model`. Он хранит состояние модели ($y_\tau$, $y_{\tau-1}$, $u_{\tau-1}$) в закрытых (`private`) полях, наследники читают его через методы `currentY()`, `previousY()`, `previousU()`. Класс содержит чисто виртуальный метод `calculateNext(u)`, который вычисляет следующий шаг симуляции. Невиртуальный метод `step(u)` вызывает `calculateNext()` и сдвигает историю значений, поэтому в классах-наследниках описана только формула своей модели.
+Созданы абстрактные базовые классы `Model` и `Input`.
 
-Входные воздействия тоже реализованы иерархией классов: абстрактный `InputSignal` и наследники `StepSignal`, `ImpulseSignal`, `HarmonicSignal`.
+От класса `Model` наследуются конкретные модели:
+- `LinearModel` — Model 1.10
+- `NonlinearModel` — Model 2.4
+- `DiffModel` — Model 3.8
 
-Класс `Simulator` запускает моделирование заданной модели с заданным воздействием на $n$ шагов, выводит таблицу в консоль и сохраняет результат в CSV.
+От класса `Input` наследуются типы входных воздействий:
+- `StepInput` — ступенчатое
+- `ImpulseInput` — импульсное
+- `HarmonicInput` — гармоническое
 
-| Файл | Содержимое |
-| :--- | :--- |
-| `Model.h/.cpp` | абстрактный класс `Model` |
-| `LinearModels.h/.cpp` | `Model1_4` |
-| `NonLinearModels.h/.cpp` | `Model2_6` |
-| `DiffEquations.h/.cpp` | `Model3_8` |
-| `InputSignal.h/.cpp` | входные воздействия |
-| `Simulator.h/.cpp` | моделирование, таблица, CSV |
-| `main.cpp` | меню и ввод параметров |
-| `plot.py` | построение графиков (Python + Matplotlib) |
-
-## UML-диаграмма классов
+## UML Диаграмма классов
 
 ```mermaid
 classDiagram
     class Model {
         <<abstract>>
-        -double y_
-        -double yPrev_
-        -double uPrev_
-        +reset(double y0) void
-        +step(double u) double
-        +currentY() double
+        -y double
+        -y0 double
+        #setY(value)
+        +next(u) double*
         +name() string*
-        +formula() string*
-        #calculateNext(double u) double*
-        #previousY() double
-        #previousU() double
+        +reset()
+        +current() double
     }
 
-    class Model1_4 {
-        -double a_
-        -double b_
+    class LinearModel {
+        -a1 double
+        -b1 double
+        -b2 double
+        -u1 double
+        -u2 double
+        +next(u) double
         +isStable() bool
-        #calculateNext(double u) double
+        +root() double
     }
 
-    class Model2_6 {
-        -double a1_
-        -double a2_
-        -double b_
-        #calculateNext(double u) double
+    class NonlinearModel {
+        -a double
+        -b double
+        +next(u) double
     }
 
-    class Model3_8 {
-        -double a1_
-        -double a2_
-        -double b_
-        -double dt_
-        #calculateNext(double u) double
+    class DiffModel {
+        -a1 double
+        -a2 double
+        -b double
+        -dt double
+        +next(u) double
     }
 
-    class InputSignal {
+    class Input {
         <<abstract>>
-        +value(int tau) double*
+        +value(tau) double*
         +name() string*
-        +id() string*
     }
 
-    class StepSignal {
-        -double amplitude_
-        +value(int tau) double
+    class StepInput {
+        -c double
+        +value(tau) double
     }
 
-    class ImpulseSignal {
-        -double amplitude_
-        +value(int tau) double
+    class ImpulseInput {
+        +value(tau) double
     }
 
-    class HarmonicSignal {
-        -double amplitude_
-        +value(int tau) double
+    class HarmonicInput {
+        +value(tau) double
     }
 
-    class SimulationRow {
-        +int tau
-        +double u
-        +double y
-    }
-
-    class Simulator {
-        +run(model, signal, n, y0)$ vector~SimulationRow~
-        +printTable(rows)$ void
-        +saveCsv(rows, fileName)$ bool
-    }
-
-    Model <|-- Model1_4
-    Model <|-- Model2_6
-    Model <|-- Model3_8
-    InputSignal <|-- StepSignal
-    InputSignal <|-- ImpulseSignal
-    InputSignal <|-- HarmonicSignal
-    Simulator ..> Model : использует
-    Simulator ..> InputSignal : использует
-    Simulator ..> SimulationRow : создаёт
+    Model <|-- LinearModel
+    Model <|-- NonlinearModel
+    Model <|-- DiffModel
+    Input <|-- StepInput
+    Input <|-- ImpulseInput
+    Input <|-- HarmonicInput
 ```
+## Пример работы программы
 
-## Сборка и запуск
+### Сборка и запуск
 
-Сборка выполняется через CMake, запускается файлом `build.bat` из папки `task_01`. Скрипт:
+Сборка осуществляется с помощью файла `build.bat`:
 
-1. проверяет, что установлен CMake;
-2. выбирает генератор `MinGW Makefiles`, если найден `g++`, иначе генератор по умолчанию (Visual Studio);
-3. конфигурирует проект (`cmake -S . -B build`);
-4. компилирует его (`cmake --build build --config Release`);
-5. запускает программу из папки `build\bin`.
+```bat
+    @echo off
+chcp 65001 > nul
+cd /d "%~dp0"
 
-Исполняемый файл и `plot.py` после сборки лежат в `build\bin`.
+echo ===== [1/4] CMake configure =====
+cmake -S . -B build
+if errorlevel 1 goto error
 
-Для macOS и Linux есть аналогичный скрипт `build.sh` (`./build.sh`), который выполняет те же шаги.
+echo ===== [2/4] CMake build =====
+cmake --build build --config Release
+if errorlevel 1 goto error
 
-Для графиков нужен Python с библиотекой Matplotlib (`pip install matplotlib`).
+set "EXE="
+if exist "build\Release\ii03023_lab1.exe" set "EXE=build\Release\ii03023_lab1.exe"
+if exist "build\Debug\ii03023_lab1.exe" set "EXE=build\Debug\ii03023_lab1.exe"
+if exist "build\ii03023_lab1.exe" set "EXE=build\ii03023_lab1.exe"
+if not defined EXE goto notfound
+echo Program: %EXE%
 
-## Работа программы
+:run
+echo.
+echo ===== [3/4] Run program =====
+if exist results.csv del results.csv
+"%EXE%"
+if not exist results.csv goto noresults
 
-Программа имеет два режима:
+echo.
+echo ===== [4/4] Plot (Python + matplotlib) =====
+python plot.py
+goto ask
 
-1. **Все модели × все воздействия** — запрашивает только $n$, считает 9 вариантов с параметрами по умолчанию.
-2. **Одна модель** — пользователь выбирает модель, вводит её коэффициенты, тип воздействия, амплитуду, $n$ и $y_0$.
+:noresults
+echo results.csv was not created, skipping plot.
 
-Результаты выводятся в консоль таблицей и сохраняются в файлы `model_X_Y_<воздействие>.csv`. После этого автоматически запускается `plot.py`. В режиме 1 он строит по одному рисунку на модель с тремя графиками (все воздействия) и сохраняет их в `model_X_Y.png`. В режиме 2 строится один график только для выбранной модели и воздействия, например `model_1_4_step.png`.
+:ask
+echo.
+set "AGAIN="
+set /p AGAIN="Run again with another model/input? (y/n): "
+if /i "%AGAIN%"=="y" goto run
+echo ===== DONE =====
+exit /b 0
 
-Дополнительно:
-- для Model 1.4 перед моделированием проверяется устойчивость, и при $|a| \ge 1$ выводится предупреждение;
-- если $|y|$ превышает $10^6$ (Model 2.6 с кубом расходится при больших коэффициентах), моделирование останавливается с предупреждением.
+:notfound
+echo Program ii03023_lab1.exe was not found after build.
+echo Check that CMakeLists.txt contains: add_executable(ii03023_lab1 main.cpp models.h)
+goto error
 
-![Работа программы](work.png)
+:error
+echo BUILD FAILED
+pause
+exit /b 1
+```
+### Демонстрация исполняемого файла ii03023_lab1.exe:
 
-### Пример табличного вывода (ступенчатое воздействие, первые 10 шагов)
+![](img/console.png)
 
-| $\tau$ | $u$ | Model 1.4 | Model 2.6 | Model 3.8 |
-| :---: | :---: | :---: | :---: | :---: |
-| 0 | 1 | 0.0000 | 0.0000 | 0.0000 |
-| 1 | 1 | 1.0000 | 0.5000 | 0.1000 |
-| 2 | 1 | 0.8000 | 0.5125 | 0.1949 |
-| 3 | 1 | 0.6400 | 0.3635 | 0.2848 |
-| 4 | 1 | 0.5120 | 0.3511 | 0.3697 |
-| 5 | 1 | 0.4096 | 0.3953 | 0.4499 |
-| 6 | 1 | 0.3277 | 0.4009 | 0.5254 |
-| 7 | 1 | 0.2621 | 0.3879 | 0.5963 |
-| 8 | 1 | 0.2097 | 0.3856 | 0.6630 |
-| 9 | 1 | 0.1678 | 0.3894 | 0.7254 |
-| 10 | 1 | 0.1342 | 0.3902 | 0.7839 |
+![](img/console2.png)
 
-## Графики
+### Примеры графиков переходных процессов
 
-### Model 1.4
+**Демонстрация Model 1.10 (линейная):**
+![](img/model_1_10.png)
 
-![Model 1.4](model_1_4.png)
+**Демонстрация Model 2.4 (нелинейная):**
+![](img/model_2_4.png)
 
-При ступенчатом входе выход скачком поднимается до $b \cdot A = 1$ на первом шаге (вход изменился с 0 до 1), а затем затухает с множителем $a = 0.8$, потому что дальше вход не меняется. При импульсе — положительный всплеск, затем отрицательный ($-0.2$) из-за спада входа и затухание. При гармоническом входе выход повторяет форму синусоиды.
+**Демоนстрация Model 3.8 (дифференциальное уравнение):**
+![](img/model_3_8.png)
 
-### Model 2.6
-
-![Model 2.6](model_2_6.png)
-
-При ступенчатом входе процесс после затухающих колебаний устанавливается около $y \approx 0.389$ (корень уравнения $y = 0.1y^3 - 0.3y + 0.5$). Вход входит в модель в квадрате, поэтому знак входа не влияет на результат: при гармоническом воздействии $u^2 = \sin^2\tau$ имеет вдвое меньший период, и выход колеблется в основном в положительной области.
-
-### Model 3.8
-
-![Model 3.8](model_3_8.png)
-
-При ступенчатом входе $y$ плавно растёт к установившемуся значению — положительному корню $-0.5y - 0.1y^2 + 1 = 0$, то есть $y \approx 1.531$. За 30 шагов с $\Delta t = 0.1$ (3 единицы времени) процесс ещё не дошёл до него, для полного переходного процесса нужно $n \approx 100$. При гармоническом входе выход — сглаженная синусоида малой амплитуды.
-
-## Анализ устойчивости (дополнительное задание)
-
-Для Model 1.4 характеристическое уравнение однородной части $y_{\tau+1} = a y_{\tau}$:
-
-$$z - a = 0 \quad \Rightarrow \quad z = a$$
-
-Дискретная система устойчива, если корень лежит внутри единичного круга на Z-плоскости: $|a| < 1$. Программа проверяет это условие (`Model1_4::isStable()`) и при $|a| \ge 1$ выводит предупреждение до начала моделирования.
+**Сводный график:**
+![](img/plot.png)
 
 ## Вывод
 
-Реализована программа на C++ с объектно-ориентированной структурой: абстрактный класс `Model` с виртуальным методом расчёта следующего шага и три класса-наследника для моделей варианта 4. Модели исследованы при ступенчатом, импульсном и гармоническом воздействиях, результаты выведены в табличном виде, сохранены в CSV и визуализированы с помощью Python/Matplotlib. Сборка выполняется CMake через `build.bat`.
+Программа:
+- моделирует все три системы варианта;
+- симулирует отклик на все три типа входных воздействий (ступенчатое, импульсное, гармоническое);
+- позволяет задать количество шагов `n`;
+- выводит результаты в табличном виде;
+- сохраняет результаты в `results.csv`;
+- визуализирует графики через Python/Matplotlib.
