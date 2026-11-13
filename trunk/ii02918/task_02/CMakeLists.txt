@@ -39,6 +39,8 @@ add_executable(run_tests
     src/StabilityAnalyzer.h
 )
 
+target_compile_definitions(run_tests PRIVATE GTEST_COLOR=yes)
+
 target_include_directories(run_tests PRIVATE src)
 
 target_link_options(run_tests PRIVATE --coverage)
