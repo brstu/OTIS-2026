@@ -1,5 +1,4 @@
-﻿
-#include <iostream>
+﻿#include <iostream>
 #include <fstream>
 #include <vector>
 #include <iomanip>
@@ -91,7 +90,7 @@ int main()
     setlocale(LC_ALL, "Russian");
 
     cout << "=================================\n";
-    cout << "       MODELING PROGRAM\n";
+    cout << "        MODELING PROGRAM         \n";
     cout << "=================================\n";
 
     // 1. Выбор модели
@@ -224,13 +223,12 @@ int main()
         return 1;
     }
 
-    file << "step,time,input,model_output\n";
+    file << "step,input,model_output\n";
     file << fixed << setprecision(6);
 
     for (int t = 0; t <= steps; ++t)
     {
         file << t << ','
-             << t * dt << ','
              << u[t] << ','
              << y[t] << '\n';
     }
@@ -248,7 +246,8 @@ int main()
 
     cout << fixed << setprecision(4);
 
-    int rowsToPrint = (steps < 10) ? steps : 10;
+    // ИСПРАВЛЕНИЕ: выводим все шаги до конца (steps), а не только первые 10
+    int rowsToPrint = steps;
 
     for (int t = 0; t <= rowsToPrint; ++t)
     {

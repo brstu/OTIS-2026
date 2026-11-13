@@ -31,7 +31,7 @@ echo.
 echo Building graph from results.csv...
 echo.
 
-python src\plot.py "results.csv"
+python src\plot.py "build\Release\results.csv"
 
 if errorlevel 1 (
     echo.

@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 project_dir = Path(__file__).resolve().parent.parent
 
 # Папка, из которой разрешено читать CSV
-allowed_dir = (project_dir / "build" / "Release").resolve()
+allowed_dir = (project_dir).resolve()
 
 
 # Проверяем, передан ли CSV-файл
@@ -46,8 +46,7 @@ doc_dir.mkdir(parents=True, exist_ok=True)
 output_file = doc_dir / "graph.png"
 
 
-# Читаем CSV
-x = []
+# Читаем CSV (пропуская первый столбец времени)
 models = {}
 
 try:
@@ -57,25 +56,29 @@ try:
         columns = reader.fieldnames
 
         if not columns or len(columns) < 2:
-            print("Ошибка: CSV должен содержать X и хотя бы один столбец модели.")
+            print("Ошибка: CSV должен содержать хотя бы два столбца.")
             sys.exit(1)
 
-        # Первый столбец — X
-        x_column = columns[0]
+        # Пропускаем первый столбец (время), берем остальные для графиков
+        data_columns = columns[1:]
 
-        # Остальные столбцы — модели
-        for column in columns[1:]:
+        for column in data_columns:
             models[column] = []
 
         for row in reader:
-            x.append(float(row[x_column]))
-
-            for column in models:
+            for column in data_columns:
                 models[column].append(float(row[column]))
 
 except (OSError, csv.Error, ValueError, TypeError) as error:
     print(f"Ошибка чтения CSV: {error}")
     sys.exit(1)
+
+# Создаем ось X как порядковый номер шага
+if models:
+    first_key = list(models.keys())[0]
+    x = list(range(len(models[first_key])))
+else:
+    x = []
 
 
 # Строим график
@@ -84,7 +87,7 @@ plt.figure(figsize=(10, 6))
 for name, values in models.items():
     plt.plot(x, values, marker="o", label=name)
 
-plt.xlabel(x_column)
+plt.xlabel("Шаг симуляции")
 plt.ylabel("Значение")
 plt.title("Результаты моделирования")
 plt.grid(True)
