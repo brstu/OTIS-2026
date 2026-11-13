@@ -31,7 +31,8 @@ int main() {
     std::unique_ptr<Model> model;
     std::string prefix;
     if (modelChoice == 1) {
-        double a, b;
+        double a;
+        double b;
         std::cout << "a = "; std::cin >> a;
         std::cout << "b = "; std::cin >> b;
         // Анализ устойчивости: предупреждение выводится ДО начала симуляции.
@@ -39,14 +40,17 @@ int main() {
         model = std::make_unique<Model11>(a, b);
         prefix = "Model11";
     } else if (modelChoice == 2) {
-        double a, b, c;
+        double a;
+        double b;
+        double c;
         std::cout << "a = "; std::cin >> a;
         std::cout << "b = "; std::cin >> b;
         std::cout << "c = "; std::cin >> c;
         model = std::make_unique<Model28>(a, b, c);
         prefix = "Model28";
     } else if (modelChoice == 3) {
-        double a, b;
+        double a;
+        double b;
         std::cout << "a = "; std::cin >> a;
         std::cout << "b = "; std::cin >> b;
         model = std::make_unique<Model36>(a, b);

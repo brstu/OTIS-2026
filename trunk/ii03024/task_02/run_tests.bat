@@ -58,7 +58,7 @@ if errorlevel 1 (
     goto cov_done
 )
 REM покрытие считается для кода ЛР №2 (src) и моделей ЛР №1 (task_01), тесты и main исключены
-gcovr -r ..\.. --filter ".*task_02[/\\]src[/\\].*" --filter ".*task_01[/\\].*" ^
+gcovr -r ..\.. --filter ".*task_02/src/.*" --filter ".*task_01/.*" ^
       --exclude ".*main\.cpp" --exclude ".*build.*" --object-directory build ^
       --print-summary --txt coverage_report.txt > coverage_summary.txt
 echo --- Coverage per file ---
