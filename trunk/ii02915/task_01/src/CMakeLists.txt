@@ -15,7 +15,6 @@ add_executable(labа01_ii02915
 
 target_include_directories(labа01_ii02915 PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-его запустить
 configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/plot.py
     ${CMAKE_CURRENT_BINARY_DIR}/plot.py
