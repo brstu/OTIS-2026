@@ -1,11 +1,18 @@
+# The lab 1 code (models, signals, simulator, plot.py) is NOT copied here: it is compiled
+# straight from task_01/src. Only the new code of lab 2 lives in this directory.
+get_filename_component(LAB1_SRC "${CMAKE_CURRENT_SOURCE_DIR}/../../task_01/src" ABSOLUTE)
+if(NOT EXISTS "${LAB1_SRC}/models.cpp")
+    message(FATAL_ERROR "Lab 1 sources were not found in ${LAB1_SRC}")
+endif()
+
 # Core library: everything except main(), so that unit tests can link against it.
 add_library(otis_core STATIC
-    models.cpp
-    signals.cpp
-    simulator.cpp
+    ${LAB1_SRC}/models.cpp
+    ${LAB1_SRC}/signals.cpp
+    ${LAB1_SRC}/simulator.cpp
     stability.cpp
 )
-target_include_directories(otis_core PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(otis_core PUBLIC ${LAB1_SRC} ${CMAKE_CURRENT_SOURCE_DIR})
 target_compile_features(otis_core PUBLIC cxx_std_17)
 
 if(MSVC)
@@ -28,11 +35,9 @@ else()
     target_compile_options(otis_variant2 PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
-# Make the plotting script available beside the executable.
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/plot.py
-               ${CMAKE_CURRENT_BINARY_DIR}/plot.py COPYONLY)
+# Make the plotting script of lab 1 available beside the executable.
 add_custom_command(TARGET otis_variant2 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            ${CMAKE_CURRENT_SOURCE_DIR}/plot.py
+            ${LAB1_SRC}/plot.py
             $<TARGET_FILE_DIR:otis_variant2>/plot.py
     COMMENT "Copying plot.py next to the executable")

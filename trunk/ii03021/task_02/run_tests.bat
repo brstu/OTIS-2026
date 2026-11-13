@@ -103,8 +103,9 @@ if not defined GCOVR (
   goto :finish
 )
 
-rem main.cpp is the interactive console shell and is excluded; the tests link otis_core.
-%GCOVR% -r . --object-directory "%BUILD_DIR%" --filter "src/" --exclude "src/main.cpp" --print-summary --txt "%REPORT_DIR%\coverage.txt" --html-details "%REPORT_DIR%\coverage.html" --json-summary "%REPORT_DIR%\coverage_summary.json" --json-summary-pretty
+rem Root is trunk\ii03020, so that the lab 1 sources compiled from ..\task_01\src are covered too.
+rem Excluded: the interactive main.cpp, the tests themselves and downloaded Google Test sources.
+%GCOVR% -r .. --object-directory "%CD%\%BUILD_DIR%" --exclude ".*_deps.*" --exclude ".*main\.cpp" --exclude ".*[\\/]test[\\/].*" --exclude ".*[\\/]build[\\/].*" --print-summary --txt "%REPORT_DIR%\coverage.txt" --html-details "%REPORT_DIR%\coverage.html" --json-summary "%REPORT_DIR%\coverage_summary.json" --json-summary-pretty
 if errorlevel 1 (
   echo WARNING: gcovr failed.
   goto :finish
