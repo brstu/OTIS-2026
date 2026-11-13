@@ -1,0 +1,320 @@
+Running main() from gmock_main.cc
+[==========] Running 112 tests from 30 test suites.
+[----------] Global test environment set-up.
+[----------] 1 test from EulerVsAnalytic
+[ RUN      ] EulerVsAnalytic.HalvingStepHalvesTheError
+[       OK ] EulerVsAnalytic.HalvingStepHalvesTheError (0 ms)
+[----------] 1 test from EulerVsAnalytic (0 ms total)
+
+[----------] 3 tests from EulerInvariants
+[ RUN      ] EulerInvariants.EquilibriumIsAFixedPoint
+[       OK ] EulerInvariants.EquilibriumIsAFixedPoint (0 ms)
+[ RUN      ] EulerInvariants.InitialStateIsRestoredByReset
+[       OK ] EulerInvariants.InitialStateIsRestoredByReset (0 ms)
+[ RUN      ] EulerInvariants.RestStateWithZeroInputStaysAtZero
+[       OK ] EulerInvariants.RestStateWithZeroInputStaysAtZero (0 ms)
+[----------] 3 tests from EulerInvariants (0 ms total)
+
+[----------] 11 tests from SimulatorTest
+[ RUN      ] SimulatorTest.WritesCsvWithHeaderAndOneRowPerStep
+[       OK ] SimulatorTest.WritesCsvWithHeaderAndOneRowPerStep (8 ms)
+[ RUN      ] SimulatorTest.FileNameFollowsSignalName
+[       OK ] SimulatorTest.FileNameFollowsSignalName (5 ms)
+[ RUN      ] SimulatorTest.ConsoleTableMentionsModelAndSignal
+[       OK ] SimulatorTest.ConsoleTableMentionsModelAndSignal (3 ms)
+[ RUN      ] SimulatorTest.NonFiniteOutputStopsSimulation
+[       OK ] SimulatorTest.NonFiniteOutputStopsSimulation (6 ms)
+[ RUN      ] SimulatorTest.NaNOutputAlsoStopsSimulation
+[       OK ] SimulatorTest.NaNOutputAlsoStopsSimulation (34 ms)
+[ RUN      ] SimulatorTest.MissingOutputDirectoryThrows
+[       OK ] SimulatorTest.MissingOutputDirectoryThrows (1 ms)
+[ RUN      ] SimulatorTest.RealDelayedModelProducesHandCalculatedCsv
+[       OK ] SimulatorTest.RealDelayedModelProducesHandCalculatedCsv (6 ms)
+[ RUN      ] SimulatorTest.SimulationIsRepeatableBecauseOfReset
+[       OK ] SimulatorTest.SimulationIsRepeatableBecauseOfReset (7 ms)
+[ RUN      ] SimulatorTest.PlotScriptWithoutResultsContainsHint
+[       OK ] SimulatorTest.PlotScriptWithoutResultsContainsHint (6 ms)
+[ RUN      ] SimulatorTest.PlotScriptReferencesExistingCsvFilesOnly
+[       OK ] SimulatorTest.PlotScriptReferencesExistingCsvFilesOnly (16 ms)
+[ RUN      ] SimulatorTest.PlotScriptThrowsIfDirectoryIsMissing
+[       OK ] SimulatorTest.PlotScriptThrowsIfDirectoryIsMissing (1 ms)
+[----------] 11 tests from SimulatorTest (99 ms total)
+
+[----------] 4 tests from StabilityClassify
+[ RUN      ] StabilityClassify.InsideAndOutsideUnitCircle
+[       OK ] StabilityClassify.InsideAndOutsideUnitCircle (0 ms)
+[ RUN      ] StabilityClassify.UnitCircleIsMarginal
+[       OK ] StabilityClassify.UnitCircleIsMarginal (0 ms)
+[ RUN      ] StabilityClassify.CustomToleranceMovesTheBoundary
+[       OK ] StabilityClassify.CustomToleranceMovesTheBoundary (0 ms)
+[ RUN      ] StabilityClassify.NotANumberIsUnstable
+[       OK ] StabilityClassify.NotANumberIsUnstable (0 ms)
+[----------] 4 tests from StabilityClassify (0 ms total)
+
+[----------] 1 test from StabilityRadius
+[ RUN      ] StabilityRadius.MaxModulusOfComplexRoots
+[       OK ] StabilityRadius.MaxModulusOfComplexRoots (0 ms)
+[----------] 1 test from StabilityRadius (0 ms total)
+
+[----------] 1 test from StabilityNames
+[ RUN      ] StabilityNames.AllStatusesHaveNames
+[       OK ] StabilityNames.AllStatusesHaveNames (0 ms)
+[----------] 1 test from StabilityNames (0 ms total)
+
+[----------] 3 tests from StabilityDelayed
+[ RUN      ] StabilityDelayed.RootsAreAAndZero
+[       OK ] StabilityDelayed.RootsAreAAndZero (0 ms)
+[ RUN      ] StabilityDelayed.EquationAndMessageAreFilled
+[       OK ] StabilityDelayed.EquationAndMessageAreFilled (0 ms)
+[ RUN      ] StabilityDelayed.InvalidArgumentsThrow
+[       OK ] StabilityDelayed.InvalidArgumentsThrow (0 ms)
+[----------] 3 tests from StabilityDelayed (0 ms total)
+
+[----------] 1 test from StabilityLogarithmic
+[ RUN      ] StabilityLogarithmic.VerdictFollowsAbsA
+[       OK ] StabilityLogarithmic.VerdictFollowsAbsA (0 ms)
+[----------] 1 test from StabilityLogarithmic (0 ms total)
+
+[----------] 4 tests from StabilityPrint
+[ RUN      ] StabilityPrint.StableProcessPrintsNoWarning
+[       OK ] StabilityPrint.StableProcessPrintsNoWarning (0 ms)
+[ RUN      ] StabilityPrint.DivergentProcessPrintsWarning
+[       OK ] StabilityPrint.DivergentProcessPrintsWarning (0 ms)
+[ RUN      ] StabilityPrint.BoundaryCasePrintsWarning
+[       OK ] StabilityPrint.BoundaryCasePrintsWarning (0 ms)
+[ RUN      ] StabilityPrint.ComplexRootsAreFormatted
+[       OK ] StabilityPrint.ComplexRootsAreFormatted (0 ms)
+[----------] 4 tests from StabilityPrint (0 ms total)
+
+[----------] 6 tests from Signals
+[ RUN      ] Signals.StepIsOneForEveryTau
+[       OK ] Signals.StepIsOneForEveryTau (0 ms)
+[ RUN      ] Signals.ImpulseIsOneOnlyAtZero
+[       OK ] Signals.ImpulseIsOneOnlyAtZero (0 ms)
+[ RUN      ] Signals.HarmonicIsSineInRadians
+[       OK ] Signals.HarmonicIsSineInRadians (0 ms)
+[ RUN      ] Signals.HarmonicIsBoundedByOne
+[       OK ] Signals.HarmonicIsBoundedByOne (0 ms)
+[ RUN      ] Signals.NamesAreStable
+[       OK ] Signals.NamesAreStable (0 ms)
+[ RUN      ] Signals.UnknownSignalTypeFallsBack
+[       OK ] Signals.UnknownSignalTypeFallsBack (0 ms)
+[----------] 6 tests from Signals (0 ms total)
+
+[----------] 1 test from ModelNames
+[ RUN      ] ModelNames.ReturnExpectedTitles
+[       OK ] ModelNames.ReturnExpectedTitles (0 ms)
+[----------] 1 test from ModelNames (0 ms total)
+
+[----------] 3 tests from DelayedControlBoundary
+[ RUN      ] DelayedControlBoundary.DelayLessThanOneIsRejected
+[       OK ] DelayedControlBoundary.DelayLessThanOneIsRejected (0 ms)
+[ RUN      ] DelayedControlBoundary.FirstDelayedInputAppearsExactlyAtTauEqualsDelay
+[       OK ] DelayedControlBoundary.FirstDelayedInputAppearsExactlyAtTauEqualsDelay (0 ms)
+[ RUN      ] DelayedControlBoundary.NonSequentialTauThrowsOutOfRange
+[       OK ] DelayedControlBoundary.NonSequentialTauThrowsOutOfRange (0 ms)
+[----------] 3 tests from DelayedControlBoundary (0 ms total)
+
+[----------] 1 test from DelayedControlCustomSignal
+[ RUN      ] DelayedControlCustomSignal.RampInputIsDelayedByK
+[       OK ] DelayedControlCustomSignal.RampInputIsDelayedByK (0 ms)
+[----------] 1 test from DelayedControlCustomSignal (0 ms total)
+
+[----------] 4 tests from LogarithmicBoundary
+[ RUN      ] LogarithmicBoundary.ZeroInputGivesZeroForAnyCoefficients
+[       OK ] LogarithmicBoundary.ZeroInputGivesZeroForAnyCoefficients (0 ms)
+[ RUN      ] LogarithmicBoundary.OutputIsEvenInInput
+[       OK ] LogarithmicBoundary.OutputIsEvenInInput (0 ms)
+[ RUN      ] LogarithmicBoundary.CosineVanishesAtHalfPi
+[       OK ] LogarithmicBoundary.CosineVanishesAtHalfPi (0 ms)
+[ RUN      ] LogarithmicBoundary.LargeInputGrowsOnlyLogarithmically
+[       OK ] LogarithmicBoundary.LargeInputGrowsOnlyLogarithmically (0 ms)
+[----------] 4 tests from LogarithmicBoundary (0 ms total)
+
+[----------] 1 test from EulerBoundary
+[ RUN      ] EulerBoundary.NonPositiveTimeStepIsRejected
+[       OK ] EulerBoundary.NonPositiveTimeStepIsRejected (0 ms)
+[----------] 1 test from EulerBoundary (0 ms total)
+
+[----------] 5 tests from TimeSteps/EulerVsAnalyticTest
+[ RUN      ] TimeSteps/EulerVsAnalyticTest.ErrorIsFirstOrderInStep/0
+[       OK ] TimeSteps/EulerVsAnalyticTest.ErrorIsFirstOrderInStep/0 (0 ms)
+[ RUN      ] TimeSteps/EulerVsAnalyticTest.ErrorIsFirstOrderInStep/1
+[       OK ] TimeSteps/EulerVsAnalyticTest.ErrorIsFirstOrderInStep/1 (0 ms)
+[ RUN      ] TimeSteps/EulerVsAnalyticTest.ErrorIsFirstOrderInStep/2
+[       OK ] TimeSteps/EulerVsAnalyticTest.ErrorIsFirstOrderInStep/2 (0 ms)
+[ RUN      ] TimeSteps/EulerVsAnalyticTest.ErrorIsFirstOrderInStep/3
+[       OK ] TimeSteps/EulerVsAnalyticTest.ErrorIsFirstOrderInStep/3 (0 ms)
+[ RUN      ] TimeSteps/EulerVsAnalyticTest.ErrorIsFirstOrderInStep/4
+[       OK ] TimeSteps/EulerVsAnalyticTest.ErrorIsFirstOrderInStep/4 (0 ms)
+[----------] 5 tests from TimeSteps/EulerVsAnalyticTest (0 ms total)
+
+[----------] 4 tests from Lines/EulerExactForLinearTest
+[ RUN      ] Lines/EulerExactForLinearTest.StepInputGivesStraightLine/0
+[       OK ] Lines/EulerExactForLinearTest.StepInputGivesStraightLine/0 (0 ms)
+[ RUN      ] Lines/EulerExactForLinearTest.StepInputGivesStraightLine/1
+[       OK ] Lines/EulerExactForLinearTest.StepInputGivesStraightLine/1 (0 ms)
+[ RUN      ] Lines/EulerExactForLinearTest.StepInputGivesStraightLine/2
+[       OK ] Lines/EulerExactForLinearTest.StepInputGivesStraightLine/2 (0 ms)
+[ RUN      ] Lines/EulerExactForLinearTest.StepInputGivesStraightLine/3
+[       OK ] Lines/EulerExactForLinearTest.StepInputGivesStraightLine/3 (0 ms)
+[----------] 4 tests from Lines/EulerExactForLinearTest (0 ms total)
+
+[----------] 3 tests from AllControlModes/ControlModeTest
+[ RUN      ] AllControlModes/ControlModeTest.ModelReceivesExpectedInputAtEveryStep/step
+[       OK ] AllControlModes/ControlModeTest.ModelReceivesExpectedInputAtEveryStep/step (2 ms)
+[ RUN      ] AllControlModes/ControlModeTest.ModelReceivesExpectedInputAtEveryStep/impulse
+[       OK ] AllControlModes/ControlModeTest.ModelReceivesExpectedInputAtEveryStep/impulse (2 ms)
+[ RUN      ] AllControlModes/ControlModeTest.ModelReceivesExpectedInputAtEveryStep/harmonic
+[       OK ] AllControlModes/ControlModeTest.ModelReceivesExpectedInputAtEveryStep/harmonic (3 ms)
+[----------] 3 tests from AllControlModes/ControlModeTest (7 ms total)
+
+[----------] 5 tests from InsideUnitCircle/StableDelayedTest
+[ RUN      ] InsideUnitCircle/StableDelayedTest.AbsAUnderOneIsStable/0
+[       OK ] InsideUnitCircle/StableDelayedTest.AbsAUnderOneIsStable/0 (0 ms)
+[ RUN      ] InsideUnitCircle/StableDelayedTest.AbsAUnderOneIsStable/1
+[       OK ] InsideUnitCircle/StableDelayedTest.AbsAUnderOneIsStable/1 (0 ms)
+[ RUN      ] InsideUnitCircle/StableDelayedTest.AbsAUnderOneIsStable/2
+[       OK ] InsideUnitCircle/StableDelayedTest.AbsAUnderOneIsStable/2 (0 ms)
+[ RUN      ] InsideUnitCircle/StableDelayedTest.AbsAUnderOneIsStable/3
+[       OK ] InsideUnitCircle/StableDelayedTest.AbsAUnderOneIsStable/3 (0 ms)
+[ RUN      ] InsideUnitCircle/StableDelayedTest.AbsAUnderOneIsStable/4
+[       OK ] InsideUnitCircle/StableDelayedTest.AbsAUnderOneIsStable/4 (0 ms)
+[----------] 5 tests from InsideUnitCircle/StableDelayedTest (0 ms total)
+
+[----------] 6 tests from OutsideUnitCircle/UnstableDelayedTest
+[ RUN      ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/0
+[       OK ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/0 (0 ms)
+[ RUN      ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/1
+[       OK ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/1 (0 ms)
+[ RUN      ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/2
+[       OK ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/2 (0 ms)
+[ RUN      ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/3
+[       OK ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/3 (0 ms)
+[ RUN      ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/4
+[       OK ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/4 (0 ms)
+[ RUN      ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/5
+[       OK ] OutsideUnitCircle/UnstableDelayedTest.AbsAOverOneIsUnstable/5 (0 ms)
+[----------] 6 tests from OutsideUnitCircle/UnstableDelayedTest (0 ms total)
+
+[----------] 2 tests from OnUnitCircle/MarginalDelayedTest
+[ RUN      ] OnUnitCircle/MarginalDelayedTest.AbsAEqualOneIsMarginalAndNotStable/0
+[       OK ] OnUnitCircle/MarginalDelayedTest.AbsAEqualOneIsMarginalAndNotStable/0 (0 ms)
+[ RUN      ] OnUnitCircle/MarginalDelayedTest.AbsAEqualOneIsMarginalAndNotStable/1
+[       OK ] OnUnitCircle/MarginalDelayedTest.AbsAEqualOneIsMarginalAndNotStable/1 (0 ms)
+[----------] 2 tests from OnUnitCircle/MarginalDelayedTest (0 ms total)
+
+[----------] 4 tests from Delays/DelayIndependenceTest
+[ RUN      ] Delays/DelayIndependenceTest.DelayDoesNotChangeVerdict/0
+[       OK ] Delays/DelayIndependenceTest.DelayDoesNotChangeVerdict/0 (0 ms)
+[ RUN      ] Delays/DelayIndependenceTest.DelayDoesNotChangeVerdict/1
+[       OK ] Delays/DelayIndependenceTest.DelayDoesNotChangeVerdict/1 (0 ms)
+[ RUN      ] Delays/DelayIndependenceTest.DelayDoesNotChangeVerdict/2
+[       OK ] Delays/DelayIndependenceTest.DelayDoesNotChangeVerdict/2 (0 ms)
+[ RUN      ] Delays/DelayIndependenceTest.DelayDoesNotChangeVerdict/3
+[       OK ] Delays/DelayIndependenceTest.DelayDoesNotChangeVerdict/3 (0 ms)
+[----------] 4 tests from Delays/DelayIndependenceTest (0 ms total)
+
+[----------] 5 tests from Model12/DelayedStepTest
+[ RUN      ] Model12/DelayedStepTest.MatchesHandCalculatedValues/step_a05_b2_k1
+[       OK ] Model12/DelayedStepTest.MatchesHandCalculatedValues/step_a05_b2_k1 (0 ms)
+[ RUN      ] Model12/DelayedStepTest.MatchesHandCalculatedValues/impulse_a05_b1_k2
+[       OK ] Model12/DelayedStepTest.MatchesHandCalculatedValues/impulse_a05_b1_k2 (0 ms)
+[ RUN      ] Model12/DelayedStepTest.MatchesHandCalculatedValues/harmonic_a0_b1_k1
+[       OK ] Model12/DelayedStepTest.MatchesHandCalculatedValues/harmonic_a0_b1_k1 (0 ms)
+[ RUN      ] Model12/DelayedStepTest.MatchesHandCalculatedValues/harmonic_aneg05_b1_k3
+[       OK ] Model12/DelayedStepTest.MatchesHandCalculatedValues/harmonic_aneg05_b1_k3 (0 ms)
+[ RUN      ] Model12/DelayedStepTest.MatchesHandCalculatedValues/step_b0
+[       OK ] Model12/DelayedStepTest.MatchesHandCalculatedValues/step_b0 (0 ms)
+[----------] 5 tests from Model12/DelayedStepTest (0 ms total)
+
+[----------] 4 tests from Model24/LogStepTest
+[ RUN      ] Model24/LogStepTest.MatchesHandCalculatedValues/step_a05_b1
+[       OK ] Model24/LogStepTest.MatchesHandCalculatedValues/step_a05_b1 (0 ms)
+[ RUN      ] Model24/LogStepTest.MatchesHandCalculatedValues/harmonic_a0_b2
+[       OK ] Model24/LogStepTest.MatchesHandCalculatedValues/harmonic_a0_b2 (0 ms)
+[ RUN      ] Model24/LogStepTest.MatchesHandCalculatedValues/impulse_a05_b1
+[       OK ] Model24/LogStepTest.MatchesHandCalculatedValues/impulse_a05_b1 (0 ms)
+[ RUN      ] Model24/LogStepTest.MatchesHandCalculatedValues/step_aneg05_b1
+[       OK ] Model24/LogStepTest.MatchesHandCalculatedValues/step_aneg05_b1 (0 ms)
+[----------] 4 tests from Model24/LogStepTest (0 ms total)
+
+[----------] 3 tests from Model36/EulerStepTest
+[ RUN      ] Model36/EulerStepTest.MatchesHandCalculatedValues/step_aneg1_b1_dt01
+[       OK ] Model36/EulerStepTest.MatchesHandCalculatedValues/step_aneg1_b1_dt01 (0 ms)
+[ RUN      ] Model36/EulerStepTest.MatchesHandCalculatedValues/harmonic_a0_b2_dt05
+[       OK ] Model36/EulerStepTest.MatchesHandCalculatedValues/harmonic_a0_b2_dt05 (0 ms)
+[ RUN      ] Model36/EulerStepTest.MatchesHandCalculatedValues/impulse_a1_b1_dt01
+[       OK ] Model36/EulerStepTest.MatchesHandCalculatedValues/impulse_a1_b1_dt01 (0 ms)
+[----------] 3 tests from Model36/EulerStepTest (0 ms total)
+
+[----------] 5 tests from StableCoefficients/DelayedConvergenceTest
+[ RUN      ] StableCoefficients/DelayedConvergenceTest.StepResponseConvergesToSteadyState/0
+[       OK ] StableCoefficients/DelayedConvergenceTest.StepResponseConvergesToSteadyState/0 (0 ms)
+[ RUN      ] StableCoefficients/DelayedConvergenceTest.StepResponseConvergesToSteadyState/1
+[       OK ] StableCoefficients/DelayedConvergenceTest.StepResponseConvergesToSteadyState/1 (0 ms)
+[ RUN      ] StableCoefficients/DelayedConvergenceTest.StepResponseConvergesToSteadyState/2
+[       OK ] StableCoefficients/DelayedConvergenceTest.StepResponseConvergesToSteadyState/2 (0 ms)
+[ RUN      ] StableCoefficients/DelayedConvergenceTest.StepResponseConvergesToSteadyState/3
+[       OK ] StableCoefficients/DelayedConvergenceTest.StepResponseConvergesToSteadyState/3 (0 ms)
+[ RUN      ] StableCoefficients/DelayedConvergenceTest.StepResponseConvergesToSteadyState/4
+[       OK ] StableCoefficients/DelayedConvergenceTest.StepResponseConvergesToSteadyState/4 (0 ms)
+[----------] 5 tests from StableCoefficients/DelayedConvergenceTest (0 ms total)
+
+[----------] 4 tests from UnstableCoefficients/DelayedDivergenceTest
+[ RUN      ] UnstableCoefficients/DelayedDivergenceTest.UnstableCoefficientDiverges/0
+[       OK ] UnstableCoefficients/DelayedDivergenceTest.UnstableCoefficientDiverges/0 (0 ms)
+[ RUN      ] UnstableCoefficients/DelayedDivergenceTest.UnstableCoefficientDiverges/1
+[       OK ] UnstableCoefficients/DelayedDivergenceTest.UnstableCoefficientDiverges/1 (0 ms)
+[ RUN      ] UnstableCoefficients/DelayedDivergenceTest.UnstableCoefficientDiverges/2
+[       OK ] UnstableCoefficients/DelayedDivergenceTest.UnstableCoefficientDiverges/2 (0 ms)
+[ RUN      ] UnstableCoefficients/DelayedDivergenceTest.UnstableCoefficientDiverges/3
+[       OK ] UnstableCoefficients/DelayedDivergenceTest.UnstableCoefficientDiverges/3 (0 ms)
+[----------] 4 tests from UnstableCoefficients/DelayedDivergenceTest (0 ms total)
+
+[----------] 5 tests from Roots/DelayedImpulseRatioTest
+[ RUN      ] Roots/DelayedImpulseRatioTest.SuccessiveOutputsRatioEqualsRoot/0
+[       OK ] Roots/DelayedImpulseRatioTest.SuccessiveOutputsRatioEqualsRoot/0 (0 ms)
+[ RUN      ] Roots/DelayedImpulseRatioTest.SuccessiveOutputsRatioEqualsRoot/1
+[       OK ] Roots/DelayedImpulseRatioTest.SuccessiveOutputsRatioEqualsRoot/1 (0 ms)
+[ RUN      ] Roots/DelayedImpulseRatioTest.SuccessiveOutputsRatioEqualsRoot/2
+[       OK ] Roots/DelayedImpulseRatioTest.SuccessiveOutputsRatioEqualsRoot/2 (0 ms)
+[ RUN      ] Roots/DelayedImpulseRatioTest.SuccessiveOutputsRatioEqualsRoot/3
+[       OK ] Roots/DelayedImpulseRatioTest.SuccessiveOutputsRatioEqualsRoot/3 (0 ms)
+[ RUN      ] Roots/DelayedImpulseRatioTest.SuccessiveOutputsRatioEqualsRoot/4
+[       OK ] Roots/DelayedImpulseRatioTest.SuccessiveOutputsRatioEqualsRoot/4 (0 ms)
+[----------] 5 tests from Roots/DelayedImpulseRatioTest (0 ms total)
+
+[----------] 3 tests from StableCoefficients/LogConvergenceTest
+[ RUN      ] StableCoefficients/LogConvergenceTest.StepResponseSettlesAtFixedPoint/0
+[       OK ] StableCoefficients/LogConvergenceTest.StepResponseSettlesAtFixedPoint/0 (0 ms)
+[ RUN      ] StableCoefficients/LogConvergenceTest.StepResponseSettlesAtFixedPoint/1
+[       OK ] StableCoefficients/LogConvergenceTest.StepResponseSettlesAtFixedPoint/1 (0 ms)
+[ RUN      ] StableCoefficients/LogConvergenceTest.StepResponseSettlesAtFixedPoint/2
+[       OK ] StableCoefficients/LogConvergenceTest.StepResponseSettlesAtFixedPoint/2 (0 ms)
+[----------] 3 tests from StableCoefficients/LogConvergenceTest (0 ms total)
+
+[----------] 9 tests from AllModels/ModelInvariantTest
+[ RUN      ] AllModels/ModelInvariantTest.ZeroInputAndZeroStateStayAtRest/Delayed
+[       OK ] AllModels/ModelInvariantTest.ZeroInputAndZeroStateStayAtRest/Delayed (0 ms)
+[ RUN      ] AllModels/ModelInvariantTest.ZeroInputAndZeroStateStayAtRest/Logarithmic
+[       OK ] AllModels/ModelInvariantTest.ZeroInputAndZeroStateStayAtRest/Logarithmic (0 ms)
+[ RUN      ] AllModels/ModelInvariantTest.ZeroInputAndZeroStateStayAtRest/Euler
+[       OK ] AllModels/ModelInvariantTest.ZeroInputAndZeroStateStayAtRest/Euler (0 ms)
+[ RUN      ] AllModels/ModelInvariantTest.ResetRestoresInitialState/Delayed
+[       OK ] AllModels/ModelInvariantTest.ResetRestoresInitialState/Delayed (0 ms)
+[ RUN      ] AllModels/ModelInvariantTest.ResetRestoresInitialState/Logarithmic
+[       OK ] AllModels/ModelInvariantTest.ResetRestoresInitialState/Logarithmic (0 ms)
+[ RUN      ] AllModels/ModelInvariantTest.ResetRestoresInitialState/Euler
+[       OK ] AllModels/ModelInvariantTest.ResetRestoresInitialState/Euler (0 ms)
+[ RUN      ] AllModels/ModelInvariantTest.NameIsNotEmpty/Delayed
+[       OK ] AllModels/ModelInvariantTest.NameIsNotEmpty/Delayed (0 ms)
+[ RUN      ] AllModels/ModelInvariantTest.NameIsNotEmpty/Logarithmic
+[       OK ] AllModels/ModelInvariantTest.NameIsNotEmpty/Logarithmic (0 ms)
+[ RUN      ] AllModels/ModelInvariantTest.NameIsNotEmpty/Euler
+[       OK ] AllModels/ModelInvariantTest.NameIsNotEmpty/Euler (0 ms)
+[----------] 9 tests from AllModels/ModelInvariantTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 112 tests from 30 test suites ran. (112 ms total)
+[  PASSED  ] 112 tests.
