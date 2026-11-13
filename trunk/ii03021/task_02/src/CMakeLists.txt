@@ -33,11 +33,11 @@ if(MSVC)
     target_compile_options(otis_variant2_lab2 PRIVATE /W4 /permissive-)
 else()
     target_compile_options(otis_variant2_lab2 PRIVATE -Wall -Wextra -Wpedantic)
-endif()
+endif()        
 
 # Make the plotting script of lab 1 available beside the executable.
 add_custom_command(TARGET otis_variant2_lab2 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${LAB1_SRC}/plot.py
-            $<TARGET_FILE_DIR:otis_variant2>/plot.py
+            $<TARGET_FILE_DIR:otis_variant2_lab2>/plot.py
     COMMENT "Copying plot.py next to the executable")
