@@ -27,7 +27,7 @@ if(OTIS_COVERAGE AND NOT MSVC)
     target_link_options(otis_core PUBLIC --coverage)
 endif()
 
-add_executable(otis_variant2 main.cpp)
+add_executable(otis_variant2_lab2)
 target_link_libraries(otis_variant2 PRIVATE otis_core)
 if(MSVC)
     target_compile_options(otis_variant2 PRIVATE /W4 /permissive-)
