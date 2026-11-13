@@ -28,15 +28,15 @@ if(OTIS_COVERAGE AND NOT MSVC)
 endif()
 
 add_executable(otis_variant2_lab2)
-target_link_libraries(otis_variant2 PRIVATE otis_core)
+target_link_libraries(otis_variant2_lab2 PRIVATE otis_core)
 if(MSVC)
-    target_compile_options(otis_variant2 PRIVATE /W4 /permissive-)
+    target_compile_options(otis_variant2_lab2 PRIVATE /W4 /permissive-)
 else()
-    target_compile_options(otis_variant2 PRIVATE -Wall -Wextra -Wpedantic)
+    target_compile_options(otis_variant2_lab2 PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 
 # Make the plotting script of lab 1 available beside the executable.
-add_custom_command(TARGET otis_variant2 POST_BUILD
+add_custom_command(TARGET otis_variant2_lab2 POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             ${LAB1_SRC}/plot.py
             $<TARGET_FILE_DIR:otis_variant2>/plot.py
