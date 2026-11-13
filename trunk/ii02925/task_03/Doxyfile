@@ -1,0 +1,14 @@
+PROJECT_NAME           = "OTIS Laboratory Work 3"
+PROJECT_BRIEF          = "PID control for variant 9 plants"
+OUTPUT_DIRECTORY       = doc
+INPUT                  = src
+RECURSIVE              = YES
+FILE_PATTERNS           = *.hpp *.cpp
+EXTRACT_ALL             = YES
+GENERATE_HTML            = YES
+HTML_OUTPUT              = html
+GENERATE_LATEX           = NO
+QUIET                    = YES
+WARN_IF_UNDOCUMENTED     = YES
+SOURCE_BROWSER           = YES
+INLINE_SOURCES           = YES
