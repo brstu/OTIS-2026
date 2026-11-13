@@ -64,7 +64,12 @@ def bar(entry, kind):
         return "n/a"
     value = float(value)
     covered, total = entry.get(f"{kind}_covered", "?"), entry.get(f"{kind}_total", "?")
-    color = "#2e9e4f" if value >= 90 else "#d9a400" if value >= 75 else "#d64545"
+    if value >= 90:
+        color = "#2e9e4f"
+    elif value >= 75:
+        color = "#d9a400"
+    else:
+        color = "#d64545"
     return (f'<div class="cell"><div class="bar"><div style="width:{value:.1f}%;background:{color}"></div></div>'
             f'<span>{value:.1f} %</span><small>{covered} / {total}</small></div>')
  
