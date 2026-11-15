@@ -25,6 +25,28 @@ def resolve_in_base(arg, allowed_suffixes):
     return Path(full_path)
 
 
+def parse_cli_args(argv):
+    """Разбирает аргументы командной строки по расширениям файлов."""
+    xml_files = []
+    json_arg = "coverage.json"
+    out_arg = "test_report.html"
+
+    for arg in argv:
+        suffix = Path(arg).suffix.lower()
+        if suffix == ".html":
+            out_arg = arg
+        elif suffix == ".json":
+            json_arg = arg
+        elif suffix == ".xml":
+            xml_files.append(arg)
+        else:
+            raise ValueError(f"Недопустимое расширение файла '{arg}'.")
+
+    xml_arg = xml_files[0] if len(xml_files) > 0 else "test_results.xml"
+    cobertura_arg = xml_files[1] if len(xml_files) > 1 else "coverage.xml"
+    return xml_arg, json_arg, cobertura_arg, out_arg
+
+
 def parse_gtest_xml(xml_path):
     root = ET.parse(xml_path).getroot()
     total = int(root.attrib.get("tests", 0))
@@ -149,49 +171,7 @@ def build_coverage_block(cov_data):
     return trs, total_line_pct, total_func_pct, source, overall
 
 
-def main():
-    xml_arg = "test_results.xml"
-    json_arg = "coverage.json"
-    cobertura_arg = "coverage.xml"
-    out_arg = "test_report.html"
-
-    xml_count = 0
-    for arg in sys.argv[1:]:
-        suffix = Path(arg).suffix.lower()
-        if suffix == ".html":
-            out_arg = arg
-        elif suffix == ".json":
-            json_arg = arg
-        elif suffix == ".xml":
-            if xml_count == 0:
-                xml_arg = arg
-            else:
-                cobertura_arg = arg
-            xml_count += 1
-        else:
-            print(f"Ошибка: Недопустимое расширение файла '{arg}'.")
-            return 1
-
-    try:
-        xml_path = resolve_in_base(xml_arg, {".xml"})
-        json_path = resolve_in_base(json_arg, {".json"})
-        cobertura_path = resolve_in_base(cobertura_arg, {".xml"})
-        out_path = resolve_in_base(out_arg, {".html"})
-    except ValueError as error:
-        print(f"Ошибка: {error}")
-        return 1
-
-    if not xml_path.is_file():
-        print(f"Ошибка: файл с результатами тестов не найден: {xml_path.name}")
-        return 1
-
-    try:
-        total, passed, failed, time_sec, cases = parse_gtest_xml(xml_path)
-        cov_data = parse_gcovr_json(json_path) or parse_cobertura_xml(cobertura_path)
-    except (ET.ParseError, json.JSONDecodeError, OSError, ValueError) as error:
-        print(f"Ошибка чтения отчётов: {error}")
-        return 1
-
+def render_html(total, passed, failed, time_sec, cases, cov_data):
     cov_trs, total_line_pct, total_func_pct, cov_source, _ = build_coverage_block(cov_data)
 
     status_color = "#22c55e" if failed == 0 else "#ef4444"
@@ -205,7 +185,7 @@ def main():
             f"<td class='center'>{badge}</td><td class='num'>{escape(ctime)} с</td></tr>\n"
         )
 
-    page = f"""<!DOCTYPE html>
+    return f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -293,6 +273,31 @@ def main():
 </body>
 </html>
 """
+
+
+def main():
+    try:
+        xml_arg, json_arg, cobertura_arg, out_arg = parse_cli_args(sys.argv[1:])
+        xml_path = resolve_in_base(xml_arg, {".xml"})
+        json_path = resolve_in_base(json_arg, {".json"})
+        cobertura_path = resolve_in_base(cobertura_arg, {".xml"})
+        out_path = resolve_in_base(out_arg, {".html"})
+    except ValueError as error:
+        print(f"Ошибка: {error}")
+        return 1
+
+    if not xml_path.is_file():
+        print(f"Ошибка: файл с результатами тестов не найден: {xml_path.name}")
+        return 1
+
+    try:
+        total, passed, failed, time_sec, cases = parse_gtest_xml(xml_path)
+        cov_data = parse_gcovr_json(json_path) or parse_cobertura_xml(cobertura_path)
+    except (ET.ParseError, OSError, ValueError) as error:
+        print(f"Ошибка чтения отчётов: {error}")
+        return 1
+
+    page = render_html(total, passed, failed, time_sec, cases, cov_data)
     with out_path.open("w", encoding="utf-8") as f:
         f.write(page)
     print(f"Отчёт сохранён: {out_path.name}")
