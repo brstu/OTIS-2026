@@ -15,13 +15,16 @@ if errorlevel 1 (
     echo ERROR: gcov is not installed or not available in PATH.
     exit /b 1
 )
-py -m gcovr --version >nul 2>nul
-if errorlevel 1 (
-    echo ERROR: gcovr is not installed.
-    exit /b 1
-)
 echo Generating coverage reports...
-py -m gcovr --root . --object-directory build --gcov-executable gcov --filter "src" --exclude "src/.*\.h$" --exclude "build/.*" --exclude-branches-by-pattern ".*" --gcov-ignore-errors=no_working_dir_found --markdown build\coverage.md
+if not exist build\coverage mkdir build\coverage
+del /q build\coverage\*.gcov >nul 2>nul
+gcov -r -b -c build\CMakeFiles\models.dir\models.cpp.gcda > build\coverage\models.gcov.txt
 if errorlevel 1 exit /b 1
+if exist src\models.cpp.gcov move /y src\models.cpp.gcov build\coverage\models.cpp.gcov >nul
+if exist src\models.h.gcov move /y src\models.h.gcov build\coverage\models.h.gcov >nul
+gcov -r -b -c build\CMakeFiles\models.dir\stability_analyzer.cpp.gcda > build\coverage\stability_analyzer.gcov.txt
+if errorlevel 1 exit /b 1
+if exist src\stability_analyzer.cpp.gcov move /y src\stability_analyzer.cpp.gcov build\coverage\stability_analyzer.cpp.gcov >nul
+if exist src\models.h.gcov move /y src\models.h.gcov build\coverage\models.h.gcov >nul
 echo Tests completed successfully.
 endlocal
