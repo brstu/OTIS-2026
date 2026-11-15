@@ -1,13 +1,32 @@
-import sys
-import os
 import json
+import os
+import sys
 import xml.etree.ElementTree as ET
 from datetime import datetime
+from html import escape
+from pathlib import Path
+
+# Каталог проекта: читать и писать файлы разрешено только здесь
+BASE_DIR = os.path.realpath(os.path.dirname(__file__))
+
+
+def resolve_in_base(arg, allowed_suffixes):
+    """Берёт из аргумента только имя файла и возвращает безопасный путь внутри BASE_DIR."""
+    name = os.path.basename(arg)
+    if not name or Path(name).suffix.lower() not in allowed_suffixes:
+        raise ValueError(
+            f"Недопустимое имя файла '{name}': ожидается расширение "
+            f"{', '.join(sorted(allowed_suffixes))}."
+        )
+
+    full_path = os.path.realpath(os.path.join(BASE_DIR, name))
+    if not full_path.startswith(BASE_DIR + os.sep):
+        raise ValueError(f"Недопустимый путь к файлу: {name}")
+    return Path(full_path)
 
 
 def parse_gtest_xml(xml_path):
-    tree = ET.parse(xml_path)
-    root = tree.getroot()
+    root = ET.parse(xml_path).getroot()
     total = int(root.attrib.get("tests", 0))
     failures = int(root.attrib.get("failures", 0))
     errors = int(root.attrib.get("errors", 0))
@@ -22,178 +41,171 @@ def parse_gtest_xml(xml_path):
             ctime = case.attrib.get("time", "0")
             fail_node = case.find("failure")
             status = "FAILED" if fail_node is not None else "PASSED"
-            msg = fail_node.attrib.get("message", "") if fail_node is not None else ""
-            cases.append((suite_name, name, status, ctime, msg))
+            cases.append((suite_name, name, status, ctime))
     return total, passed, failures + errors, time_sec, cases
 
 
-def parse_gcovr_json(cov_path):
-    if not os.path.exists(cov_path):
+def summarize(rows_raw, source):
+    """rows_raw: список (имя, покрыто строк, всего строк, покрыто функций, всего функций)."""
+    if not rows_raw:
         return None
-    with open(cov_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
 
     rows = []
-    tot_cov_l, tot_all_l = 0, 0
-    tot_cov_f, tot_all_f = 0, 0
-
-    for file_info in data.get("files", []):
-        fname = os.path.basename(file_info.get("file", ""))
-        if not fname.endswith(".cpp") or fname == "main.cpp":
-            continue
-
-        lines = file_info.get("lines", [])
-        all_l = len(lines)
-        cov_l = sum(1 for l in lines if l.get("count", 0) > 0)
-
-        funcs = file_info.get("functions", [])
-        all_f = len(funcs)
-        cov_f = sum(1 for fn in funcs if fn.get("execution_count", 0) > 0)
-
-        line_pct = (cov_l / all_l * 100.0) if all_l > 0 else 100.0
-        func_pct = (cov_f / all_f * 100.0) if all_f > 0 else 100.0
-
+    tot_cov_l = tot_all_l = tot_cov_f = tot_all_f = 0
+    for fname, cov_l, all_l, cov_f, all_f in rows_raw:
+        line_pct = (cov_l / all_l * 100.0) if all_l else 100.0
+        func_pct = (cov_f / all_f * 100.0) if all_f else 100.0
+        rows.append((fname, line_pct, func_pct, "OK" if line_pct >= 80.0 else "LOW"))
         tot_cov_l += cov_l
         tot_all_l += all_l
         tot_cov_f += cov_f
         tot_all_f += all_f
 
-        rows.append((fname, line_pct, func_pct, "OK"))
+    total_line_pct = (tot_cov_l / tot_all_l * 100.0) if tot_all_l else 100.0
+    total_func_pct = (tot_cov_f / tot_all_f * 100.0) if tot_all_f else 100.0
+    return rows, total_line_pct, total_func_pct, source
 
-    if not rows:
+
+def parse_gcovr_json(cov_path):
+    if not cov_path.is_file():
         return None
+    with cov_path.open("r", encoding="utf-8") as f:
+        data = json.load(f)
 
-    total_line_pct = (tot_cov_l / tot_all_l * 100.0) if tot_all_l > 0 else 100.0
-    total_func_pct = (tot_cov_f / tot_all_f * 100.0) if tot_all_f > 0 else 100.0
-    return rows, total_line_pct, total_func_pct, "gcovr"
+    raw = []
+    for file_info in data.get("files", []):
+        fname = Path(file_info.get("file", "")).name
+        if not fname.endswith(".cpp") or fname == "main.cpp":
+            continue
+
+        lines = [ln for ln in file_info.get("lines", []) if not ln.get("gcovr/noncode")]
+        funcs = file_info.get("functions", [])
+        raw.append((
+            fname,
+            sum(1 for ln in lines if ln.get("count", 0) > 0),
+            len(lines),
+            sum(1 for fn in funcs if fn.get("execution_count", 0) > 0),
+            len(funcs),
+        ))
+    return summarize(raw, "gcovr")
 
 
-def parse_cobertura_xml(xml_cov_path):
-    if not os.path.exists(xml_cov_path):
+def parse_cobertura_xml(cov_path):
+    if not cov_path.is_file():
         return None
-    tree = ET.parse(xml_cov_path)
-    root = tree.getroot()
+    root = ET.parse(cov_path).getroot()
 
-    rows = []
-    tot_cov_l, tot_all_l = 0, 0
-    tot_cov_f, tot_all_f = 0, 0
-
+    raw = []
     for cls in root.findall(".//class"):
-        fname = os.path.basename(cls.attrib.get("filename", ""))
+        fname = Path(cls.attrib.get("filename", "")).name
         if not fname.endswith(".cpp") or fname == "main.cpp":
             continue
 
         lines = cls.findall("./lines/line")
-        all_l = len(lines)
-        cov_l = sum(1 for l in lines if int(l.attrib.get("hits", 0)) > 0)
-
         methods = cls.findall("./methods/method")
-        all_f = len(methods)
-        cov_f = sum(1 for m in methods if float(m.attrib.get("line-rate", 0)) > 0)
-
-        line_pct = (cov_l / all_l * 100.0) if all_l > 0 else 100.0
-        func_pct = (cov_f / all_f * 100.0) if all_f > 0 else 100.0
-
-        tot_cov_l += cov_l
-        tot_all_l += all_l
-        tot_cov_f += cov_f
-        tot_all_f += all_f
-
-        rows.append((fname, line_pct, func_pct, "OK"))
-
-    if not rows:
-        return None
-
-    total_line_pct = (tot_cov_l / tot_all_l * 100.0) if tot_all_l > 0 else 100.0
-    total_func_pct = (tot_cov_f / tot_all_f * 100.0) if tot_all_f > 0 else 100.0
-    return rows, total_line_pct, total_func_pct, "OpenCppCoverage"
-
-
-def fallback_coverage_from_tests(cases):
-    passed_suites = {suite for suite, _, status, _, _ in cases if status == "PASSED"}
-
-    modules = [
-        ("StabilityAnalyzer.cpp", "StabilityAnalyzerTest", 14, 14, 3, 3),
-        ("Model1_10.cpp", "ManualCalculationTest", 16, 16, 5, 5),
-        ("Model2_2.cpp", "BoundaryValueTest", 16, 16, 3, 3),
-        ("Model3_4.cpp", "PhysicsAndInvariantsTest", 11, 11, 3, 3),
-        ("InputSignals.cpp", "StandardSignalsAndExportTest", 18, 19, 3, 3),
-        ("Simulation.cpp", "ControlModesMockTest", 62, 65, 5, 5),
-    ]
-
-    rows = []
-    tot_cov_l, tot_all_l = 0, 0
-    tot_cov_f, tot_all_f = 0, 0
-
-    for fname, req_suite, cov_l, all_l, cov_f, all_f in modules:
-        if req_suite not in passed_suites:
-            cov_l, cov_f = 0, 0
-        line_pct = cov_l / all_l * 100.0
-        func_pct = cov_f / all_f * 100.0
-        status = "OK" if line_pct >= 80.0 else "LOW"
-
-        tot_cov_l += cov_l
-        tot_all_l += all_l
-        tot_cov_f += cov_f
-        tot_all_f += all_f
-
-        rows.append((fname, line_pct, func_pct, status))
-
-    total_line_pct = tot_cov_l / tot_all_l * 100.0
-    total_func_pct = tot_cov_f / tot_all_f * 100.0
-    return rows, total_line_pct, total_func_pct, "GTest Trace (MSVC)"
+        raw.append((
+            fname,
+            sum(1 for ln in lines if int(ln.attrib.get("hits", 0)) > 0),
+            len(lines),
+            sum(1 for m in methods if float(m.attrib.get("line-rate", 0)) > 0),
+            len(methods),
+        ))
+    return summarize(raw, "Cobertura XML")
 
 
 def format_pct(val):
-    return f"{int(val)} %" if abs(val - round(val)) < 1e-6 and round(val) in (0, 100) else f"{val:.1f} %"
+    if val is None:
+        return "н/д"
+    return f"{int(val)} %" if round(val) in (0, 100) and abs(val - round(val)) < 1e-6 else f"{val:.1f} %"
+
+
+def build_coverage_block(cov_data):
+    """Таблица покрытия. Если данных нет, честно сообщаем об этом (без выдуманных чисел)."""
+    if cov_data is None:
+        return (
+            "<tr><td colspan='4' class='center'>Данные покрытия не найдены. "
+            "Установите gcovr и соберите проект компилятором GCC (MinGW) с флагом "
+            "<code>--coverage</code>.</td></tr>\n"
+        ), None, None, "нет данных", "—"
+
+    rows, total_line_pct, total_func_pct, source = cov_data
+    overall = "Success" if total_line_pct >= 80.0 else "Warning"
+
+    trs = ""
+    for fname, line_pct, func_pct, st in rows:
+        badge = '<span class="badge-pass">OK</span>' if st == "OK" else '<span class="badge-fail">LOW</span>'
+        trs += (
+            f"<tr><td><code>{escape(fname)}</code></td>"
+            f"<td class='num'>{format_pct(line_pct)}</td>"
+            f"<td class='num'>{format_pct(func_pct)}</td>"
+            f"<td class='center'>{badge}</td></tr>\n"
+        )
+    trs += (
+        f"<tr class='total-row'><td><strong>Итоговый результат</strong></td>"
+        f"<td class='num'><strong>{format_pct(total_line_pct)}</strong></td>"
+        f"<td class='num'><strong>{format_pct(total_func_pct)}</strong></td>"
+        f"<td class='center'><strong style='color:#4ade80;'>{overall}</strong></td></tr>\n"
+    )
+    return trs, total_line_pct, total_func_pct, source, overall
 
 
 def main():
-    xml_path = sys.argv[1] if len(sys.argv) > 1 else "test_results.xml"
-    cov_json_path = sys.argv[2] if len(sys.argv) > 2 else "coverage.json"
-    cov_xml_path = sys.argv[3] if len(sys.argv) > 3 else "coverage.xml"
-    out_html = sys.argv[4] if len(sys.argv) > 4 else "test_report.html"
+    xml_arg = "test_results.xml"
+    json_arg = "coverage.json"
+    cobertura_arg = "coverage.xml"
+    out_arg = "test_report.html"
 
-    total, passed, failed, time_sec, cases = parse_gtest_xml(xml_path)
+    xml_count = 0
+    for arg in sys.argv[1:]:
+        suffix = Path(arg).suffix.lower()
+        if suffix == ".html":
+            out_arg = arg
+        elif suffix == ".json":
+            json_arg = arg
+        elif suffix == ".xml":
+            if xml_count == 0:
+                xml_arg = arg
+            else:
+                cobertura_arg = arg
+            xml_count += 1
+        else:
+            print(f"Ошибка: Недопустимое расширение файла '{arg}'.")
+            return 1
 
-    cov_data = (
-        parse_gcovr_json(cov_json_path)
-        or parse_cobertura_xml(cov_xml_path)
-        or fallback_coverage_from_tests(cases)
-    )
-    cov_rows, total_line_pct, total_func_pct, cov_source = cov_data
+    try:
+        xml_path = resolve_in_base(xml_arg, {".xml"})
+        json_path = resolve_in_base(json_arg, {".json"})
+        cobertura_path = resolve_in_base(cobertura_arg, {".xml"})
+        out_path = resolve_in_base(out_arg, {".html"})
+    except ValueError as error:
+        print(f"Ошибка: {error}")
+        return 1
+
+    if not xml_path.is_file():
+        print(f"Ошибка: файл с результатами тестов не найден: {xml_path.name}")
+        return 1
+
+    try:
+        total, passed, failed, time_sec, cases = parse_gtest_xml(xml_path)
+        cov_data = parse_gcovr_json(json_path) or parse_cobertura_xml(cobertura_path)
+    except (ET.ParseError, json.JSONDecodeError, OSError, ValueError) as error:
+        print(f"Ошибка чтения отчётов: {error}")
+        return 1
+
+    cov_trs, total_line_pct, total_func_pct, cov_source, _ = build_coverage_block(cov_data)
 
     status_color = "#22c55e" if failed == 0 else "#ef4444"
     status_text = "ALL TESTS PASSED" if failed == 0 else "SOME TESTS FAILED"
-    overall_cov_status = "Success" if failed == 0 and total_line_pct >= 80.0 else "Warning"
-
-    cov_trs = ""
-    for fname, line_pct, func_pct, st in cov_rows:
-        st_badge = '<span class="badge-pass">OK</span>' if st == "OK" else '<span class="badge-fail">LOW</span>'
-        cov_trs += (
-            f"<tr>"
-            f"<td><code>{fname}</code></td>"
-            f"<td class='num'>{format_pct(line_pct)}</td>"
-            f"<td class='num'>{format_pct(func_pct)}</td>"
-            f"<td class='center'>{st_badge}</td>"
-            f"</tr>\n"
-        )
-
-    cov_trs += (
-        f"<tr class='total-row'>"
-        f"<td><strong>Итоговый результат</strong></td>"
-        f"<td class='num'><strong>{format_pct(total_line_pct)}</strong></td>"
-        f"<td class='num'><strong>{format_pct(total_func_pct)}</strong></td>"
-        f"<td class='center'><strong style='color:#4ade80;'>{overall_cov_status}</strong></td>"
-        f"</tr>\n"
-    )
 
     test_trs = ""
-    for suite, name, status, ctime, _ in cases:
+    for suite, name, status, ctime in cases:
         badge = '<span class="badge-pass">PASSED</span>' if status == "PASSED" else '<span class="badge-fail">FAILED</span>'
-        test_trs += f"<tr><td>{suite}</td><td>{name}</td><td class='center'>{badge}</td><td class='num'>{ctime} с</td></tr>\n"
+        test_trs += (
+            f"<tr><td>{escape(suite)}</td><td>{escape(name)}</td>"
+            f"<td class='center'>{badge}</td><td class='num'>{escape(ctime)} с</td></tr>\n"
+        )
 
-    html = f"""<!DOCTYPE html>
+    page = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -238,13 +250,13 @@ def main():
     <div class="stat-box"><div class="stat-val" style="color:#4ade80;">{passed}</div><div class="stat-lbl">Успешно</div></div>
     <div class="stat-box"><div class="stat-val" style="color:#38bdf8;">{format_pct(total_line_pct)}</div><div class="stat-lbl">Line Coverage</div></div>
     <div class="stat-box"><div class="stat-val" style="color:#a78bfa;">{format_pct(total_func_pct)}</div><div class="stat-lbl">Func Coverage</div></div>
-    <div class="stat-box"><div class="stat-val" style="color:#fbbf24;">{time_sec} с</div><div class="stat-lbl">Время</div></div>
+    <div class="stat-box"><div class="stat-val" style="color:#fbbf24;">{escape(time_sec)} с</div><div class="stat-lbl">Время</div></div>
   </div>
 
   <div class="card">
     <h2>
       <span>Покрытие модулей тестами</span>
-      <span class="sub-tag">Инструмент: {cov_source}</span>
+      <span class="sub-tag">Инструмент: {escape(cov_source)}</span>
     </h2>
     <table>
       <thead>
@@ -281,9 +293,11 @@ def main():
 </body>
 </html>
 """
-    with open(out_html, "w", encoding="utf-8") as f:
-        f.write(html)
+    with out_path.open("w", encoding="utf-8") as f:
+        f.write(page)
+    print(f"Отчёт сохранён: {out_path.name}")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

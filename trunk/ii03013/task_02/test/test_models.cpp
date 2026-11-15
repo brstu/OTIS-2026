@@ -16,7 +16,7 @@ using ::testing::Return;
 using ::testing::_;
 
 // ============================================================================
-// 1. Тесты модуля анализа устойчивости
+// 1. Тесты модуля анализа устойчивости (StabilityAnalyzerTest)
 // ============================================================================
 TEST(StabilityAnalyzerTest, StableCoefficientsReturnTrue) {
     EXPECT_TRUE(StabilityAnalyzer::isFirstOrderLinearStable(0.0));
@@ -53,7 +53,7 @@ TEST(StabilityAnalyzerTest, ZPlaneBoundaryValuesAreNotAsymptoticallyStable) {
 }
 
 // ============================================================================
-// 2. Тесты на правильность выдаваемых значений (ручной расчёт)
+// 2. Тесты на правильность выдаваемых значений — ручной расчёт (ManualCalculationTest)
 // ============================================================================
 TEST(ManualCalculationTest, Model1_10_ExactSteps) {
     // y[t+1] = 0.5*y[t] + 2.0*u[t] - 1.0*u[t-2]
@@ -93,7 +93,7 @@ TEST(ManualCalculationTest, Model3_4_ExactSteps) {
 }
 
 // ============================================================================
-// 3. Граничные значения нелинейностей (Boundary Value Testing)
+// 3. Граничные значения нелинейностей (BoundaryValueTest)
 // ============================================================================
 TEST(BoundaryValueTest, Model2_2_SaturationThresholds) {
     const double uMin = -3.0;
@@ -113,7 +113,7 @@ TEST(BoundaryValueTest, Model2_2_SaturationThresholds) {
 }
 
 // ============================================================================
-// 4. Тесты инвариантов и физического смысла
+// 4. Тесты инвариантов и физического смысла (PhysicsAndInvariantsTest)
 // ============================================================================
 TEST(PhysicsAndInvariantsTest, ZeroInputAndZeroStateRemainAtRest) {
     Model1_10 m1(0.9, 0.5, 0.2);
@@ -145,14 +145,14 @@ TEST(PhysicsAndInvariantsTest, Model3_4_EulerMatchesAnalyticalSolution) {
     std::vector<double> u(steps + 1, 0.0);
     auto y = runSimulation(model, u, y0, dt);
 
-    double tEnd = steps * dt;
+    double tEnd = static_cast<double>(steps) * dt;
     double analyticalY = y0 / (1.0 + a * y0 * tEnd); // 2 / (1 + 1) = 1.0
 
     EXPECT_NEAR(y.back(), analyticalY, 1e-3);
 }
 
 // ============================================================================
-// 5. Параметризованные тесты сходимости шагов симуляции (TEST_P)
+// 5. Параметризованные тесты сходимости (SteadyStateCases/LinearConvergenceTest)
 // ============================================================================
 struct ConvergenceParam {
     double a1;
@@ -187,7 +187,7 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 // ============================================================================
-// 6. Тестирование режимов управления через Google Mock
+// 6. Тестирование режимов управления через Google Mock (ControlModesMockTest)
 // ============================================================================
 class MockInputSignalProvider : public IInputSignalProvider {
 public:
@@ -239,6 +239,9 @@ TEST(ControlModesMockTest, HarmonicControlModeViaMock) {
     EXPECT_DOUBLE_EQ(y[3], 0.0);
 }
 
+// ============================================================================
+// 7. Тесты стандартных генераторов сигналов и экспорта (StandardSignalsAndExportTest)
+// ============================================================================
 TEST(StandardSignalsAndExportTest, SignalGeneratorsAndHtmlReport) {
     EXPECT_DOUBLE_EQ(generateInput(InputSignalType::Constant, 5, 0.5, 3.0, 1.0), 3.0);
     EXPECT_DOUBLE_EQ(generateInput(InputSignalType::Impulse, 0, 0.0, 3.0, 1.0), 3.0);

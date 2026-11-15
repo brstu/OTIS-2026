@@ -103,9 +103,8 @@ int main() {
         u[static_cast<std::size_t>(t)] = provider.getSignal(static_cast<std::size_t>(t), t * dt);
     }
 
-    const auto y = runSimulation(*model, u, initialY, dt);
-
-    if (exportSimulationToHtml("simulation_report.html", *model, u, y, dt)) {
+    if (const auto y = runSimulation(*model, u, initialY, dt);
+        exportSimulationToHtml("simulation_report.html", *model, u, y, dt)) {
         std::cout << "Report generated: simulation_report.html\n";
 #ifdef _WIN32
         std::system("start \"\" \"simulation_report.html\"");

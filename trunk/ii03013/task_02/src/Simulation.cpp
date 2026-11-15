@@ -22,7 +22,7 @@ std::vector<double> runSimulation(
     double initialY,
     double dt
 ) {
-    std::vector<double> y(u.size(), 0.0);
+    std::vector y(u.size(), 0.0);
     if (u.empty()) {
         return y;
     }
@@ -42,7 +42,7 @@ std::vector<double> runSimulationWithProvider(
     double initialY,
     double dt
 ) {
-    std::vector<double> u(steps + 1, 0.0);
+    std::vector u(steps + 1, 0.0);
     for (std::size_t t = 0; t <= steps; ++t) {
         u[t] = provider.getSignal(t, static_cast<double>(t) * dt);
     }
@@ -74,13 +74,14 @@ bool exportSimulationToHtml(
 
     auto mapX = [&](std::size_t idx) -> double {
         if (u.size() == 1) return pad;
-        return pad + (static_cast<double>(idx) / (u.size() - 1)) * (width - 2 * pad);
+        return pad + (static_cast<double>(idx) / static_cast<double>(u.size() - 1)) * (width - 2 * pad);
     };
-    auto mapY = [&](double val) -> double {
+    auto mapY = [&](double val) {
         return (height - pad) - ((val - minVal) / (maxVal - minVal)) * (height - 2 * pad);
     };
 
-    std::ostringstream polyU, polyY;
+    std::ostringstream polyU;
+    std::ostringstream polyY;
     polyU << std::fixed << std::setprecision(2);
     polyY << std::fixed << std::setprecision(2);
 
@@ -102,17 +103,17 @@ bool exportSimulationToHtml(
 <style>
   body { font-family: 'Segoe UI', system-ui, sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 30px; }
   .container { max-width: 1000px; margin: 0 auto; }
-  .card { background: #1e293b; border-radius: 14px; padding: 24px; margin-bottom: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid #334155; }
+  .card { background:#1e293b; border-radius: 14px; padding: 24px; margin-bottom: 24px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid #334155; }
   h1 { margin: 0 0 10px 0; font-size: 24px; color: #38bdf8; }
   .badge-ok { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid #22c55e; font-weight: 600; font-size: 14px; }
   .badge-warn { display: inline-block; padding: 6px 14px; border-radius: 999px; background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid #ef4444; font-weight: 600; font-size: 14px; }
   .legend { display: flex; gap: 20px; margin: 14px 0; font-size: 14px; }
   .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 6px; }
   table { width: 100%; border-collapse: collapse; font-size: 14px; }
-  th { background: #0f172a; color: #94a3b8; text-align: right; padding: 12px; border-bottom: 2px solid #334155; }
+  th { background:#0f172a; color:#94a3b8; text-align: right; padding: 12px; border-bottom: 2px solid #334155; }
   th:first-child, td:first-child { text-align: center; }
-  td { padding: 10px 12px; border-bottom: 1px solid #334155; text-align: right; font-variant-numeric: tabular-nums; }
-  tr:hover { background: #263349; }
+  td { padding: 10px 12px; border-bottom: 1px solid#334155; text-align: right; font-variant-numeric: tabular-nums; }
+  tr:hover { background:#263349; }
 </style>
 </head>
 <body>
@@ -142,7 +143,7 @@ bool exportSimulationToHtml(
     html << std::fixed << std::setprecision(6);
     const std::size_t rows = std::min<std::size_t>(u.size(), 25);
     for (std::size_t t = 0; t < rows; ++t) {
-        html << "        <tr><td>" << t << "</td><td>" << (t * dt)
+        html << "        <tr><td>" << t << "</td><td>" << (static_cast<double>(t) * dt)
              << "</td><td>" << u[t] << "</td><td>" << y[t] << "</td></tr>\n";
     }
 

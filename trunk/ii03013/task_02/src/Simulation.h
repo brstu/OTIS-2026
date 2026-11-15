@@ -21,7 +21,7 @@ private:
     double omega;
 
 public:
-    StandardInputSignalProvider(
+    explicit StandardInputSignalProvider(
         InputSignalType type,
         double amplitude = 1.0,
         double omega = 1.0
