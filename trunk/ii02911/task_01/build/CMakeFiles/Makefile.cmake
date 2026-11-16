@@ -98,12 +98,12 @@ set(CMAKE_MAKEFILE_DEPENDS
   "C:/Program Files/CMake/share/cmake-4.4/Modules/Platform/Windows-windres.cmake"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/Platform/Windows.cmake"
   "C:/Program Files/CMake/share/cmake-4.4/Modules/Platform/WindowsPaths.cmake"
-  "C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/CMakeLists.txt"
+  "D:/OTIS-2026/trunk/ii02911/task_01/CMakeLists.txt"
   "CMakeFiles/4.4.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/4.4.3/CMakeRCCompiler.cmake"
   "CMakeFiles/4.4.3/CMakeSystem.cmake"
-  "C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/CMakeLists.txt"
-  "C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/plot.py"
+  "D:/OTIS-2026/trunk/ii02911/task_01/src/CMakeLists.txt"
+  "D:/OTIS-2026/trunk/ii02911/task_01/src/plot.py"
   )
 
 # The corresponding makefile is:

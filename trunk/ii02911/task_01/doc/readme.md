@@ -24,7 +24,7 @@
 
 ---
 
-# Вариант
+# Вариант 30
 
 - Линейная модель: **Model 1.9**
 - Нелинейная модель: **Model 2.6**
@@ -63,6 +63,40 @@
 # ООП
 
 Создан абстрактный базовый класс `Model` с виртуальным методом `calculateNext()`.
+# UML
+
+```mermaid
+classDiagram
+    class Model {
+        <<abstract>>
+        +calculateNext(y, yPrev, yPrev2, u, dt) double
+        +getName() const char*
+    }
+
+    class Model1_9 {
+        -a1 double
+        -a2 double
+        -a3 double
+        -b1 double
+        +calculateNext(...) double
+    }
+
+    class Model2_6 {
+        -a1 double
+        -a2 double
+        -b double
+        +calculateNext(...) double
+    }
+
+    class Model3_9 {
+        -b double
+        +calculateNext(...) double
+    }
+
+    Model <|-- Model1_9
+    Model <|-- Model2_6
+    Model <|-- Model3_9
+```
 
 От него наследуются:
 
@@ -72,7 +106,7 @@
 
 Для Model 1.9 дополнительно учитываются два предыдущих значения выходной величины.
 
-# Результат
+# Функционал
 
 Программа:
 
@@ -160,40 +194,7 @@ otis_task_01.exe
 
 После этого автоматически запускается `plot.py`.
 
-# UML
 
-```mermaid
-classDiagram
-    class Model {
-        <<abstract>>
-        +calculateNext(y, yPrev, yPrev2, u, dt) double
-        +getName() const char*
-    }
-
-    class Model1_9 {
-        -a1 double
-        -a2 double
-        -a3 double
-        -b1 double
-        +calculateNext(...) double
-    }
-
-    class Model2_6 {
-        -a1 double
-        -a2 double
-        -b double
-        +calculateNext(...) double
-    }
-
-    class Model3_9 {
-        -b double
-        +calculateNext(...) double
-    }
-
-    Model <|-- Model1_9
-    Model <|-- Model2_6
-    Model <|-- Model3_9
-```
 
 # Вывод
 

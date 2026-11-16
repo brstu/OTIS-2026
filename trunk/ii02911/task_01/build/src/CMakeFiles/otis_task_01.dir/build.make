@@ -52,10 +52,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01
+CMAKE_SOURCE_DIR = D:\OTIS-2026\trunk\ii02911\task_01
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build
+CMAKE_BINARY_DIR = D:\OTIS-2026\trunk\ii02911\task_01\build
 
 # Include any dependencies generated for this target.
 include src/CMakeFiles/otis_task_01.dir/depend.make
@@ -73,78 +73,78 @@ src/CMakeFiles/otis_task_01.dir/codegen:
 
 src/CMakeFiles/otis_task_01.dir/main.cpp.obj: src/CMakeFiles/otis_task_01.dir/flags.make
 src/CMakeFiles/otis_task_01.dir/main.cpp.obj: src/CMakeFiles/otis_task_01.dir/includes_CXX.rsp
-src/CMakeFiles/otis_task_01.dir/main.cpp.obj: C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/main.cpp
+src/CMakeFiles/otis_task_01.dir/main.cpp.obj: D:/OTIS-2026/trunk/ii02911/task_01/src/main.cpp
 src/CMakeFiles/otis_task_01.dir/main.cpp.obj: src/CMakeFiles/otis_task_01.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/otis_task_01.dir/main.cpp.obj"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/otis_task_01.dir/main.cpp.obj -MF CMakeFiles\otis_task_01.dir\main.cpp.obj.d -o CMakeFiles\otis_task_01.dir\main.cpp.obj -c C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object src/CMakeFiles/otis_task_01.dir/main.cpp.obj"
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/otis_task_01.dir/main.cpp.obj -MF CMakeFiles\otis_task_01.dir\main.cpp.obj.d -o CMakeFiles\otis_task_01.dir\main.cpp.obj -c D:\OTIS-2026\trunk\ii02911\task_01\src\main.cpp
 
 src/CMakeFiles/otis_task_01.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/otis_task_01.dir/main.cpp.i"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\main.cpp > CMakeFiles\otis_task_01.dir\main.cpp.i
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OTIS-2026\trunk\ii02911\task_01\src\main.cpp > CMakeFiles\otis_task_01.dir\main.cpp.i
 
 src/CMakeFiles/otis_task_01.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/otis_task_01.dir/main.cpp.s"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\main.cpp -o CMakeFiles\otis_task_01.dir\main.cpp.s
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OTIS-2026\trunk\ii02911\task_01\src\main.cpp -o CMakeFiles\otis_task_01.dir\main.cpp.s
 
 src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj: src/CMakeFiles/otis_task_01.dir/flags.make
 src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj: src/CMakeFiles/otis_task_01.dir/includes_CXX.rsp
-src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj: C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/Model1_9.cpp
+src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj: D:/OTIS-2026/trunk/ii02911/task_01/src/Model1_9.cpp
 src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj: src/CMakeFiles/otis_task_01.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj -MF CMakeFiles\otis_task_01.dir\Model1_9.cpp.obj.d -o CMakeFiles\otis_task_01.dir\Model1_9.cpp.obj -c C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\Model1_9.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj"
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj -MF CMakeFiles\otis_task_01.dir\Model1_9.cpp.obj.d -o CMakeFiles\otis_task_01.dir\Model1_9.cpp.obj -c D:\OTIS-2026\trunk\ii02911\task_01\src\Model1_9.cpp
 
 src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/otis_task_01.dir/Model1_9.cpp.i"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\Model1_9.cpp > CMakeFiles\otis_task_01.dir\Model1_9.cpp.i
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OTIS-2026\trunk\ii02911\task_01\src\Model1_9.cpp > CMakeFiles\otis_task_01.dir\Model1_9.cpp.i
 
 src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/otis_task_01.dir/Model1_9.cpp.s"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\Model1_9.cpp -o CMakeFiles\otis_task_01.dir\Model1_9.cpp.s
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OTIS-2026\trunk\ii02911\task_01\src\Model1_9.cpp -o CMakeFiles\otis_task_01.dir\Model1_9.cpp.s
 
 src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj: src/CMakeFiles/otis_task_01.dir/flags.make
 src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj: src/CMakeFiles/otis_task_01.dir/includes_CXX.rsp
-src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj: C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/Model2_6.cpp
+src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj: D:/OTIS-2026/trunk/ii02911/task_01/src/Model2_6.cpp
 src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj: src/CMakeFiles/otis_task_01.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj -MF CMakeFiles\otis_task_01.dir\Model2_6.cpp.obj.d -o CMakeFiles\otis_task_01.dir\Model2_6.cpp.obj -c C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\Model2_6.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj"
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj -MF CMakeFiles\otis_task_01.dir\Model2_6.cpp.obj.d -o CMakeFiles\otis_task_01.dir\Model2_6.cpp.obj -c D:\OTIS-2026\trunk\ii02911\task_01\src\Model2_6.cpp
 
 src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/otis_task_01.dir/Model2_6.cpp.i"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\Model2_6.cpp > CMakeFiles\otis_task_01.dir\Model2_6.cpp.i
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OTIS-2026\trunk\ii02911\task_01\src\Model2_6.cpp > CMakeFiles\otis_task_01.dir\Model2_6.cpp.i
 
 src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/otis_task_01.dir/Model2_6.cpp.s"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\Model2_6.cpp -o CMakeFiles\otis_task_01.dir\Model2_6.cpp.s
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OTIS-2026\trunk\ii02911\task_01\src\Model2_6.cpp -o CMakeFiles\otis_task_01.dir\Model2_6.cpp.s
 
 src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj: src/CMakeFiles/otis_task_01.dir/flags.make
 src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj: src/CMakeFiles/otis_task_01.dir/includes_CXX.rsp
-src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj: C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/Model3_9.cpp
+src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj: D:/OTIS-2026/trunk/ii02911/task_01/src/Model3_9.cpp
 src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj: src/CMakeFiles/otis_task_01.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj -MF CMakeFiles\otis_task_01.dir\Model3_9.cpp.obj.d -o CMakeFiles\otis_task_01.dir\Model3_9.cpp.obj -c C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\Model3_9.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj"
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj -MF CMakeFiles\otis_task_01.dir\Model3_9.cpp.obj.d -o CMakeFiles\otis_task_01.dir\Model3_9.cpp.obj -c D:\OTIS-2026\trunk\ii02911\task_01\src\Model3_9.cpp
 
 src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/otis_task_01.dir/Model3_9.cpp.i"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\Model3_9.cpp > CMakeFiles\otis_task_01.dir\Model3_9.cpp.i
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OTIS-2026\trunk\ii02911\task_01\src\Model3_9.cpp > CMakeFiles\otis_task_01.dir\Model3_9.cpp.i
 
 src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/otis_task_01.dir/Model3_9.cpp.s"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\Model3_9.cpp -o CMakeFiles\otis_task_01.dir\Model3_9.cpp.s
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OTIS-2026\trunk\ii02911\task_01\src\Model3_9.cpp -o CMakeFiles\otis_task_01.dir\Model3_9.cpp.s
 
 src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj: src/CMakeFiles/otis_task_01.dir/flags.make
 src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj: src/CMakeFiles/otis_task_01.dir/includes_CXX.rsp
-src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj: C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/InputSignal.cpp
+src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj: D:/OTIS-2026/trunk/ii02911/task_01/src/InputSignal.cpp
 src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj: src/CMakeFiles/otis_task_01.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj -MF CMakeFiles\otis_task_01.dir\InputSignal.cpp.obj.d -o CMakeFiles\otis_task_01.dir\InputSignal.cpp.obj -c C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\InputSignal.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=D:\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj"
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj -MF CMakeFiles\otis_task_01.dir\InputSignal.cpp.obj.d -o CMakeFiles\otis_task_01.dir\InputSignal.cpp.obj -c D:\OTIS-2026\trunk\ii02911\task_01\src\InputSignal.cpp
 
 src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/otis_task_01.dir/InputSignal.cpp.i"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\InputSignal.cpp > CMakeFiles\otis_task_01.dir\InputSignal.cpp.i
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E D:\OTIS-2026\trunk\ii02911\task_01\src\InputSignal.cpp > CMakeFiles\otis_task_01.dir\InputSignal.cpp.i
 
 src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/otis_task_01.dir/InputSignal.cpp.s"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src\InputSignal.cpp -o CMakeFiles\otis_task_01.dir\InputSignal.cpp.s
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && C:\msys64\ucrt64\bin\g++.exe $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S D:\OTIS-2026\trunk\ii02911\task_01\src\InputSignal.cpp -o CMakeFiles\otis_task_01.dir\InputSignal.cpp.s
 
 # Object files for target otis_task_01
 otis_task_01_OBJECTS = \
@@ -166,18 +166,18 @@ src/otis_task_01.exe: src/CMakeFiles/otis_task_01.dir/build.make
 src/otis_task_01.exe: src/CMakeFiles/otis_task_01.dir/linkLibs.rsp
 src/otis_task_01.exe: src/CMakeFiles/otis_task_01.dir/objects1.rsp
 src/otis_task_01.exe: src/CMakeFiles/otis_task_01.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable otis_task_01.exe"
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\otis_task_01.dir\link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=D:\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable otis_task_01.exe"
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles\otis_task_01.dir\link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 src/CMakeFiles/otis_task_01.dir/build: src/otis_task_01.exe
 .PHONY : src/CMakeFiles/otis_task_01.dir/build
 
 src/CMakeFiles/otis_task_01.dir/clean:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src && $(CMAKE_COMMAND) -P CMakeFiles\otis_task_01.dir\cmake_clean.cmake
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build\src && $(CMAKE_COMMAND) -P CMakeFiles\otis_task_01.dir\cmake_clean.cmake
 .PHONY : src/CMakeFiles/otis_task_01.dir/clean
 
 src/CMakeFiles/otis_task_01.dir/depend:
-	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01 C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\src C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src\CMakeFiles\otis_task_01.dir\DependInfo.cmake "--color=$(COLOR)" otis_task_01
+	$(CMAKE_COMMAND) -E cmake_depends "MinGW Makefiles" D:\OTIS-2026\trunk\ii02911\task_01 D:\OTIS-2026\trunk\ii02911\task_01\src D:\OTIS-2026\trunk\ii02911\task_01\build D:\OTIS-2026\trunk\ii02911\task_01\build\src D:\OTIS-2026\trunk\ii02911\task_01\build\src\CMakeFiles\otis_task_01.dir\DependInfo.cmake "--color=$(COLOR)" otis_task_01
 .PHONY : src/CMakeFiles/otis_task_01.dir/depend
 

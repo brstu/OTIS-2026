@@ -8,11 +8,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/InputSignal.cpp" "src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj" "gcc" "src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj.d"
-  "C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/Model1_9.cpp" "src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj" "gcc" "src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj.d"
-  "C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/Model2_6.cpp" "src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj" "gcc" "src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj.d"
-  "C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/Model3_9.cpp" "src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj" "gcc" "src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj.d"
-  "C:/Лабораторные/OTIS-2026/trunk/ii02911/task_01/src/main.cpp" "src/CMakeFiles/otis_task_01.dir/main.cpp.obj" "gcc" "src/CMakeFiles/otis_task_01.dir/main.cpp.obj.d"
+  "D:/OTIS-2026/trunk/ii02911/task_01/src/InputSignal.cpp" "src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj" "gcc" "src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj.d"
+  "D:/OTIS-2026/trunk/ii02911/task_01/src/Model1_9.cpp" "src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj" "gcc" "src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj.d"
+  "D:/OTIS-2026/trunk/ii02911/task_01/src/Model2_6.cpp" "src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj" "gcc" "src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj.d"
+  "D:/OTIS-2026/trunk/ii02911/task_01/src/Model3_9.cpp" "src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj" "gcc" "src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj.d"
+  "D:/OTIS-2026/trunk/ii02911/task_01/src/main.cpp" "src/CMakeFiles/otis_task_01.dir/main.cpp.obj" "gcc" "src/CMakeFiles/otis_task_01.dir/main.cpp.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

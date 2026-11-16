@@ -56,10 +56,10 @@ RM = "C:\Program Files\CMake\bin\cmake.exe" -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01
+CMAKE_SOURCE_DIR = D:\OTIS-2026\trunk\ii02911\task_01
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build
+CMAKE_BINARY_DIR = D:\OTIS-2026\trunk\ii02911\task_01\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -86,14 +86,14 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(CMAKE_COMMAND) -E cmake_progress_start C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\src\\CMakeFiles\progress.marks
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles 0
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(CMAKE_COMMAND) -E cmake_progress_start D:\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles D:\OTIS-2026\trunk\ii02911\task_01\build\src\\CMakeFiles\progress.marks
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/all
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\OTIS-2026\trunk\ii02911\task_01\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
 clean:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/clean
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/clean
 .PHONY : clean
 
 # The main clean target
@@ -102,22 +102,22 @@ clean/fast: clean
 
 # Prepare targets for installation.
 preinstall: all
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/preinstall
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/preinstall
 .PHONY : preinstall
 
 # Prepare targets for installation.
 preinstall/fast:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/preinstall
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/preinstall
 .PHONY : preinstall/fast
 
 # clear depends
 depend:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 1
 .PHONY : depend
 
 # Convenience name for target.
 src/CMakeFiles/otis_task_01.dir/rule:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/CMakeFiles/otis_task_01.dir/rule
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 src/CMakeFiles/otis_task_01.dir/rule
 .PHONY : src/CMakeFiles/otis_task_01.dir/rule
 
 # Convenience name for target.
@@ -126,7 +126,7 @@ otis_task_01: src/CMakeFiles/otis_task_01.dir/rule
 
 # fast build rule for target.
 otis_task_01/fast:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/build
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/build
 .PHONY : otis_task_01/fast
 
 InputSignal.obj: InputSignal.cpp.obj
@@ -134,7 +134,7 @@ InputSignal.obj: InputSignal.cpp.obj
 
 # target to build an object file
 InputSignal.cpp.obj:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.obj
 .PHONY : InputSignal.cpp.obj
 
 InputSignal.i: InputSignal.cpp.i
@@ -142,7 +142,7 @@ InputSignal.i: InputSignal.cpp.i
 
 # target to preprocess a source file
 InputSignal.cpp.i:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.i
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.i
 .PHONY : InputSignal.cpp.i
 
 InputSignal.s: InputSignal.cpp.s
@@ -150,7 +150,7 @@ InputSignal.s: InputSignal.cpp.s
 
 # target to generate assembly for a file
 InputSignal.cpp.s:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.s
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/InputSignal.cpp.s
 .PHONY : InputSignal.cpp.s
 
 Model1_9.obj: Model1_9.cpp.obj
@@ -158,7 +158,7 @@ Model1_9.obj: Model1_9.cpp.obj
 
 # target to build an object file
 Model1_9.cpp.obj:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.obj
 .PHONY : Model1_9.cpp.obj
 
 Model1_9.i: Model1_9.cpp.i
@@ -166,7 +166,7 @@ Model1_9.i: Model1_9.cpp.i
 
 # target to preprocess a source file
 Model1_9.cpp.i:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.i
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.i
 .PHONY : Model1_9.cpp.i
 
 Model1_9.s: Model1_9.cpp.s
@@ -174,7 +174,7 @@ Model1_9.s: Model1_9.cpp.s
 
 # target to generate assembly for a file
 Model1_9.cpp.s:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.s
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model1_9.cpp.s
 .PHONY : Model1_9.cpp.s
 
 Model2_6.obj: Model2_6.cpp.obj
@@ -182,7 +182,7 @@ Model2_6.obj: Model2_6.cpp.obj
 
 # target to build an object file
 Model2_6.cpp.obj:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.obj
 .PHONY : Model2_6.cpp.obj
 
 Model2_6.i: Model2_6.cpp.i
@@ -190,7 +190,7 @@ Model2_6.i: Model2_6.cpp.i
 
 # target to preprocess a source file
 Model2_6.cpp.i:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.i
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.i
 .PHONY : Model2_6.cpp.i
 
 Model2_6.s: Model2_6.cpp.s
@@ -198,7 +198,7 @@ Model2_6.s: Model2_6.cpp.s
 
 # target to generate assembly for a file
 Model2_6.cpp.s:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.s
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model2_6.cpp.s
 .PHONY : Model2_6.cpp.s
 
 Model3_9.obj: Model3_9.cpp.obj
@@ -206,7 +206,7 @@ Model3_9.obj: Model3_9.cpp.obj
 
 # target to build an object file
 Model3_9.cpp.obj:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.obj
 .PHONY : Model3_9.cpp.obj
 
 Model3_9.i: Model3_9.cpp.i
@@ -214,7 +214,7 @@ Model3_9.i: Model3_9.cpp.i
 
 # target to preprocess a source file
 Model3_9.cpp.i:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.i
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.i
 .PHONY : Model3_9.cpp.i
 
 Model3_9.s: Model3_9.cpp.s
@@ -222,7 +222,7 @@ Model3_9.s: Model3_9.cpp.s
 
 # target to generate assembly for a file
 Model3_9.cpp.s:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.s
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/Model3_9.cpp.s
 .PHONY : Model3_9.cpp.s
 
 main.obj: main.cpp.obj
@@ -230,7 +230,7 @@ main.obj: main.cpp.obj
 
 # target to build an object file
 main.cpp.obj:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/main.cpp.obj
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/main.cpp.obj
 .PHONY : main.cpp.obj
 
 main.i: main.cpp.i
@@ -238,7 +238,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/main.cpp.i
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -246,7 +246,7 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/main.cpp.s
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(MAKE) $(MAKESILENT) -f src\CMakeFiles\otis_task_01.dir\build.make src/CMakeFiles/otis_task_01.dir/main.cpp.s
 .PHONY : main.cpp.s
 
 # Help Target
@@ -284,6 +284,6 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
-	cd /d C:\Лабораторные\OTIS-2026\trunk\ii02911\task_01\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
+	cd /d D:\OTIS-2026\trunk\ii02911\task_01\build && $(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles\Makefile.cmake 0
 .PHONY : cmake_check_build_system
 
