@@ -24,6 +24,3 @@ auto Model2_3::step(double input_signal) -> double {
     return next_y;
 }
 
-auto Model2_3::reset(double init_val) -> void {
-    Model::reset(init_val);
-}

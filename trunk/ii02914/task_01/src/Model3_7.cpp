@@ -17,6 +17,3 @@ auto Model3_7::step(double input_signal) -> double {
     return next_y;
 }
 
-auto Model3_7::reset(double init_val) -> void {
-    Model::reset(init_val);
-}
