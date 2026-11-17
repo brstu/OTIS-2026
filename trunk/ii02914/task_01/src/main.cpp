@@ -1,146 +1,169 @@
-#include <iostream>
+#include <algorithm>
+#include <cstdlib>
 #include <fstream>
 #include <iomanip>
-#include <string>
-#include <sstream>
+#include <iostream>
 #include <memory>
-#include <algorithm>
+#include <sstream>
+#include <string>
+
 #include "InputSignal.h"
 #include "Model.h"
 #include "Model1_9.h"
 #include "Model2_3.h"
 #include "Model3_7.h"
 
-constexpr const char* EXPORT_FILENAME = "results.csv";
+namespace {
 
-struct SimulationContext {
-    int duration_steps{30};
-    int selected_system{1};
-    SignalType excitation_mode{SignalType::STEP};
-};
+    constexpr const char* kOutputFile = "results.csv";
+    constexpr int kDefaultSteps = 30;
 
-static double requestDouble(const char* message, double fallback) {
-    std::cout << message << " (default " << fallback << "): ";
-    if (std::string line; std::getline(std::cin, line) && !line.empty()) {
-        std::istringstream stream(line);
-        double value = 0.0;
-        if (stream >> value) {
-            return value;
+    class Session {
+    public:
+        void configure(int argc, char** argv);
+        void run() const;
+
+    private:
+        int readInteger(const char* prompt, int def, int lo, int hi) const;
+        double readDouble(const char* prompt, double def) const;
+        std::unique_ptr<Model> makeModel(std::string& name) const;
+
+        int steps_ = kDefaultSteps;
+        int model_id_ = 1;
+        SignalType wave_ = SignalType::STEP;
+    };
+
+    int Session::readInteger(const char* prompt, int def, int lo, int hi) const {
+        std::cout << prompt << " [" << def << "]: ";
+        std::string buf;
+        if (!std::getline(std::cin, buf) || buf.empty()) {
+            return def;
+        }
+        std::istringstream in(buf);
+        int v = 0;
+        if (!(in >> v)) {
+            return def;
+        }
+        if (v < lo) return lo;
+        if (v > hi) return hi;
+        return v;
+    }
+
+    double Session::readDouble(const char* prompt, double def) const {
+        std::cout << prompt << " [" << def << "]: ";
+        std::string buf;
+        if (!std::getline(std::cin, buf) || buf.empty()) {
+            return def;
+        }
+        std::istringstream in(buf);
+        double v = 0.0;
+        if (!(in >> v)) {
+            return def;
+        }
+        return v;
+    }
+
+    void Session::configure(int argc, char** argv) {
+        if (argc >= 2) {
+            std::istringstream probe(argv[1]);
+            int val = 0;
+            if (probe >> val) {
+                steps_ = std::clamp(val, 1, 1000);
+            }
+        }
+        else {
+            steps_ = readInteger("Specify simulation duration", kDefaultSteps, 1, 1000);
+        }
+
+        std::cout << "\nVariant 19 - pick a structure:\n"
+            << " 1) Model 1.9 - three-step moving average\n"
+            << " 2) Model 2.3 - dead-zone nonlinearity\n"
+            << " 3) Model 3.7 - exponential scaling process\n";
+        model_id_ = readInteger("Structure number", 1, 1, 3);
+
+        std::cout << "\nPick an input wave:\n"
+            << " 1) step\n"
+            << " 2) impulse\n"
+            << " 3) harmonic\n";
+        switch (readInteger("Wave number", 1, 1, 3)) {
+        case 2: wave_ = SignalType::IMPULSE; break;
+        case 3: wave_ = SignalType::HARMONIC; break;
+        default: wave_ = SignalType::STEP; break;
         }
     }
-    return fallback;
-}
 
-static int requestInteger(const char* message, int fallback, int min_val, int max_val) {
-    std::cout << message << " (default " << fallback << "): ";
-    if (std::string line; std::getline(std::cin, line) && !line.empty()) {
-        std::istringstream stream(line);
-        int value = 0;
-        if (stream >> value) {
-            return std::clamp(value, min_val, max_val);
+    std::unique_ptr<Model> Session::makeModel(std::string& name) const {
+        std::cout << "\n--- Parameters ---\n";
+        switch (model_id_) {
+        case 2: {
+            name = "Model 2.3";
+            const double aa = readDouble("a", 0.6);
+            const double bb = readDouble("b", 0.4);
+            const double dd = readDouble("delta", 0.2);
+            const double y0 = readDouble("y0", 0.0);
+            return std::make_unique<Model2_3>(aa, bb, dd, y0);
+        }
+        case 3: {
+            name = "Model 3.7";
+            const double aa = readDouble("a", 0.5);
+            const double bb = readDouble("b", 0.8);
+            const double dt = readDouble("dt", 0.1);
+            const double y0 = readDouble("y0", 0.0);
+            return std::make_unique<Model3_7>(aa, bb, dt, y0);
+        }
+        default: {
+            name = "Model 1.9";
+            const double c1 = readDouble("a1", 0.4);
+            const double c2 = readDouble("a2", 0.3);
+            const double c3 = readDouble("a3", 0.1);
+            const double d1 = readDouble("b1", 0.5);
+            const double y0 = readDouble("y0", 0.0);
+            return std::make_unique<Model1_9>(c1, c2, c3, d1, y0);
+        }
         }
     }
-    return fallback;
-}
 
-static SimulationContext gatherUserPreferences(int argc, char* argv[]) {
-    SimulationContext ctx;
+    void Session::run() const {
+        std::string model_name;
+        auto model = makeModel(model_name);
 
-    if (argc > 1) {
-        std::istringstream arg_stream(argv[1]);
-        int parsed_arg = 0;
-        if (arg_stream >> parsed_arg) {
-            ctx.duration_steps = std::clamp(parsed_arg, 1, 1000);
+        std::ofstream out(kOutputFile);
+        if (!out) {
+            std::cerr << "Cannot open " << kOutputFile << "\n";
+            std::exit(1);
         }
-    } else {
-        ctx.duration_steps = requestInteger("Specify simulation duration", 30, 1, 1000);
+
+        out << "step,signal,u,y,model_name\n";
+        const std::string wave_name = InputSignal::getSignalName(wave_);
+
+        std::cout << "\n============================================\n"
+            << " Simulation started\n"
+            << "============================================\n"
+            << std::setw(6) << "k"
+            << std::setw(12) << "u(k)"
+            << std::setw(16) << "y(k)" << "\n";
+
+        for (int k = 0; k < steps_; ++k) {
+            const double u = InputSignal::getSignal(wave_, k);
+            const double y = model->step(u);
+
+            std::cout << std::setw(6) << k
+                << std::fixed << std::setprecision(4)
+                << std::setw(12) << u
+                << std::setw(16) << y << "\n";
+
+            out << k << ',' << wave_name << ',' << u << ','
+                << y << ',' << model_name << '\n';
+        }
+
+        std::cout << "\nData written to " << kOutputFile << "\n";
     }
 
-    std::cout << "\nAvailable structures (Variant 19):\n"
-              << " [1] Model 1.9 (Three-Step Moving Average)\n"
-              << " [2] Model 2.3 (Dead-Zone Non-linearity)\n"
-              << " [3] Model 3.7 (Exponential Scaling Process)\n";
-    ctx.selected_system = requestInteger("Which structure?", 1, 1, 3);
+}  // namespace
 
-    std::cout << "\nAvailable signals:\n"
-              << " [1] Step function\n"
-              << " [2] Dirac impulse\n"
-              << " [3] Harmonic wave\n";
-              
-    if (const int sig_choice = requestInteger("Which signal?", 1, 1, 3); sig_choice == 2) {
-        ctx.excitation_mode = SignalType::IMPULSE;
-    } else if (sig_choice == 3) {
-        ctx.excitation_mode = SignalType::HARMONIC;
-    } else {
-        ctx.excitation_mode = SignalType::STEP;
-    }
-
-    return ctx;
-}
-
-static std::unique_ptr<Model> initializeSystem(const SimulationContext& ctx, std::string& label) {
-    std::cout << "\n--- Parameter Setup ---\n";
-    if (ctx.selected_system == 2) {
-        label = "Model 2.3";
-        const double a = requestDouble("Param a", 0.6);
-        const double b = requestDouble("Param b", 0.4);
-        const double delta = requestDouble("Dead-zone delta", 0.2);
-        const double y0 = requestDouble("Initial y0", 0.0);
-        return std::make_unique<Model2_3>(a, b, delta, y0);
-    }
-    if (ctx.selected_system == 3) {
-        label = "Model 3.7";
-        const double a = requestDouble("Param a", 0.5);
-        const double b = requestDouble("Param b", 0.8);
-        const double dt = requestDouble("Time step dt", 0.1);
-        const double y0 = requestDouble("Initial y0", 0.0);
-        return std::make_unique<Model3_7>(a, b, dt, y0);
-    }
-    
-    label = "Model 1.9";
-    const double a1 = requestDouble("Param a1", 0.4);
-    const double a2 = requestDouble("Param a2", 0.3);
-    const double a3 = requestDouble("Param a3", 0.1);
-    const double b1 = requestDouble("Param b1", 0.5);
-    const double y0 = requestDouble("Initial y0", 0.0);
-    return std::make_unique<Model1_9>(a1, a2, a3, b1, y0);
-}
-
-int main(int argc, char* argv[]) {
-    const SimulationContext config = gatherUserPreferences(argc, argv);
-    
-    std::string system_name;
-    std::unique_ptr<Model> active_system = initializeSystem(config, system_name);
-
-    std::ofstream log_file(EXPORT_FILENAME);
-    if (!log_file.is_open()) {
-        std::cerr << "Error: Could not create " << EXPORT_FILENAME << "\n";
-        return 1;
-    }
-
-    log_file << "step,signal,u,y,model_name\n";
-    const std::string waveform_name = InputSignal::getSignalName(config.excitation_mode);
-
-    std::cout << "\n============================================\n";
-    std::cout << " Process simulation initialized\n";
-    std::cout << "============================================\n";
-    std::cout << std::setw(6) << "Tick"
-              << std::setw(12) << "Input (u)"
-              << std::setw(16) << "State (y)" << "\n";
-
-    for (int k = 0; k < config.duration_steps; ++k) {
-        const double current_u = InputSignal::getSignal(config.excitation_mode, k);
-        const double current_y = active_system->step(current_u);
-
-        std::cout << std::setw(6) << k
-                  << std::fixed << std::setprecision(4)
-                  << std::setw(12) << current_u
-                  << std::setw(16) << current_y << "\n";
-
-        log_file << k << "," << waveform_name << "," << current_u << ","
-                 << current_y << "," << system_name << "\n";
-    }
-
-    std::cout << "\nSuccessfully wrote data to " << EXPORT_FILENAME << "\n";
+int main(int argc, char** argv) {
+    Session s;
+    s.configure(argc, argv);
+    s.run();
     return 0;
 }
