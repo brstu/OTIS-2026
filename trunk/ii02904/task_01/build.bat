@@ -9,9 +9,9 @@ if errorlevel 1 (
 )
 where g++ >nul 2>nul
 if errorlevel 1 (
-    cmake -S src -B build
+    cmake -S src -B build -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 ) else (
-    cmake -S src -B build -G "MinGW Makefiles"
+    cmake -S src -B build -G "MinGW Makefiles" -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 )
 if errorlevel 1 goto error
 
