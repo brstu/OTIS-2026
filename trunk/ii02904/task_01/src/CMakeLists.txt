@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15...3.30)
 
 string(REGEX MATCH "([^/]+)/([^/]+)/src$" path_match "${CMAKE_CURRENT_SOURCE_DIR}")
 if(path_match)
@@ -14,8 +14,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(${TARGET_NAME} main.cpp models.h)
 
-if(MSVC)
-    target_compile_options(${TARGET_NAME} PRIVATE /utf-8)
+if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+    target_compile_options(${TARGET_NAME} PRIVATE -Wall -Wextra -fexec-charset=UTF-8 -finput-charset=UTF-8)
+elseif(MSVC)
+    target_compile_options(${TARGET_NAME} PRIVATE /utf-8 /W4)
 endif()
-
-set_target_properties(${TARGET_NAME} PROPERTIES OUTPUT_NAME "task_01")
