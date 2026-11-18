@@ -27,12 +27,12 @@ if %errorlevel% neq 0 (
 echo.
 echo === 3. Запуск симуляции (C++) ===
 REM Ищем .exe файл в возможных папках сборки
-if exist build\lab01_ii02915.exe (
-    build\lab01_ii02915.exe
-) else if exist build\Debug\lab01_ii02915.exe (
-    build\Debug\lab01_ii02915.exe
-) else if exist build\Release\lab01_ii02915.exe (
-    build\Release\lab01_ii02915.exe
+if exist build\lab01_ii02916.exe (
+    build\lab01_ii02916.exe
+) else if exist build\Debug\lab01_ii02916.exe (
+    build\Debug\lab01_ii02916.exe
+) else if exist build\Release\lab01_ii02916.exe (
+    build\Release\lab01_ii02916.exe
 ) else (
     echo [Ошибка] Не найден скомпилированный exe-файл!
     pause
