@@ -1,26 +1,45 @@
+
 #include "Model27.h"
 
-Model27::Model27(double y0, double a_, double b_, double epsilon_)
-    : y(y0), a(a_), b(b_), epsilon(epsilon_) {
+Model27::Model27(double y0, double a, double b, double epsilon)
+    : output(y0),
+      coefficientA(a),
+      coefficientB(b),
+      threshold(epsilon)
+{
 }
 
-double Model27::relay(double u) {
-    if (u > epsilon)
-        relayState = 1;
-    else if (u < -epsilon)
-        relayState = -1;
-
-    return relayState;
+void Model27::updateRelayState(double input)
+{
+    if (input > threshold)
+    {
+        state = RelayState::Positive;
+    }
+    else if (input < -threshold)
+    {
+        state = RelayState::Negative;
+    }
 }
 
-double Model27::step(double u, int tau) {
-    (void)tau;
-
-    y = a * y + b * relay(u);
-
-    return y;
+double Model27::getRelayOutput() const
+{
+    return static_cast<double>(state);
 }
 
-double Model27::getY() const {
-    return y;
+double Model27::step(double u, int)
+{
+    updateRelayState(u);
+
+    const double relayValue = getRelayOutput();
+    const double nextOutput =
+        coefficientA * output + coefficientB * relayValue;
+
+    output = nextOutput;
+
+    return output;
+}
+
+double Model27::getY() const
+{
+    return output;
 }
