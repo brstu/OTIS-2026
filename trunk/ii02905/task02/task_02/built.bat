@@ -7,7 +7,7 @@ echo ====================================
 
 cd /d "%~dp0"
 
-cmake -S . -B build
+cmake -S . -B build -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 
 if errorlevel 1 (
     echo CMake configuration failed!
