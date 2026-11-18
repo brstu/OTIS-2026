@@ -1,18 +1,31 @@
+
 #include "Model39.h"
 #include <cmath>
 
-Model39::Model39(double y0, double b_, double dt_)
-    : y(y0), b(b_), dt(dt_) {
+Model39::Model39(double y0, double b, double dt)
+    : output(y0),
+      integrationCoefficient(b),
+      timeStep(dt)
+{
 }
 
-double Model39::step(double u, int tau) {
-    (void)tau;
+double Model39::calculateIncrement(double input) const
+{
+    const double transformedInput = std::tanh(input);
 
-    y = y + dt * b * std::tanh(u);
-
-    return y;
+    return timeStep * integrationCoefficient * transformedInput;
 }
 
-double Model39::getY() const {
-    return y;
+double Model39::step(double u, int)
+{
+    const double increment = calculateIncrement(u);
+
+    output += increment;
+
+    return output;
+}
+
+double Model39::getY() const
+{
+    return output;
 }
