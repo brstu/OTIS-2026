@@ -1,20 +1,41 @@
+
 #include "Model15.h"
 
-Model15::Model15(double y0, double a1_, double a2_, double b_, int k_, int n)
-    : y(y0), a1(a1_), a2(a2_), b(b_), k(k_), history(n + k + 2, y0) {
+Model15::Model15(double y0, double a1, double a2,
+                 double b, int k, int n)
+    : currentValue(y0),
+      firstCoefficient(a1),
+      delayedCoefficient(a2),
+      inputCoefficient(b),
+      delay(k),
+      values(n + k + 2, y0)
+{
 }
 
-double Model15::step(double u, int tau) {
-    double delayedY = (tau - k >= 0) ? history[tau - k] : history[0];
+double Model15::getDelayedValue(int tau) const
+{
+    if (tau < delay)
+        return values.front();
 
-    double newY = a1 * y + a2 * delayedY + b * u;
-
-    history[tau + 1] = newY;
-    y = newY;
-
-    return y;
+    return values[tau - delay];
 }
 
-double Model15::getY() const {
-    return y;
+double Model15::step(double u, int tau)
+{
+    const double previousValue = currentValue;
+    const double delayedValue = getDelayedValue(tau);
+
+    currentValue =
+        firstCoefficient * previousValue +
+        delayedCoefficient * delayedValue +
+        inputCoefficient * u;
+
+    values[tau + 1] = currentValue;
+
+    return currentValue;
+}
+
+double Model15::getY() const
+{
+    return currentValue;
 }
