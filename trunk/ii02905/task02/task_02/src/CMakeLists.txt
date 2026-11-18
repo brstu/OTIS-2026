@@ -1,4 +1,4 @@
-add_executable(task_02
+add_executable(task_02_var5
     main.cpp
     ApplicationLogic.cpp
     Simulation.cpp
