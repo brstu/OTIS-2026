@@ -1,79 +1,54 @@
+
 #include "StabilityAnalyzer.h"
 
 #include <cmath>
-#include <complex>
 #include <vector>
-
-using namespace std;
+#include <algorithm>
 
 bool StabilityAnalyzer::isStable(double a1, double a2, int k)
 {
-    if (k < 1)
+    if (k < 1 || !std::isfinite(a1) || !std::isfinite(a2))
         return false;
 
-    // Characteristic equation:
-    // z^(k+1) - a1 * z^k - a2 = 0
+    std::vector<double> coefficients(k + 2, 0.0);
 
-    const int n = k + 1;
-    const double PI = acos(-1.0);
+    coefficients[0] = 1.0;
+    coefficients[1] = -a1;
+    coefficients[k + 1] = -a2;
 
-    vector<complex<double>> roots(n);
+    const double epsilon = 1e-10;
 
-    // Initial approximation of roots
-    double radius = 1.0 + abs(a1) + abs(a2);
-
-    for (int i = 0; i < n; i++)
+    while (coefficients.size() > 1)
     {
-        double angle = 2.0 * PI * i / n + 0.25;
+        int n = static_cast<int>(coefficients.size()) - 1;
 
-        roots[i] = polar(radius, angle);
-    }
+        double first = coefficients.front();
+        double last = coefficients.back();
 
-    // Polynomial calculation using Horner's method
-    auto polynomial = [&](complex<double> z)
-    {
-        return pow(z, k + 1) - a1 * pow(z, k) - a2;
-    };
-
-    // Durand-Kerner method
-    for (int iteration = 0; iteration < 1000; iteration++)
-    {
-        double maxChange = 0.0;
-
-        vector<complex<double>> newRoots = roots;
-
-        for (int i = 0; i < n; i++)
+        if (std::abs(first) <= epsilon ||
+            std::abs(last) >= std::abs(first) - epsilon)
         {
-            complex<double> denominator(1.0, 0.0);
-
-            for (int j = 0; j < n; j++)
-            {
-                if (i != j)
-                    denominator *= roots[i] - roots[j];
-            }
-
-            if (abs(denominator) < 1e-14)
-                return false;
-
-            complex<double> correction =
-                polynomial(roots[i]) / denominator;
-
-            newRoots[i] = roots[i] - correction;
-
-            maxChange = max(maxChange, abs(correction));
+            return false;
         }
 
-        roots = newRoots;
+        std::vector<double> reduced(n);
 
-        if (maxChange < 1e-10)
-            break;
-    }
+        for (int i = 0; i < n; ++i)
+        {
+            reduced[i] =
+                first * coefficients[i] -
+                last * coefficients[n - i];
+        }
 
-    // All roots must be inside the unit circle
-    for (const auto& root : roots)
-    {
-        if (abs(root) >= 1.0 - 1e-9)
+        double scale = std::abs(reduced.front());
+
+        if (scale <= epsilon)
             return false;
+
+        for (double& value : reduced)
+            value /= scale;
+
+        coefficients = reduced;
     }
 
     return true;
