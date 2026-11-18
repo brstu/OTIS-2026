@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 4.5)
 project(task_01 CXX)
 
 # Требуем стандарт C++17 (обязательно для init-statement в if/switch)
