@@ -75,7 +75,7 @@ static int readChoice(const std::string& prompt, int lo, int hi) {
 
 int main() {
     std::cout << "===========================================\n";
-    std::cout << " Lab #1 (OTIS) - ii02914\n";
+    std::cout << " Lab #1 (OTIS) - ii02926\n";
     std::cout << " Modeling of a controlled object\n";
     std::cout << "===========================================\n\n";
 

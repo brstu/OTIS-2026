@@ -2,7 +2,7 @@
 setlocal
 cd /d "%~dp0"
 
-echo  Building ii02914 / task_01
+echo  Building ii02926 / task_01
 echo.
 
 REM --- 1. Проверка CMake в PATH (или подключение Visual Studio 2022) ---
@@ -54,12 +54,12 @@ echo.
 echo [3/4] Running simulation...
 if exist "result.csv" del /q "result.csv"
 
-if exist "build\src\Release\ii02914_task_01.exe" (
-    "build\src\Release\ii02914_task_01.exe"
-) else if exist "build\src\ii02914_task_01.exe" (
-    "build\src\ii02914_task_01.exe"
+if exist "build\src\Release\ii02926_task_01.exe" (
+    "build\src\Release\ii02926_task_01.exe"
+) else if exist "build\src\ii02926_task_01.exe" (
+    "build\src\ii02926_task_01.exe"
 ) else (
-    echo [ERROR] Executable ii02914_task_01.exe not found!
+    echo [ERROR] Executable ii02926_task_01.exe not found!
     pause
     exit /b 1
 )

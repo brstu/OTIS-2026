@@ -212,7 +212,7 @@ $$\boxed{|1 - a \cdot \Delta t| < 1 \iff 0 < a \cdot \Delta t < 2}$$
 ## 8. Приложения
 
 ### 8.1. Ссылки на исходный код
-Все файлы расположены в каталоге `trunk/ii02914/task_01/`:
+Все файлы расположены в каталоге `trunk/ii02926/task_01/`:
 * `Model.h` — [src/Model.h](../src/Model.h)
 * `Model1_7.h` — [src/Model1_7.h](../src/Model1_7.h)
 * `Model2_9.h` — [src/Model2_9.h](../src/Model2_9.h)
