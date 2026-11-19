@@ -11,7 +11,9 @@
 using namespace std;
 
 int main() {
-    int input_type, steps, model_type;
+    int input_type;
+    int steps;
+    int model_type;
     double u_const = 0.0;
 
     cout << "Выберите входное воздействие (0-const, 1-импульс, 2-sin): ";
@@ -25,7 +27,10 @@ int main() {
     cin >> model_type;
 
     if (model_type == 0) {
-        double a, b1, b2, b3;
+        double a;
+        double b1;
+        double b2;
+        double b3;
         cout << "Введите a, b1, b2, b3: ";
         cin >> a >> b1 >> b2 >> b3;
 
@@ -40,7 +45,10 @@ int main() {
         Plotter::plot_csv("linear_model.csv", "linear_model.plt", "linear_model.png", "Linear model", true);
     }
     else if (model_type == 1) {
-        double a, b, c, d;
+        double a;
+        double b;
+        double c;
+        double d;
         cout << "Введите a, b, c, d: ";
         cin >> a >> b >> c >> d;
         Non_linear_Model m(a, b, c, d, input_type, u_const);

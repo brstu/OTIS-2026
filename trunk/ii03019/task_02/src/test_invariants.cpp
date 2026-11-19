@@ -11,7 +11,8 @@ TEST(InvariantsTest, ZeroInputZeroState) {
 }
 
 TEST(BoundaryValueTest, EulerIntegrationStep) {
-    double b = 1.0, dt = 0.1;
+    double b = 1.0;
+    double dt = 0.1;
     Simple_Differential_Equation m(b, dt, 0, M_PI / 2.0); 
     EXPECT_DOUBLE_EQ(m.NextStep(), 0.1);
     EXPECT_DOUBLE_EQ(m.NextStep(), 0.2);
