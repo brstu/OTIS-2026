@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../task_01/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 
-# Собираем только новые файлы из второй лабы
+# Собираем файлы из src напрямую (без add_subdirectory)
 file(GLOB LR2_SOURCES "src/*.cpp")
 add_library(lab2_lib STATIC ${LR2_SOURCES})
 
