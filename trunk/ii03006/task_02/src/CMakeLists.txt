@@ -20,7 +20,7 @@ target_compile_options(models PRIVATE -Wall -Wextra -Wpedantic)
 target_include_directories(models PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
     target_compile_options(models PRIVATE
-        $<$<CONFIG:Debug>:-fprofile-arcs -ftest-coverage>
+        $<$<CONFIG:Debug>:-fprofile-arcs -ftest-coverage -ffile-prefix-map=${CMAKE_CURRENT_SOURCE_DIR}=src>
     )
 endif()
 
