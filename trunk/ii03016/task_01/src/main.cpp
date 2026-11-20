@@ -9,7 +9,7 @@
 
 // Линейная модель (вариант 1.10) 
 LineModel_1_10::LineModel_1_10(double a1_, double b1_, double b2_)
-    : a1(a1_), b1(b1_), b2(b2_), y(0.0), u_prev1(0.0), u_prev2(0.0) {}
+    : a1(a1_), b1(b1_), b2(b2_) {}
 
 void LineModel_1_10::reset() {
     y = 0.0;
@@ -31,7 +31,7 @@ const char* LineModel_1_10::name() {
 
 // Нелинейная модель (вариант 2.5) 
 NonlinearModel_2_5::NonlinearModel_2_5(double a_, double b_)
-    : a(a_), b(b_), y(0.0) {}
+    : a(a_), b(b_) {}
 
 void NonlinearModel_2_5::reset() {
     y = 0.0;
@@ -54,7 +54,7 @@ const char* NonlinearModel_2_5::name() {
 
 // Дифференциальное уравнение(выриант 3.10)
 Diff_3_10::Diff_3_10(double a_, double b_, double dt_)
-    : a(a_), b(b_), dt(dt_), y(0.0) {}
+    : a(a_), b(b_), dt(dt_) {}
 
 void Diff_3_10::reset() {
     y = 0.0;

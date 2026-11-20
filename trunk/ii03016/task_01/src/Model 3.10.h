@@ -8,7 +8,7 @@ private:
     double a;
     double b;
     double dt;
-    double y;
+    double y = 0.0;
 
 public:
     Diff_3_10(double a_, double b_, double dt_);
