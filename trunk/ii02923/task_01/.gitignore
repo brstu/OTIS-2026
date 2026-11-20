@@ -1,0 +1,22 @@
+# Сборочные артефакты
+build/
+build-*/
+out/
+
+# Данные графиков и временные файлы
+build/plot_data/
+*.exe
+*.obj
+*.o
+*.pdb
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Среда разработки
+.vs/
+.vscode/
+*.user
+*.suo
