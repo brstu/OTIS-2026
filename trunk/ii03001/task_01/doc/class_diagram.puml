@@ -1,0 +1,44 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+abstract class Model {
+  +next(y: double, u: double, t: int): double
+  +name(): string
+  +hasLinearStabilityCheck(): bool
+  +isStable(): bool
+}
+
+class FirstOrderModel {
+  -a: double
+  -b: double
+  +next(y: double, u: double, t: int): double
+  +name(): string
+  +hasLinearStabilityCheck(): bool
+  +isStable(): bool
+}
+
+class DeadZoneModel {
+  -a: double
+  -b: double
+  -delta: double
+  +next(y: double, u: double, t: int): double
+  +name(): string
+}
+
+class HarmonicForceModel {
+  -b: double
+  -dt: double
+  +next(y: double, u: double, t: int): double
+  +name(): string
+}
+
+Model <|-- FirstOrderModel
+Model <|-- DeadZoneModel
+Model <|-- HarmonicForceModel
+
+note right of Model
+  Абстрактный базовый класс.
+  Метод next() переопределяется
+  в каждом классе-наследнике.
+end note
+@enduml
