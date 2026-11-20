@@ -1,3 +1,0 @@
-D:\VSCODE\ucrt64\bin\cmake.exe -E rm -f CMakeFiles\task_01.dir/objects.a
-D:\VSCODE\ucrt64\bin\ar.exe qc CMakeFiles\task_01.dir/objects.a @CMakeFiles\task_01.dir\objects1.rsp
-D:\VSCODE\ucrt64\bin\c++.exe -Wl,--whole-archive CMakeFiles\task_01.dir/objects.a -Wl,--no-whole-archive -o task_01.exe -Wl,--out-implib,libtask_01.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\task_01.dir\linkLibs.rsp
