@@ -1,0 +1,15 @@
+build/
+results/
+*.csv
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+.DS_Store
+.github/
+ПОДРОБНОЕ_ОБЪЯСНЕНИЕ.md
+НАСТРОЙКА_GITHUB_PAGES.md
