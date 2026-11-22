@@ -9,6 +9,7 @@
 #include <iomanip>
 #include <iostream>
 #include <memory>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 
@@ -26,13 +27,13 @@ double readNumber(const std::string& prompt)
             std::exit(1);
         }
         std::replace(line.begin(), line.end(), ',', '.');
-        try {
-            const double value = std::stod(line);
-            if (std::isfinite(value)) {
+        std::istringstream input(line);
+        double value = 0.0;
+        if (input >> value) {
+            input >> std::ws;
+            if (input.eof() && std::isfinite(value)) {
                 return value;
             }
-        } catch (const std::invalid_argument&) {
-        } catch (const std::out_of_range&) {
         }
         std::cout << "Нужно ввести конечное число, попробуйте ещё раз.\n";
     }
@@ -41,8 +42,8 @@ double readNumber(const std::string& prompt)
 int readInt(const std::string& prompt, int minimum, int maximum)
 {
     while (true) {
-        const double value = readNumber(prompt);
-        if (value >= minimum && value <= maximum && std::floor(value) == value) {
+        if (const double value = readNumber(prompt);
+            value >= minimum && value <= maximum && std::floor(value) == value) {
             return static_cast<int>(value);
         }
         std::cout << "Число должно быть целым от " << minimum << " до " << maximum << ".\n";
