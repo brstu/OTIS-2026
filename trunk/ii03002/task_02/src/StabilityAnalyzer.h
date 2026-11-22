@@ -7,9 +7,8 @@
 #include <limits>
 #include <ostream>
 
-// Model1_9 recurrence:
-// y[k+1] = a1*y[k] + a2*y[k-1] + a3*y[k-2] + b1*u[k]
-// Characteristic polynomial: z^3 - a1*z^2 - a2*z - a3 = 0.
+// Stability is determined from the roots of the characteristic polynomial
+// associated with the third-order recurrence of Model1_9.
 struct StabilityResult {
     std::array<std::complex<double>, 3> roots{};
     double max_modulus{0.0};
@@ -17,6 +16,19 @@ struct StabilityResult {
 };
 
 namespace stability_detail {
+inline std::complex<double> rootDenominator(
+    const std::array<std::complex<double>, 3>& roots,
+    std::size_t root_index) {
+    std::complex<double> denominator{1.0, 0.0};
+    for (std::size_t index = 0; index < roots.size(); ++index) {
+        if (index == root_index) {
+            continue;
+        }
+        denominator *= roots[root_index] - roots[index];
+    }
+    return denominator;
+}
+
 inline std::array<std::complex<double>, 3> cubicRoots(double a1, double a2, double a3) {
     using Complex = std::complex<double>;
     // Durand-Kerner iteration for the monic cubic. Three distinct initial
@@ -39,10 +51,7 @@ inline std::array<std::complex<double>, 3> cubicRoots(double a1, double a2, doub
         double largest_delta = 0.0;
         auto next = roots;
         for (std::size_t i = 0; i < roots.size(); ++i) {
-            Complex denominator{1.0, 0.0};
-            for (std::size_t j = 0; j < roots.size(); ++j) {
-                if (i != j) denominator *= (roots[i] - roots[j]);
-            }
+            Complex denominator = rootDenominator(roots, i);
             if (std::abs(denominator) < 1e-24) denominator += Complex{1e-12, 1e-12};
             const Complex delta = polynomial(roots[i]) / denominator;
             next[i] = roots[i] - delta;
