@@ -28,8 +28,7 @@ double readNumber(const std::string& prompt)
         }
         std::replace(line.begin(), line.end(), ',', '.');
         std::istringstream input(line);
-        double value = 0.0;
-        if (input >> value) {
+        if (double value = 0.0; input >> value) {
             input >> std::ws;
             if (input.eof() && std::isfinite(value)) {
                 return value;
