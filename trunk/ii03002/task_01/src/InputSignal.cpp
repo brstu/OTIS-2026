@@ -17,14 +17,10 @@ double InputSignal::getSignal(SignalType sig_type, int time_index) {
 }
 
 std::string InputSignal::getSignalName(SignalType sig_type) {
-    static constexpr std::array<const char*, 3> names = {
-        "Step",
-        "Impulse",
-        "Harmonic"
-    };
-
-    if (const auto idx = static_cast<size_t>(sig_type); idx < names.size()) {
-        return names[idx];
+    switch (sig_type) {
+        case SignalType::STEP: return "Step";
+        case SignalType::IMPULSE: return "Impulse";
+        case SignalType::HARMONIC: return "Harmonic";
+        default: return "Unknown";
     }
-    return "Unknown";
 }
