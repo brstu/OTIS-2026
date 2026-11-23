@@ -12,7 +12,7 @@ cmake --build .
 echo =========================================
 echo  Running Google Test...
 echo =========================================
-.\test\run_tests.exe
+.\run_tests.exe
 
 cd ..
 pause

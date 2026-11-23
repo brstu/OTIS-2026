@@ -119,3 +119,17 @@ TEST(Model310, EulerVsAnalytic) {
     double analytical = std::exp(-a * 1.0);
     EXPECT_NEAR(y, analytical, 1e-3);
 }
+
+TEST(ModelDeadZone, CoverageComplete) {
+    DeadZoneModel m(0.5, 1.0, 0.2); 
+    
+    // Вызываем step, чтобы задеть математику
+    EXPECT_DOUBLE_EQ(m.step(0.5), 0.3); 
+    
+    // ВОТ ОНО! Вызываем reset() для покрытия строки 13
+    m.reset();
+    EXPECT_DOUBLE_EQ(m.step(0.0), 0.0);
+    
+    // Вызываем name()
+    EXPECT_STREQ(m.name(), "Dead Zone Model"); 
+}
