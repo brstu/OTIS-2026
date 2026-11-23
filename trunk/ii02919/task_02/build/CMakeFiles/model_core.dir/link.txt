@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmodel_core.a CMakeFiles/model_core.dir/src/MultiStepModel.cpp.o CMakeFiles/model_core.dir/src/QuadraticFeedback.cpp.o CMakeFiles/model_core.dir/src/HarmonicODE.cpp.o CMakeFiles/model_core.dir/src/InputSignal.cpp.o CMakeFiles/model_core.dir/src/ProcessFactory.cpp.o CMakeFiles/model_core.dir/src/StabilityAnalyzer.cpp.o
+/usr/bin/ranlib libmodel_core.a

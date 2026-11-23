@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names --coverage CMakeFiles/unit_tests.dir/test/ModelTests.cpp.o CMakeFiles/unit_tests.dir/test/StabilityTests.cpp.o CMakeFiles/unit_tests.dir/test/ParameterizedTests.cpp.o -o unit_tests  libmodel_core.a lib/libgtest_main.a lib/libgtest.a

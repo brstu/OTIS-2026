@@ -1,0 +1,5 @@
+if(EXISTS "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests_e3b0c442_tests.cmake")
+  include("/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests_e3b0c442_tests.cmake")
+else()
+  add_test(unit_tests_NOT_BUILT unit_tests_NOT_BUILT)
+endif()

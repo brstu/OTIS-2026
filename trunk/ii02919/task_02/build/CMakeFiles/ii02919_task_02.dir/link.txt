@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -arch arm64 -Wl,-search_paths_first -Wl,-headerpad_max_install_names --coverage CMakeFiles/ii02919_task_02.dir/src/main.cpp.o -o ii02919_task_02  libmodel_core.a

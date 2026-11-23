@@ -1,0 +1,30 @@
+MultiStepModelTest.ComputesKnownSequenceAndUsesTwoStepInputHistory 2 0.0137373
+MultiStepModelTest.ResetClearsOutputAndInputHistory 2 0.00576702
+QuadraticFeedbackTest.ComputesKnownValuesIncludingDelayedSine 2 0.00555148
+QuadraticFeedbackTest.ZeroInputAndZeroInitialStateRemainAtRest 2 0.00540756
+QuadraticFeedbackTest.ResetClearsDelayedState 2 0.00488983
+HarmonicODETest.EulerStepMatchesHandCalculation 2 0.00522575
+HarmonicODETest.ZeroInputKeepsZeroState 2 0.00533525
+HarmonicODETest.ResetReturnsStateToZero 2 0.00536965
+InputSignalTest.StepSignalIsConstantAtAnyStep 2 0.00516992
+InputSignalTest.ImpulseIsOneOnlyAtStepOne 2 0.00538515
+InputSignalTest.SinusoidMatchesSine 2 0.00524635
+ProcessFactoryTest.CreatesAllThreeModelsAndRejectsInvalidChoice 2 0.00526065
+StabilityAnalyzerTest.StableRootInsideUnitCircle 2 0.00523215
+StabilityAnalyzerTest.NegativeStableRootInsideUnitCircle 2 0.00501144
+StabilityAnalyzerTest.UnitCircleBoundaryAtPositiveOne 2 0.00552181
+StabilityAnalyzerTest.UnitCircleBoundaryAtNegativeOne 2 0.00542006
+StabilityAnalyzerTest.RootOutsideUnitCircleIsUnstable 2 0.00527798
+StabilityAnalyzerTest.RejectsNonFiniteCoefficient 2 0.00547706
+MultiStepModelStabilityTest.ExposesWarningForUnstableParameters 2 0.00546421
+MultiStepModelStabilityTest.NoWarningForStableParameters 2 0.00573156
+VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0, 1, 2) 2 0.00585552
+VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.4, 2, -1.5) 2 0.00518227
+VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.8, 0.5, 4) 2 0.00552623
+VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.99, 3, 0.25) 2 0.00508823
+VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.99, -2, -3) 2 0.00526798
+VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(1, 0.1, 0.5) 2 0.00538873
+VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(2, 0.01, 1) 2 0.00559375
+VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(-1.5, 0.2, -0.75) 2 0.00541606
+VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(0, 0.05, 2) 2 0.0051961
+---
