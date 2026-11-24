@@ -197,9 +197,9 @@ int main() {
         // Stability analysis - before the simulation starts
         std::string info;
         const bool stable = model->isStable(info);
-        const std::string report = StabilityAnalyzer::report(stable, info);
-        if (!report.empty()) std::cout << "\n" << report << "\n";
-
+        if (const std::string report = StabilityAnalyzer::report(stable, info);!report.empty()) {
+            std::cout << "\n" << report << "\n";
+        }
         const std::vector<Row> rows = simulate(*model, *input, n);
 
         printTable(rows);
