@@ -15,13 +15,17 @@ public:
 };
 
 struct Model1_1StepParams {
-    double a, b, y_tau, u_tau, expected_y;
+	double a;
+	double b;
+	double y_tau;
+	double u_tau;
+	double expected_y;
 };
 
 class Model1_1StepTest : public ::testing::TestWithParam<Model1_1StepParams> {};
 
 TEST_P(Model1_1StepTest, CalculatesStepCorrectly) {
-    auto p = GetParam();
+    const auto& p = GetParam();
     model1_1 m(p.a, p.b);
     EXPECT_DOUBLE_EQ(m.step(p.y_tau, p.u_tau), p.expected_y);
 }
@@ -36,14 +40,15 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 struct Model1_1StabilityParams {
-    double a, b;
+    double a;
+	double b;
     bool expected_stable;
 };
 
 class Model1_1StabilityTest : public ::testing::TestWithParam<Model1_1StabilityParams> {};
 
 TEST_P(Model1_1StabilityTest, ChecksStability) {
-    auto p = GetParam();
+    const auto& p = GetParam();
     model1_1 m(p.a, p.b);
     EXPECT_EQ(m.isStable(), p.expected_stable);
 }
@@ -60,13 +65,18 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 struct Model2_3StepParams {
-    double a, b, delta, y_tau, u_tau, expected_y;
+    double a;
+	double b;
+	double delta;
+	double y_tau;
+	double u_tau;
+	double expected_y;
 };
 
 class Model2_3StepTest : public ::testing::TestWithParam<Model2_3StepParams> {};
 
 TEST_P(Model2_3StepTest, CalculatesStepCorrectly) {
-    auto p = GetParam();
+    const auto& p = GetParam();
     model2_3 m(p.a, p.b, p.delta);
     EXPECT_DOUBLE_EQ(m.step(p.y_tau, p.u_tau), p.expected_y);
 }
@@ -82,13 +92,16 @@ INSTANTIATE_TEST_SUITE_P(
 );
 
 struct Model3_5StepParams {
-    double b, dt, y_tau, u_tau, expected_y;
+    double b;
+	double dt;
+	double y_tau;
+	double expected_y;
 };
 
 class Model3_5StepTest : public ::testing::TestWithParam<Model3_5StepParams> {};
 
 TEST_P(Model3_5StepTest, CalculatesStepCorrectly) {
-    auto p = GetParam();
+    const auto& p = GetParam();
     model3_5 m(p.b, p.dt);
     EXPECT_DOUBLE_EQ(m.step(p.y_tau, p.u_tau), p.expected_y);
 }
