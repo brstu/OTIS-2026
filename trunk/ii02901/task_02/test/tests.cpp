@@ -95,6 +95,7 @@ struct Model3_5StepParams {
     double b;
 	double dt;
 	double y_tau;
+	double u_tau;
 	double expected_y;
 };
 
