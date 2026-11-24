@@ -55,7 +55,7 @@ std::unique_ptr<Model> makeModel(int choice, std::istream& in, std::ostream& out
 int runApplication(std::istream& in, std::ostream& out, const std::string& csvPath) {
     try {
         out << "===========================================\n"
-            << " Lab #2 (OTIS) - ii02914\n"
+            << " Lab #2 (OTIS) - ii02926\n"
             << " Modeling of a controlled object + stability\n"
             << "===========================================\n\n";
 

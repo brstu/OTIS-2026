@@ -3,7 +3,7 @@ setlocal EnableExtensions
 cd /d "%~dp0"
 
 echo ==========================================================
-echo  ii02914 / task_02 : build, unit tests, coverage
+echo  ii02926 / task_02 : build, unit tests, coverage
 echo ==========================================================
 echo.
 
