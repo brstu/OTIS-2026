@@ -194,12 +194,12 @@ int main() {
         std::unique_ptr<InputSignal> input = createInput();
         int n = readInt("\nNumber of simulation steps n", 30, 1, 100000);
 
-        // Stability analysis - before the simulation starts
+        // Stability analysis check before simulation 
         std::string info;
         const bool stable = model->isStable(info);
-        const std::string report = StabilityAnalyzer::report(stable, info);
-        if (!report.empty()) std::cout << "\n" << report << "\n";
-
+        if ( const std::string report = StabilityAnalyzer::report(stable, info);!report.empty()) {
+            std::cout << "\n" << report << "\n";
+        }
         const std::vector<Row> rows = simulate(*model, *input, n);
 
         printTable(rows);
