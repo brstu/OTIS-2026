@@ -1,8 +1,11 @@
 #include <gtest/gtest.h>
-#include "../src/Model1_4.h"
-#include "../src/Model2_8.h"
-#include "../src/Model3_2.h"
+#include <cmath>
 
+#include "InputSignal.h"
+#include "Model.h"
+#include "Model1_4.h"
+#include "Model2_8.h"
+#include "Model3_2.h"
 // ==========================================
 // 1-й Test Suite: ModelTests (6 тестов)
 // ==========================================
@@ -77,7 +80,3 @@ TEST(SignalTests, HarmonicImpact) {
 }
 
 // Главная функция запуска тестов
-int main(int argc, char **argv) {
-    ::testing::InitGoogleTest(&argc, argv);
-    return RUN_ALL_TESTS();
-}

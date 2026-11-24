@@ -1,29 +1,31 @@
 @echo off
-chcp 65001 >nul
+setlocal
+
+set "TASK02_DIR=%~dp0"
+set "BUILD_DIR=%TASK02_DIR%build_local"
+
 echo ==========================================
-echo COMPILING PROJECT AND RUNNING TESTS:
+echo CONFIGURING AND COMPILING TESTS:
 echo ==========================================
+cmake -S "%TASK02_DIR%src" -B "%BUILD_DIR%"
+if errorlevel 1 exit /b 1
 
-if not exist build mkdir build
-cd build
+cmake --build "%BUILD_DIR%" --target ii02917_task02_tests --config Release
+if errorlevel 1 exit /b 1
 
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug ..
-cmake --build .
-
-echo.
 echo ==========================================
 echo RUNNING GOOGLE TESTS:
 echo ==========================================
+if exist "%BUILD_DIR%\Release\ii02917_task02_tests.exe" (
+  "%BUILD_DIR%\Release\ii02917_task02_tests.exe"
+) else if exist "%BUILD_DIR%\ii02917_task02_tests.exe" (
+  "%BUILD_DIR%\ii02917_task02_tests.exe"
+) else (
+  ctest --test-dir "%BUILD_DIR%" -C Release --output-on-failure
+)
+if errorlevel 1 exit /b 1
 
-REM Запускаем скомпилированный файл тестов напрямую для получения подробного лога [ RUN ] / [ OK ]
-unit_tests.exe
-
-echo.
 echo ==========================================
-echo GENERATING CODE COVERAGE REPORT:
+echo DONE
 echo ==========================================
-
-python -m gcovr -r .. --object-directory=. --print-summary --exclude ".*main\.cpp" --exclude ".*_deps.*"
-
-cd ..
-pause
+endlocal
