@@ -1,224 +1,204 @@
-// Task 02, variant 3: Model 1.3 / Model 2.5 / Model 3.7
-// The user chooses ONE model, enters all parameters, the number of steps n and the input signal.
-// Results: table in console + separate CSV file for each run (modelXX_<input>.csv, columns t,u,y)
-// + automatic plot/table window (Python, plot.py).
-#include <cmath>
-#include <cstdlib>
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <memory>
-#include <sstream>
-#include <stdexcept>
-#include <string>
-#include <string_view>
-#include <vector>
+Аня:
+#include <cmath>
+#include <cstdlib>
+#include <fstream>
+#include <iomanip>
+#include <iostream>
+#include <memory>
+#include <string>
+#include <string_view>
+#include <vector>
 
-#include "models.h"
-#include "signals.h"
-#include "simulation.h"
-#include "stability.h"
+#include "models.h"
+#include "signals.h"
+#include "simulation.h"
+#include "stability.h"
 
-namespace {
+namespace app {
 
-std::string trim(std::string_view s) {
-    size_t b = s.find_first_not_of(" \t\r\n");
-    if (b == std::string_view::npos) return "";
-    size_t e = s.find_last_not_of(" \t\r\n");
-    return std::string(s.substr(b, e - b + 1));
+std::string cleanup(std::string_view text) {
+auto begin = text.find_first_not_of(" \t\r\n");
+if (begin == std::string_view::npos) return {};
+auto end = text.find_last_not_of(" \t\r\n");
+return std::string(text.substr(begin, end - begin + 1));
 }
 
-// Converts text to a finite real number. Returns false if the text is not a valid number.
-bool parseDouble(const std::string& s, double& out) {
-    try {
-        size_t pos = 0;
-        double v = std::stod(s, &pos);
-        if (pos != s.size() || !std::isfinite(v)) return false;
-        out = v;
-        return true;
-    } catch (const std::invalid_argument&) {
-        return false;  // not a number at all
-    } catch (const std::out_of_range&) {
-        return false;  // number is too large
-    }
+bool convert_to_double(const std::string& source, double& target) {
+try {
+size_t processed = 0;
+double value = std::stod(source, &processed);
+if (processed != source.size() || !std::isfinite(value)) return false;
+target = value;
+return true;
+} catch (...) {
+return false;
+}
 }
 
-// Converts text to an integer from lo to hi. Returns false if the text is not valid.
-bool parseInt(const std::string& s, int lo, int hi, int& out) {
-    try {
-        size_t pos = 0;
-        int v = std::stoi(s, &pos);
-        if (pos != s.size() || v < lo || v > hi) return false;
-        out = v;
-        return true;
-    } catch (const std::invalid_argument&) {
-        return false;
-    } catch (const std::out_of_range&) {
-        return false;
-    }
+bool convert_to_int(const std::string& source, int min_v, int max_v, int& target) {
+try {
+size_t processed = 0;
+int value = std::stoi(source, &processed);
+if (processed != source.size()  value < min_v  value > max_v) return false;
+target = value;
+return true;
+} catch (...) {
+return false;
+}
 }
 
-// Reads a real number. Enter = default value. Both '.' and ',' are accepted.
-double readDouble(const std::string& prompt, double def) {
-    for (;;) {
-        std::cout << prompt << " [" << def << "]: ";
-        std::string s;
-        if (!std::getline(std::cin, s)) std::exit(0);
-        s = trim(s);
-        if (s.empty()) return def;
-        for (char& c : s) if (c == ',') c = '.';
-        if (double v = 0.0; parseDouble(s, v)) return v;
-        std::cout << "  Invalid number, try again.\n";
-    }
+double request_real(const char* title, double preset) {
+while (true) {
+std::cout << title << " {" << preset << "}: ";
+std::string line;
+if (!std::getline(std::cin, line)) std::exit(0);
+line = cleanup(line);
+if (line.empty()) return preset;
+for (char& symbol : line) if (symbol == ',') symbol = '.';
+double number;
+if (convert_to_double(line, number)) return number;
+std::cout << " неверный формат\n";
+}
 }
 
-int readInt(const std::string& prompt, int def, int lo, int hi) {
-    for (;;) {
-        std::cout << prompt << " [" << def << "]: ";
-        std::string s;
-        if (!std::getline(std::cin, s)) std::exit(0);
-        s = trim(s);
-        if (s.empty()) return def;
-        if (int v = 0; parseInt(s, lo, hi, v)) return v;
-        std::cout << "  Enter an integer from " << lo << " to " << hi << ".\n";
-    }
+int request_whole(const char* title, int preset, int min_v, int max_v) {
+while (true) {
+std::cout << title << " {" << preset << "}: ";
+std::string line;
+if (!std::getline(std::cin, line)) std::exit(0);
+line = cleanup(line);
+if (line.empty()) return preset;
+int number;
+if (convert_to_int(line, min_v, max_v, number)) return number;
+std::cout << " целое число от " << min_v << " до " << max_v << "\n";
+}
 }
 
-std::string csvNum(double v) {
-    if (!std::isfinite(v)) return "nan";
-    std::ostringstream os;
-    os << std::setprecision(10) << v;
-    return os.str();
+std::unique_ptr<Model> assemble_model(int code) {
+if (code == 1) {
+return std::make_unique<LinearModel13>(
+request_real("a1", 0.42),
+request_real("a2", 0.18),
+request_real("b", 1.0),
+request_real("y0", 0.0));
+}
+if (code == 2) {
+return std::make_unique<NonlinearModel25>(
+request_real("a", 0.65),
+request_real("b", 1.1),
+request_real("y0", 0.0));
+}
+return std::make_unique<DiffModel37>(
+request_real("a", 0.45),
+request_real("b", 1.0),
+request_real("dt", 0.07),
+request_real("y0", 0.0));
 }
 
-std::unique_ptr<Model> createModel(int choice) {
-    std::cout << "\n--- Model parameters ---\n";
-    switch (choice) {
-        case 1: {
-            std::cout << "y(t+1) = a1*y(t) + a2*y(t-1) + b*u(t)\n";
-            double a1 = readDouble("a1", 0.9);
-            double a2 = readDouble("a2", -0.2);
-            double b = readDouble("b", 0.5);
-            double y0 = readDouble("initial value y(0)", 0.0);
-            return std::make_unique<LinearModel13>(a1, a2, b, y0);
-        }
-        case 2: {
-            std::cout << "y(t+1) = a*y(t) + b*sign(u(t))*(1 - exp(-|u(t)|))\n";
-            double a = readDouble("a", 0.8);
-            double b = readDouble("b", 1.0);
-            double y0 = readDouble("initial value y(0)", 0.0);
-            return std::make_unique<NonlinearModel25>(a, b, y0);
-        }
-        default: {
-            std::cout << "dy/dt = -exp(a*y) + b*u   (Euler method)\n";
-            double a = readDouble("a", 0.5);
-            double b = readDouble("b", 2.0);
-            double dt = readDouble("time step dt", 0.1);
-            while (dt <= 0.0) dt = readDouble("dt must be > 0, time step dt", 0.1);
-            double y0 = readDouble("initial value y(0)", 0.0);
-            return std::make_unique<DiffModel37>(a, b, dt, y0);
-        }
-    }
+std::unique_ptr<InputSignal> assemble_signal() {
+std::cout << "\nФорма входа:\n"
+<< " 1 константа\n"
+<< " 2 импульс\n"
+<< " 3 синус\n";
+int form = request_whole("выбор", 1, 1, 3);
+if (form == 1) {
+return std::make_unique<StepInput>(request_real("уровень", 1.0));
+}
+if (form == 2) {
+return std::make_unique<ImpulseInput>();
+}
+return std::make_unique<HarmonicInput>();
 }
 
-std::unique_ptr<InputSignal> createInput() {
-    std::cout << "\n--- Input signal ---\n"
-              << "  1 - step      (u = const)\n"
-              << "  2 - impulse   (u0 = 1, u>0 = 0)\n"
-              << "  3 - harmonic  (u = sin(tau))\n";
-    int c = readInt("Choose input signal", 1, 1, 3);
-    if (c == 1) return std::make_unique<StepInput>(readDouble("step value u", 1.0));
-    if (c == 2) return std::make_unique<ImpulseInput>();
-    return std::make_unique<HarmonicInput>();
+void display_rows(const std::vector<Row>& collection) {
+std::cout << "\n step time input output\n";
+std::cout << "------------------------------------------\n";
+for (const auto& entry : collection) {
+std::cout << std::setw(5) << entry.tau
+<< std::setw(11) << entry.t
+<< std::setw(12) << entry.u
+<< std::setw(12) << entry.y << "\n";
+}
 }
 
-void printRow(const Row& r) {
-    std::cout << std::setw(6) << r.tau << std::setw(12) << r.t << std::setw(14) << r.u
-              << std::setw(16) << r.y << "\n";
+void persist_csv(const std::string& destination, const std::string& description,
+
+Аня:
+const std::vector<Row>& collection) {
+std::ofstream sink(destination);
+if (!sink) return;
+sink << "# " << description << "\n";
+sink << "t,u,y\n";
+for (const auto& entry : collection) {
+sink << entry.t << "," << entry.u << "," << entry.y << "\n";
+}
 }
 
-void printTable(const std::vector<Row>& rows) {
-    std::cout << "\n" << std::setw(6) << "tau" << std::setw(12) << "t" << std::setw(14) << "u"
-              << std::setw(16) << "y" << "\n"
-              << std::string(48, '-') << "\n";
-    std::cout << std::setprecision(6);
-    const size_t full = 40;
-    if (rows.size() <= full) {
-        for (const Row& r : rows) printRow(r);
-    } else {
-        for (size_t i = 0; i < 20; ++i) printRow(rows[i]);
-        std::cout << "   ... (" << rows.size() - 25 << " rows hidden, all of them are in the CSV file)\n";
-        for (size_t i = rows.size() - 5; i < rows.size(); ++i) printRow(rows[i]);
-    }
-}
-
-void saveCsv(const std::string& file, const std::string& title, const std::vector<Row>& rows) {
-    std::ofstream f(file);
-    f << "# " << title << "\n";
-    f << "t,u,y\n";
-    for (const Row& r : rows)
-        f << csvNum(r.t) << "," << csvNum(r.u) << "," << csvNum(r.y) << "\n";
-}
-
-// Starts Python, which shows the plot and the table in a window by itself.
-void showPlot(const std::string& csv) {
-#ifdef _WIN32
-    std::string cmd = "python plot.py " + csv + " || py plot.py " + csv;
+void attempt_visualization(const std::string& csv_path) {
+#ifdef _WIN32
+std::string order = "python plot.py \"" + csv_path + "\" || py plot.py \"" + csv_path + "\"";
 #else
-    std::string cmd = "python3 plot.py " + csv;
+std::string order = "python3 plot.py \"" + csv_path + "\"";
 #endif
-    std::cout << "\nOpening plot window (close it to continue)...\n";
-    int rc = std::system(cmd.c_str());
-    if (rc != 0)
-        std::cout << "Could not start the plot. Install Python and matplotlib:\n"
-                  << "    pip install matplotlib\n"
-                  << "(the data is still saved in " << csv << ")\n";
+std::cout << "\nПробую показать график...\n";
+if (std::system(order.c_str()) != 0) {
+std::cout << "График недоступен. Данные лежат в " << csv_path << "\n";
+}
 }
 
-}  // namespace
+} // namespace app
 
 int main() {
-    std::cout << std::setprecision(6);
-    for (;;) {
-        std::cout << "\n==============================================\n"
-                  << " Task 02, variant 3 - simulation of models\n"
-                  << "==============================================\n"
-                  << "  1 - Model 1.3  (linear, 2nd order)\n"
-                  << "  2 - Model 2.5  (non-linear, sign * (1 - exp(-|u|)))\n"
-                  << "  3 - Model 3.7  (differential equation, Euler method)\n"
-                  << "  0 - Exit\n";
-        int choice = readInt("Choose model", 1, 0, 3);
-        if (choice == 0) break;
+using namespace app;
+std::cout << std::fixed << std::setprecision(5);
 
-        std::unique_ptr<Model> model = createModel(choice);
-        std::unique_ptr<InputSignal> input = createInput();
-        int n = readInt("\nNumber of simulation steps n", 30, 1, 100000);
+while (true) {
+std::cout << "\n====================================\n"
+<< " ЛР-2 | Вариант 3 | Моделирование\n"
+<< "====================================\n"
+<< "1 Линейная (1.3)\n"
+<< "2 Нелинейная (2.5)\n"
+<< "3 Дифференциальная (3.7)\n"
+<< "0 Завершить\n";
 
-        // Stability analysis - before the simulation starts
-        std::string info;
-        const bool stable = model->isStable(info);
-        if (  const std::string report = StabilityAnalyzer::report(stable, info); !report.empty()) {
-          std::cout << "\n" << report << "\n";
-        }
-        const std::vector<Row> rows = simulate(*model, *input, n);
+int decision = request_whole("пункт", 1, 0, 3);
+if (decision == 0) break;
 
-        printTable(rows);
+auto system = assemble_model(decision);
+auto excitation = assemble_signal();
+int length = request_whole("длина серии", 40, 1, 100000);
 
-        bool diverged = false;
-        for (const Row& r : rows)
-            if (!std::isfinite(r.y) || std::fabs(r.y) > 1e6) diverged = true;
-        if (diverged)
-            std::cout << "\nNote: the values grew without limit (or overflowed) - the process diverges.\n";
+std::string comment;
+bool accepted = system->isStable(comment);
+if (const std::string summary = StabilityAnalyzer::report(accepted, comment);
+!summary.empty()) {
+std::cout << "\n" << summary << "\n";
+}
 
-        std::string title = model->name() + " | " + model->params() + " | input: " + input->name() +
-                            " | n=" + std::to_string(n);
-        // separate CSV file for every run, e.g. model13_step.csv
-        std::string csvName = model->tag() + "_" + input->tag() + ".csv";
-        saveCsv(csvName, title, rows);
-        std::cout << "\nResults saved to " << csvName << "\n";
+auto series = simulate(*system, *excitation, length);
+display_rows(series);
 
-        showPlot(csvName);
-    }
-    std::cout << "Bye!\n";
-    return 0;
+bool unbounded = false;
+for (const auto& point : series) {
+if (!std::isfinite(point.y) || std::fabs(point.y) > 1e6) {
+unbounded = true;
+break;
+}
+}
+if (unbounded) {
+std::cout << "\n[предупреждение] обнаружена расходимость\n";
+}
+
+std::string label = system->name() + " :: " + system->params() +
+" :: " + excitation->name() +
+" :: N=" + std::to_string(length);
+std::string output_name = system->tag() + "_" + excitation->tag() + "_run.csv";
+persist_csv(output_name, label, series);
+std::cout << "Файл сохранён: " << output_name << "\n";
+
+attempt_visualization(output_name);
+}
+
+std::cout << "\nСеанс завершён.\n";
+return 0;
 }
