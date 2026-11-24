@@ -2,7 +2,7 @@
 #include "model.h"
 
 model1_1::model1_1(double coeff_a, double coeff_b)
-    : b(coeff_b), a(coeff_a) {}
+    : a(coeff_a), b(coeff_b) {}
 
 double model1_1::step(double prev_output, double prev_input) {
     const double feedback_term = a * prev_output;
@@ -25,7 +25,7 @@ double model2_3::deadzone(double u) const {
 }
 
 model2_3::model2_3(double coeff_a, double coeff_b, double deadzone_width)
-    : delta(deadzone_width), b(coeff_b), a(coeff_a) {}
+    : a(coeff_a), b(coeff_b), delta(deadzone_width)  {}
 
 double model2_3::step(double prev_output, double prev_input) {
     const double filtered_input = deadzone(prev_input);
@@ -35,7 +35,7 @@ double model2_3::step(double prev_output, double prev_input) {
 }
 
 model3_5::model3_5(double coefficient_b, double time_step)
-    : dt(time_step), b(coefficient_b) {}
+    : b(coefficient_b), dt(time_step) {}
 
 double model3_5::step(double prev_output, double prev_input) {
     const double harmonic_component = std::sin(prev_input);
