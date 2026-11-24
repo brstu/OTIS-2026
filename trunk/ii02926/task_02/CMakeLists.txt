@@ -12,8 +12,8 @@ add_subdirectory(src)
 
 if(OTIS_ENABLE_COVERAGE)
     # Инструментируем только свой код (библиотеку и тесты), не GoogleTest.
-    target_compile_options(otis_core PUBLIC --coverage -O0 -g)
-    target_link_options(otis_core PUBLIC --coverage)
+    target_compile_options(ii02926_task_02_core PUBLIC --coverage -O0 -g)
+    target_link_options(ii02926_task_02_core PUBLIC --coverage)
 endif()
 
 if(OTIS_BUILD_TESTS)

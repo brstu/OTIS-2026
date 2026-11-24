@@ -91,7 +91,7 @@ REM ---------- 4. Tests ----------
 echo.
 echo [3/4] Running Google Test...
 del /s /q "build_tests\*.gcda" >nul 2>&1
-"build_tests\test\otis_tests.exe" --gtest_output=xml:build_tests\test-report.xml > "build_tests\test-output.txt" 2>&1
+"build_tests\test\ii02926_task_02_tests.exe" --gtest_output=xml:build_tests\test-report.xml > "build_tests\test-output.txt" 2>&1
 set "TEST_RC=%ERRORLEVEL%"
 type "build_tests\test-output.txt"
 

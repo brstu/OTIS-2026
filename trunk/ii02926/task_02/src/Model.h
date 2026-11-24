@@ -1,13 +1,17 @@
-#pragma once
+#ifndef OTIS_II02926_TASK02_MODEL_H
+#define OTIS_II02926_TASK02_MODEL_H
 
 #include <string>
 
 class Model {
 public:
-    virtual ~Model() = default;
+    using StateValue = double;
+    using ControlValue = double;
 
-    // Один шаг симуляции: вход u, выход y
-    virtual double next(double u) = 0;
+    virtual ~Model() noexcept = default;
+
+    // Один шаг симуляции: вход controlInput, выход y
+    virtual StateValue next(ControlValue controlInput) = 0;
 
     // Сброс состояния модели
     virtual void reset() = 0;
@@ -16,8 +20,18 @@ public:
     virtual std::string name() const = 0;
 
     // Проверка устойчивости (Advanced)
-    virtual bool isStable() const { return true; }
+    virtual bool isStable() const;
 
     // Текст предупреждения о неустойчивости
-    virtual std::string stabilityWarning() const { return ""; }
+    virtual std::string stabilityWarning() const;
 };
+
+inline bool Model::isStable() const {
+    return true;
+}
+
+inline std::string Model::stabilityWarning() const {
+    return "";
+}
+
+#endif // OTIS_II02926_TASK02_MODEL_H

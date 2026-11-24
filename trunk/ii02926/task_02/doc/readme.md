@@ -62,7 +62,7 @@ $$\boxed{|1 - a\,\Delta t| < 1 \iff 0 < a\,\Delta t < 2}$$
 
 | Изменение | Зачем |
 |---|---|
-| Логика вынесена из `main` в библиотеку `otis_core` (`Simulation`, `Report`, `ConsoleInput`, `Application`) | тесты линкуются с библиотекой; `main.cpp` лишь вызывает `runApplication` |
+| Логика вынесена из `main` в библиотеку `ii02926_task_02_core` (`Simulation`, `Report`, `ConsoleInput`, `Application`) | тесты линкуются с библиотекой; `main.cpp` лишь вызывает `runApplication` |
 | `simulate(Model&, const InputSignal&, n)` без ввода-вывода | проверка шагов симуляции и подмена сигнала через Google Mock |
 | Ввод принимает `std::istream` / `std::ostream` | сценарий программы целиком тестируется через `stringstream` |
 | `StabilityAnalyzer` вместо логики внутри моделей | отдельный проверяемый модуль анализа устойчивости |
