@@ -12,17 +12,15 @@
  */
 class PID {
 private:
-    double Kp;       ///< Пропорциональный коэффициент
-    double Ki;       ///< Интегральный коэффициент
-    double Kd;       ///< Дифференциальный коэффициент
-    double dt;       ///< Шаг квантования по времени (T0)
-    
-    double max_u;    ///< Максимальное ограничение управляющего сигнала (для Anti-windup)
-    double min_u;    ///< Минимальное ограничение управляющего сигнала
-
-    double prev_error;   ///< Ошибка на предыдущем шаге e(k-1)
-    double prev_error2;  ///< Ошибка на шаге k-2
-    double integral;     ///< Накопленная сумма ошибок (интеграл)
+    double Kp;
+    double Ki;
+    double Kd;
+    double dt;
+    double min_u;
+    double max_u;
+    double prev_error = 0.0;
+    double prev_error2 = 0.0;
+    double integral = 0.0;
 
 public:
     /**

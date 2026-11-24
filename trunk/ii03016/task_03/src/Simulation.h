@@ -31,7 +31,7 @@ public:
      * @param plant_type Тип объекта управления.
      * @param dt_ Шаг времени.
      */
-    Simulation(PlantType plant_type, double dt_ = 0.1);
+    explicit Simulation(PlantType plant_type, double dt_ = 0.1);
 
     /**
      * @brief Запуск симуляции в режиме А (фиксированное число шагов).

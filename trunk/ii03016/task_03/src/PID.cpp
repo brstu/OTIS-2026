@@ -4,9 +4,9 @@
 /**
  * @brief Конструктор ПИД-регулятора.
  */
-PID::PID(double Kp_, double Ki_, double Kd_, double dt_, double min_u_, double max_u_)
-    : Kp(Kp_), Ki(Ki_), Kd(Kd_), dt(dt_), min_u(min_u_), max_u(max_u_),
-      prev_error(0.0), prev_error2(0.0), integral(0.0) {}
+PID::PID::PID(double Kp_, double Ki_, double Kd_, double dt_, double min_u_, double max_u_)
+    : Kp(Kp_), Ki(Ki_), Kd(Kd_), dt(dt_), min_u(min_u_), max_u(max_u_) {}
+
 
 /**
  * @brief Сброс состояния регулятора.

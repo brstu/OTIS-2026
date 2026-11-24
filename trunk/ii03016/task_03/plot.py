@@ -35,3 +35,6 @@ ax2.grid(True)
 plt.tight_layout()
 plt.savefig(output_name, dpi=150)
 print(f"\n[OK] График автоматически сохранён в: {output_name}")
+
+# Сразу показываем окно с графиком на экране
+plt.show()
