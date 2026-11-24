@@ -2,50 +2,45 @@
 
 class model {
 public:
-	virtual ~model() = default;
-	virtual double step(double y_tau, double u_tau) = 0;
-	virtual bool isStable() const { return true; }
-};
+    virtual ~model() noexcept = default;
 
-class model1_1 : public model {
-private:
+    virtual bool isStable() const {
+        return true;
+    }
 
-	double a;
-	double b;
-
-public:
-
-	model1_1(double a, double b);
-	double step(double y_tau, double u_tau) override;
-	bool isStable() const override;
-
-};
-
-class model2_3 : public model {
-private:
-
-	double a;
-	double b;
-	double delta;
-
-	double deadzone(double u) const;
-
-public:
-
-	model2_3(double a, double b, double delta);
-	double step(double y_tau, double u_tau) override;
-
+    virtual double step(double previous_y, double previous_u) = 0;
 };
 
 class model3_5 : public model {
-private:
-
-	double b;
-	double dt;
-
 public:
+    model3_5(double b, double dt);
+    double step(double previous_y, double previous_u) override;
 
-	model3_5(double b, double dt);
-	double step(double y_tau, double u_tau) override;
+private:
+    double b;
+    double dt;
+};
 
+class model2_3 : public model {
+public:
+    model2_3(double a, double b, double delta);
+    double step(double previous_y, double previous_u) override;
+
+private:
+    double deadzone(double u) const;
+    double a;
+    double b;
+    double delta;
+};
+
+class model1_1 : public model {
+public:
+    model1_1(double a, double b);
+
+    bool isStable() const override;
+    double step(double previous_y, double previous_u) override;
+
+private:
+    double a;
+    double b;
 };
