@@ -267,3 +267,4 @@ TEST(ModelNameTests, QuadraticDecayModelName) {
     QuadraticDecayModel model(0.1, 0.01, 1.0);
     EXPECT_EQ(model.name(), "Model_3_4_QuadraticDecay");
 }
+
