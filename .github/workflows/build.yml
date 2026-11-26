@@ -22,7 +22,8 @@ jobs:
       - name: Run Build Wrapper
         run: |
           mkdir build
-          cmake . -B build
+          # Добавлен флаг для обхода ошибки CMake < 3.5
+          cmake -S trunk/ii03026/task_01/src -B build -DCMAKE_POLICY_VERSION_MINIMUM=3.5
           build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
