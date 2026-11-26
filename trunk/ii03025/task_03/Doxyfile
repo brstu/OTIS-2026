@@ -1,0 +1,24 @@
+PROJECT_NAME           = "OTIS Lab 3 - PID Controller"
+PROJECT_NUMBER         = 1.0
+PROJECT_BRIEF          = "Система автоматического управления с ПИД-регулятором"
+
+OUTPUT_DIRECTORY       = doc
+
+INPUT                  = src
+FILE_PATTERNS          = *.h *.cpp
+RECURSIVE              = YES
+
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = YES
+EXTRACT_STATIC         = YES
+
+GENERATE_HTML          = YES
+HTML_OUTPUT            = html
+GENERATE_LATEX         = NO
+GENERATE_TREEVIEW      = YES
+
+SHOW_FILES             = YES
+SHOW_NAMESPACES        = YES
+
+QUIET                  = NO
+WARNINGS               = YES
