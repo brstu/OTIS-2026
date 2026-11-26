@@ -1,0 +1,22 @@
+build/
+results/
+# Build directories
+build/
+build-gcc/
+
+# Generated reports
+results/
+
+# Compiler artifacts
+*.gcda
+*.gcno
+*.gcov
+*.o
+*.exe
+*.dll
+*.pdb
+*.obj
+
+# Temporary files
+*.tmp
+*.log
