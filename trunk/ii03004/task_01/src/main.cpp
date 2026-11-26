@@ -1,270 +1,151 @@
-#include <cmath>
-#include <cstdlib>
-#include <fstream>
 #include <iostream>
-#include <memory>
+#include <iomanip>
+#include <fstream>
 #include <sstream>
-#include <string>
 #include <vector>
+#include <memory>
+#include <string>
+#include "models.h"
 
-#ifdef _WIN32
-#include <windows.h>
-#endif
+// Прогоняет одну модель с одним входом n шагов, печатает таблицу и пишет в CSV
+void simulate(Model& model, const Input& input, int n, std::ofstream& csv) {
+    model.reset();
+    std::cout << "\n=== " << model.name() << " | input: " << input.name() << " ===\n";
+    std::cout << std::setw(6) << "tau" << std::setw(12) << "u" << std::setw(14) << "y" << "\n";
+    std::cout << std::string(32, '-') << "\n";
 
-#include "DiffEquations.h"
-#include "InputSignal.h"
-#include "LinearModels.h"
-#include "Model.h"
-#include "NonLinearModels.h"
-#include "Simulator.h"
+    for (int tau = 0; tau < n; ++tau) {
+        double u = input.value(tau);
+        double y = model.next(u);
 
-namespace
-{
-
-// Параметры по умолчанию (подобраны так, чтобы все процессы были устойчивыми).
-struct Defaults
-{
-    // Model 1.4
-    static constexpr double a14 = 0.8;
-    static constexpr double b14 = 1.0;
-    // Model 2.6
-    static constexpr double a1_26 = 0.1;
-    static constexpr double a2_26 = 0.3;
-    static constexpr double b26 = 0.5;
-    // Model 3.8
-    static constexpr double a1_38 = 0.5;
-    static constexpr double a2_38 = 0.1;
-    static constexpr double b38 = 1.0;
-    static constexpr double dt38 = 0.1;
-
-    static constexpr int n = 30;
-    static constexpr double y0 = 0.0;
-    static constexpr double amplitude = 1.0;
-};
-
-// Чтение строки; пустой ввод (Enter) возвращает значение по умолчанию.
-double readDouble(const std::string& prompt, double def)
-{
-    while (true)
-    {
-        std::cout << prompt << " [" << def << "]: ";
-        std::string line;
-        if (!std::getline(std::cin, line))
-            return def;
-        if (line.empty())
-            return def;
-
-        std::istringstream in(line);
-        if (double value = 0.0; in >> value && std::isfinite(value))
-            return value;
-
-        std::cout << "Ошибка ввода, введите число.\n";
+        std::cout << std::setw(6) << tau
+                  << std::setw(12) << std::fixed << std::setprecision(4) << u
+                  << std::setw(14) << y << "\n";
+        csv << model.name() << "," << input.name() << "," << tau << "," << u << "," << y << "\n";
     }
 }
 
-int readInt(const std::string& prompt, int def, int minValue, int maxValue)
-{
-    while (true)
-    {
-        std::cout << prompt << " [" << def << "]: ";
-        std::string line;
-        if (!std::getline(std::cin, line))
-            return def;
-        if (line.empty())
-            return def;
-
-        std::istringstream in(line);
-        if (int value = 0; in >> value && value >= minValue && value <= maxValue)
-            return value;
-
-        std::cout << "Ошибка ввода, введите целое число от " << minValue
-                  << " до " << maxValue << ".\n";
+// Читает дробное число. Пустой ввод (просто Enter) или ошибка -> значение по умолчанию
+double readDouble(const std::string& prompt, double fallback) {
+    std::cout << "  " << prompt << " [" << fallback << "]: ";
+    std::string line;
+    if (!std::getline(std::cin, line) || line.empty()) {
+        return fallback;
     }
+    std::istringstream stream(line);
+    double value = 0.0;
+    if (!(stream >> value)) {
+        std::cout << "  Invalid number, using " << fallback << "\n";
+        return fallback;
+    }
+    return value;
 }
 
-std::unique_ptr<Model> createModel(int choice, bool askParams)
-{
-    switch (choice)
-    {
-    case 1:
-    {
-        double a = Defaults::a14;
-        double b = Defaults::b14;
-        if (askParams)
-        {
-            a = readDouble("a", a);
-            b = readDouble("b", b);
+// Читает целое число из диапазона [low, high]. Пустой ввод или ошибка -> значение по умолчанию
+int readInt(const std::string& prompt, int low, int high, int fallback) {
+    std::cout << prompt << " [" << fallback << "]: ";
+    std::string line;
+    if (!std::getline(std::cin, line) || line.empty()) {
+        return fallback;
+    }
+    std::istringstream stream(line);
+    int value = 0;
+    if (!(stream >> value) || value < low || value > high) {
+        std::cout << "Invalid input, using " << fallback << "\n";
+        return fallback;
+    }
+    return value;
+}
+
+int main() {
+    std::cout << "Select model:\n"
+              << "  1 - Model 1.10 (linear)\n"
+              << "  2 - Model 2.4 (nonlinear)\n"
+              << "  3 - Model 3.8 (differential, Euler)\n"
+              << "  4 - all models\n";
+    int modelChoice = readInt("Your choice", 1, 4, 4);
+
+    std::cout << "\nSelect input signal:\n"
+              << "  1 - step      u = c\n"
+              << "  2 - impulse   u(0) = 1, then 0\n"
+              << "  3 - harmonic  u = sin(tau)\n"
+              << "  4 - all inputs\n";
+    int inputChoice = readInt("Your choice", 1, 4, 4);
+
+    int n = readInt("\nNumber of simulation steps n", 1, 100000, 20);
+
+    std::cout << "\nEnter values (press Enter to keep the default in brackets):\n";
+    double y0 = readDouble("initial value y0", 0.0);
+
+    double stepLevel = 1.0;
+    if (inputChoice == 1 || inputChoice == 4) {
+        stepLevel = readDouble("step level c", 1.0);
+    }
+
+    bool useLinear = modelChoice == 1 || modelChoice == 4;
+    bool useNonlinear = modelChoice == 2 || modelChoice == 4;
+    bool useDiff = modelChoice == 3 || modelChoice == 4;
+
+    double la1 = 0.7;
+    double lb1 = 0.5;
+    double lb2 = 0.3;
+    if (useLinear) {
+        std::cout << " Model 1.10: y(t+1) = a1*y(t) + b1*u(t) + b2*u(t-2)\n";
+        la1 = readDouble("a1", la1);
+        lb1 = readDouble("b1", lb1);
+        lb2 = readDouble("b2", lb2);
+    }
+
+    double na = 0.8;
+    double nb = 0.5;
+    if (useNonlinear) {
+        std::cout << " Model 2.4: y(t+1) = a*y(t)*cos(y(t)) + b*ln(1 + |u(t)|)\n";
+        na = readDouble("a", na);
+        nb = readDouble("b", nb);
+    }
+
+    double da1 = 0.5;
+    double da2 = 0.1;
+    double db = 1.0;
+    double dt = 0.1;
+    if (useDiff) {
+        std::cout << " Model 3.8: dy/dt = -a1*y - a2*y^2 + b*u  (Euler, step dt)\n";
+        da1 = readDouble("a1", da1);
+        da2 = readDouble("a2", da2);
+        db = readDouble("b", db);
+        dt = readDouble("dt", dt);
+    }
+
+    LinearModel linear(la1, lb1, lb2, y0);
+    NonlinearModel nonlinear(na, nb, y0);
+    DiffModel diff(da1, da2, db, dt, y0);
+
+    //  проверка устойчивости линейной модели перед симуляцией
+    if (useLinear) {
+        if (!linear.isStable()) {
+            std::cout << "\nWARNING: root of characteristic equation z = " << linear.root()
+                      << ", |z| >= 1 -> system is UNSTABLE (process will diverge)!\n";
+        } else {
+            std::cout << "\nRoot z = " << linear.root() << ", |z| < 1 -> system is stable.\n";
         }
-        return std::make_unique<Model1_4>(a, b);
-    }
-    case 2:
-    {
-        double a1 = Defaults::a1_26;
-        double a2 = Defaults::a2_26;
-        double b = Defaults::b26;
-        if (askParams)
-        {
-            a1 = readDouble("a1", a1);
-            a2 = readDouble("a2", a2);
-            b = readDouble("b", b);
-        }
-        return std::make_unique<Model2_6>(a1, a2, b);
-    }
-    default:
-    {
-        double a1 = Defaults::a1_38;
-        double a2 = Defaults::a2_38;
-        double b = Defaults::b38;
-        double dt = Defaults::dt38;
-        if (askParams)
-        {
-            a1 = readDouble("a1", a1);
-            a2 = readDouble("a2", a2);
-            b = readDouble("b", b);
-            dt = readDouble("dt (шаг интегрирования)", dt);
-        }
-        return std::make_unique<Model3_8>(a1, a2, b, dt);
-    }
-    }
-}
-
-std::unique_ptr<InputSignal> createSignal(int choice, double amplitude)
-{
-    switch (choice)
-    {
-    case 1: return std::make_unique<StepSignal>(amplitude);
-    case 2: return std::make_unique<ImpulseSignal>(amplitude);
-    default: return std::make_unique<HarmonicSignal>(amplitude);
-    }
-}
-
-// Имя модели для файлов результатов. Номер проверяется через switch,
-// поэтому выход за границы невозможен.
-std::string modelId(int modelChoice)
-{
-    switch (modelChoice)
-    {
-    case 1: return "model_1_4";
-    case 2: return "model_2_6";
-    default: return "model_3_8";
-    }
-}
-
-// Возвращает имя CSV-файла с результатом.
-std::string simulateAndSave(int modelChoice, Model& model,
-                            const InputSignal& signal, int n, double y0)
-{
-    std::cout << "\n============================================\n";
-    std::cout << model.name() << "\n" << model.formula() << '\n';
-    std::cout << "Входное воздействие: " << signal.name() << '\n';
-
-    if (const auto* linear = dynamic_cast<const Model1_4*>(&model))
-    {
-        if (!linear->isStable())
-            std::cout << "ВНИМАНИЕ: |a| >= 1, корень характеристического "
-                         "уравнения z = a вне единичного круга - "
-                         "процесс неустойчив!\n";
-    }
-    std::cout << "--------------------------------------------\n";
-
-    const auto rows = Simulator::run(model, signal, n, y0);
-    Simulator::printTable(rows);
-
-    const std::string file = modelId(modelChoice) + "_" + signal.id() + ".csv";
-    if (Simulator::saveCsv(rows, file))
-        std::cout << "Сохранено в " << file << '\n';
-    return file;
-}
-
-// Без аргумента plot.py строит графики всех моделей,
-// с именем файла - один график только для этого файла.
-void runPlot(const std::string& csvFile = "")
-{
-    if (!std::ifstream("plot.py"))
-    {
-        std::cout << "\nplot.py не найден рядом с программой, "
-                     "графики не построены.\n";
-        return;
     }
 
-    std::cout << "\nПостроение графиков (plot.py)...\n" << std::flush;
-    // Аргумент для plot.py: пусто или " model_1_4_step.csv"
-    const std::string args = csvFile.empty() ? std::string() : " " + csvFile;
-#ifdef _WIN32
-    const std::string command =
-        "python plot.py" + args + " || py plot.py" + args;
-#else
-    const std::string command = "python3 plot.py" + args;
-#endif
-    const int code = std::system(command.c_str());
-    if (code != 0)
-        std::cout << "Не удалось запустить Python. Установите Python и "
-                     "matplotlib (pip install matplotlib) и запустите "
-                     "plot.py вручную.\n";
-}
+    std::vector<Model*> models;
+    if (useLinear) models.push_back(&linear);
+    if (useNonlinear) models.push_back(&nonlinear);
+    if (useDiff) models.push_back(&diff);
 
-} // namespace
+    std::vector<std::unique_ptr<Input>> inputs;
+    if (inputChoice == 1 || inputChoice == 4) inputs.push_back(std::make_unique<StepInput>(stepLevel));
+    if (inputChoice == 2 || inputChoice == 4) inputs.push_back(std::make_unique<ImpulseInput>());
+    if (inputChoice == 3 || inputChoice == 4) inputs.push_back(std::make_unique<HarmonicInput>());
 
-int main()
-{
-#ifdef _WIN32
-    SetConsoleCP(65001);
-    SetConsoleOutputCP(65001);
-#endif
+    std::ofstream csv("results.csv");
+    csv << "model,input,tau,u,y\n";
+    for (Model* m : models)
+        for (const auto& in : inputs)
+            simulate(*m, *in, n, csv);
 
-    std::cout << "============================================\n";
-    std::cout << " OTIS-2026 | Лабораторная работа №1 | Вариант 4\n";
-    std::cout << " Model 1.4, Model 2.6, Model 3.8\n";
-    std::cout << "============================================\n";
-    std::cout << "(Enter - принять значение по умолчанию в скобках)\n\n";
-
-    if (const int mode = readInt(
-            "Режим:\n"
-            "  1 - все модели x все воздействия (параметры по умолчанию)\n"
-            "  2 - одна модель, свои параметры\n"
-            "Ваш выбор", 1, 1, 2);
-        mode == 1)
-    {
-        const int n = readInt("Количество шагов n", Defaults::n, 1, 100000);
-
-        for (int m = 1; m <= 3; ++m)
-        {
-            auto model = createModel(m, false);
-            for (int s = 1; s <= 3; ++s)
-            {
-                auto signal = createSignal(s, Defaults::amplitude);
-                simulateAndSave(m, *model, *signal, n, Defaults::y0);
-            }
-        }
-        runPlot();
-    }
-    else
-    {
-        const int m = readInt(
-            "Модель:\n"
-            "  1 - Model 1.4 (линейная)\n"
-            "  2 - Model 2.6 (нелинейная)\n"
-            "  3 - Model 3.8 (дифф. уравнение)\n"
-            "Ваш выбор", 1, 1, 3);
-        auto model = createModel(m, true);
-
-        const int s = readInt(
-            "Входное воздействие:\n"
-            "  1 - ступенчатое\n"
-            "  2 - импульсное\n"
-            "  3 - гармоническое\n"
-            "Ваш выбор", 1, 1, 3);
-        // По заданию импульс единичный (u0 = 1), амплитуду для него не спрашиваем.
-        const double amplitude =
-            (s == 2) ? 1.0 : readDouble("Амплитуда A", Defaults::amplitude);
-        auto signal = createSignal(s, amplitude);
-
-        const int n = readInt("Количество шагов n", Defaults::n, 1, 100000);
-        const double y0 = readDouble("Начальное значение y0", Defaults::y0);
-
-        const std::string file = simulateAndSave(m, *model, *signal, n, y0);
-        runPlot(file);
-    }
-
+    std::cout << "\nResults saved to results.csv\n";
     return 0;
 }
