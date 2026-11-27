@@ -14,7 +14,7 @@ if errorlevel 1 (
     exit /b 1
 )
 
-REM MinGW берём только если есть и g++, и mingw32-make; тогда включается покрытие (gcov)
+REM Покрытие включается только если есть и g++, и mingw32-make (MinGW)
 set "GENERATOR="
 set "COV_FLAGS="
 where g++ >nul 2>nul
@@ -28,6 +28,12 @@ goto toolchain_ok
 :no_mingw
 echo Toolchain: default generator - coverage will be skipped
 :toolchain_ok
+
+REM Старые данные покрытия и старые отчёты удаляем, чтобы в отчёт не попало ничего лишнего
+if exist build del /s /q build\*.gcda >nul 2>nul
+if exist coverage_report.txt del /q coverage_report.txt
+if exist coverage_summary.txt del /q coverage_summary.txt
+if exist test_report.txt del /q test_report.txt
 
 echo =======================================
 echo  [1/3] Configure and build (Google Test)
@@ -57,13 +63,20 @@ if errorlevel 1 (
     echo gcovr not found. Install: pip install gcovr
     goto cov_done
 )
-REM покрытие считается для кода ЛР №2 (src) и моделей ЛР №1 (task_01), тесты и main исключены
-gcovr -r ..\.. --filter ".*task_02/src/.*" --filter ".*task_01/.*" ^
-      --exclude ".*main\.cpp" --exclude ".*build.*" --object-directory build ^
+REM Правила отбора файлов (пути в --filter считаются ОТНОСИТЕЛЬНО текущей папки task_02):
+REM   src/           - код ЛР №2 (task_02\src)
+REM   ../task_01/    - модели ЛР №1 (соседняя папка task_01)
+REM Всё остальное (тесты, googletest, build, чужие копии проекта) под фильтры не попадает.
+REM main.cpp исключён. Ветки от исключений и недостижимые ветки не считаются.
+REM Данные берутся только из build\src (объектные файлы библиотеки core_ii03024).
+gcovr -r .. --object-directory build\src ^
+      --filter "src/" --filter "[.][.]/task_01/" ^
+      --exclude ".*main[.]cpp" ^
+      --exclude-unreachable-branches --exclude-throw-branches ^
       --print-summary --txt coverage_report.txt > coverage_summary.txt
 echo --- Coverage per file ---
 type coverage_report.txt
-echo --- Summary (lines / functions) ---
+echo --- Summary (lines / functions / branches) ---
 type coverage_summary.txt
 goto cov_done
 :cov_skip

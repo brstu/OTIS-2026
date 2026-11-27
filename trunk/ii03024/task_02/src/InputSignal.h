@@ -1,12 +1,11 @@
-#ifndef INPUT_SIGNAL_H
-#define INPUT_SIGNAL_H
+#ifndef INPUT_SIGNAL_H // Проверяет или этот индификатор встречается 
+#define INPUT_SIGNAL_H // Если нет, то он создается
 
-// Источник входного воздействия u(tau). Интерфейс позволяет подменять сигнал
-// (в том числе mock-объектом Google Mock) при тестировании режимов управления.
+// Источник входного воздействия u(tau). Интерфейс позволяет подменять сигнал (в том числе mock-объектом Google Mock) при тестировании режимов управления.
 class ISignal {
 public:
     virtual ~ISignal() = default;
-    virtual double value(int tau) const = 0;
+    virtual double value(int tau) const = 0; 
 };
 
 // Ступенчатое: u(tau) = A

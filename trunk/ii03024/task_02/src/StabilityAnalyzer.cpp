@@ -41,8 +41,8 @@ std::string StabilityAnalyzer::warningMessage(double a, double eps) {
 }
 
 bool StabilityAnalyzer::warnIfUnstable(double a, std::ostream& out, double eps) {
-    const std::string msg = warningMessage(a, eps);
-    if (msg.empty()) return true;
+    const std::string msg = warningMessage(a, eps); // Получение текста предупреждения 
+    if (msg.empty()) return true; // Проверка на устойчивость
     out << msg << "\n";
     return false;
 }

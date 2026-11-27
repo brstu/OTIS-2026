@@ -11,8 +11,6 @@ bool StabilityAnalyzer::model28LocallyStable(double a, double epsilon) {
 
 bool StabilityAnalyzer::model36LocallyAsymptoticallyStable(double dt, double a, double epsilon) {
     if (!std::isfinite(dt) || !std::isfinite(a) || dt <= 0.0) return false;
-    // Linearization of a*y^3 has zero derivative at y=0: z=1.
-    // Therefore it is not asymptotically stable for the zero-input equilibrium.
     (void)epsilon;
     return false;
 }

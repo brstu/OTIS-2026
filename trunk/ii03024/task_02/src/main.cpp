@@ -1,5 +1,4 @@
-// ЛР №2: расширенная версия программы ЛР №1 - анализ устойчивости модели 1.1
-// (предупреждение перед симуляцией), без привязки к Windows и Gnuplot.
+// ЛР №2: расширенная версия программы ЛР №1 - анализ устойчивости модели 1.1 (предупреждение перед симуляцией), без привязки к Windows и Gnuplot.
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -71,12 +70,12 @@ int main() {
 
     const double dt = 0.1;
     std::unique_ptr<ISignal> signal;
-    std::string signalName;
+    std::string signalName; // Строка для хранения читаемого сигнала
     if (signalChoice == 1)      { signal = std::make_unique<StepSignal>(amplitude);          signalName = "Step"; }
     else if (signalChoice == 2) { signal = std::make_unique<PulseSignal>(amplitude);         signalName = "Pulse"; }
     else                        { signal = std::make_unique<HarmonicSignal>(amplitude, dt);  signalName = "Harmonic"; }
 
-    const auto samples = simulate(*model, *signal, n, dt);
+    const auto samples = simulate(*model, *signal, n, dt); // Запуск симуляции для разыменованных указателей
 
     const std::string filename = prefix + "_" + signalName + ".csv";
     std::ofstream csv(filename);

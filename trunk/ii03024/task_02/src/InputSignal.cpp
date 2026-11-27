@@ -3,7 +3,7 @@
 #include <cmath>
 
 StepSignal::StepSignal(double amplitude) : amplitude_(amplitude) {}
-double StepSignal::value(int) const { return amplitude_; }
+double StepSignal::value(int) const { return amplitude_; } // Возвращение постоянной амплитуды на любом шаге
 
 PulseSignal::PulseSignal(double amplitude) : amplitude_(amplitude) {}
 double PulseSignal::value(int tau) const { return tau == 0 ? amplitude_ : 0.0; }
