@@ -1,0 +1,111 @@
+Test project build-coverage
+      Start  1: EulerMethod.HalvingTheStepReducesErrorAtSameTime
+ 1/53 Test  #1: EulerMethod.HalvingTheStepReducesErrorAtSameTime .............................................   Passed    0.01 sec
+      Start  2: ModelState.ResetRestoresInitialValueAndClearsDelay
+ 2/53 Test  #2: ModelState.ResetRestoresInitialValueAndClearsDelay ...........................................   Passed    0.01 sec
+      Start  3: ModelState.UsesCoefficientOfStateDifferenceForEachModel
+ 3/53 Test  #3: ModelState.UsesCoefficientOfStateDifferenceForEachModel ......................................   Passed    0.01 sec
+      Start  4: ApplicationTest.DefaultsRunTwentySteps
+ 4/53 Test  #4: ApplicationTest.DefaultsRunTwentySteps .......................................................   Passed    0.01 sec
+      Start  5: ApplicationTest.BoundaryWarningPrecedesCancellationAndKeepsPreviousCsv
+ 5/53 Test  #5: ApplicationTest.BoundaryWarningPrecedesCancellationAndKeepsPreviousCsv .......................   Passed    0.01 sec
+      Start  6: ApplicationTest.UnstableWarningPrecedesAnApprovedRun
+ 6/53 Test  #6: ApplicationTest.UnstableWarningPrecedesAnApprovedRun .........................................   Passed    0.01 sec
+      Start  7: ApplicationTest.NonlinearModelAcceptsHarmonicInput
+ 7/53 Test  #7: ApplicationTest.NonlinearModelAcceptsHarmonicInput ...........................................   Passed    0.01 sec
+      Start  8: ApplicationTest.EulerRetriesInvalidSelectionsAndStep
+ 8/53 Test  #8: ApplicationTest.EulerRetriesInvalidSelectionsAndStep .........................................   Passed    0.01 sec
+      Start  9: ApplicationTest.EndOfInputReturnsError
+ 9/53 Test  #9: ApplicationTest.EndOfInputReturnsError .......................................................   Passed    0.01 sec
+      Start 10: ApplicationTest.RejectsUnrepresentableFinalTime
+10/53 Test #10: ApplicationTest.RejectsUnrepresentableFinalTime ..............................................   Passed    0.01 sec
+      Start 11: ApplicationTest.ReportsCsvOpenFailure
+11/53 Test #11: ApplicationTest.ReportsCsvOpenFailure ........................................................   Passed    0.01 sec
+      Start 12: ApplicationTest.StopsBeforeWritingAnInfiniteOutput
+12/53 Test #12: ApplicationTest.StopsBeforeWritingAnInfiniteOutput ...........................................   Passed    0.01 sec
+      Start 13: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/Zero
+13/53 Test #13: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/Zero ......................................   Passed    0.01 sec
+      Start 14: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/Negative
+14/53 Test #14: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/Negative ..................................   Passed    0.01 sec
+      Start 15: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/InsidePlusOne
+15/53 Test #15: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/InsidePlusOne .............................   Passed    0.01 sec
+      Start 16: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/InsideMinusOne
+16/53 Test #16: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/InsideMinusOne ............................   Passed    0.01 sec
+      Start 17: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/PlusOne
+17/53 Test #17: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/PlusOne ...................................   Passed    0.01 sec
+      Start 18: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/MinusOne
+18/53 Test #18: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/MinusOne ..................................   Passed    0.01 sec
+      Start 19: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/OutsidePlusOne
+19/53 Test #19: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/OutsidePlusOne ............................   Passed    0.01 sec
+      Start 20: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/OutsideMinusOne
+20/53 Test #20: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/OutsideMinusOne ...........................   Passed    0.01 sec
+      Start 21: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/Infinity
+21/53 Test #21: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/Infinity ..................................   Passed    0.01 sec
+      Start 22: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/NaN
+22/53 Test #22: UnitCircle/PoleTest.ClassifiesRootAndBuildsWarning/NaN .......................................   Passed    0.01 sec
+      Start 23: Variant25/LinearTest.CalculatesSuccessiveSteps/Step
+23/53 Test #23: Variant25/LinearTest.CalculatesSuccessiveSteps/Step ..........................................   Passed    0.01 sec
+      Start 24: Variant25/LinearTest.CalculatesSuccessiveSteps/Impulse
+24/53 Test #24: Variant25/LinearTest.CalculatesSuccessiveSteps/Impulse .......................................   Passed    0.01 sec
+      Start 25: Variant25/LinearTest.CalculatesSuccessiveSteps/PureDelay
+25/53 Test #25: Variant25/LinearTest.CalculatesSuccessiveSteps/PureDelay .....................................   Passed    0.01 sec
+      Start 26: Variant25/LinearTest.CalculatesSuccessiveSteps/AlternatingDecay
+26/53 Test #26: Variant25/LinearTest.CalculatesSuccessiveSteps/AlternatingDecay ..............................   Passed    0.01 sec
+      Start 27: Variant25/LinearTest.CalculatesSuccessiveSteps/Divergent
+27/53 Test #27: Variant25/LinearTest.CalculatesSuccessiveSteps/Divergent .....................................   Passed    0.01 sec
+      Start 28: Variant25/LinearTest.CalculatesSuccessiveSteps/ZeroState
+28/53 Test #28: Variant25/LinearTest.CalculatesSuccessiveSteps/ZeroState .....................................   Passed    0.01 sec
+      Start 29: InitialDeviation/DecayTest.FollowsPredictedDeviationUnderIdenticalControl/Decay
+29/53 Test #29: InitialDeviation/DecayTest.FollowsPredictedDeviationUnderIdenticalControl/Decay ..............   Passed    0.01 sec
+      Start 30: InitialDeviation/DecayTest.FollowsPredictedDeviationUnderIdenticalControl/AlternatingDecay
+30/53 Test #30: InitialDeviation/DecayTest.FollowsPredictedDeviationUnderIdenticalControl/AlternatingDecay ...   Passed    0.01 sec
+      Start 31: InitialDeviation/DecayTest.FollowsPredictedDeviationUnderIdenticalControl/Constant
+31/53 Test #31: InitialDeviation/DecayTest.FollowsPredictedDeviationUnderIdenticalControl/Constant ...........   Passed    0.01 sec
+      Start 32: InitialDeviation/DecayTest.FollowsPredictedDeviationUnderIdenticalControl/Alternating
+32/53 Test #32: InitialDeviation/DecayTest.FollowsPredictedDeviationUnderIdenticalControl/Alternating ........   Passed    0.01 sec
+      Start 33: InitialDeviation/DecayTest.FollowsPredictedDeviationUnderIdenticalControl/Growth
+33/53 Test #33: InitialDeviation/DecayTest.FollowsPredictedDeviationUnderIdenticalControl/Growth .............   Passed    0.01 sec
+      Start 34: Variant25/NonlinearTest.VerifiesSignedInputIncrement/Zero
+34/53 Test #34: Variant25/NonlinearTest.VerifiesSignedInputIncrement/Zero ....................................   Passed    0.01 sec
+      Start 35: Variant25/NonlinearTest.VerifiesSignedInputIncrement/Positive
+35/53 Test #35: Variant25/NonlinearTest.VerifiesSignedInputIncrement/Positive ................................   Passed    0.01 sec
+      Start 36: Variant25/NonlinearTest.VerifiesSignedInputIncrement/Negative
+36/53 Test #36: Variant25/NonlinearTest.VerifiesSignedInputIncrement/Negative ................................   Passed    0.01 sec
+      Start 37: Variant25/NonlinearTest.VerifiesSignedInputIncrement/SaturatesPositive
+37/53 Test #37: Variant25/NonlinearTest.VerifiesSignedInputIncrement/SaturatesPositive .......................   Passed    0.01 sec
+      Start 38: Variant25/NonlinearTest.VerifiesSignedInputIncrement/SaturatesNegative
+38/53 Test #38: Variant25/NonlinearTest.VerifiesSignedInputIncrement/SaturatesNegative .......................   Passed    0.01 sec
+      Start 39: Variant25/NonlinearTest.VerifiesSignedInputIncrement/TinyControl
+39/53 Test #39: Variant25/NonlinearTest.VerifiesSignedInputIncrement/TinyControl .............................   Passed    0.01 sec
+      Start 40: Variant25/EulerTest.CalculatesOneEulerStep/Driven
+40/53 Test #40: Variant25/EulerTest.CalculatesOneEulerStep/Driven ............................................   Passed    0.01 sec
+      Start 41: Variant25/EulerTest.CalculatesOneEulerStep/Offset
+41/53 Test #41: Variant25/EulerTest.CalculatesOneEulerStep/Offset ............................................   Passed    0.01 sec
+      Start 42: Variant25/EulerTest.CalculatesOneEulerStep/Equilibrium
+42/53 Test #42: Variant25/EulerTest.CalculatesOneEulerStep/Equilibrium .......................................   Passed    0.01 sec
+      Start 43: Variant25/EulerTest.CalculatesOneEulerStep/ConstantDerivative
+43/53 Test #43: Variant25/EulerTest.CalculatesOneEulerStep/ConstantDerivative ................................   Passed    0.01 sec
+      Start 44: Variant25/EulerTest.CalculatesOneEulerStep/Deadbeat
+44/53 Test #44: Variant25/EulerTest.CalculatesOneEulerStep/Deadbeat ..........................................   Passed    0.01 sec
+      Start 45: Variant25/EulerTest.CalculatesOneEulerStep/Boundary
+45/53 Test #45: Variant25/EulerTest.CalculatesOneEulerStep/Boundary ..........................................   Passed    0.01 sec
+      Start 46: Variant25/EulerTest.CalculatesOneEulerStep/Rest
+46/53 Test #46: Variant25/EulerTest.CalculatesOneEulerStep/Rest ..............................................   Passed    0.01 sec
+      Start 47: TimeIndex/SignalTest.ReturnsCorrectControlValues/BeforeStart
+47/53 Test #47: TimeIndex/SignalTest.ReturnsCorrectControlValues/BeforeStart .................................   Passed    0.01 sec
+      Start 48: TimeIndex/SignalTest.ReturnsCorrectControlValues/AtStart
+48/53 Test #48: TimeIndex/SignalTest.ReturnsCorrectControlValues/AtStart .....................................   Passed    0.01 sec
+      Start 49: TimeIndex/SignalTest.ReturnsCorrectControlValues/FirstStep
+49/53 Test #49: TimeIndex/SignalTest.ReturnsCorrectControlValues/FirstStep ...................................   Passed    0.01 sec
+      Start 50: TimeIndex/SignalTest.ReturnsCorrectControlValues/SecondStep
+50/53 Test #50: TimeIndex/SignalTest.ReturnsCorrectControlValues/SecondStep ..................................   Passed    0.01 sec
+      Start 51: SubstitutedInputs/SimulationTest.ChecksEveryCsvRowWithSubstitutedSignal/Step
+51/53 Test #51: SubstitutedInputs/SimulationTest.ChecksEveryCsvRowWithSubstitutedSignal/Step .................   Passed    0.01 sec
+      Start 52: SubstitutedInputs/SimulationTest.ChecksEveryCsvRowWithSubstitutedSignal/Impulse
+52/53 Test #52: SubstitutedInputs/SimulationTest.ChecksEveryCsvRowWithSubstitutedSignal/Impulse ..............   Passed    0.01 sec
+      Start 53: SubstitutedInputs/SimulationTest.ChecksEveryCsvRowWithSubstitutedSignal/Harmonic
+53/53 Test #53: SubstitutedInputs/SimulationTest.ChecksEveryCsvRowWithSubstitutedSignal/Harmonic .............   Passed    0.01 sec
+
+100% tests passed out of 53
+
+Total Test time (real) =   1.02 sec

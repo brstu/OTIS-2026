@@ -1,0 +1,15 @@
+include(FetchContent)
+if(POLICY CMP0135)
+    cmake_policy(SET CMP0135 NEW)
+endif()
+set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_Declare(googletest
+    URL "${CMAKE_CURRENT_SOURCE_DIR}/googletest-1.17.0.zip"
+    URL_HASH SHA256=138d07a7cb0de2e3f6f0d694ba46e7ff07e3f7c7349a223bbf011e49d7f5eaa5)
+FetchContent_MakeAvailable(googletest)
+add_executable(ii02920_task02_tests test_models.cpp test_application.cpp)
+target_link_libraries(ii02920_task02_tests PRIVATE ii02920_task02_core GTest::gtest_main)
+include(GoogleTest)
+gtest_discover_tests(ii02920_task02_tests NO_PRETTY_VALUES DISCOVERY_MODE PRE_TEST)

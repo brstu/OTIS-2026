@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.21)
+project(OTIS_ii02920_task02 LANGUAGES CXX)
+include(CTest)
+option(OTIS_COVERAGE "Collect LLVM source-based coverage" OFF)
+add_subdirectory(src)
+if(BUILD_TESTING)
+    add_subdirectory(test)
+endif()
