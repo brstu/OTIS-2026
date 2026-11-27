@@ -1,0 +1,40 @@
+cmake_minimum_required(VERSION 3.16)
+project(OTIS_Lab2_Variant9 LANGUAGES CXX)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+option(ENABLE_COVERAGE "Enable line coverage instrumentation" OFF)
+if(ENABLE_COVERAGE AND CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+  add_compile_options(-O0 -g --coverage)
+  add_link_options(--coverage)
+endif()
+
+add_library(otis_models src/models.cpp src/stability.cpp)
+target_include_directories(otis_models PUBLIC src)
+if(MSVC)
+  target_compile_options(otis_models PRIVATE /W4)
+else()
+  target_compile_options(otis_models PRIVATE -Wall -Wextra -Wpedantic)
+endif()
+
+add_executable(lab2 src/main.cpp)
+target_link_libraries(lab2 PRIVATE otis_models)
+if(WIN32)
+  target_link_libraries(lab2 PRIVATE shell32)
+endif()
+
+include(CTest)
+if(BUILD_TESTING)
+  include(FetchContent)
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  FetchContent_Declare(googletest
+    URL https://github.com/google/googletest/archive/refs/tags/v1.15.2.zip
+    DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
+  FetchContent_MakeAvailable(googletest)
+  add_executable(lab2_tests test/models_test.cpp)
+  target_link_libraries(lab2_tests PRIVATE otis_models GTest::gtest_main)
+  include(GoogleTest)
+  gtest_discover_tests(lab2_tests)
+endif()
