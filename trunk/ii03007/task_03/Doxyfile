@@ -1,0 +1,18 @@
+PROJECT_NAME      = "OTIS-2026 task_03 - PID control (ii03007)"
+PROJECT_BRIEF     = "ПИД-регулирование объектов варианта 23: модель 1.6 / 2.1 / уравнение 3.7"
+
+OUTPUT_DIRECTORY  = task_03/doc
+HTML_OUTPUT       = html
+
+INPUT             = task_03/src \
+                    task_01/src \
+                    task_02/src
+FILE_PATTERNS     = *.h *.cpp
+RECURSIVE         = YES
+EXCLUDE           = task_01/src/main.cpp
+
+GENERATE_HTML     = YES
+GENERATE_LATEX    = NO
+HAVE_DOT          = NO
+EXTRACT_ALL       = YES
+QUIET             = YES
