@@ -70,14 +70,14 @@ ctest --test-dir build -C Debug --output-on-failure --output-junit test-results.
 | Консольная программа (main.cpp) | 155/169 · 91,72% | 12/12 · 100% |
 | **Итого** | **292/306 · 95,42%** | **49/49 · 100%** |
 
-Для воспроизведения измерения с Clang и инструментами LLVM запустите в Bash из каталога лабораторной (на macOS команды LLVM доступны через `xcrun`):
+### Автоматическое покрытие
+
+В macOS с Xcode Command Line Tools или в Linux с Clang и LLVM выполните из каталога лабораторной:
 
 ```sh
-CXX=clang++ cmake -S . -B build-cov -DCMAKE_CXX_FLAGS="-fprofile-instr-generate -fcoverage-mapping"
-cmake --build build-cov
-mkdir -p build-cov/profiles
-LLVM_PROFILE_FILE="$PWD/build-cov/profiles/%m-%p.profraw" ctest --test-dir build-cov --output-on-failure
-llvm-profdata merge -sparse build-cov/profiles/*.profraw -o build-cov/tests.profdata
-llvm-cov report build-cov/ii03012_tests -object build-cov/src/ii03012_task_02 \
-  -instr-profile=build-cov/tests.profdata -ignore-filename-regex='(/googletest/|/test/)'
+bash coverage.sh
 ```
+
+На Windows эту же команду можно запустить в WSL с инструментами Linux. Скрипт собирает программу, выполняет все проверки CTest и измеряет строки и функции C++ в моделях, симуляторе и консоли, включая общие модули ЛР1. Каждый запуск использует свежие профили. Для просмотра откройте `build/coverage/report/index.html`. В отчёте можно выбрать исходный файл и увидеть строки, которые выполнялись во время тестов.
+
+GitHub Actions запускает ту же проверку при отправке в ветку сдачи и при изменении файлов лабораторной в pull request. Сводка отображается на странице запуска **ii03012 lab 2 coverage**, а HTML и результат тестов доступны в архиве **ii03012-coverage**.
