@@ -1,0 +1,8 @@
+PROJECT_NAME           = "Task 03: PID Controller"
+PROJECT_BRIEF          = "Система автоматического управления с ПИД-регулятором"
+OUTPUT_DIRECTORY = doc
+INPUT                  = src test
+RECURSIVE              = YES
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+EXTRACT_ALL            = YES
