@@ -28,7 +28,7 @@ int main() {
     std::cin >> modelChoice;
 
     std::unique_ptr<Model> model;
-    std::string prefix;
+    std::string prefix; // Для имени выходного файла
     if (modelChoice == 1) {
         double a;
         double b;
@@ -54,7 +54,7 @@ int main() {
         std::cout << "b = "; std::cin >> b;
         model = std::make_unique<Model36>(a, b);
         prefix = "Model36";
-    } else {
+    } else { // Ошибка, при неверном выборе номера модели
         std::cout << "Неверный выбор!\n";
         return 1;
     }
