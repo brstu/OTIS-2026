@@ -5,12 +5,12 @@
 <br><br><br><br><br>
 <p align="center"><b>Лабораторная работа №1</b></p>
 <p align="center"><b>По дисциплине: «Общая теория интеллектуальных систем»</b></p>
-<p align="center"><b>Тема: «Моделирование динамических систем»</b></p>
+<p align="center"><b>Тема: «Моделирование линейных, нелинейных и дифференциальных объектов»</b></p>
 <br><br><br><br>
 <p align="right">Выполнил:</p>
 <p align="right">Студент 2 курса</p>
 <p align="right">Группы ИИ-30</p>
-<p align="right">Сидюк А. П.</p>
+<p align="right">Громов И. С.</p>
 <p align="right">Проверил:</p>
 <p align="right">Дворанинович Д. А.</p>
 <br><br><br><br>
@@ -18,34 +18,47 @@
 
 ---
 
-## Вариант 16
+## Вариант 20
 
-- Линейная модель: **Model 1.6**
-- Нелинейная модель: **Model 2.10**
-- Дифференциальное уравнение: **Model 3.4**
+- Линейная модель: **Model 1.10**
+- Нелинейная модель: **Model 2.4**
+- Дифференциальное уравнение: **Model 3.8**
 
 ## Реализованные модели
 
 | Блок | Модель | Тип | Название |
 |:--:|:--:|:--:|---|
-| 1 | 1.6 | линейная дискретная | Third-Order Dynamic System |
-| 2 | 2.10 | нелинейная дискретная | Hyperbolic Tangent Smoothing |
-| 3 | 3.4 | дифференциальное уравнение |Quadratic Self-Decay |
+| 1 | 1.10 | линейная дискретная | Distributed Control Window Model |
+| 2 | 2.4 | нелинейная дискретная | Logarithmic Multi-Variable Interaction |
+| 3 | 3.8 | дифференциальное уравнение | Combined Linear-Quadratic Decay |
+
+### Математические описания и параметры
+
+- **Model 1.10**: `y(t+1) = a1*y(t) + b1*u(t) + b2*u(t-2)` (параметры по умолчанию: `a1 = 0.7`, `b1 = 0.5`, `b2 = 0.3`). Проверяется устойчивость по корню характеристического уравнения `z = a1` (`|a1| < 1`).
+- **Model 2.4**: `y(t+1) = a*y(t)*cos(y(t)) + b*ln(1 + |u(t)|)` (параметры по умолчанию: `a = 0.8`, `b = 0.5`).
+- **Model 3.8**: `dy/dt = -a1*y - a2*y^2 + b*u` (метод Эйлера: `y(t+1) = y(t) + dt*(-a1*y(t) - a2*y(t)^2 + b*u(t))`, параметры по умолчанию: `a1 = 0.5`, `a2 = 0.1`, `b = 1`, `dt = 0.1`).
+
+Начальное значение `y0 = 0`, уровень ступеньки `c = 1` (все значения можно изменить при запуске программы).
 
 ## Входные воздействия
 
-1. Ступенчатое: `u(t) = A`
-2. Импульсное: `u(0) = A`, `u(t > 0) = 0`
-3. Гармоническое: `u(t) = A * sin(t)`
+1. Ступенчатое: `u(t) = c`
+2. Импульсное: `u(0) = 1`, `u(t > 0) = 0`
+3. Гармоническое: `u(t) = sin(t)`
 
 ## ООП
 
-Создан абстрактный базовый класс `Model` с чисто виртуальным методом `calculateNext(double u, int step)`.
+Созданы абстрактные базовые классы `Model` и `Input`.
 
-От него наследуются классы конкретных моделей:
-- `Model1_6`
-- `Model2_10`
-- `Model3_4`
+От класса `Model` наследуются конкретные модели:
+- `LinearModel` — Model 1.10
+- `NonlinearModel` — Model 2.4
+- `DiffModel` — Model 3.8
+
+От класса `Input` наследуются типы входных воздействий:
+- `StepInput` — ступенчатое
+- `ImpulseInput` — импульсное
+- `HarmonicInput` — гармоническое
 
 ## UML Диаграмма классов
 
@@ -53,48 +66,66 @@
 classDiagram
     class Model {
         <<abstract>>
-        #vector<double> history
-        +Model(initial_y: double)
-        +~Model()*
-        +calculateNext(u: double, step: int)* double
-        +simulate(steps: int, type: InputType) vector<double>
-        +reset(initial_y: double) void
+        -y double
+        -y0 double
+        #setY(value)
+        +next(u) double*
+        +name() string*
+        +reset()
+        +current() double
     }
 
-    class Model1_6 {
-        -double a1
-        -double a2
-        -double a3
-        -double b
-        +Model1_6(a1_val: double, a2_val: double, a3_val: double, b_val: double)
-        +calculateNext(u: double, step: int) double
+    class LinearModel {
+        -a1 double
+        -b1 double
+        -b2 double
+        -u1 double
+        -u2 double
+        +next(u) double
+        +isStable() bool
+        +root() double
     }
 
-    class Model2_10 {
-        -double a
-        -double b
-        +Model2_10(a_val: double, b_val: double)
-        +calculateNext(u: double, step: int) double
+    class NonlinearModel {
+        -a double
+        -b double
+        +next(u) double
     }
 
-    class Model3_4 {
-        -double a
-        -double dt
-        +Model3_4(a_val: double, dt_val: double)
-        +calculateNext(u: double, step: int) double
+    class DiffModel {
+        -a1 double
+        -a2 double
+        -b double
+        -dt double
+        +next(u) double
     }
 
-    class InputSignal {
-        <<enumeration>> SignalType
-        +getSignal(type: SignalType, tau: int)$ double
+    class Input {
+        <<abstract>>
+        +value(tau) double*
+        +name() string*
     }
 
-    Model <|-- Model1_6
-    Model <|-- Model2_10
-    Model <|-- Model3_4
-    InputSignal ..> Model : uses inputs u
+    class StepInput {
+        -c double
+        +value(tau) double
+    }
+
+    class ImpulseInput {
+        +value(tau) double
+    }
+
+    class HarmonicInput {
+        +value(tau) double
+    }
+
+    Model <|-- LinearModel
+    Model <|-- NonlinearModel
+    Model <|-- DiffModel
+    Input <|-- StepInput
+    Input <|-- ImpulseInput
+    Input <|-- HarmonicInput
 ```
-
 ## Пример работы программы
 
 ### Сборка и запуск
@@ -102,63 +133,77 @@ classDiagram
 Сборка осуществляется с помощью файла `build.bat`:
 
 ```bat
-@echo off
+    @echo off
 chcp 65001 > nul
-echo [INFO] Создание папки сборки в task_01...
-if not exist build mkdir build
-cd build
+cd /d "%~dp0"
 
-echo [INFO] Запуск CMake...
-cmake -G "Visual Studio 17 2022" -A x64 ../src
-if %errorlevel% neq 0 (
-    echo [ERROR] Ошибка конфигурации CMake!
-    pause
-    exit /b %errorlevel%
-)
+echo ===== [1/4] CMake configure =====
+cmake -S . -B build
+if errorlevel 1 goto error
 
-echo [INFO] Сборка проекта (Release)...
-cmake --build . --config Release
-if %errorlevel% neq 0 (
-    echo [ERROR] Ошибка компиляции!
-    pause
-    exit /b %errorlevel%
-)
+echo ===== [2/4] CMake build =====
+cmake --build build --config Release
+if errorlevel 1 goto error
 
-echo [INFO] Сборка успешно завершена!
-echo [INFO] Запуск C++ программы для расчета и выгрузки .csv...
-cd Release
-if exist task_01.exe (
-    task_01.exe
-) else (
-    ..\task_01.exe
-)
+set "EXE="
+if exist "build\Release\ii03023_lab1.exe" set "EXE=build\Release\ii03023_lab1.exe"
+if exist "build\Debug\ii03023_lab1.exe" set "EXE=build\Debug\ii03023_lab1.exe"
+if exist "build\ii03023_lab1.exe" set "EXE=build\ii03023_lab1.exe"
+if not defined EXE goto notfound
+echo Program: %EXE%
 
-:: Возвращаемся в корень task_01
-cd ..\..
+:run
+echo.
+echo ===== [3/4] Run program =====
+if exist results.csv del results.csv
+"%EXE%"
+if not exist results.csv goto noresults
 
 echo.
-echo [INFO] Запуск визуализации графиков matplotlib...
-if exist src\plot_results.py (
-    python src\plot_results.py
-) else (
-    echo [ERROR] Файл src\plot_results.py не найден!
-)
+echo ===== [4/4] Plot (Python + matplotlib) =====
+python plot.py
+goto ask
 
+:noresults
+echo results.csv was not created, skipping plot.
+
+:ask
 echo.
-echo [INFO] Работа батника полностью завершена!
+set "AGAIN="
+set /p AGAIN="Run again with another model/input? (y/n): "
+if /i "%AGAIN%"=="y" goto run
+echo ===== DONE =====
+exit /b 0
+
+:notfound
+echo Program ii03023_lab1.exe was not found after build.
+echo Check that CMakeLists.txt contains: add_executable(ii03023_lab1 main.cpp models.h)
+goto error
+
+:error
+echo BUILD FAILED
 pause
+exit /b 1
 ```
+### Демонстрация исполняемого файла ii03023_lab1.exe:
 
-После сборки исполняемый файл запускается автоматически либо вручную из каталога `build/src`.
+![](img/console.png)
 
-### Демонстрация исполняемого файла task_01.exe:
+![](img/console2.png)
 
-![](work.png)
+### Примеры графиков переходных процессов
 
-При запуске исполняемого файла мы получаем результат в `.csv` файлах, после чего автоматически запускается `src/plot_results.py` для визуализации ответа:
+**Демонстрация Model 1.10 (линейная):**
+![](img/model_1_10.png)
 
-### График переходных процессов
-![](../simulation_plot.png)
+**Демонстрация Model 2.4 (нелинейная):**
+![](img/model_2_4.png)
+
+**Демоนстрация Model 3.8 (дифференциальное уравнение):**
+![](img/model_3_8.png)
+
+**Сводный график:**
+![](img/plot.png)
 
 ## Вывод
 
@@ -167,5 +212,5 @@ pause
 - симулирует отклик на все три типа входных воздействий (ступенчатое, импульсное, гармоническое);
 - позволяет задать количество шагов `n`;
 - выводит результаты в табличном виде;
-- сохраняет результаты в `simulation_results`;
+- сохраняет результаты в `results.csv`;
 - визуализирует графики через Python/Matplotlib.
