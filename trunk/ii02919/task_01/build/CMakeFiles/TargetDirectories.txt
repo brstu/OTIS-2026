@@ -1,0 +1,5 @@
+/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_01/build/CMakeFiles/edit_cache.dir
+/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_01/build/CMakeFiles/rebuild_cache.dir
+/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_01/build/src/CMakeFiles/ii02919_task_01.dir
+/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_01/build/src/CMakeFiles/edit_cache.dir
+/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_01/build/src/CMakeFiles/rebuild_cache.dir

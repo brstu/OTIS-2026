@@ -1,0 +1,786 @@
+Start testing: Nov 23 19:53 +03
+----------------------------------------------------------
+1/29 Testing: MultiStepModelTest.ComputesKnownSequenceAndUsesTwoStepInputHistory
+1/29 Test: MultiStepModelTest.ComputesKnownSequenceAndUsesTwoStepInputHistory
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=MultiStepModelTest.ComputesKnownSequenceAndUsesTwoStepInputHistory" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"MultiStepModelTest.ComputesKnownSequenceAndUsesTwoStepInputHistory" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = MultiStepModelTest.ComputesKnownSequenceAndUsesTwoStepInputHistory
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MultiStepModelTest
+[ RUN      ] MultiStepModelTest.ComputesKnownSequenceAndUsesTwoStepInputHistory
+[       OK ] MultiStepModelTest.ComputesKnownSequenceAndUsesTwoStepInputHistory (0 ms)
+[----------] 1 test from MultiStepModelTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"MultiStepModelTest.ComputesKnownSequenceAndUsesTwoStepInputHistory" end time: Nov 23 19:53 +03
+"MultiStepModelTest.ComputesKnownSequenceAndUsesTwoStepInputHistory" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/29 Testing: MultiStepModelTest.ResetClearsOutputAndInputHistory
+2/29 Test: MultiStepModelTest.ResetClearsOutputAndInputHistory
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=MultiStepModelTest.ResetClearsOutputAndInputHistory" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"MultiStepModelTest.ResetClearsOutputAndInputHistory" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = MultiStepModelTest.ResetClearsOutputAndInputHistory
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MultiStepModelTest
+[ RUN      ] MultiStepModelTest.ResetClearsOutputAndInputHistory
+[       OK ] MultiStepModelTest.ResetClearsOutputAndInputHistory (0 ms)
+[----------] 1 test from MultiStepModelTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MultiStepModelTest.ResetClearsOutputAndInputHistory" end time: Nov 23 19:53 +03
+"MultiStepModelTest.ResetClearsOutputAndInputHistory" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/29 Testing: QuadraticFeedbackTest.ComputesKnownValuesIncludingDelayedSine
+3/29 Test: QuadraticFeedbackTest.ComputesKnownValuesIncludingDelayedSine
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=QuadraticFeedbackTest.ComputesKnownValuesIncludingDelayedSine" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"QuadraticFeedbackTest.ComputesKnownValuesIncludingDelayedSine" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = QuadraticFeedbackTest.ComputesKnownValuesIncludingDelayedSine
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuadraticFeedbackTest
+[ RUN      ] QuadraticFeedbackTest.ComputesKnownValuesIncludingDelayedSine
+[       OK ] QuadraticFeedbackTest.ComputesKnownValuesIncludingDelayedSine (0 ms)
+[----------] 1 test from QuadraticFeedbackTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"QuadraticFeedbackTest.ComputesKnownValuesIncludingDelayedSine" end time: Nov 23 19:53 +03
+"QuadraticFeedbackTest.ComputesKnownValuesIncludingDelayedSine" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/29 Testing: QuadraticFeedbackTest.ZeroInputAndZeroInitialStateRemainAtRest
+4/29 Test: QuadraticFeedbackTest.ZeroInputAndZeroInitialStateRemainAtRest
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=QuadraticFeedbackTest.ZeroInputAndZeroInitialStateRemainAtRest" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"QuadraticFeedbackTest.ZeroInputAndZeroInitialStateRemainAtRest" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = QuadraticFeedbackTest.ZeroInputAndZeroInitialStateRemainAtRest
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuadraticFeedbackTest
+[ RUN      ] QuadraticFeedbackTest.ZeroInputAndZeroInitialStateRemainAtRest
+[       OK ] QuadraticFeedbackTest.ZeroInputAndZeroInitialStateRemainAtRest (0 ms)
+[----------] 1 test from QuadraticFeedbackTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"QuadraticFeedbackTest.ZeroInputAndZeroInitialStateRemainAtRest" end time: Nov 23 19:53 +03
+"QuadraticFeedbackTest.ZeroInputAndZeroInitialStateRemainAtRest" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/29 Testing: QuadraticFeedbackTest.ResetClearsDelayedState
+5/29 Test: QuadraticFeedbackTest.ResetClearsDelayedState
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=QuadraticFeedbackTest.ResetClearsDelayedState" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"QuadraticFeedbackTest.ResetClearsDelayedState" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = QuadraticFeedbackTest.ResetClearsDelayedState
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from QuadraticFeedbackTest
+[ RUN      ] QuadraticFeedbackTest.ResetClearsDelayedState
+[       OK ] QuadraticFeedbackTest.ResetClearsDelayedState (0 ms)
+[----------] 1 test from QuadraticFeedbackTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"QuadraticFeedbackTest.ResetClearsDelayedState" end time: Nov 23 19:53 +03
+"QuadraticFeedbackTest.ResetClearsDelayedState" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/29 Testing: HarmonicODETest.EulerStepMatchesHandCalculation
+6/29 Test: HarmonicODETest.EulerStepMatchesHandCalculation
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=HarmonicODETest.EulerStepMatchesHandCalculation" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"HarmonicODETest.EulerStepMatchesHandCalculation" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = HarmonicODETest.EulerStepMatchesHandCalculation
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from HarmonicODETest
+[ RUN      ] HarmonicODETest.EulerStepMatchesHandCalculation
+[       OK ] HarmonicODETest.EulerStepMatchesHandCalculation (0 ms)
+[----------] 1 test from HarmonicODETest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"HarmonicODETest.EulerStepMatchesHandCalculation" end time: Nov 23 19:53 +03
+"HarmonicODETest.EulerStepMatchesHandCalculation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/29 Testing: HarmonicODETest.ZeroInputKeepsZeroState
+7/29 Test: HarmonicODETest.ZeroInputKeepsZeroState
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=HarmonicODETest.ZeroInputKeepsZeroState" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"HarmonicODETest.ZeroInputKeepsZeroState" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = HarmonicODETest.ZeroInputKeepsZeroState
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from HarmonicODETest
+[ RUN      ] HarmonicODETest.ZeroInputKeepsZeroState
+[       OK ] HarmonicODETest.ZeroInputKeepsZeroState (0 ms)
+[----------] 1 test from HarmonicODETest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"HarmonicODETest.ZeroInputKeepsZeroState" end time: Nov 23 19:53 +03
+"HarmonicODETest.ZeroInputKeepsZeroState" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/29 Testing: HarmonicODETest.ResetReturnsStateToZero
+8/29 Test: HarmonicODETest.ResetReturnsStateToZero
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=HarmonicODETest.ResetReturnsStateToZero" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"HarmonicODETest.ResetReturnsStateToZero" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = HarmonicODETest.ResetReturnsStateToZero
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from HarmonicODETest
+[ RUN      ] HarmonicODETest.ResetReturnsStateToZero
+[       OK ] HarmonicODETest.ResetReturnsStateToZero (0 ms)
+[----------] 1 test from HarmonicODETest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"HarmonicODETest.ResetReturnsStateToZero" end time: Nov 23 19:53 +03
+"HarmonicODETest.ResetReturnsStateToZero" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/29 Testing: InputSignalTest.StepSignalIsConstantAtAnyStep
+9/29 Test: InputSignalTest.StepSignalIsConstantAtAnyStep
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=InputSignalTest.StepSignalIsConstantAtAnyStep" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"InputSignalTest.StepSignalIsConstantAtAnyStep" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = InputSignalTest.StepSignalIsConstantAtAnyStep
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from InputSignalTest
+[ RUN      ] InputSignalTest.StepSignalIsConstantAtAnyStep
+[       OK ] InputSignalTest.StepSignalIsConstantAtAnyStep (0 ms)
+[----------] 1 test from InputSignalTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"InputSignalTest.StepSignalIsConstantAtAnyStep" end time: Nov 23 19:53 +03
+"InputSignalTest.StepSignalIsConstantAtAnyStep" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/29 Testing: InputSignalTest.ImpulseIsOneOnlyAtStepOne
+10/29 Test: InputSignalTest.ImpulseIsOneOnlyAtStepOne
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=InputSignalTest.ImpulseIsOneOnlyAtStepOne" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"InputSignalTest.ImpulseIsOneOnlyAtStepOne" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = InputSignalTest.ImpulseIsOneOnlyAtStepOne
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from InputSignalTest
+[ RUN      ] InputSignalTest.ImpulseIsOneOnlyAtStepOne
+[       OK ] InputSignalTest.ImpulseIsOneOnlyAtStepOne (0 ms)
+[----------] 1 test from InputSignalTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"InputSignalTest.ImpulseIsOneOnlyAtStepOne" end time: Nov 23 19:53 +03
+"InputSignalTest.ImpulseIsOneOnlyAtStepOne" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/29 Testing: InputSignalTest.SinusoidMatchesSine
+11/29 Test: InputSignalTest.SinusoidMatchesSine
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=InputSignalTest.SinusoidMatchesSine" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"InputSignalTest.SinusoidMatchesSine" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = InputSignalTest.SinusoidMatchesSine
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from InputSignalTest
+[ RUN      ] InputSignalTest.SinusoidMatchesSine
+[       OK ] InputSignalTest.SinusoidMatchesSine (0 ms)
+[----------] 1 test from InputSignalTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"InputSignalTest.SinusoidMatchesSine" end time: Nov 23 19:53 +03
+"InputSignalTest.SinusoidMatchesSine" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/29 Testing: ProcessFactoryTest.CreatesAllThreeModelsAndRejectsInvalidChoice
+12/29 Test: ProcessFactoryTest.CreatesAllThreeModelsAndRejectsInvalidChoice
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=ProcessFactoryTest.CreatesAllThreeModelsAndRejectsInvalidChoice" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"ProcessFactoryTest.CreatesAllThreeModelsAndRejectsInvalidChoice" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = ProcessFactoryTest.CreatesAllThreeModelsAndRejectsInvalidChoice
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from ProcessFactoryTest
+[ RUN      ] ProcessFactoryTest.CreatesAllThreeModelsAndRejectsInvalidChoice
+[       OK ] ProcessFactoryTest.CreatesAllThreeModelsAndRejectsInvalidChoice (0 ms)
+[----------] 1 test from ProcessFactoryTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"ProcessFactoryTest.CreatesAllThreeModelsAndRejectsInvalidChoice" end time: Nov 23 19:53 +03
+"ProcessFactoryTest.CreatesAllThreeModelsAndRejectsInvalidChoice" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/29 Testing: StabilityAnalyzerTest.StableRootInsideUnitCircle
+13/29 Test: StabilityAnalyzerTest.StableRootInsideUnitCircle
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=StabilityAnalyzerTest.StableRootInsideUnitCircle" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"StabilityAnalyzerTest.StableRootInsideUnitCircle" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = StabilityAnalyzerTest.StableRootInsideUnitCircle
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StabilityAnalyzerTest
+[ RUN      ] StabilityAnalyzerTest.StableRootInsideUnitCircle
+[       OK ] StabilityAnalyzerTest.StableRootInsideUnitCircle (0 ms)
+[----------] 1 test from StabilityAnalyzerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"StabilityAnalyzerTest.StableRootInsideUnitCircle" end time: Nov 23 19:53 +03
+"StabilityAnalyzerTest.StableRootInsideUnitCircle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+14/29 Testing: StabilityAnalyzerTest.NegativeStableRootInsideUnitCircle
+14/29 Test: StabilityAnalyzerTest.NegativeStableRootInsideUnitCircle
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=StabilityAnalyzerTest.NegativeStableRootInsideUnitCircle" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"StabilityAnalyzerTest.NegativeStableRootInsideUnitCircle" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = StabilityAnalyzerTest.NegativeStableRootInsideUnitCircle
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StabilityAnalyzerTest
+[ RUN      ] StabilityAnalyzerTest.NegativeStableRootInsideUnitCircle
+[       OK ] StabilityAnalyzerTest.NegativeStableRootInsideUnitCircle (0 ms)
+[----------] 1 test from StabilityAnalyzerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"StabilityAnalyzerTest.NegativeStableRootInsideUnitCircle" end time: Nov 23 19:53 +03
+"StabilityAnalyzerTest.NegativeStableRootInsideUnitCircle" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/29 Testing: StabilityAnalyzerTest.UnitCircleBoundaryAtPositiveOne
+15/29 Test: StabilityAnalyzerTest.UnitCircleBoundaryAtPositiveOne
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=StabilityAnalyzerTest.UnitCircleBoundaryAtPositiveOne" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"StabilityAnalyzerTest.UnitCircleBoundaryAtPositiveOne" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = StabilityAnalyzerTest.UnitCircleBoundaryAtPositiveOne
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StabilityAnalyzerTest
+[ RUN      ] StabilityAnalyzerTest.UnitCircleBoundaryAtPositiveOne
+[       OK ] StabilityAnalyzerTest.UnitCircleBoundaryAtPositiveOne (0 ms)
+[----------] 1 test from StabilityAnalyzerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"StabilityAnalyzerTest.UnitCircleBoundaryAtPositiveOne" end time: Nov 23 19:53 +03
+"StabilityAnalyzerTest.UnitCircleBoundaryAtPositiveOne" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/29 Testing: StabilityAnalyzerTest.UnitCircleBoundaryAtNegativeOne
+16/29 Test: StabilityAnalyzerTest.UnitCircleBoundaryAtNegativeOne
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=StabilityAnalyzerTest.UnitCircleBoundaryAtNegativeOne" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"StabilityAnalyzerTest.UnitCircleBoundaryAtNegativeOne" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = StabilityAnalyzerTest.UnitCircleBoundaryAtNegativeOne
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StabilityAnalyzerTest
+[ RUN      ] StabilityAnalyzerTest.UnitCircleBoundaryAtNegativeOne
+[       OK ] StabilityAnalyzerTest.UnitCircleBoundaryAtNegativeOne (0 ms)
+[----------] 1 test from StabilityAnalyzerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"StabilityAnalyzerTest.UnitCircleBoundaryAtNegativeOne" end time: Nov 23 19:53 +03
+"StabilityAnalyzerTest.UnitCircleBoundaryAtNegativeOne" time elapsed: 00:00:00
+----------------------------------------------------------
+
+17/29 Testing: StabilityAnalyzerTest.RootOutsideUnitCircleIsUnstable
+17/29 Test: StabilityAnalyzerTest.RootOutsideUnitCircleIsUnstable
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=StabilityAnalyzerTest.RootOutsideUnitCircleIsUnstable" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"StabilityAnalyzerTest.RootOutsideUnitCircleIsUnstable" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = StabilityAnalyzerTest.RootOutsideUnitCircleIsUnstable
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StabilityAnalyzerTest
+[ RUN      ] StabilityAnalyzerTest.RootOutsideUnitCircleIsUnstable
+[       OK ] StabilityAnalyzerTest.RootOutsideUnitCircleIsUnstable (0 ms)
+[----------] 1 test from StabilityAnalyzerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"StabilityAnalyzerTest.RootOutsideUnitCircleIsUnstable" end time: Nov 23 19:53 +03
+"StabilityAnalyzerTest.RootOutsideUnitCircleIsUnstable" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/29 Testing: StabilityAnalyzerTest.RejectsNonFiniteCoefficient
+18/29 Test: StabilityAnalyzerTest.RejectsNonFiniteCoefficient
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=StabilityAnalyzerTest.RejectsNonFiniteCoefficient" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"StabilityAnalyzerTest.RejectsNonFiniteCoefficient" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = StabilityAnalyzerTest.RejectsNonFiniteCoefficient
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from StabilityAnalyzerTest
+[ RUN      ] StabilityAnalyzerTest.RejectsNonFiniteCoefficient
+[       OK ] StabilityAnalyzerTest.RejectsNonFiniteCoefficient (0 ms)
+[----------] 1 test from StabilityAnalyzerTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"StabilityAnalyzerTest.RejectsNonFiniteCoefficient" end time: Nov 23 19:53 +03
+"StabilityAnalyzerTest.RejectsNonFiniteCoefficient" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/29 Testing: MultiStepModelStabilityTest.ExposesWarningForUnstableParameters
+19/29 Test: MultiStepModelStabilityTest.ExposesWarningForUnstableParameters
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=MultiStepModelStabilityTest.ExposesWarningForUnstableParameters" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"MultiStepModelStabilityTest.ExposesWarningForUnstableParameters" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = MultiStepModelStabilityTest.ExposesWarningForUnstableParameters
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MultiStepModelStabilityTest
+[ RUN      ] MultiStepModelStabilityTest.ExposesWarningForUnstableParameters
+[       OK ] MultiStepModelStabilityTest.ExposesWarningForUnstableParameters (0 ms)
+[----------] 1 test from MultiStepModelStabilityTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MultiStepModelStabilityTest.ExposesWarningForUnstableParameters" end time: Nov 23 19:53 +03
+"MultiStepModelStabilityTest.ExposesWarningForUnstableParameters" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/29 Testing: MultiStepModelStabilityTest.NoWarningForStableParameters
+20/29 Test: MultiStepModelStabilityTest.NoWarningForStableParameters
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=MultiStepModelStabilityTest.NoWarningForStableParameters" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"MultiStepModelStabilityTest.NoWarningForStableParameters" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = MultiStepModelStabilityTest.NoWarningForStableParameters
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from MultiStepModelStabilityTest
+[ RUN      ] MultiStepModelStabilityTest.NoWarningForStableParameters
+[       OK ] MultiStepModelStabilityTest.NoWarningForStableParameters (0 ms)
+[----------] 1 test from MultiStepModelStabilityTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"MultiStepModelStabilityTest.NoWarningForStableParameters" end time: Nov 23 19:53 +03
+"MultiStepModelStabilityTest.NoWarningForStableParameters" time elapsed: 00:00:00
+----------------------------------------------------------
+
+21/29 Testing: VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0, 1, 2)
+21/29 Test: VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0, 1, 2)
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/0" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0, 1, 2)" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VariousInputs/MultiStepParameterizedTest
+[ RUN      ] VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/0
+[       OK ] VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/0 (0 ms)
+[----------] 1 test from VariousInputs/MultiStepParameterizedTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0, 1, 2)" end time: Nov 23 19:53 +03
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0, 1, 2)" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/29 Testing: VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.4, 2, -1.5)
+22/29 Test: VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.4, 2, -1.5)
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/1" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.4, 2, -1.5)" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VariousInputs/MultiStepParameterizedTest
+[ RUN      ] VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/1
+[       OK ] VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/1 (0 ms)
+[----------] 1 test from VariousInputs/MultiStepParameterizedTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.4, 2, -1.5)" end time: Nov 23 19:53 +03
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.4, 2, -1.5)" time elapsed: 00:00:00
+----------------------------------------------------------
+
+23/29 Testing: VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.8, 0.5, 4)
+23/29 Test: VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.8, 0.5, 4)
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/2" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.8, 0.5, 4)" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VariousInputs/MultiStepParameterizedTest
+[ RUN      ] VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/2
+[       OK ] VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/2 (0 ms)
+[----------] 1 test from VariousInputs/MultiStepParameterizedTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.8, 0.5, 4)" end time: Nov 23 19:53 +03
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.8, 0.5, 4)" time elapsed: 00:00:00
+----------------------------------------------------------
+
+24/29 Testing: VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.99, 3, 0.25)
+24/29 Test: VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.99, 3, 0.25)
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/3" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.99, 3, 0.25)" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/3
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VariousInputs/MultiStepParameterizedTest
+[ RUN      ] VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/3
+[       OK ] VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/3 (0 ms)
+[----------] 1 test from VariousInputs/MultiStepParameterizedTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.99, 3, 0.25)" end time: Nov 23 19:53 +03
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(0.99, 3, 0.25)" time elapsed: 00:00:00
+----------------------------------------------------------
+
+25/29 Testing: VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.99, -2, -3)
+25/29 Test: VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.99, -2, -3)
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/4" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.99, -2, -3)" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/4
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VariousInputs/MultiStepParameterizedTest
+[ RUN      ] VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/4
+[       OK ] VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/4 (0 ms)
+[----------] 1 test from VariousInputs/MultiStepParameterizedTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.99, -2, -3)" end time: Nov 23 19:53 +03
+"VariousInputs/MultiStepParameterizedTest.ComputesFirstStepForDifferentCoefficientsAndInputs/(-0.99, -2, -3)" time elapsed: 00:00:00
+----------------------------------------------------------
+
+26/29 Testing: VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(1, 0.1, 0.5)
+26/29 Test: VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(1, 0.1, 0.5)
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/0" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(1, 0.1, 0.5)" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/0
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VariousEulerParameters/EulerParameterizedTest
+[ RUN      ] VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/0
+[       OK ] VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/0 (0 ms)
+[----------] 1 test from VariousEulerParameters/EulerParameterizedTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(1, 0.1, 0.5)" end time: Nov 23 19:53 +03
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(1, 0.1, 0.5)" time elapsed: 00:00:00
+----------------------------------------------------------
+
+27/29 Testing: VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(2, 0.01, 1)
+27/29 Test: VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(2, 0.01, 1)
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/1" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(2, 0.01, 1)" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/1
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VariousEulerParameters/EulerParameterizedTest
+[ RUN      ] VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/1
+[       OK ] VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/1 (0 ms)
+[----------] 1 test from VariousEulerParameters/EulerParameterizedTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(2, 0.01, 1)" end time: Nov 23 19:53 +03
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(2, 0.01, 1)" time elapsed: 00:00:00
+----------------------------------------------------------
+
+28/29 Testing: VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(-1.5, 0.2, -0.75)
+28/29 Test: VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(-1.5, 0.2, -0.75)
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/2" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(-1.5, 0.2, -0.75)" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/2
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VariousEulerParameters/EulerParameterizedTest
+[ RUN      ] VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/2
+[       OK ] VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/2 (0 ms)
+[----------] 1 test from VariousEulerParameters/EulerParameterizedTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(-1.5, 0.2, -0.75)" end time: Nov 23 19:53 +03
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(-1.5, 0.2, -0.75)" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/29 Testing: VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(0, 0.05, 2)
+29/29 Test: VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(0, 0.05, 2)
+Command: "/Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/unit_tests" "--gtest_filter=VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/3" "--gtest_also_run_disabled_tests"
+Directory: /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(0, 0.05, 2)" start time: Nov 23 19:53 +03
+Output:
+----------------------------------------------------------
+Running main() from /Users/sofapekun/Desktop/otis/OTIS-2026/trunk/ii02919/task_02/build/_deps/googletest-src/googletest/src/gtest_main.cc
+Note: Google Test filter = VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/3
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from VariousEulerParameters/EulerParameterizedTest
+[ RUN      ] VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/3
+[       OK ] VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/3 (0 ms)
+[----------] 1 test from VariousEulerParameters/EulerParameterizedTest (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (0 ms total)
+[  PASSED  ] 1 test.
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(0, 0.05, 2)" end time: Nov 23 19:53 +03
+"VariousEulerParameters/EulerParameterizedTest.OneEulerStepMatchesFormula/(0, 0.05, 2)" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 23 19:53 +03

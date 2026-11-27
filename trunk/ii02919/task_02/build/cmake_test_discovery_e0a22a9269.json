@@ -1,0 +1,214 @@
+{
+  "tests": 29,
+  "name": "AllTests",
+  "testsuites": [
+    {
+      "name": "MultiStepModelTest",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "ComputesKnownSequenceAndUsesTwoStepInputHistory",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 11
+        },
+        {
+          "name": "ResetClearsOutputAndInputHistory",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 20
+        }
+      ]
+    },
+    {
+      "name": "QuadraticFeedbackTest",
+      "tests": 3,
+      "testsuite": [
+        {
+          "name": "ComputesKnownValuesIncludingDelayedSine",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 29
+        },
+        {
+          "name": "ZeroInputAndZeroInitialStateRemainAtRest",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 37
+        },
+        {
+          "name": "ResetClearsDelayedState",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 43
+        }
+      ]
+    },
+    {
+      "name": "HarmonicODETest",
+      "tests": 3,
+      "testsuite": [
+        {
+          "name": "EulerStepMatchesHandCalculation",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 52
+        },
+        {
+          "name": "ZeroInputKeepsZeroState",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 60
+        },
+        {
+          "name": "ResetReturnsStateToZero",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 66
+        }
+      ]
+    },
+    {
+      "name": "InputSignalTest",
+      "tests": 3,
+      "testsuite": [
+        {
+          "name": "StepSignalIsConstantAtAnyStep",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 74
+        },
+        {
+          "name": "ImpulseIsOneOnlyAtStepOne",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 82
+        },
+        {
+          "name": "SinusoidMatchesSine",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 90
+        }
+      ]
+    },
+    {
+      "name": "ProcessFactoryTest",
+      "tests": 1,
+      "testsuite": [
+        {
+          "name": "CreatesAllThreeModelsAndRejectsInvalidChoice",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ModelTests.cpp",
+          "line": 98
+        }
+      ]
+    },
+    {
+      "name": "StabilityAnalyzerTest",
+      "tests": 6,
+      "testsuite": [
+        {
+          "name": "StableRootInsideUnitCircle",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/StabilityTests.cpp",
+          "line": 6
+        },
+        {
+          "name": "NegativeStableRootInsideUnitCircle",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/StabilityTests.cpp",
+          "line": 15
+        },
+        {
+          "name": "UnitCircleBoundaryAtPositiveOne",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/StabilityTests.cpp",
+          "line": 20
+        },
+        {
+          "name": "UnitCircleBoundaryAtNegativeOne",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/StabilityTests.cpp",
+          "line": 27
+        },
+        {
+          "name": "RootOutsideUnitCircleIsUnstable",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/StabilityTests.cpp",
+          "line": 34
+        },
+        {
+          "name": "RejectsNonFiniteCoefficient",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/StabilityTests.cpp",
+          "line": 41
+        }
+      ]
+    },
+    {
+      "name": "MultiStepModelStabilityTest",
+      "tests": 2,
+      "testsuite": [
+        {
+          "name": "ExposesWarningForUnstableParameters",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/StabilityTests.cpp",
+          "line": 49
+        },
+        {
+          "name": "NoWarningForStableParameters",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/StabilityTests.cpp",
+          "line": 56
+        }
+      ]
+    },
+    {
+      "name": "VariousInputs\/MultiStepParameterizedTest",
+      "tests": 5,
+      "testsuite": [
+        {
+          "name": "ComputesFirstStepForDifferentCoefficientsAndInputs\/0",
+          "value_param": "(0, 1, 2)",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ParameterizedTests.cpp",
+          "line": 10
+        },
+        {
+          "name": "ComputesFirstStepForDifferentCoefficientsAndInputs\/1",
+          "value_param": "(0.4, 2, -1.5)",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ParameterizedTests.cpp",
+          "line": 10
+        },
+        {
+          "name": "ComputesFirstStepForDifferentCoefficientsAndInputs\/2",
+          "value_param": "(-0.8, 0.5, 4)",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ParameterizedTests.cpp",
+          "line": 10
+        },
+        {
+          "name": "ComputesFirstStepForDifferentCoefficientsAndInputs\/3",
+          "value_param": "(0.99, 3, 0.25)",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ParameterizedTests.cpp",
+          "line": 10
+        },
+        {
+          "name": "ComputesFirstStepForDifferentCoefficientsAndInputs\/4",
+          "value_param": "(-0.99, -2, -3)",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ParameterizedTests.cpp",
+          "line": 10
+        }
+      ]
+    },
+    {
+      "name": "VariousEulerParameters\/EulerParameterizedTest",
+      "tests": 4,
+      "testsuite": [
+        {
+          "name": "OneEulerStepMatchesFormula\/0",
+          "value_param": "(1, 0.1, 0.5)",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ParameterizedTests.cpp",
+          "line": 28
+        },
+        {
+          "name": "OneEulerStepMatchesFormula\/1",
+          "value_param": "(2, 0.01, 1)",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ParameterizedTests.cpp",
+          "line": 28
+        },
+        {
+          "name": "OneEulerStepMatchesFormula\/2",
+          "value_param": "(-1.5, 0.2, -0.75)",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ParameterizedTests.cpp",
+          "line": 28
+        },
+        {
+          "name": "OneEulerStepMatchesFormula\/3",
+          "value_param": "(0, 0.05, 2)",
+          "file": "\/Users\/sofapekun\/Desktop\/otis\/OTIS-2026\/trunk\/ii02919\/task_02\/test\/ParameterizedTests.cpp",
+          "line": 28
+        }
+      ]
+    }
+  ]
+}
