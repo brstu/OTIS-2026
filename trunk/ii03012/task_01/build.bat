@@ -45,7 +45,7 @@ echo ---------------------------------------
 echo SUCCESS: build completed, executable is in build\bin
 echo.
 cd build\bin
-ii03004_task_01.exe
+ii03012_task_01.exe
 cd /d "%~dp0"
 
 echo.

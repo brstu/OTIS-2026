@@ -1,8 +1,4 @@
-# До принятия переноса ЛР1 (#134) она находится под прежним номером.
 set(lab1 "${CMAKE_CURRENT_SOURCE_DIR}/../../task_01/src")
-if(NOT EXISTS "${lab1}/Model.cpp")
-    set(lab1 "${CMAKE_CURRENT_SOURCE_DIR}/../../../ii03004/task_01/src")
-endif()
 add_library(ii03012_models STATIC "${lab1}/Model.cpp" LinearModels.cpp "${lab1}/NonLinearModels.cpp"
     DiffEquations.cpp "${lab1}/InputSignal.cpp" Simulator.cpp StabilityAnalyzer.cpp)
 target_include_directories(ii03012_models PUBLIC ${CMAKE_CURRENT_SOURCE_DIR} "${lab1}")

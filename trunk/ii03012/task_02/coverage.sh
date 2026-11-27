@@ -49,9 +49,6 @@ fi
 "${llvm[@]}" llvm-profdata merge -sparse "$profiles/tests/"*.profraw -o "$profiles/tests.profdata"
 
 lab1="$root/../task_01/src"
-if [[ ! -f "$lab1/Model.cpp" ]]; then
-    lab1="$root/../../ii03004/task_01/src"
-fi
 args=("$tests" -object "$app"
       "-instr-profile=$profiles/tests.profdata")
 if [[ -n ${OTIS_MAC_BUNDLE:-} ]]; then
