@@ -1,171 +1,187 @@
 #include <iostream>
-#include <fstream>
-#include <iomanip>
 #include <string>
-#include <sstream>
-#include <memory>
-#include "InputSignal.h"
-#include "Model.h"
-#include "Model1_1.h"
-#include "Model2_5.h"
-#include "Model3_9.h"
+#include <vector>
+#include <cstdio>
+#include <filesystem>
+#include <system_error>
 
-// Безопасное ограничение количества шагов симуляции
-int getSafeSteps(int raw_steps) {
-    constexpr int min_steps = 1;
-    constexpr int max_steps = 1000;
-    constexpr int default_steps = 30;
+#include "Linear_Model.h"
+#include "Non_Linear_Model.h"
+#include "Simple_Differential_Equation.h"
+#include "TableOutput.h"
+#include "Plotter.h"
 
-    if (raw_steps < min_steps || raw_steps > max_steps) {
-        return default_steps;
-    }
-    return raw_steps;
-}
+#ifdef _WIN32
+  #include <windows.h>
+#endif
 
-// Вспомогательная функция для ввода коэффициентов со значениями по умолчанию
-double getDoubleInput(const std::string& prompt, double default_value) {
-    std::cout << prompt << " (default " << default_value << "): ";
-    if (std::string input; std::getline(std::cin, input) && !input.empty()) {
-        std::stringstream ss(input);
-        double val = 0.0;
-        if (ss >> val) {
-            return val;
-        }
-    }
-    return default_value;
-}
+using namespace std;
 
-// Выбор модели
-int getModelChoice() {
-    std::cout << "Select model:\n"
-              << "  1. Model 1.1 (Standard First-Order Inertial System: y[t+1] = a*y[t] + b*u[t])\n"
-              << "  2. Model 2.5 (Signum Friction: y[t+1] = a*y[t] + b*sign(u)*(1 - exp(-|u|)))\n"
-              << "  3. Model 3.9 (Bounded Saturation Rate: dy/dt = b*tanh(u))\n"
-              << "Enter choice (1-3, default 1): ";
-    if (std::string input; std::getline(std::cin, input) && !input.empty()) {
-        std::stringstream ss(input);
-        int val = 1;
-        if (ss >> val && (val >= 1 && val <= 3)) {
-            return val;
-        }
-    }
-    return 1;
-}
+int main() {
+    #ifdef _WIN32
+        SetConsoleOutputCP(CP_UTF8);
+        SetConsoleCP(CP_UTF8);
+    #endif
 
-// Выбор входного сигнала
-SignalType getSignalChoice() {
-    std::cout << "\nSelect input signal:\n"
-              << "  1. Step (u = A)\n"
-              << "  2. Impulse (u(0) = A, u(t>0) = 0)\n"
-              << "  3. Harmonic (u = A * sin(t))\n"
-              << "Enter choice (1-3, default 1): ";
-    if (std::string input; std::getline(std::cin, input) && !input.empty()) {
-        std::stringstream ss(input);
-        int val = 1;
-        if (ss >> val) {
-            switch (val) {
-                case 2:
-                    return SignalType::IMPULSE;
-                case 3:
-                    return SignalType::HARMONIC;
-                case 1:
-                default:
-                    return SignalType::STEP;
-            }
-        }
-    }
-    return SignalType::STEP;
-}
+    int input_type;
+    int steps;
+    char plot_choice;
+    int model_type;
+    double u_const = 0.0;
 
-int main(int argc, char* argv[]) {
-    int parsed_steps = 30;
+    cout << "Выберите входное воздействие:\n"
+         << "  0 - ступенчатое (const)\n"
+         << "  1 - импульсное (u0=1, uτ=0 при τ>0)\n"
+         << "  2 - гармоническое sin(τ)\n"
+         << "Ваш выбор: ";
+    cin >> input_type;
+    cout << endl;
 
-    if (argc > 1) {
-        try {
-            parsed_steps = getSafeSteps(std::stoi(argv[1]));
-        } catch (...) {
-            parsed_steps = 30;
-        }
-    } else {
-        std::cout << "Enter simulation steps (default 30): ";
-        if (std::string input; std::getline(std::cin, input) && !input.empty()) {
-            std::stringstream ss(input);
-            int val = 0;
-            if (ss >> val) {
-                parsed_steps = getSafeSteps(val);
-            }
-        }
+    if (input_type == 0) {
+        cout << "Введите постоянное значение u: ";
+        cin >> u_const;
+        cout << endl;
     }
 
-    const int steps = parsed_steps;
-    const int model_choice = getModelChoice();
-    const SignalType selected_signal = getSignalChoice();
-
-    std::unique_ptr<Model> active_model;
-    std::string model_name;
-
-    std::cout << "\n--- Parameters configuration ---\n";
-
-    switch (model_choice) {
-        case 2: {
-            const double a = getDoubleInput("Enter parameter a", 0.7);
-            const double b = getDoubleInput("Enter parameter b", 0.6);
-            const double y0 = getDoubleInput("Enter initial y0", 0.0);
-            active_model = std::make_unique<Model2_5>(a, b, y0);
-            model_name = "Model 2.5";
-            break;
-        }
-        case 3: {
-            const double b = getDoubleInput("Enter parameter b", 0.8);
-            const double dt = getDoubleInput("Enter time step dt", 0.2);
-            const double y0 = getDoubleInput("Enter initial y0", 0.0);
-            active_model = std::make_unique<Model3_9>(b, dt, y0);
-            model_name = "Model 3.9";
-            break;
-        }
-        case 1:
-        default: {
-            const double a = getDoubleInput("Enter parameter a", 0.8);
-            const double b = getDoubleInput("Enter parameter b", 0.5);
-            const double y0 = getDoubleInput("Enter initial y0", 0.0);
-            active_model = std::make_unique<Model1_1>(a, b, y0);
-            model_name = "Model 1.1";
-            break;
-        }
-    }
-
-    const std::string sig_name = InputSignal::getSignalName(selected_signal);
-
-    std::ofstream out("results.csv");
-    if (!out.is_open()) {
-        std::cerr << "Failed to open results.csv\n";
+    cout << "Введите количество шагов симуляции: ";
+    cin >> steps;
+    if (steps <= 0) {
+        cerr << "Ошибка: количество шагов должно быть > 0\n";
         return 1;
     }
+    cout << endl;
 
-    out << "step,signal,u,y,model_name\n";
+    cout << "Запустить gnuplot для построения графиков?\n"
+         << "  Y - да (нужен gnuplot в PATH)\n"
+         << "  N - только сохранить .plt-скрипты\n"
+         << "Ваш выбор: ";
+    cin >> plot_choice;
+    cout << endl;
+    bool invoke = (plot_choice != 'N' || plot_choice != 'n');
 
-    std::cout << "\n============================================\n";
-    std::cout << "Simulation started for selected configuration\n";
-    std::cout << "============================================\n";
-
-    std::cout << std::setw(6) << "Step"
-              << std::setw(12) << "Input u"
-              << std::setw(16) << "Output y" << "\n";
-
-    for (int t = 0; t < steps; ++t) {
-        const double u = InputSignal::getSignal(selected_signal, t);
-        const double y = active_model->step(u);
-
-        std::cout << std::setw(6) << t
-                  << std::fixed << std::setprecision(4)
-                  << std::setw(12) << u
-                  << std::setw(16) << y << "\n";
-
-        out << t << "," << sig_name << "," << u << ","
-            << y << "," << model_name << "\n";
+    if (invoke && !Plotter::is_gnuplot_available()) {
+        cerr << "Внимание: gnuplot не найден в PATH. "
+                "Будут сохранены только .plt-скрипты.\n";
+        invoke = false;
     }
 
-    out.close();
-    std::cout << "\nResults saved to results.csv\n";
-    return 0;
+    double a;
+    double b;
+    double c;
+    double d;
+
+    double b1;
+    double b2;
+    double b3;
+
+    bool ok = true;
+
+    cout << "Выберите тип модели:\n"
+         << "  0 - Линейная\n"
+         << "  1 - Нелинейная\n"
+         << "  2 - Дифференциальное\n"
+         << "Ваш выбор: ";
+    cin >> model_type;
+    cout << endl;
+
+    switch(model_type){
+    case 0:
+    {
+        cout << "Введите значение параметра a: ";
+        cin >> a;
+         cout << "Введите значение параметра b1: ";
+        cin >> b1;
+        cout << "Введите значение параметра b2: ";
+        cin >> b2;
+        cout << "Введите значение параметра b3: ";
+        cin >> b3;
+
+        Linear_Model m(a, b1, b2, b3, input_type, u_const);
+        ok = run_and_report(m, steps, "Линейная модель", "linear_model.csv") && ok;
+        Plotter::plot_csv("linear_model.csv",
+                          "linear_model.plt",
+                          "linear_model.png",
+                          "Linear model", invoke);
+
+        cout << "\nГотово. Файл результата:\n"
+         << "  linear_model.png\n";
+        
+        if(plot_choice == 'Y' || plot_choice == 'y')
+            system("start \"\" linear_model.png");  
+        break;
+    }
+    case 1:
+    {
+        cout << "Введите значение параметра a: ";
+        cin >> a;
+        cout << "Введите значение параметра b: ";
+        cin >> b;
+        cout << "Введите значение параметра c: ";
+        cin >> c;
+        cout << "Введите значение параметра d: ";
+        cin >> d;
+
+        Non_linear_Model m(a, b, c, d, input_type, u_const);
+        ok = run_and_report(m, steps, "Нелинейная модель", "nonlinear_model.csv") && ok;
+        Plotter::plot_csv("nonlinear_model.csv",
+                          "nonlinear_model.plt",
+                          "nonlinear_model.png",
+                          "Nonlinear model", invoke);
+            
+        cout << "\nГотово. Файл результата:\n"
+         << "  nonlinear_model.png\n";
+
+        if(plot_choice == 'Y' || plot_choice == 'y')
+            system("start \"\" nonlinear_model.png");
+        break;
+    }
+    case 2:
+    {
+        cout << "Введите значение параметра b: ";
+        cin >> b;
+
+        Simple_Differential_Equation m(b, 0.1, input_type, u_const);
+        ok = run_and_report(m, steps, "Дифференциальное уравнение", "sde_model.csv") && ok;
+        Plotter::plot_csv("sde_model.csv",
+                          "sde_model.plt",
+                          "sde_model.png",
+                          "Differential equation", invoke);
+        cout << "\nГотово. Файл результата:\n"
+         << "  sde_model.png\n";
+        
+        if(plot_choice == 'Y' || plot_choice == 'y')
+            system("start \"\" sde_model.png");
+        break;
+    }
+    default: break;
+    }
+
+    char type;
+
+    cout << endl;
+    cout << "Нужно удалять временные файлы?\n"
+         << "  Y - да\n"
+         << "  N - нет\n"
+         << "Ваш выбор: ";
+    cin >> type;
+    cout << endl;
+
+    if(type == 'Y' || type == 'y')
+    {
+    cout << "\nОчистка временных файлов...\n";
+
+    // Список файлов для удаления
+    std::vector<std::string> files_to_delete = {
+        "linear_model.csv", "nonlinear_model.csv", "sde_model.csv",
+        "linear_model.plt", "nonlinear_model.plt", "sde_model.plt", "comparison.plt"
+    };
+
+    for (const auto& file : files_to_delete) {
+        std::error_code ec;
+        // Пытаемся удалить файл
+        std::filesystem::remove(file, ec);
+    }
+    }
+
+    return ok ? 0 : 1;
 }
