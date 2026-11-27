@@ -51,8 +51,7 @@ T readNumber(const std::string& prompt, T fallback, Predicate accepts)
         if (!std::getline(std::cin, text) || text.empty())
             return fallback;
         std::istringstream stream(text);
-        T number;
-        if (stream >> number && (stream >> std::ws).eof() && accepts(number))
+        if (T number{}; stream >> number && (stream >> std::ws).eof() && accepts(number))
             return number;
         std::cout << "Недопустимое значение. Повторите ввод.\n";
     }
@@ -66,7 +65,7 @@ double readDouble(const std::string& prompt, double fallback)
 int readInt(const std::string& prompt, int fallback, int low, int high)
 {
     return readNumber(prompt + " (" + std::to_string(low) + ".." + std::to_string(high) + ")",
-                      fallback, [=](int x) { return low <= x && x <= high; });
+                      fallback, [low, high](int x) { return low <= x && x <= high; });
 }
 
 std::unique_ptr<Model> createModel(int choice, bool askParams)
