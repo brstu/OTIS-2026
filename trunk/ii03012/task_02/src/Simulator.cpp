@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
+#include <limits>
 
 std::vector<SimulationRow> Simulator::run(Model& model,
                                           const InputSignal& signal,
@@ -38,19 +39,15 @@ std::vector<SimulationRow> Simulator::run(Model& model,
 
 void Simulator::printTable(const std::vector<SimulationRow>& rows)
 {
-    std::cout << std::setw(6) << "tau"
-              << std::setw(14) << "u"
-              << std::setw(14) << "y" << '\n';
-    std::cout << std::string(34, '-') << '\n';
-
-    std::cout << std::fixed << std::setprecision(6);
-    for (const SimulationRow& row : rows)
-    {
-        std::cout << std::setw(6) << row.tau
-                  << std::setw(14) << row.u
-                  << std::setw(14) << row.y << '\n';
-    }
-    std::cout.unsetf(std::ios::fixed);
+    const auto flags = std::cout.flags();
+    const auto precision = std::cout.precision();
+    std::cout << "   tau             u             y\n"
+              << std::string(34, '-') << '\n' << std::fixed << std::setprecision(6);
+    for (const auto& [time, input, state] : rows)
+        std::cout << std::setw(6) << time << std::setw(14) << input
+                  << std::setw(14) << state << '\n';
+    std::cout.flags(flags);
+    std::cout.precision(precision);
 }
 
 bool Simulator::saveCsv(const std::vector<SimulationRow>& rows,
@@ -64,7 +61,7 @@ bool Simulator::saveCsv(const std::vector<SimulationRow>& rows,
     }
 
     file << "tau,u,y\n";
-    file << std::setprecision(10);
+    file << std::setprecision(std::numeric_limits<double>::max_digits10);
     for (const SimulationRow& row : rows)
         file << row.tau << ',' << row.u << ',' << row.y << '\n';
 

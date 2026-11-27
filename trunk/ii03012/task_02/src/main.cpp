@@ -42,44 +42,31 @@ struct Defaults
     static constexpr double amplitude = 1.0;
 };
 
-// Чтение строки; пустой ввод (Enter) возвращает значение по умолчанию.
-double readDouble(const std::string& prompt, double def)
+template<class T, class Predicate>
+T readNumber(const std::string& prompt, T fallback, Predicate accepts)
 {
-    while (true)
-    {
-        std::cout << prompt << " [" << def << "]: ";
-        std::string line;
-        if (!std::getline(std::cin, line))
-            return def;
-        if (line.empty())
-            return def;
-
-        std::istringstream in(line);
-        if (double value = 0.0; in >> value && std::isfinite(value) && (in >> std::ws).eof())
-            return value;
-
-        std::cout << "Ошибка ввода, введите число.\n";
+    for (;;) {
+        std::cout << prompt << " [" << fallback << "]: ";
+        std::string text;
+        if (!std::getline(std::cin, text) || text.empty())
+            return fallback;
+        std::istringstream stream(text);
+        T number;
+        if (stream >> number && (stream >> std::ws).eof() && accepts(number))
+            return number;
+        std::cout << "Недопустимое значение. Повторите ввод.\n";
     }
 }
 
-int readInt(const std::string& prompt, int def, int minValue, int maxValue)
+double readDouble(const std::string& prompt, double fallback)
 {
-    while (true)
-    {
-        std::cout << prompt << " [" << def << "]: ";
-        std::string line;
-        if (!std::getline(std::cin, line))
-            return def;
-        if (line.empty())
-            return def;
+    return readNumber(prompt, fallback, [](double x) { return std::isfinite(x); });
+}
 
-        std::istringstream in(line);
-        if (int value = 0; in >> value && value >= minValue && value <= maxValue && (in >> std::ws).eof())
-            return value;
-
-        std::cout << "Ошибка ввода, введите целое число от " << minValue
-                  << " до " << maxValue << ".\n";
-    }
+int readInt(const std::string& prompt, int fallback, int low, int high)
+{
+    return readNumber(prompt + " (" + std::to_string(low) + ".." + std::to_string(high) + ")",
+                      fallback, [=](int x) { return low <= x && x <= high; });
 }
 
 std::unique_ptr<Model> createModel(int choice, bool askParams)
@@ -121,11 +108,8 @@ std::unique_ptr<Model> createModel(int choice, bool askParams)
             a1 = readDouble("a1", a1);
             a2 = readDouble("a2", a2);
             b = readDouble("b", b);
-            do
-            {
-                dt = readDouble("dt (положительный шаг интегрирования)", Defaults::dt38);
-                if (dt <= 0) std::cout << "Шаг должен быть положительным.\n";
-            } while (dt <= 0);
+            dt = readNumber("dt (положительный шаг интегрирования)", Defaults::dt38,
+                            [](double x) { return std::isfinite(x) && x > 0; });
         }
         return std::make_unique<Model3_8>(a1, a2, b, dt);
     }

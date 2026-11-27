@@ -26,6 +26,8 @@
 
 Понадобятся CMake 3.21 или новее, компилятор C++17 и Git. При первой сборке CMake загружает Google Test 1.17.0. Для графиков нужны Python 3 и matplotlib.
 
+Собирайте из полной копии репозитория. Базовый класс модели, входные сигналы, модель 2.6 и скрипт графиков подключаются из первой работы. CMake учитывает перенос из ii03004 в ii03012.
+
 В Windows запустите `run_tests.bat` из папки лабораторной. Скрипт настраивает проект, собирает программу и тесты, запускает CTest и сохраняет отчёт JUnit в `build/test-results.xml`. Для Linux и macOS из той же папки выполните:
 
 ```sh
@@ -42,11 +44,11 @@ ctest --test-dir build -C Debug --output-on-failure --output-junit test-results.
 
 Для модели 3.8 при `a₁ = a₂ = 1, u = 0, y₀ = 1` точное решение равно `1 / (2 exp(t) − 1)`. Тест сравнивает приближения в момент t = 1 при шагах 1/20 и 1/40. Сквозной тест проверяет все девять CSV, индивидуальный ввод коэффициентов, обработку ошибок и предупреждения.
 
-| Код C++ в src | Покрытие строк | Покрытие функций |
+| Код C++ программы, включая модули ЛР1 | Покрытие строк | Покрытие функций |
 | --- | ---: | ---: |
-| Модели, сигналы, симулятор и анализ устойчивости | 140/140 · 100% | 37/37 · 100% |
-| Консольная программа (main.cpp) | 164/181 · 90,61% | 8/8 · 100% |
-| **Итого** | **304/321 · 94,70%** | **45/45 · 100%** |
+| Модели, сигналы, симулятор и анализ устойчивости | 137/137 · 100% | 37/37 · 100% |
+| Консольная программа (main.cpp) | 156/170 · 91,76% | 12/12 · 100% |
+| **Итого** | **293/307 · 95,44%** | **49/49 · 100%** |
 
 Для воспроизведения измерения с Clang и инструментами LLVM запустите в Bash из каталога лабораторной (на macOS команды LLVM доступны через `xcrun`):
 
@@ -57,5 +59,5 @@ mkdir -p build-cov/profiles
 LLVM_PROFILE_FILE="$PWD/build-cov/profiles/%m-%p.profraw" ctest --test-dir build-cov --output-on-failure
 llvm-profdata merge -sparse build-cov/profiles/*.profraw -o build-cov/tests.profdata
 llvm-cov report build-cov/ii03012_tests -object build-cov/src/ii03012_task_02 \
-  -instr-profile=build-cov/tests.profdata src/*.cpp src/*.h
+  -instr-profile=build-cov/tests.profdata -ignore-filename-regex='(/googletest/|/test/)'
 ```
