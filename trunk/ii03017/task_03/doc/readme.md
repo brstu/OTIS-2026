@@ -10,10 +10,12 @@
 
 <br><br>
 
-<p align="right">Выполнил: студент 2 курса</p>
+<p align="right">Выполнил:</p>
+<p align="right">Студент 2 курса</p>
 <p align="right">Группы ИИ-30</p>
 <p align="right">Поляк В. В.</p>
-<p align="right">Проверил: Дворанинович Д. А.</p>
+<p align="right">Проверил: </p>
+<p align="right">Дворанинович Д. А.</p>
 
 <br><br>
 <p align="center">Брест 2026</p>
@@ -207,9 +209,8 @@ trunk/ii03017/
 
 
 ## Выполнение программы
-![](cmd2.png)
-![](cmd3.png)
 ![](cmd1.png)
+![](cmd2.png)
 ![](output.png)
 
 ## Вывод
