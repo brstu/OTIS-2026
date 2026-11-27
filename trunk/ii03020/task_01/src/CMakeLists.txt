@@ -1,21 +1,22 @@
-cmake_minimum_required(VERSION 3.15)
-project(sim CXX)
+cmake_minimum_required(VERSION 3.10)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(TARGET_NAME "ii03019_task_01")
 
-add_executable(sim
+add_executable(${TARGET_NAME}
     main.cpp
-    InputGenerator.cpp
-    Linear_Model.cpp
-    Non_Linear_Model.cpp
-    Simple_Differential_Equation.cpp
-    TableOutput.cpp
-    Plotter.cpp
+    InputSignal.cpp
+    InputSignal.h
+    Model.h
+    Model1_1.cpp
+    Model1_1.h
+    Model2_5.cpp
+    Model2_5.h
+    Model3_9.cpp
+    Model3_9.h
 )
 
-if(MSVC)
-    target_compile_options(sim PRIVATE /W4)
-else()
-    target_compile_options(sim PRIVATE -Wall -Wextra -O2)
-endif()
+set_target_properties(${TARGET_NAME} PROPERTIES 
+    OUTPUT_NAME "task_01"
+    CXX_STANDARD 17
+    CXX_STANDARD_REQUIRED ON
+)
